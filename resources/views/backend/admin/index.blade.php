@@ -67,7 +67,7 @@
                             <a href="{{action('Backend\AdminController@create')}}"
                                class="btn btn-brand btn-elevate btn-icon-sm">
                                 <i class="la la-plus"></i>
-                                Ավելացնել
+                                {{__('messages.add')}}
                             </a>
                         </div>
                     </div>
@@ -80,9 +80,9 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Անուն</th>
-                        <th>Էլ․ փոստ</th>
-                        <th>Գործողություն</th>
+                        <th>{{__('messages.name')}}</th>
+                        <th>{{__('messages.email')}}</th>
+                        <th>{{__('messages.action')}}</th>
                     </tr>
                     </thead>
                     <tbody>

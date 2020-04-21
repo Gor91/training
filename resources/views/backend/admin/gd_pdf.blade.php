@@ -1,16 +1,16 @@
 @extends('layouts.pdf')
 @section('content')
     <h3 class="kt-portlet__head-title">
-        Օգտագործողների ցանկ
+        {{__('messages.users_list')}}
     </h3>
 
     <!--begin: Datatable -->
     <table border="1" align="center">
         <thead>
         <tr>
-            <th>Անվանում</th>
-            <th>Էլ. փոստ</th>
-            <th>Գրանցման օրը</th>
+            <th>{{__('messages.name')}}</th>
+            <th>{{__('messages.email')}}</th>
+            <th>{{__('messages.created_at')}}</th>
         </tr>
         </thead>
         <tbody>

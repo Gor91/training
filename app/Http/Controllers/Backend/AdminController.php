@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Exports\AdminExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
 use App\Repositories\Repository;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -34,10 +35,15 @@ class AdminController extends Controller
      */
     public function index()
     {
-
-        $admins = $this->model->all();
-        return view('backend.admin.index',
-            compact('admins'));
+        try {
+            $admins = $this->model->all();
+            return view('backend.admin.index',
+                compact('admins'));
+        } catch (\Exception $exception) {
+            dd($exception);
+            logger()->error($exception);
+            return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
+        }
     }
 
     /**
@@ -47,7 +53,13 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        try {
+            return view('backend.admin.create');
+        } catch (\Exception $exception) {
+            dd($exception);
+            logger()->error($exception);
+            return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
+        }
     }
 
     /**
@@ -56,9 +68,21 @@ class AdminController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminRequest $request)
     {
-        //
+        try {
+            //ToDO validation confirm password
+            $data = [];
+            $data['name'] = $request->name;
+            $data['email'] = $request->email;
+            $data['password'] = bcrypt($request->password);
+            $this->model->create($data);
+            return redirect('backend/admin')->with('success', Lang::get('messages.success'));
+       } catch (\Exception $exception) {
+            dd($exception);
+            logger()->error($exception);
+            return redirect('backend/admin')->with('error', Lang::get('messages.wrong'));
+        }
     }
 
     /**
@@ -139,7 +163,7 @@ class AdminController extends Controller
 //        try {
         $v = Validator::make($request->all(), [
             'old_password' => 'required',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
             'confirm_password' => 'required|same:password'
         ]);
         if (!$v->fails()) {

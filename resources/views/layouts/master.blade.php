@@ -35,7 +35,7 @@ $user = isAdmin();
                         <div class="kt-header__topbar-item kt-header__topbar-item--user">
                             <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
                                 <div class="kt-header__topbar-user">
-                                    <span class="kt-header__topbar-welcome kt-hidden-mobile">Բարև, </span>
+                                    <span class="kt-header__topbar-welcome kt-hidden-mobile">{{__('messages.hello')}}, </span>
                                     <span class="kt-header__topbar-username kt-hidden-mobile mobile_name">{{$user->name}}</span>
 
                                     <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
@@ -69,10 +69,10 @@ $user = isAdmin();
                                         </div>
                                         <div class="kt-notification__item-details">
                                             <div class="kt-notification__item-title kt-font-bold">
-                                                Իմ էջը
+                                                {{__('messages.profile')}}
                                             </div>
                                             <div class="kt-notification__item-time">
-                                                Հաշվի կարգավորումները
+                                                                                                {{__('messages.manage_account')}}
                                             </div>
                                         </div>
                                     </a>
@@ -82,7 +82,7 @@ $user = isAdmin();
                                            class="btn btn-label btn-label-brand btn-sm btn-bold"
                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            {{ __('Ելք') }}
+                                            {{ __('messages.logout') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                               style="display: none;">
@@ -105,9 +105,12 @@ $user = isAdmin();
                 <!-- begin:: Content Head -->
                 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
                     <div class="kt-subheader__main">
-                        <h3 class="kt-subheader__title">Dashboard</h3>
+                        <h3 class="kt-subheader__title">{{__('messages.system')}}</h3>
                         <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-                        <span class="kt-subheader__desc"></span>
+                        @php
+                        $uri =request()->segment(count(request()->segments()));
+                        @endphp
+                        <span class="kt-subheader__desc text-uppercase">{{__("messages.$uri")}}</span>
 
                         <div class="kt-input-icon kt-input-icon--right kt-subheader__search kt-hidden">
                             <input type="text" class="form-control" placeholder="Search order..." id="generalSearch">
