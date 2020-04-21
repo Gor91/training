@@ -1,0 +1,1 @@
+table.dt-rowReorder-float{position:absolute !important;opacity:0.7;table-layout:fixed;outline:1px solid #f4516c;outline-offset:-1px;z-index:2001}tr.dt-rowReorder-moving{outline:1px dashed #555;outline-offset:-1px}body.dt-rowReorder-noOverflow{overflow-x:hidden}table.dataTable td.reorder{text-align:center;cursor:move}
