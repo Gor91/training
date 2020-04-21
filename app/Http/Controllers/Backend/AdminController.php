@@ -78,7 +78,7 @@ class AdminController extends Controller
             $data['password'] = bcrypt($request->password);
             $this->model->create($data);
             return redirect('backend/admin')->with('success', Lang::get('messages.success'));
-       } catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/admin')->with('error', Lang::get('messages.wrong'));
@@ -155,7 +155,15 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-
+        try {
+            $this->model->delete($id);
+            return redirect('backend/admin/index')->with('success', Lang::get('messages.success'));
+        } catch (\Exception $e) {
+            logger()->error($e);
+            return redirect()->back()
+                ->withErrors($e->getErrors())
+                ->withInput();
+        }
     }
 
     public function changePassword(Request $request, $id)

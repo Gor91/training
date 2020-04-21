@@ -34,6 +34,7 @@ return [
     'add' => 'Add',
     'action' => 'Action',
     'edit' => 'Edit',
+    'delete' => 'delete',
     'created_at' => 'Created at',
 
 

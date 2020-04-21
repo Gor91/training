@@ -1,36 +1,6 @@
 $(document).ready(function () {
     var CSRF_TOKEN = $('[name="csrf-token"]').attr('content');
 
-    //user permission's
-
-    $('.vec:checked').each(function () {
-        $(this).parent().parent().prevAll().find('input').prop('checked', true);
-    });
-    $(document).on("change", '.vec', function () {
-        $(this).parent().parent().siblings().find('input').prop('checked', false);
-        $(this).prop('checked', true);
-        $(this).parent().parent().prevAll().find('input').prop('checked', true);
-    });
-    $(document).on("change", '.role', function () {
-        $role = $(this).val();
-
-        $.ajax({
-            url: '/public/backend/grd',
-            type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $role},
-            dataType: 'JSON',
-            success: function (data) {
-                // if (data.length > 0) {
-                $des = $('#description').val(data.description);
-
-            },
-            error: function (data, textStatus) {
-                console.log("Error: ", data.status);
-                console.log("Errors", textStatus);
-            }
-        });
-    });
 
     var t = $('#kt_table_1').dataTable({
         "ordering": true,
@@ -75,14 +45,6 @@ $(document).ready(function () {
         } );
     } ).draw();
 
-    $(document).on("click", ".dashboard", function () {
-        $checked = $('.permissions:checked');
-        if ($checked.length > 0) {
-            $(this).parent().parent().submit();
-        } else {
-            $('.modal-title').css('color', '#fd397a');
-        }
-    });
 
     $(document).on("click", ".delete", function (e) {
         swal.fire({

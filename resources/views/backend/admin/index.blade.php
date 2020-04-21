@@ -76,7 +76,7 @@
             <div class="kt-portlet__body">
 
                 <!--begin: Datatable -->
-                <table class="table table-striped- table-hover table-checkable" id="{{Lang::get('messages.export')}}">
+                <table class="table table-striped- table-hover table-checkable" id="kt_table_1">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -95,26 +95,27 @@
                                 <td>{{$admin->email}}</td>
                                 <td>
                                     <div class="row justify-content-end">
-                                        <a href="{{action('Backend\AdminController@edit', $admin->id)}}"
-                                           class="btn btn-info kt-badge kt-badge--lg"
-                                           data-toggle="m-tooltip" data-placement="top" data-original-title="Խմբագրել">
-                                            <i class="la la-edit"></i>
-                                        </a>
+                                        {{--                                        <a href="{{action('Backend\AdminController@edit', $admin->id)}}"--}}
+                                        {{--                                           class="btn btn-info kt-badge kt-badge--lg"--}}
+                                        {{--                                           data-toggle="m-tooltip" data-placement="top" data-original-title="Խմբագրել">--}}
+                                        {{--                                            <i class="la la-edit"></i>--}}
+                                        {{--                                        </a>--}}
+                                        @if($admin->id !== \Illuminate\Support\Facades\Session::get('u_id'))
+                                            <form action="{{action('Backend\AdminController@destroy', $admin->id)}}"
+                                                  id="_form" method="post">
+                                                @csrf
+                                                <input name="_method" type="hidden" value="DELETE">
+                                                <input name="_id" type="hidden" value="{{$admin->id}}">
+                                                <button data-ref="" type="button"
+                                                        {{--                                                    data-title="admin"--}}
+                                                        class="delete btn btn-danger kt-badge--lg kt-badge  "
+                                                        data-original-title="{{__('messages.delete')}}">
+                                                    <i class="la la-trash"></i>
 
-                                        <form action="{{action('Backend\AdminController@destroy', $admin->id)}}"
-                                              id="_form" method="post">
-                                            @csrf
-                                            <input name="_method" type="hidden" value="DELETE">
-                                            <input name="_id" type="hidden" value="{{$admin->id}}">
-                                            <button data-ref="" type="button" data-title="admin"
-                                                    class="delete btn btn-danger kt-badge--lg kt-badge  "
-                                                    data-original-title="Հեռացնել">
-                                                <i class="la la-trash"></i>
-
-                                            </button>
-                                            {{--                                                <button  data-title="admin"type="button" class="btn sweetalert"> Show me</button>--}}
-                                        </form>
-
+                                                </button>
+                                                {{--                                                <button  data-title="admin"type="button" class="btn sweetalert"> Show me</button>--}}
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
