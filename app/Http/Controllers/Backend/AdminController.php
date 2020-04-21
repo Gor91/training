@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Exports\AdminExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Repositories\Repository;
@@ -180,21 +181,7 @@ class AdminController extends Controller
 
     public function gdExcel()
     {
-        $data = Admin::select('id',
-            'name',
-            'created_at')
-            ->get()->toArray();
-        $new_data = [];
-        foreach ($data as $index => $users) {
-            foreach ($users as $item => $user) {
-                $new_data[$index][$item] = $user;
-            }
-        }
-
-        return Excel::download('admins', function ($excel) use ($new_data) {
-            $excel->sheet('admins', function ($sheet) use ($new_data) {
-                $sheet->fromArray($new_data);
-            });
-        })->download('xlsx');
+        return Excel::download(new AdminExport(),
+            'admins.xlsx');
     }
 }
