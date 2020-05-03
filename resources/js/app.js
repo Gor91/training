@@ -7,11 +7,7 @@ import {routes} from './routes.js';
 import storeData from './store.js';
 import MainApp from './components/MainApp.vue';
 
-Vue.use(VeeValidate, {
-    inject: true,
-    fieldsBagName: '$veeFields',
-    errorBagName: '$veeErrors'
-});
+Vue.use(VeeValidate);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 

@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//
-
+Route::get('/{any}', 'Frontend\SinglePageController@index')->where('any', '.*');
+Route::get('{any}', function () {
+    return view('welcome');
+})->where('any', '.*');
+Route::get('/about', 'PageController@get');
+Route::get('/contact', 'PageController@get');
 
 \Illuminate\Support\Facades\Auth::routes();
 

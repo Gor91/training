@@ -1,7 +1,22 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel mb-4">
+    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
       <div class="container">
 <!--            <router-link class="navbar-brand" to="/">Authentication  Laravel 5.6/Vue SPA</router-link>-->
+          <div class="col-lg-6 col-sm-6 col-4 header-top-left">
+              <a href="tel:+9530123654896">
+                  <span class="fa fa-phone"></span>
+                  <span class="text">
+								<span class="text">+953012 3654 896</span>
+							</span>
+              </a>
+              <a href="mailto:support@colorlib.com">
+                  <span class="fa fa-envelope"></span>
+                  <span class="text">
+								<span class="text">support@colorlib.com</span>
+							</span>
+              </a>
+          </div>
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -10,10 +25,10 @@
                 <div class="navbar-nav ml-auto">
                     <template v-if="!currentUser">
                         <li>
-                            <router-link to="/login" class="nav-link">Loginn</router-link>
+                            <router-link to="/login" class="nav-link">Մուտք</router-link>
                         </li>
                         <li>
-                            <router-link to="/register" class="nav-link">Register</router-link>
+                            <router-link to="/register" class="nav-link">Գրանցվել</router-link>
                         </li>
                     </template>
                     <template v-else>

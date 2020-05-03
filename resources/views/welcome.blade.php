@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Symon Kibaru">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Terning</title>
+    <title>Medical Training</title>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-</head>
+    <!-- Templates css -->
+    <link rel="stylesheet" href="{{ asset('css/frontend/style.css') }}" type="text/css">
+   </head>
 <body>
     <div id="app">
         <main-App />

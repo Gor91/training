@@ -22,6 +22,7 @@ class AdminExport implements FromCollection, WithHeadings, ShouldAutoSize
 
     public function collection()
     {
+
         return $this->model->all();
     }
 
@@ -31,6 +32,7 @@ class AdminExport implements FromCollection, WithHeadings, ShouldAutoSize
             '#',
             'Name',
             'Email',
+            'Email verification',
             'Created at',
             'Updated at'
         ];

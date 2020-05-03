@@ -1,24 +1,24 @@
 export function registerUser(credentials){
     return new Promise((res,rej)=>{
         axios.post('/api/auth/register', credentials)
-        .then(response => {
-            res(response.data);
-        })
-        .catch(err => {
-            rej('An error occurred.. try again later.')
-        })
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej('An error occured.. try again later.')
+            })
     })
 }
 
 export function login(credentials){
     return new Promise((res,rej)=>{
         axios.post('/api/auth/login', credentials)
-        .then(response => {
-            res(response.data);
-        })
-        .catch(err => {
-            rej('Wrong Email/Password combination.')
-        })
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej('Wrong Email/Password combination.')
+            })
     })
 }
 
