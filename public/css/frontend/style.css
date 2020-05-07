@@ -4647,15 +4647,31 @@ h6 {
 .bio, .info, .edu {
     position: absolute;
     left: 0;
-    top: 5rem;
+    top: 7rem;
     right: 0;
     bottom: 0;
-    padding: 1rem 2rem 0;
-    overflow: auto;
+    /*padding: 1rem 2rem 0;*/
+    overflow: hidden;
     transition: .7s;
     transform: scale(0);
     transform-origin: center center;
     transition-delay: .1s;
+    background: #f8fafc;
+}
+#bday, #expiry, #issue{
+    display: block;
+    width: 100%;
+    height: calc(1.6em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .bio:before, .info:before, .edu:before {
@@ -4683,7 +4699,7 @@ h6 {
     transition: .5s;
 }
 
-input {
+input[name='tractor'] {
     display: none;
 }
 
@@ -4755,4 +4771,7 @@ a {
 
 a:hover {
     color: rgba(0, 0, 0, .2)
+}
+.vdp-datepicker__calendar{
+    width: 100%;
 }
