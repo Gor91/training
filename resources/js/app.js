@@ -2,7 +2,7 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
-import VeeValidate from 'vee-validate'
+import VeeValidate from 'vee-validate';
 import {routes} from './routes.js';
 import storeData from './store.js';
 import MainApp from './components/MainApp.vue';
