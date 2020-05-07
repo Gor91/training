@@ -37,14 +37,7 @@
                                v-model="formRegister.father_name">
                         <span v-if="errors.has('father_name')" class="invalid-feedback" role="alert">{{ errors.first('father_name') }}</span>
                     </div>
-                    <div class="form-group col-lg-6">
-                        <label for="bday">Birthday</label>
-                        <input id="bday" type="text" name="bday" class="form-control"
-                               v-validate="'required'"
-                               v-model="formRegister.bday">
-                        <span v-if="errors.has('bday')" class="invalid-feedback"
-                              role="alert">{{ errors.first('bday') }}</span>
-                    </div>
+
                     <div class="form-group col-lg-6">
                         <label for="phone">Phone</label>
                         <input id="phone" type="text" name="phone"
@@ -74,7 +67,7 @@
                         </select>
                         <span v-if="errors.has('m_status')" class="invalid-feedback" role="alert">{{ errors.first('m_status') }}</span>
                     </div>
-                    <div class="form-group col-lg-4">
+                    <div class="form-group col-lg-6">
                         <label for="passport">Social number</label>
                         <input id="passport" type="text" name="passport"
                                class="form-control"
@@ -84,17 +77,24 @@
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="issue">Data of issue</label>
-                        <input id="issue" type="text" name="issue" class="form-control"
-                               v-validate="'required'"
-                               v-model="formRegister.issue">
+                        <vuejs-datepicker value="state.date" v-validate="'required'" id="issue"
+                                          name="issue" v-model="formRegister.issue"></vuejs-datepicker>
+
                         <span v-if="errors.has('issue')" class="invalid-feedback" role="alert">{{ errors.first('issue') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="expiry">Data of Expiry</label>
-                        <input id="expiry" type="text" name="expiry" class="form-control"
-                               v-validate="'required'"
-                               v-model="formRegister.expiry">
+                        <vuejs-datepicker value="state.date" v-validate="'required'" id="expiry" name="expiry"
+                                          v-model="formRegister.expiry"></vuejs-datepicker>
                         <span v-if="errors.has('expiry')" class="invalid-feedback" role="alert">{{ errors.first('expiry') }}</span>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="bday">Birthday</label>
+                        <vuejs-datepicker value="state.date" v-validate="'required'" id="bday"
+                                          name="bday" v-model="formRegister.bday"></vuejs-datepicker>
+
+                        <span v-if="errors.has('bday')" class="invalid-feedback"
+                              role="alert">{{ errors.first('bday') }}</span>
                     </div>
                 </div>
             </article>
@@ -230,27 +230,29 @@
                               role="alert">{{ errors.first('edu') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
-                        <label for="palace">Member if palace</label>
-                        <input id="palace" type="checkbox" name="palace" class="form-control"
-                               v-validate="'required'" v-model="formRegister.palace">
-
+                        <div class="confirm-switch">
+                            <input type="checkbox" id="confirm-switch"
+                                   checked="" name="palace" class="form-control"
+                                   v-validate="'required'" v-model="formRegister.palace">
+                            <label for="confirm-switch">Member if palace</label>
+                        </div>
                         <span v-if="errors.has('palace')" class="invalid-feedback"
                               role="alert">{{ errors.first('palace') }}</span>
                     </div>
-                    <div class="form-group  col-lg-12">
-                        <div v-if="!image">
-                            <label for="diploma">Member if palace</label>
-                            <input type="file" @change="onFileChange" id="diploma" name="diploma[]" class="form-control"
-                                   multiple="multiple" v-validate="'required'">
-                            <span v-if="errors.has('diploma')" class="invalid-feedback"
-                                  role="alert">{{ errors.first('diploma') }}</span>
-                        </div>
-                        <div v-else>
-                            <img :src="image"/>
-                            <button @click="removeImage">Remove image</button>
-                        </div>
-                        <!--                            <span v-if="errors.has('diploma')" class="invalid-feedback" role="alert">{{ errors.first('diploma') }}</span>-->
-                    </div>
+                    <!--<div class="form-group  col-lg-12">-->
+                    <!--<div v-if="!image">-->
+                    <!--<label for="diploma">Member if palace</label>-->
+                    <!--<input type="file" @change="onFileChange" id="diploma" name="diploma[]" class="form-control"-->
+                    <!--multiple="multiple" v-validate="'required'">-->
+                    <!--<span v-if="errors.has('diploma')" class="invalid-feedback"-->
+                    <!--role="alert">{{ errors.first('diploma') }}</span>-->
+                    <!--</div>-->
+                    <!--<div v-else>-->
+                    <!--<img :src="image"/>-->
+                    <!--<button @click="removeImage">Remove image</button>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;                            <span v-if="errors.has('diploma')" class="invalid-feedback" role="alert">{{ errors.first('diploma') }}</span>&ndash;&gt;-->
+                    <!--</div>-->
                     <div class="form-group  col-lg-4">
                         <label for="email">Email</label>
                         <input id="email" type="email" name="email" v-validate="'required|email'"
@@ -284,6 +286,7 @@
 
 <script>
     import {registerUser} from '../partials/auth';
+    import Datepicker from 'vuejs-datepicker';
 
     export default {
         data() {
@@ -293,26 +296,34 @@
                     surname: '',
                     father_name: '',
                     gender: '',
+                    phone: '',
+                    bday: '',
+                    passport: '',
+                    expiry: '',
+                    issue: '',
                     m_status: '',
+                    work_name: '',
                     h_region: '',
                     v_region: '',
                     h_city: '',
                     v_city: '',
                     v_village: '',
                     h_village: '',
+                    v_street: '',
+                    h_street: '',
                     prof: '',
                     edu: '',
                     diploma: '',
                     image: '',
                     email: '',
-                    password: ''
+                    password: '',
+                    re_password: ''
                 },
                 error: null
             }
         },
         methods: {
             register() {
-
                 registerUser(this.$data.formRegister)
                     .then(res => {
                         console.log(res);
@@ -334,7 +345,6 @@
                 let image = new Image();
                 let reader = new FileReader();
                 let vm = this;
-
                 reader.onload = (e) => {
                     vm.image = e.target.result;
                 };
@@ -343,12 +353,14 @@
             removeImage: function (e) {
                 this.image = '';
             }
-
         },
         computed: {
             regError() {
                 return this.$store.getters.regError
             }
+        },
+        components: {
+            'vuejs-datepicker': Datepicker
         }
     }
 </script>
@@ -359,4 +371,3 @@
         color: red;
     }
 </style>
-
