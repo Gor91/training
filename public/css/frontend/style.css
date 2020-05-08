@@ -108,15 +108,15 @@ button:focus {
 }
 
 .banner {
-    margin: 0 !important;
-    padding: 0 !important;
+    /*margin: 0 !important;*/
+    /*padding: 0 !important;*/
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
     url('/images/banner.jpeg') no-repeat scroll center;
     background-size: cover;
 }
 
 .container-fluid {
-    padding: 0 !important;
+    /*padding: 0 !important;*/
 }
 
 /*Custom CSS */
@@ -4789,5 +4789,5 @@ a:hover {
     color: rgba(0, 0, 0, .2)
 }
 .vdp-datepicker__calendar{
-    width: 100%;
+    width: 100%!important;
 }
