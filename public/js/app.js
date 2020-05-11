@@ -1908,18 +1908,25 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _partials_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../partials/auth */ "./resources/js/partials/auth.js");
 //
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      nurse: '/css/template/img/nurse.svg',
-      doctor: '/css/template/img/doctor.png',
-      pharmacy: '/css/template/img/pharmacy-symbol.svg',
-      phar: '/css/template/img/pharmacy.png'
-    };
+  methods: {
+    aboutPage: function aboutPage() {
+      Object(_partials_auth__WEBPACK_IMPORTED_MODULE_0__["pagesData"])("hhh").then(function (res) {
+        console.log("'kuku"); //this.$store.commit("registerSuccess", res);
+        //this.$router.push({path: '/login'});
+      })["catch"](function (error) {
+        console.log('error'); // this.$store.commit("registerFailed", {error});
+      });
+    }
+  },
+  beforeMount: function beforeMount() {
+    this.aboutPage();
   }
 });
 
@@ -72316,7 +72323,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************!*\
   !*** ./resources/js/partials/auth.js ***!
   \***************************************/
-/*! exports provided: registerUser, login, getLoggedinUser */
+/*! exports provided: registerUser, login, getLoggedinUser, pagesData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72324,6 +72331,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerUser", function() { return registerUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLoggedinUser", function() { return getLoggedinUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pagesData", function() { return pagesData; });
 function registerUser(credentials) {
   return new Promise(function (res, rej) {
     axios.post('/api/auth/register', credentials).then(function (response) {
@@ -72350,6 +72358,16 @@ function getLoggedinUser() {
   }
 
   return JSON.parse(userStr);
+}
+function pagesData(credentials) {
+  return new Promise(function (res, rej) {
+    axios.post('/api/about', credentials).then(function (response) {
+      console.log('data', response.data);
+      res(response.data);
+    })["catch"](function (err) {
+      rej('An error occured.. try again later.');
+    });
+  });
 }
 
 /***/ }),
@@ -72426,12 +72444,16 @@ var user = Object(_partials_auth__WEBPACK_IMPORTED_MODULE_0__["getLoggedinUser"]
     loading: false,
     auth_error: null,
     reg_error: null,
-    registeredUser: null
+    registeredUser: null // about:page
+
   },
   getters: {
     isLoading: function isLoading(state) {
       return state.loading;
     },
+    // aboutPage(state) {
+    //     return state.loading;
+    // },
     isLoggedin: function isLoggedin(state) {
       return state.isLoggedin;
     },
@@ -72453,6 +72475,10 @@ var user = Object(_partials_auth__WEBPACK_IMPORTED_MODULE_0__["getLoggedinUser"]
       state.loading = true;
       state.auth_error = null;
     },
+    // aboutPage(state) {
+    //     state.loading = true;
+    //     state.auth_error = null;
+    // },
     loginSuccess: function loginSuccess(state, payload) {
       state.auth_error = null;
       state.isLoggedin = true;

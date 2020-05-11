@@ -3,16 +3,25 @@
  </template>
 
 <script>
+    import {pagesData} from '../partials/auth';
 export default {
-        data() {
-            return {
-                nurse: '/css/template/img/nurse.svg',
-                doctor:'/css/template/img/doctor.png',
-                pharmacy:'/css/template/img/pharmacy-symbol.svg',
-                phar:'/css/template/img/pharmacy.png'
-            };
-        },
-
+    methods:{
+        aboutPage: function() {
+            pagesData("hhh")
+                .then(res => {
+                    console.log("'kuku");
+                    //this.$store.commit("registerSuccess", res);
+                    //this.$router.push({path: '/login'});
+                })
+                .catch(error => {
+                    console.log('error');
+                    // this.$store.commit("registerFailed", {error});
+                })
+        }
+    },
+    beforeMount() {
+        this.aboutPage()
+    }
 }
 </script>
 

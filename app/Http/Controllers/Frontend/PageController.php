@@ -26,9 +26,8 @@ EOT;
         return ob_get_clean();
     }
 
-    public function get(Request $request)
+    public function about(Request $request)
     {
-        $ssr = $this->render($request->path());
-        return view('app', ['ssr' => $ssr]);
+        return response()->json(['res' =>$request]);
     }
 }
