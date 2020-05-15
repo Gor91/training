@@ -77,20 +77,20 @@
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="issue">Data of issue</label>
-                        <vuejs-datepicker value="state.date" v-validate="'required'" id="issue"
+                        <vuejs-datepicker value="state.date" v-validate="'required'" id="issue" :format="customFormatter"
                                           name="issue" v-model="formRegister.issue"></vuejs-datepicker>
 
                         <span v-if="errors.has('issue')" class="invalid-feedback" role="alert">{{ errors.first('issue') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="expiry">Data of Expiry</label>
-                        <vuejs-datepicker value="state.date" v-validate="'required'" id="expiry" name="expiry"
+                        <vuejs-datepicker value="state.date" v-validate="'required'" id="expiry" name="expiry" :format="customFormatter"
                                           v-model="formRegister.expiry"></vuejs-datepicker>
                         <span v-if="errors.has('expiry')" class="invalid-feedback" role="alert">{{ errors.first('expiry') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="bday">Birthday</label>
-                        <vuejs-datepicker value="state.date" v-validate="'required'" id="bday"
+                        <vuejs-datepicker value="state.date" v-validate="'required'" id="bday" :format="customFormatter"
                                           name="bday" v-model="formRegister.bday"></vuejs-datepicker>
 
                         <span v-if="errors.has('bday')" class="invalid-feedback"
@@ -287,6 +287,7 @@
 <script>
     import {registerUser} from '../partials/auth';
     import Datepicker from 'vuejs-datepicker';
+    import * as moment  from 'moment/';
 
     export default {
         data() {
@@ -319,7 +320,8 @@
                     password: '',
                     re_password: ''
                 },
-                error: null
+                error: null,
+                moment: moment
             }
         },
         methods: {
@@ -333,6 +335,9 @@
                     .catch(error => {
                         this.$store.commit("registerFailed", {error});
                     })
+            },
+            customFormatter(date) {
+                return moment(date, 'YYYY-MM-DD').format('DD.MM.YYYY');
             },
             onFileChange(e) {
                 let files = e.target.files
