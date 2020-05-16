@@ -31,3 +31,16 @@ export function getLoggedinUser(){
 
     return JSON.parse(userStr);
 }
+
+export function pagesData(credentials){
+    return new Promise((res,rej)=>{
+        axios.post('/api/about', credentials)
+            .then(response => {
+                console.log('data',response.data)
+                res(response.data);
+            })
+            .catch(err => {
+                rej('An error occured.. try again later.')
+            })
+    })
+}
