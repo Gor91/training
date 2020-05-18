@@ -26,4 +26,3 @@ Route::group(['prefix' => 'auth'],
 });
 
 Route::post('about', 'Frontend\PageController@about');
-
