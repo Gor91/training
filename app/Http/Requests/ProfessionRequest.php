@@ -13,7 +13,7 @@ class ProfessionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,10 @@ class ProfessionRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialty_id' => 'required|integer',
-            'education_id' => 'required|integer',
-            'profession' => '|in:doctor, nurse, pharmacist, provider',
-            'member_of_palace' => 'required|bool',
+            'specialty' => 'required|integer',
+            'edu' => 'required|integer',
+            'prof' => '|in:doctor, nurse, pharmacist, provider',
+            'palace' => 'required|bool',
         ];
     }
         /**
