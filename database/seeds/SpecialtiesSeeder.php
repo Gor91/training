@@ -23,7 +23,7 @@ class SpecialtiesSeeder extends Seeder
     {
         return [
             [
-                'parent_id' => 0,
+                'parent_id' => null,
                 'type_id' => 1,
                 'name' => 'ԲԺՇԿԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',
@@ -31,7 +31,7 @@ class SpecialtiesSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'parent_id' => 0,
+                'parent_id' => null,
                 'type_id' => 1,
                 'name' => 'ՍՏՈՄԱՏՈԼՈԳԻԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',
@@ -39,7 +39,7 @@ class SpecialtiesSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'parent_id' => 0,
+                'parent_id' => null,
                 'type_id' => 1,
                 'name' => 'ԴԵՂԱԳԻՏԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',
@@ -47,7 +47,7 @@ class SpecialtiesSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'parent_id' => 0,
+                'parent_id' => null,
                 'type_id' => 1,
                 'name' => 'ՀԱՆՐԱՅԻՆ ԱՌՈՂՋԱՊԱՀԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',

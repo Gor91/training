@@ -15,7 +15,7 @@ class CreateSpecialtiesTable extends Migration
     {
         Schema::create('specialties', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('parent_id')->unsigned();
+            $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->bigInteger('type_id')->unsigned();
             $table->string('name');
             $table->string('icon',31);

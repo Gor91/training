@@ -1915,10 +1915,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // data(){
+  //     return {
+  //         formLogin: {
+  //             email: '',
+  //             password: ''
+  //         },
+  //         error: null
+  //     }
+  // },
   methods: {
-    aboutPage: function aboutPage() {
-      Object(_partials_auth__WEBPACK_IMPORTED_MODULE_0__["pagesData"])("hhh").then(function (res) {
-        console.log("'kuku"); //this.$store.commit("registerSuccess", res);
+    aboutpage: function aboutpage() {
+      Object(_partials_auth__WEBPACK_IMPORTED_MODULE_0__["getPagesData"])("hhh").then(function (res) {
+        console.log(res.data); //this.$store.commit("registerSuccess", res);
         //this.$router.push({path: '/login'});
       })["catch"](function (error) {
         console.log('error'); // this.$store.commit("registerFailed", {error});
@@ -1926,7 +1935,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeMount: function beforeMount() {
-    this.aboutPage();
+    this.aboutpage();
   }
 });
 
@@ -2382,15 +2391,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -7403,7 +7403,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.error[data-v-6bdc8b8e]{\n    text-align: center;\n    color: red;\n}\n", ""]);
+exports.push([module.i, "\n.error[data-v-6bdc8b8e]{\r\n    text-align: center;\r\n    color: red;\n}\r\n", ""]);
 
 // exports
 
@@ -72128,18 +72128,6 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("i", {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.errors.has("name"),
-                      expression: "errors.has('name')"
-                    }
-                  ],
-                  staticClass: "fa fa-warning"
-                }),
-                _vm._v(" "),
                 _c(
                   "span",
                   {
@@ -72176,6 +72164,10 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control ",
+                  class: {
+                    input: true,
+                    "is-invalid": _vm.errors.has("surname")
+                  },
                   attrs: { id: "surname", type: "text", name: "surname" },
                   domProps: { value: _vm.formRegister.surname },
                   on: {
@@ -72188,16 +72180,21 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors.has("surname")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("surname")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("surname"),
+                        expression: "errors.has('surname')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("surname")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group col-lg-4" }, [
@@ -72221,6 +72218,10 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: {
+                    input: true,
+                    "is-invalid": _vm.errors.has("father_name")
+                  },
                   attrs: {
                     id: "father_name",
                     type: "text",
@@ -72241,16 +72242,21 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors.has("father_name")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("father_name")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("father_name"),
+                        expression: "errors.has('father_name')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("father_name")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group col-lg-6" }, [
@@ -72272,6 +72278,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: { input: true, "is-invalid": _vm.errors.has("phone") },
                   attrs: { id: "phone", type: "text", name: "phone" },
                   domProps: { value: _vm.formRegister.phone },
                   on: {
@@ -72284,16 +72291,21 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors.has("phone")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("phone")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("phone"),
+                        expression: "errors.has('phone')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("phone")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group  col-lg-6" }, [
@@ -72502,6 +72514,10 @@ var render = function() {
                         expression: "'required'"
                       }
                     ],
+                    class: {
+                      input: true,
+                      "is-invalid": _vm.errors.has("issue")
+                    },
                     attrs: {
                       value: "state.date",
                       id: "issue",
@@ -72517,16 +72533,21 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.has("issue")
-                    ? _c(
-                        "span",
+                  _c(
+                    "span",
+                    {
+                      directives: [
                         {
-                          staticClass: "help is-danger",
-                          attrs: { role: "alert" }
-                        },
-                        [_vm._v(_vm._s(_vm.errors.first("issue")))]
-                      )
-                    : _vm._e()
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.has("issue"),
+                          expression: "errors.has('issue')"
+                        }
+                      ],
+                      staticClass: "help is-danger"
+                    },
+                    [_vm._v(_vm._s(_vm.errors.first("issue")))]
+                  )
                 ],
                 1
               ),
@@ -72548,6 +72569,10 @@ var render = function() {
                         expression: "'required'"
                       }
                     ],
+                    class: {
+                      input: true,
+                      "is-invalid": _vm.errors.has("expiry")
+                    },
                     attrs: {
                       value: "state.date",
                       id: "expiry",
@@ -72563,16 +72588,21 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.has("expiry")
-                    ? _c(
-                        "span",
+                  _c(
+                    "span",
+                    {
+                      directives: [
                         {
-                          staticClass: "help is-danger",
-                          attrs: { role: "alert" }
-                        },
-                        [_vm._v(_vm._s(_vm.errors.first("expiry")))]
-                      )
-                    : _vm._e()
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.has("expiry"),
+                          expression: "errors.has('expiry')"
+                        }
+                      ],
+                      staticClass: "help is-danger"
+                    },
+                    [_vm._v(_vm._s(_vm.errors.first("expiry")))]
+                  )
                 ],
                 1
               ),
@@ -72592,6 +72622,10 @@ var render = function() {
                         expression: "'required'"
                       }
                     ],
+                    class: {
+                      input: true,
+                      "is-invalid": _vm.errors.has("bday")
+                    },
                     attrs: {
                       value: "state.date",
                       id: "bday",
@@ -72607,16 +72641,21 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.has("bday")
-                    ? _c(
-                        "span",
+                  _c(
+                    "span",
+                    {
+                      directives: [
                         {
-                          staticClass: "help is-danger",
-                          attrs: { role: "alert" }
-                        },
-                        [_vm._v(_vm._s(_vm.errors.first("bday")))]
-                      )
-                    : _vm._e()
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errors.has("bday"),
+                          expression: "errors.has('bday')"
+                        }
+                      ],
+                      staticClass: "help is-danger"
+                    },
+                    [_vm._v(_vm._s(_vm.errors.first("bdsy")))]
+                  )
                 ],
                 1
               )
@@ -72646,6 +72685,10 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: {
+                    input: true,
+                    "is-invalid": _vm.errors.has("work_name")
+                  },
                   attrs: { id: "work_name", type: "text", name: "work_name" },
                   domProps: { value: _vm.formRegister.work_name },
                   on: {
@@ -72662,16 +72705,21 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors.has("work_name")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("work_name")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("work_name"),
+                        expression: "errors.has('work_name')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("work_name")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group col-lg-12" }, [
@@ -72703,6 +72751,10 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class: {
+                          input: true,
+                          "is-invalid": _vm.errors.has("w_region")
+                        },
                         attrs: { id: "w_region", name: "w_region" },
                         on: {
                           change: function($event) {
@@ -72739,16 +72791,21 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.errors.has("w_region")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("w_region")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("w_region"),
+                            expression: "errors.has('w_region')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("w_region")))]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-lg-4" }, [
@@ -72772,6 +72829,10 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class: {
+                          input: true,
+                          "is-invalid": _vm.errors.has("w_city")
+                        },
                         attrs: { id: "w_city", name: "w_city" },
                         on: {
                           change: function($event) {
@@ -72808,16 +72869,21 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.errors.has("w_city")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("w_city")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("w_city"),
+                            expression: "errors.has('w_city')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("w_city")))]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-lg-4" }, [
@@ -72843,6 +72909,10 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class: {
+                          input: true,
+                          "is-invalid": _vm.errors.has("w_village")
+                        },
                         attrs: { id: "w_village", name: "w_village" },
                         on: {
                           change: function($event) {
@@ -72877,16 +72947,21 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.errors.has("h_village")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("h_village")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("w_village"),
+                            expression: "errors.has('w_village')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("w_village")))]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-lg-12" }, [
@@ -72910,6 +72985,10 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
+                      class: {
+                        input: true,
+                        "is-invalid": _vm.errors.has("w_street")
+                      },
                       attrs: { id: "w_street", type: "text", name: "w_street" },
                       domProps: { value: _vm.formRegister.w_street },
                       on: {
@@ -72926,16 +73005,21 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.has("w_street")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("w_street")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("w_street"),
+                            expression: "errors.has('w_street')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("w_street")))]
+                    )
                   ])
                 ])
               ]),
@@ -72969,6 +73053,10 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class: {
+                          input: true,
+                          "is-invalid": _vm.errors.has("h_region")
+                        },
                         attrs: { id: "h_region", name: "h_region" },
                         on: {
                           change: function($event) {
@@ -73005,16 +73093,21 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.errors.has("h_region")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("h_region")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("h_region"),
+                            expression: "errors.has('h_region')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("h_region")))]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-lg-4" }, [
@@ -73038,6 +73131,10 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class: {
+                          input: true,
+                          "is-invalid": _vm.errors.has("h_city")
+                        },
                         attrs: { id: "h_city", name: "h_city" },
                         on: {
                           change: function($event) {
@@ -73074,16 +73171,21 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.errors.has("h_city")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("h_city")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("h_city"),
+                            expression: "errors.has('h_city')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("h_city")))]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-lg-4" }, [
@@ -73109,6 +73211,10 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
+                        class: {
+                          input: true,
+                          "is-invalid": _vm.errors.has("h_village")
+                        },
                         attrs: { id: "h_village", name: "h_village" },
                         on: {
                           change: function($event) {
@@ -73145,16 +73251,21 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.errors.has("h_village")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("h_village")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("h_village"),
+                            expression: "errors.has('h_village')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("h_village")))]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group col-lg-12" }, [
@@ -73178,6 +73289,10 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
+                      class: {
+                        input: true,
+                        "is-invalid": _vm.errors.has("h_street")
+                      },
                       attrs: { id: "h_street", type: "text", name: "h_street" },
                       domProps: { value: _vm.formRegister.h_street },
                       on: {
@@ -73194,16 +73309,21 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.has("h_street")
-                      ? _c(
-                          "span",
+                    _c(
+                      "span",
+                      {
+                        directives: [
                           {
-                            staticClass: "help is-danger",
-                            attrs: { role: "alert" }
-                          },
-                          [_vm._v(_vm._s(_vm.errors.first("h_street")))]
-                        )
-                      : _vm._e()
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errors.has("h_street"),
+                            expression: "errors.has('h_street')"
+                          }
+                        ],
+                        staticClass: "help is-danger"
+                      },
+                      [_vm._v(_vm._s(_vm.errors.first("h_street")))]
+                    )
                   ])
                 ])
               ])
@@ -73233,6 +73353,10 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
+                    class: {
+                      input: true,
+                      "is-invalid": _vm.errors.has("prof")
+                    },
                     attrs: { id: "prof", name: "prof" },
                     on: {
                       change: function($event) {
@@ -73277,16 +73401,21 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm.errors.has("prof")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("prof")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("prof"),
+                        expression: "errors.has('prof')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("prof")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group  col-lg-4" }, [
@@ -73310,6 +73439,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
+                    class: { input: true, "is-invalid": _vm.errors.has("edu") },
                     attrs: { id: "edu", name: "edu" },
                     on: {
                       change: function($event) {
@@ -73350,16 +73480,21 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm.errors.has("edu")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("edu")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("edu"),
+                        expression: "errors.has('edu')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("edu")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group  col-lg-4" }, [
@@ -73385,6 +73520,10 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
+                    class: {
+                      input: true,
+                      "is-invalid": _vm.errors.has("specialty")
+                    },
                     attrs: { id: "specialty", name: "specialty" },
                     on: {
                       change: function($event) {
@@ -73425,16 +73564,21 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm.errors.has("specialty")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("specialty")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("specialty"),
+                        expression: "errors.has('specialty')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("specialty")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group  col-lg-4" }, [
@@ -73455,6 +73599,10 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
+                    class: {
+                      input: true,
+                      "is-invalid": _vm.errors.has("palace")
+                    },
                     attrs: {
                       type: "checkbox",
                       id: "confirm-switch",
@@ -73501,16 +73649,21 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm.errors.has("palace")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("palace")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("palace"),
+                        expression: "errors.has('palace')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("palace")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group  col-lg-4" }, [
@@ -73532,6 +73685,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: { input: true, "is-invalid": _vm.errors.has("email") },
                   attrs: {
                     id: "email",
                     type: "email",
@@ -73549,16 +73703,21 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors.has("email")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("email")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("email"),
+                        expression: "errors.has('email')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("email")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group  col-lg-4" }, [
@@ -73582,6 +73741,10 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: {
+                    input: true,
+                    "is-invalid": _vm.errors.has("password")
+                  },
                   attrs: {
                     id: "password",
                     type: "password",
@@ -73603,16 +73766,21 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors.has("password")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("password")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("password"),
+                        expression: "errors.has('password')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("password")))]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group  col-lg-4" }, [
@@ -73636,6 +73804,10 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: {
+                    input: true,
+                    "is-invalid": _vm.errors.has("re_password")
+                  },
                   attrs: {
                     id: "re_password",
                     type: "password",
@@ -73656,16 +73828,21 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm.errors.has("re_password")
-                  ? _c(
-                      "span",
+                _c(
+                  "span",
+                  {
+                    directives: [
                       {
-                        staticClass: "help is-danger",
-                        attrs: { role: "alert" }
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("re_password")))]
-                    )
-                  : _vm._e()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has("re_password"),
+                        expression: "errors.has('re_password')"
+                      }
+                    ],
+                    staticClass: "help is-danger"
+                  },
+                  [_vm._v(_vm._s(_vm.errors.first("re_password")))]
+                )
               ]),
               _vm._v(" "),
               _vm._m(1)
@@ -93537,7 +93714,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************!*\
   !*** ./resources/js/partials/auth.js ***!
   \***************************************/
-/*! exports provided: registerUser, login, getLoggedinUser, pagesData */
+/*! exports provided: registerUser, login, getLoggedinUser, getPagesData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93545,7 +93722,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerUser", function() { return registerUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLoggedinUser", function() { return getLoggedinUser; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pagesData", function() { return pagesData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPagesData", function() { return getPagesData; });
 function registerUser(credentials) {
   return new Promise(function (res, rej) {
     axios.post('/api/auth/register', credentials).then(function (response) {
@@ -93573,11 +93750,19 @@ function getLoggedinUser() {
 
   return JSON.parse(userStr);
 }
-function pagesData(credentials) {
+/*export function pagesData(credentials){
+    return new Promise((res,rej)=>{
+        axios.post('/api/about', credentials)
+            .then(response => {
+                console.log('data',response.data)
+                res(response.data);
+*/
+
+function getPagesData(credentials) {
   return new Promise(function (res, rej) {
     axios.post('/api/about', credentials).then(function (response) {
-      console.log('data', response.data);
       res(response.data);
+      console.log(credentials);
     })["catch"](function (err) {
       rej('An error occured.. try again later.');
     });
@@ -93746,8 +93931,8 @@ var user = Object(_partials_auth__WEBPACK_IMPORTED_MODULE_0__["getLoggedinUser"]
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\training\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\training\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\OSPanel\domains\training\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\OSPanel\domains\training\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
