@@ -26,7 +26,11 @@ Route::get('/contact', 'Frontend\PageController@get');
 \Illuminate\Support\Facades\Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/(any)', 'Frontend\SingleController@index')->where('any', '.*');
+Route::get('(any)', function () {
+    return view('welcome');
+}
+)->where('any', '.*');
 
 //backend
 //Route::prefix('/backend')->
@@ -43,11 +47,8 @@ Route::post('/backend/logout/', 'Auth\LoginController@logout')->name('logout');
 //pages
 Route::get('/backend/dashboard/', 'Backend\DashboardController@index')->name('dashboard');
 Route::resource('/backend/admin', 'Backend\AdminController');
-Route::match(['put', 'patch'],'/backend/changePassword/{id}', 'Backend\AdminController@changePassword');
+Route::match(['put', 'patch'], '/backend/changePassword/{id}', 'Backend\AdminController@changePassword');
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
-
-
-
 
 
 //generate pdf
