@@ -13,7 +13,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,8 @@ class UserRequest extends FormRequest
     {
         return [
             'email' => 'required|email|unique:users,id',
-            'password ' => 'required|min:6',
-            're_password ' => 'required|min:6|same:password',
+            'password' => 'required|min:6',
+            're_password' => 'required|min:6|same:password',
 
         ];
     }
@@ -45,14 +45,16 @@ class UserRequest extends FormRequest
         return [
 
             'email.required' => $email . __('validation.required'),
+            'password.required' => __('messages.password') . __('validation.required'),
+            're_password.required' => __('messages.password') . __('validation.required'),
             'email.email' => $email . __('validation.email'),
             'email.unique' => __('validation.unique'),
-            'phone.required' => $phone . __('validation.required'),
-            'group.required' => $group . __('validation.required'),
-            'phone.numeric' => $phone . __('validation.numeric'),
-            'group.numeric' => $group . __('validation.numeric'),
-//            'phone.size' => $phone . __('validation.size.numeric'),
-            'file.image' => __('validation.image'),
+//            'phone.required' => $phone . __('validation.required'),
+//            'group.required' => $group . __('validation.required'),
+//            'phone.numeric' => $phone . __('validation.numeric'),
+//            'group.numeric' => $group . __('validation.numeric'),
+////            'phone.size' => $phone . __('validation.size.numeric'),
+//            'file.image' => __('validation.image'),
         ];
     }
 }
