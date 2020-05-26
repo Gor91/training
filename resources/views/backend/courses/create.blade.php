@@ -49,7 +49,7 @@
                                 <div class="kt-portlet__head-wrapper">
                                     <div class="kt-portlet__head-actions">
                                         &nbsp;
-                                        <a href="{{action('Backend\AdminController@index')}}"
+                                        <a href="{{action('Backend\CoursesController@index')}}"
                                            class="btn btn-warning btn-sm ">
                                             <i class="la la-undo"></i>
                                             {{__('messages.back')}}
