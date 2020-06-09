@@ -122,7 +122,19 @@ return [
     'profile' => 'Իմ էջը',
     'admin' => 'կառավարման բաժին',
     'manage_account' => 'Հաշվի կարգավորումները',
-    'hello' => 'Բարև'
+    'hello' => 'Բարև',
+
+//  courses
+    'courses' => 'Դասընթացներ',
+    'course_name' => 'Դասընթացի անվանում',
+    'course_list' => 'Դասընթացների ցուցակ',
+    'course_status' => 'Կարգավիճակ',
+    'course_status_active' => 'Ակտիվ',
+    'course_status_deactive' => 'Անջատված',
+    'course_duration_date' => 'Վաղեմ․ Ժամկետ',
+    'course_credit' => 'Կրեդիտ',
+    'course_paragraph' => 'Դասընթաց',
+    'video_version' => 'Դասընթաց վիդեո տարբերակով',
 
 
 ];
