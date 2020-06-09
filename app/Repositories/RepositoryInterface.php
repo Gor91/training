@@ -10,5 +10,9 @@ interface RepositoryInterface
 
     public function delete($id);
 
+    public function where(array $data, array $pluck = null);
+
+    public function whereNull($data, array $pluck = null);
+
     public function show($id);
 }

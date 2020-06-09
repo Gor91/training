@@ -44,7 +44,7 @@ class Repository implements RepositoryInterface
     {
         try {
             return $this->model->findOrFail($id);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             dd($exception);
         }
     }
@@ -66,5 +66,25 @@ class Repository implements RepositoryInterface
     public function with($relations)
     {
         return $this->model->with($relations);
+    }
+
+    public function where($closure, array $pluck = null)
+    {
+        return (!empty($pluck)) ?
+            $this->model
+                ->where($closure)
+                ->pluck($pluck[0], $pluck[1]) :
+            $this->model
+                ->where($closure)->get();
+
+    }
+
+    public function whereNull($data, array $pluck = null)
+    {
+        return (!empty($pluck))
+            ?
+            $this->model->whereNull($data)->pluck($pluck[0], $pluck[1])
+            :
+            $this->model->whereNull($data)->get();
     }
 }

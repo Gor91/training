@@ -12,14 +12,36 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Clear route cache:
+Route::get('/route-cache', function() {
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('route:cache');
+    return 'Routes cache cleared';
+});
 
+//Clear config cache:
+Route::get('/config-cache', function() {
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('config:cache');
+    return 'Config cache cleared';
+});
+
+// Clear application cache:
+Route::get('/clear-cache', function() {
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    return 'Application cache cleared';
+});
+
+// Clear view cache:
+Route::get('/view-clear', function() {
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('view:clear');
+    return 'View cache cleared';
+});
 /*Route::get('/{any}', 'Frontend\SinglePageController@index')->where('any', '.*');*/
 
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '^(?!backend).*$');
 
-
+Route::get('/edit{id}', 'Frontend\AccountController@edit')->name('edit');
 Route::get('/about', 'Frontend\PageController@get');
 Route::get('/contact', 'Frontend\PageController@get');
 

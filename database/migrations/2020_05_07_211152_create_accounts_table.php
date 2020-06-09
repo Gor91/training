@@ -30,7 +30,8 @@ class CreateAccountsTable extends Migration
             $table->string('workplace_name');
             $table->string('image_name');
             $table->enum('role',['user', 'lecture']);
-            $table->timestamps();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

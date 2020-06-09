@@ -50,7 +50,7 @@ export default {
         login(this.$data.formLogin)
             .then(res => {
                 this.$store.commit("loginSuccess", res);
-                this.$router.push({path: '/dashboard'});
+                this.$router.push({path: '/account'});
             })
             .catch(error => {
                 this.$store.commit("loginFailed", {error});

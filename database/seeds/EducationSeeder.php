@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades;
 
-class SpecialtiesSeeder extends Seeder
+class EducationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class SpecialtiesSeeder extends Seeder
     {
         $data = $this->getData();
         foreach ($data as $index) {
-            Facades\DB::table('specialties')->insert($index);
+            Facades\DB::table('educations')->insert($index);
         }
     }
 
@@ -23,34 +23,22 @@ class SpecialtiesSeeder extends Seeder
     {
         return [
             [
-                'parent_id' => null,
-                'type_id' => 1,
                 'name' => 'ԲԺՇԿԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
-                'icon' => 'fa ',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'parent_id' => null,
-                'type_id' => 1,
                 'name' => 'ՍՏՈՄԱՏՈԼՈԳԻԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
-                'icon' => 'fa ',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'parent_id' => null,
-                'type_id' => 1,
                 'name' => 'ԴԵՂԱԳԻՏԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
-                'icon' => 'fa ',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'parent_id' => null,
-                'type_id' => 1,
                 'name' => 'ՀԱՆՐԱՅԻՆ ԱՌՈՂՋԱՊԱՀԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
-                'icon' => 'fa ',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]

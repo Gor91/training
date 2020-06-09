@@ -1,9 +1,11 @@
 import Home from './components/Home.vue';
 import Register from './components/Register.vue';
 import Login from './components/Login.vue';
-import Dashboard from './components/Dashboard.vue';
+import Account from './components/Account.vue';
 import About from './components/About.vue';
 import Contact from './components/Contact.vue';
+import Edit from './components/Edit.vue';
+import Pass from './components/Pass.vue';
 export const routes = [
     {
         path: '/',
@@ -21,9 +23,25 @@ export const routes = [
         component: Login,
     },
     {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard,
+        path: '/account',
+        name: 'account',
+        component: Account,
+        meta: {
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/edit/:id',
+        name: 'edit',
+        component: Edit,
+        meta: {
+            requiresAuth: true
+        },
+    },
+    {
+        path: '/changePassword/:id',
+        name: 'changePassword',
+        component: Pass,
         meta: {
             requiresAuth: true
         },

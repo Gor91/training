@@ -16,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'account_id', 'email', 'password',
     ];
 
     /**
@@ -37,7 +37,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
-
+//
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
@@ -46,5 +46,13 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Get the user that owns the account.
+     */
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account');
     }
 }

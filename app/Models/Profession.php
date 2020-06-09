@@ -16,6 +16,13 @@ class Profession extends Model
         'education_id',
         'profession',
         'member_of_palace',
-//        'diplomas'
+        'diplomas'
     ];
+    /**
+     * Get the user that owns the account.
+     */
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account');
+    }
 }
