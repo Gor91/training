@@ -24,31 +24,39 @@ class ProfessionRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialty' => 'required|integer',
-            'edu' => 'required|integer',
-            'prof' => '|in:doctor, nurse, pharmacist, provider',
-            'palace' => 'required|bool',
+            'specialty_id' => 'required|integer',
+            'education_id' => 'required|integer',
+            'profession' => '|in:doctor, nurse, pharmacist, provider',
+            'palace' => 'required|bool|nullable',
+            'diploma_1' => 'required|image',
         ];
     }
-        /**
-         * Get the error messages for the defined validation rules.
-         *
-         * @return array
-         */
-        public function messages()
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
     {
-
-
-
         return [
-            'specialty_id.required' =>  __('messages.specialty_name') . __('validation.required'),
-            'specialty_id.integer' =>  __('messages.specialty_name') . __('validation.integer'),
-            'education_id.required' => __('messages.education__name'). __('validation.required'),
-            'education_id.integer' => __('messages.education__name'). __('validation.integer'),
+            'specialty_id.required' => __('messages.specialty_name') . __('validation.required'),
+            'specialty_id.integer' => __('messages.specialty_name') . __('validation.integer'),
+            'education_id.required' => __('messages.education__name') . __('validation.required'),
+            'education_id.integer' => __('messages.education__name') . __('validation.integer'),
             'profession.required' => __('messages.profession') . __('validation.required'),
-            'member_of_palace.required' => __('messages.member_of_palace') . __('validation.required'),
-            'member_of_palace.boolean' => __('messages.member_of_palace') . __('validation.boolean'),
+            'palace.required' => __('messages.member_of_palace') . __('validation.required'),
+            'palace.boolean' => __('messages.member_of_palace') . __('validation.boolean'),
+            'diploma_1.required' => __('messages.diploma') . __('validation.required'),
+            'diploma_1.image' => __('messages.diploma') . __('validation.image'),
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'palace' => (bool)$this->palace
+        ]);
+          }
 
 }

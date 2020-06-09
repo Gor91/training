@@ -125,7 +125,7 @@
 <!--end::Page Vendors -->
 
 <!--begin::Page Scripts(used by this page) -->
-<script defer  src="{{ asset('assets/js/pages/dashboard.js')}}" type="text/javascript"></script>
+<script defer  src="{{ asset('assets/js/pages/account.js')}}" type="text/javascript"></script>
 
 <!--end::Page Scrip -->
 <script defer  src="{{ asset('assets/vendors/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script>

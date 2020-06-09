@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class UserEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,6 @@ class UserRequest extends FormRequest
     {
         return [
             'email' => 'required|email|unique:users,id',
-            'password' => 'required|min:6',
-            're_password' => 'required|min:6|same:password',
-
         ];
     }
 
@@ -40,14 +37,12 @@ class UserRequest extends FormRequest
     {
 
         $email = __('messages.email');
-
         return [
 
             'email.required' => $email . __('validation.required'),
-            'password.required' => __('messages.password') . __('validation.required'),
-            're_password.required' => __('messages.password') . __('validation.required'),
             'email.email' => $email . __('validation.email'),
             'email.unique' => __('validation.unique'),
+//
         ];
     }
 }

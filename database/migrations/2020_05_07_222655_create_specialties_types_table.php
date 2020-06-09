@@ -18,7 +18,8 @@ class CreateSpecialtiesTypesTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('icon');
-            $table->timestamps();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

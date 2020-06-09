@@ -33,7 +33,7 @@
                     </template>
                     <template v-else>
                         <li>
-                            <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+                            <router-link to="/account" class="nav-link">Profile</router-link>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
