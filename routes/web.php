@@ -50,6 +50,11 @@ Route::resource('/backend/admin', 'Backend\AdminController');
 Route::match(['put', 'patch'], '/backend/changePassword/{id}', 'Backend\AdminController@changePassword');
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
 
+//courses
+Route::resource('/backend/courses/', 'Backend\CoursesController');
+//Route::post('/backend/editCourses', 'Backend\CoursesController@editCourses');
+Route::post('upload', "Backend\CoursesController@fileUpload");
+Route::get('backend/courses/getSpecialities/', "Backend\CoursesController@getSpecialities");
 
 //generate pdf
 Route::get('/backend/admin_gdPDF', 'Backend\AdminController@gdPDF');

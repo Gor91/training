@@ -18,9 +18,4 @@ class Courses extends Model
     protected $fillable = [
         'id', 'name', 'specialty_ids', 'status', 'duration_date', 'credit', 'content',
     ];
-
-//    public function getCourses()
-//    {
-//        return ["A"];
-//    }
 }
