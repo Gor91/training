@@ -40,7 +40,8 @@ class UserRequest extends FormRequest
     {
 
         $email = __('messages.email');
-
+        $phone = __('messages.phone');
+        $group = __('messages.group');
         return [
 
             'email.required' => $email . __('validation.required'),
@@ -48,6 +49,12 @@ class UserRequest extends FormRequest
             're_password.required' => __('messages.password') . __('validation.required'),
             'email.email' => $email . __('validation.email'),
             'email.unique' => __('validation.unique'),
+//            'phone.required' => $phone . __('validation.required'),
+//            'group.required' => $group . __('validation.required'),
+//            'phone.numeric' => $phone . __('validation.numeric'),
+//            'group.numeric' => $group . __('validation.numeric'),
+////            'phone.size' => $phone . __('validation.size.numeric'),
+//            'file.image' => __('validation.image'),
         ];
     }
 }

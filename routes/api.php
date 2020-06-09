@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'auth'],
+Route::group(/**
+ * @param $router
+ */ ['prefix' => 'auth'],
     function ($router) {
         Route::post('register', 'Frontend\AuthController@register');
         Route::post('login', 'Frontend\AuthController@login');
