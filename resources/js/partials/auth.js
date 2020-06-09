@@ -44,7 +44,7 @@ export function getPagesData(credentials){
         axios.post('/api/about', credentials)
             .then(response => {
                 res(response.data);
-                console.log(credentials);
+
             })
             .catch(err => {
                 rej('An error occured.. try again later.')

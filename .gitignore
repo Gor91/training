@@ -1,6 +1,5 @@
 .idea
 package-lock.json
 composer.lock
-.env
-node_modules
 vendor
+node_modules
