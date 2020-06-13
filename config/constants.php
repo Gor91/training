@@ -13,4 +13,5 @@ return [
     'REGION' => 'region',
     'VILLAGE' => 'village',
     'TERRITORY' => 'territory',
+    'RESIDENCE' => 'residence',
 ];

@@ -41,10 +41,8 @@ class AuthController extends Controller
             $work_address = [];
             $home_address['h_region'] = $accountRequest->h_region;
             $work_address['w_region'] = $accountRequest->w_region;
-            $home_address['h_city'] = $accountRequest->h_city;
-            $work_address['w_city'] = $accountRequest->w_city;
-            $home_address['h_village'] = $accountRequest->h_village;
-            $work_address['w_village'] = $accountRequest->w_village;
+            $home_address['h_territory'] = $accountRequest->h_territory;
+            $work_address['w_territory'] = $accountRequest->w_territory;
             $home_address['h_street'] = $accountRequest->h_street;
             $work_address['w_street'] = $accountRequest->w_street;
             $account = new Account();

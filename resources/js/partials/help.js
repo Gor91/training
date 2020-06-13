@@ -9,9 +9,9 @@ export function education() {
             })
     })
 }
-export function specialty() {
+export function specialty(id) {
     return new Promise((res, rej) => {
-        axios.post('/api/spec')
+        axios.post('/api/spec/' + id)
             .then(response => {
                 res(response.data);
             })
@@ -42,9 +42,9 @@ export function territory(id) {
             })
     })
 }
-export function village(id) {
+export function profession() {
     return new Promise((res, rej) => {
-        axios.post('/api/village/'+id)
+        axios.post('/api/prof/')
             .then(response => {
                 res(response.data);
             })

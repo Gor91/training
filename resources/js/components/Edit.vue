@@ -123,7 +123,7 @@
                     <div class="form-group col-lg-12">
                         <div class="row ">
                             <p class="form-group-lg col-lg-12">Work Address </p>
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-4">
                                 <label for="w_region">Region</label>
                                 <select id="w_region" name="w_region" class="form-control"
                                         :class="{'input': true, 'is-invalid': errors.has('w_region') }"
@@ -133,42 +133,26 @@
                                 </select>
                                 <span v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
                             </div>
-                            <div class="form-group col-lg-3">
-                                <label for="w_city">City</label>
-                                <select id="w_city" name="w_city" ref="w_city" class="form-control"
-                                        v-validate="{ rules: { required: this.isWorkCityRequired}}"
-                                        :class="{'input': true, 'is-invalid': errors.has('w_city') }"
-                                        v-model="formEdit.w_city">
-                                    <option v-for="(city, key) in w_cities" v-bind:value="key">{{city}}</option>
-                                </select>
-                                <span v-show="errors.has('w_city')"
-                                      class="help is-danger">{{ errors.first('w_city') }}</span>
-                            </div>
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-4">
                                 <label for="w_territory">Territory</label>
                                 <select id="w_territory" name="w_territory" ref="w_territory" class="form-control"
-                                        v-validate="{ rules: { required: this.isWorkTerritoryRequired}}"
+                                        v-validate="'required'"
                                         :class="{'input': true, 'is-invalid': errors.has('w_territory') }"
-                                        v-model="formEdit.w_territory"
-                                        @change="getVillage(formEdit.w_territory,'w')">
-                                    <option v-for="(territory, key) in w_territories" v-bind:value="key">{{territory}}
-                                    </option>
+                                        v-model="formEdit.w_territory">
+                                    <optgroup v-for="(group, name) in w_territories" :label="group.name+ 'ի համայք'">
+                                        <option v-for="(option, key) in group.residence" v-if="group.residence"
+                                                :value="option.id">
+                                            {{ option.name }}
+                                        </option>
+                                        <option :value="group.id">
+                                            {{ group.name }}
+                                        </option>
+                                    </optgroup>
                                 </select>
                                 <span v-show="errors.has('w_territory')"
                                       class="help is-danger">{{ errors.first('w_territory') }}</span>
                             </div>
-                            <div class="form-group col-lg-3">
-                                <label for="w_village">Village</label>
-                                <select id="w_village" name="w_village" ref="w_village" class="form-control"
-                                        v-validate="'required'" @change="getVillage(formEdit.w_territory,'w')">
-                                    :class="{'input': true, 'is-invalid': errors.has('w_village') }"
-                                    v-model="formEdit.w_village">
-                                    <option v-for="(village, key) in w_villages" v-bind:value="key">{{village}}
-                                    </option>
-                                </select>
-                                <span v-show="errors.has('w_village')" class="help is-danger">{{ errors.first('w_village') }}</span>
-                            </div>
-                            <div class="form-group col-lg-12">
+                            <div class="form-group col-lg-4">
                                 <label for="w_street">Street</label>
                                 <input id="w_street" type="text" name="w_street" class="form-control"
                                        v-validate="'required'"
@@ -181,7 +165,7 @@
                     <div class="form-group col-lg-12">
                         <div class="row ">
                             <p class="form-group-lg col-lg-12">Home Address </p>
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-4">
                                 <label for="h_region">Region</label>
                                 <select id="h_region" name="h_region" class="form-control"
                                         v-validate="'required'" @change="getTerritory(formEdit.h_region,'h')"
@@ -192,44 +176,27 @@
                                 <span v-show="errors.has('h_region')" class="help is-danger">{{ errors.first('h_region') }}</span>
 
                             </div>
-                            <div class="form-group col-lg-3">
-                                <label for="h_city">City</label>
-                                <select id="h_city" name="h_city" ref="h_city" class="form-control"
-                                        v-validate="{ rules: { required: this.isHomeCityRequired}}"
-                                        :class="{'input': true, 'is-invalid': errors.has('h_city') }"
-                                        v-model="formEdit.h_city">
-                                    <option v-for="(city, key) in h_cities" v-bind:value="key">{{city}}</option>
-                                </select>
-                                <span v-show="errors.has('h_city')"
-                                      class="help is-danger">{{ errors.first('h_city') }}</span>
-
-                            </div>
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-4">
                                 <label for="h_territory">Territory</label>
                                 <select id="h_territory" name="h_territory" ref="h_territory" class="form-control"
-                                        v-validate="{ rules: { required: this.isHomeTerritoryRequired}}"
+                                        v-validate="'required'"
                                         :class="{'input': true, 'is-invalid': errors.has('h_territory') }"
-                                        v-model="formEdit.h_territory"
-                                        @change="getVillage(formEdit.h_territory,'h')">
-                                    <option v-for="(territory, key) in h_territories" v-bind:value="key">{{territory}}
-                                    </option>
+                                        v-model="formEdit.h_territory">
+
+                                    <optgroup v-for="(group, name) in h_territories" :label="group.name+ 'ի համայք'">
+                                        <option v-for="(option, key) in group.residence" v-if="group.residence"
+                                                :value="option.id">
+                                            {{ option.name }}
+                                        </option>
+                                        <option :value="group.id">
+                                            {{ group.name }}
+                                        </option>
+                                    </optgroup>
                                 </select>
                                 <span v-show="errors.has('h_territory')"
                                       class="help is-danger">{{ errors.first('h_territory') }}</span>
                             </div>
-                            <div class="form-group col-lg-3">
-                                <label for="h_village">Village</label>
-                                <select id="h_village" name="h_village" ref="h_village" class="form-control"
-                                        v-validate="'required'"
-                                        :class="{'input': true, 'is-invalid': errors.has('h_village') }"
-                                        v-model="formEdit.h_village">
-                                    <option v-for="(village, key) in h_villages" v-bind:value="key">{{village}}
-                                    </option>
-                                </select>
-                                <span v-show="errors.has('h_village')" class="help is-danger">{{ errors.first('h_village') }}</span>
-
-                            </div>
-                            <div class="form-group col-lg-12">
+                            <div class="form-group col-lg-4">
 
                                 <label for="h_street">Street</label>
                                 <input id="h_street" type="text" name="h_street" class="form-control"
@@ -248,12 +215,9 @@
                         <label for="profession">Profession</label>
                         <select id="profession" name="profession" class="form-control" v-validate="'required'"
                                 :class="{'input': true, 'is-invalid': errors.has('profession') }"
-                                v-model="formEdit.profession">
+                                v-model="formEdit.profession" @change="getSpecialties(formRegister.profession)">
                             <option value="">Select a profession</option>
-                            <option value="doctor">բժիշկ</option>
-                            <option value="nurse">բուժ․ քույր</option>
-                            <option value="pharmacist">դեղագործ</option>
-                            <option value="provider">դեղագետ</option>
+                            <option v-for="(prof, key) in professions" v-bind:value="key">{{prof}}</option>
                         </select>
                         <span v-show="errors.has('profession')"
                               class="help is-danger">{{ errors.first('profession') }}</span>
@@ -328,7 +292,8 @@
                                  v-for="diploma in formEdit.diplomas">
                                 <img class="col-lg-12" :src="'/storage/diploma/'+diploma" :alt="diploma">
                                 <div class="remove-container">
-                                    <a class="remove" v-on:click="removeDiploma(diploma)">Remove</a>
+                                    <a class="remove"
+                                       v-on:click="removeDiploma(diploma)">Remove</a>
                                 </div>
                             </div>
                         </div>
@@ -346,7 +311,7 @@
 
 <script>
     import {editUser} from '../partials/auth';
-    import {education, region, specialty, territory, village} from '../partials/help';
+    import {education, region, specialty, territory, profession} from '../partials/help';
     import Datepicker from 'vuejs-datepicker';
 
     export default {
@@ -367,12 +332,8 @@
                     workplace_name: '',
                     h_region: '',
                     w_region: '',
-                    h_city: '',
-                    w_city: '',
                     h_territory: '',
                     w_territory: '',
-                    w_village: '',
-                    h_village: '',
                     w_street: '',
                     h_street: '',
                     profession: '',
@@ -384,13 +345,10 @@
                 },
                 files: [],
                 regions: [],
-                w_cities: [],
-                h_cities: [],
                 w_territories: [],
                 h_territories: [],
-                w_villages: [],
-                h_villages: [],
                 educations: [],
+                professions: [],
                 specialties: [],
                 openDate: new Date('January 31 1980'),
                 error:
@@ -400,10 +358,9 @@
         created() {
             this.getAccountInfo();
             this.getRegions();
+            this.getProfessions();
             this.getEducations();
-            this.getSpecialties();
         },
-
         methods: {
             getEducations() {
                 education()
@@ -414,9 +371,10 @@
                         this.$store.commit("getContentFailed", {error});
                     });
             },
-            getSpecialties() {
-                specialty()
+            getSpecialties(id) {
+                specialty(id)
                     .then(res => {
+                        this.$refs.spec.style.border = '1px solid #9f12ad';
                         this.specialties = res.spec;
                     })
                     .catch(error => {
@@ -433,37 +391,26 @@
                     });
 
             },
-            getTerritory(id, prefix) {
-                territory(id)
+            getProfessions() {
+                profession()
                     .then(res => {
-
-                        if (prefix === 'w') {
-                            this.$refs.w_city.style.border = '1px solid #9f12ad';
-                            this.$refs.w_territory.style.border = '1px solid #9f12ad';
-                            this.w_cities = res.cities;
-                            this.w_territories = res.territories;
-
-                        } else {
-                            this.$refs.h_city.style.border = '1px solid #9f12ad';
-                            this.$refs.h_territory.style.border = '1px solid #9f12ad';
-                            this.h_cities = res.cities;
-                            this.h_territories = res.territories;
-                        }
+                        this.professions = res.prof;
                     })
                     .catch(error => {
                         this.$store.commit("getContentFailed", {error});
                     });
+
             },
-            getVillage(id, prefix) {
-                village(id).then(res => {
-                    if (prefix === 'w') {
-                        this.$refs.w_village.style.border = '1px solid #9f12ad';
-                        this.w_villages = res.villages;
-                    } else {
-                        this.$refs.h_village.style.border = '1px solid #9f12ad';
-                        this.h_villages = res.villages;
-                    }
-                })
+            getTerritory(id, prefix) {
+                territory(id)
+                    .then(res => {
+                        if (prefix === 'w') {
+                            this.w_territories = res.territories;
+
+                        } else {
+                            this.h_territories = res.territories;
+                        }
+                    })
                     .catch(error => {
                         this.$store.commit("getContentFailed", {error});
                     });
@@ -482,14 +429,13 @@
                         let w_address = JSON.parse(obj.user.work_address);
                         let h_address = JSON.parse(obj.user.home_address);
                         let diplomas = JSON.parse(obj.user.diplomas);
+                        console.log(h_address);
                         this.$data.formEdit = obj.user;
                         this.$data.formEdit.w_region = w_address.w_region;
-                        this.$data.formEdit.w_city = w_address.w_city;
-                        this.$data.formEdit.w_village = w_address.w_village;
+                        this.$data.formEdit.w_territory = w_address.w_territory;
                         this.$data.formEdit.w_street = w_address.w_street;
                         this.$data.formEdit.h_region = h_address.h_region;
-                        this.$data.formEdit.h_city = h_address.h_city;
-                        this.$data.formEdit.h_village = h_address.h_village;
+                        this.$data.formEdit.h_territory = h_address.h_territory;
                         this.$data.formEdit.h_street = h_address.h_street;
                         this.$data.formEdit.diplomas = diplomas;
                         this.$data.formEdit.token = token;
@@ -552,28 +498,7 @@
                 }
             },
         },
-
         computed: {
-            isHomeCityRequired() {
-                if (this.$data.formEdit.h_territory === '')
-                    return true;
-                return false;
-            },
-            isWorkCityRequired() {
-                if (this.$data.formEdit.w_territory === '')
-                    return true;
-                return false;
-            },
-            isHomeTerritoryRequired() {
-                if (this.$data.formEdit.h_city === '')
-                    return true; // cellphone is required
-                return false;
-            },
-            isWorkTerritoryRequired() {
-                if (this.$data.formEdit.w_city === '')
-                    return true; // cellphone is required
-                return false;
-            },
             editError() {
                 return this.$store.getters.editError
             }

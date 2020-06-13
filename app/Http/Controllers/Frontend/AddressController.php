@@ -37,15 +37,15 @@ class AddressController extends Controller
     public function getTerritories($id)
     {
         try {
+// todo create repositories function
+            $territories = Region::select(['id', 'name', 'region_id'])
+                ->with(['residence' => function ($query) {
+                    $query->select(['id', 'name', 'region_id']);
 
-            $cities = $this->model->where([['region_id', '=', $id],
-                ['status', '=', 'city']],
-                ['name', 'id']);
-            $territories = $this->model->where([['region_id', '=', $id],
-                ['status', '=', 'territory']],
-                ['name', 'id']);
-//
-            return response()->json(['cities' => $cities, 'territories' => $territories]);
+                }])
+                ->where('region_id', $id)
+                ->get();
+            return response()->json(['territories' => $territories]);
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);

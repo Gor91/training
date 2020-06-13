@@ -2052,6 +2052,85 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Banner.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Banner.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      image_src: '/css/frontend/img/logo.png'
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Contact.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Contact.vue?vue&type=script&lang=js& ***!
@@ -2401,41 +2480,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2457,12 +2501,8 @@ __webpack_require__.r(__webpack_exports__);
         workplace_name: '',
         h_region: '',
         w_region: '',
-        h_city: '',
-        w_city: '',
         h_territory: '',
         w_territory: '',
-        w_village: '',
-        h_village: '',
         w_street: '',
         h_street: '',
         profession: '',
@@ -2474,13 +2514,10 @@ __webpack_require__.r(__webpack_exports__);
       },
       files: [],
       regions: [],
-      w_cities: [],
-      h_cities: [],
       w_territories: [],
       h_territories: [],
-      w_villages: [],
-      h_villages: [],
       educations: [],
+      professions: [],
       specialties: [],
       openDate: new Date('January 31 1980'),
       error: null
@@ -2489,8 +2526,8 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.getAccountInfo();
     this.getRegions();
+    this.getProfessions();
     this.getEducations();
-    this.getSpecialties();
   },
   methods: {
     getEducations: function getEducations() {
@@ -2504,10 +2541,11 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    getSpecialties: function getSpecialties() {
+    getSpecialties: function getSpecialties(id) {
       var _this2 = this;
 
-      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["specialty"])().then(function (res) {
+      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["specialty"])(id).then(function (res) {
+        _this2.$refs.spec.style.border = '1px solid #9f12ad';
         _this2.specialties = res.spec;
       })["catch"](function (error) {
         _this2.$store.commit("getContentFailed", {
@@ -2526,37 +2564,25 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    getTerritory: function getTerritory(id, prefix) {
+    getProfessions: function getProfessions() {
       var _this4 = this;
 
-      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["territory"])(id).then(function (res) {
-        if (prefix === 'w') {
-          _this4.$refs.w_city.style.border = '1px solid #9f12ad';
-          _this4.$refs.w_territory.style.border = '1px solid #9f12ad';
-          _this4.w_cities = res.cities;
-          _this4.w_territories = res.territories;
-        } else {
-          _this4.$refs.h_city.style.border = '1px solid #9f12ad';
-          _this4.$refs.h_territory.style.border = '1px solid #9f12ad';
-          _this4.h_cities = res.cities;
-          _this4.h_territories = res.territories;
-        }
+      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["profession"])().then(function (res) {
+        _this4.professions = res.prof;
       })["catch"](function (error) {
         _this4.$store.commit("getContentFailed", {
           error: error
         });
       });
     },
-    getVillage: function getVillage(id, prefix) {
+    getTerritory: function getTerritory(id, prefix) {
       var _this5 = this;
 
-      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["village"])(id).then(function (res) {
+      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["territory"])(id).then(function (res) {
         if (prefix === 'w') {
-          _this5.$refs.w_village.style.border = '1px solid #9f12ad';
-          _this5.w_villages = res.villages;
+          _this5.w_territories = res.territories;
         } else {
-          _this5.$refs.h_village.style.border = '1px solid #9f12ad';
-          _this5.h_villages = res.villages;
+          _this5.h_territories = res.territories;
         }
       })["catch"](function (error) {
         _this5.$store.commit("getContentFailed", {
@@ -2578,14 +2604,13 @@ __webpack_require__.r(__webpack_exports__);
         var w_address = JSON.parse(obj.user.work_address);
         var h_address = JSON.parse(obj.user.home_address);
         var diplomas = JSON.parse(obj.user.diplomas);
+        console.log(h_address);
         _this6.$data.formEdit = obj.user;
         _this6.$data.formEdit.w_region = w_address.w_region;
-        _this6.$data.formEdit.w_city = w_address.w_city;
-        _this6.$data.formEdit.w_village = w_address.w_village;
+        _this6.$data.formEdit.w_territory = w_address.w_territory;
         _this6.$data.formEdit.w_street = w_address.w_street;
         _this6.$data.formEdit.h_region = h_address.h_region;
-        _this6.$data.formEdit.h_city = h_address.h_city;
-        _this6.$data.formEdit.h_village = h_address.h_village;
+        _this6.$data.formEdit.h_territory = h_address.h_territory;
         _this6.$data.formEdit.h_street = h_address.h_street;
         _this6.$data.formEdit.diplomas = diplomas;
         _this6.$data.formEdit.token = token;
@@ -2657,24 +2682,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    isHomeCityRequired: function isHomeCityRequired() {
-      if (this.$data.formEdit.h_territory === '') return true;
-      return false;
-    },
-    isWorkCityRequired: function isWorkCityRequired() {
-      if (this.$data.formEdit.w_territory === '') return true;
-      return false;
-    },
-    isHomeTerritoryRequired: function isHomeTerritoryRequired() {
-      if (this.$data.formEdit.h_city === '') return true; // cellphone is required
-
-      return false;
-    },
-    isWorkTerritoryRequired: function isWorkTerritoryRequired() {
-      if (this.$data.formEdit.w_city === '') return true; // cellphone is required
-
-      return false;
-    },
     editError: function editError() {
       return this.$store.getters.editError;
     }
@@ -2903,36 +2910,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3037,10 +3014,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header.vue */ "./resources/js/components/Header.vue");
-/* harmony import */ var _Home_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Home.vue */ "./resources/js/components/Home.vue");
+/* harmony import */ var _Banner_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Banner.vue */ "./resources/js/components/Banner.vue");
 /* harmony import */ var _Secondscreen_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Secondscreen.vue */ "./resources/js/components/Secondscreen.vue");
 /* harmony import */ var _TemReg_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TemReg.vue */ "./resources/js/components/TemReg.vue");
 /* harmony import */ var _Footer_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Footer.vue */ "./resources/js/components/Footer.vue");
+//
 //
 //
 //
@@ -3063,7 +3041,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'main-App',
   components: {
     Header: _Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Home: _Home_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Banner: _Banner_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Secondscreen: _Secondscreen_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     TemReg: _TemReg_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     Footer: _Footer_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
@@ -3504,41 +3482,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3561,12 +3504,8 @@ __webpack_require__.r(__webpack_exports__);
         regions: '',
         h_region: '',
         w_region: '',
-        h_city: '',
-        w_city: '',
         h_territory: '',
         w_territory: '',
-        w_village: '',
-        h_village: '',
         w_street: '',
         h_street: '',
         profession: '',
@@ -3579,12 +3518,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       files: [],
       regions: [],
-      w_cities: [],
-      h_cities: [],
       w_territories: [],
       h_territories: [],
-      w_villages: [],
-      h_villages: [],
+      professions: [],
       educations: [],
       specialties: [],
       openDate: new Date('January 31 1980'),
@@ -3593,8 +3529,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getRegions();
+    this.getProfessions();
     this.getEducations();
-    this.getSpecialties();
   },
   methods: {
     getEducations: function getEducations() {
@@ -3608,10 +3544,11 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    getSpecialties: function getSpecialties() {
+    getSpecialties: function getSpecialties(id) {
       var _this2 = this;
 
-      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["specialty"])().then(function (res) {
+      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["specialty"])(id).then(function (res) {
+        _this2.$refs.spec.style.border = '1px solid #9f12ad';
         _this2.specialties = res.spec;
       })["catch"](function (error) {
         _this2.$store.commit("getContentFailed", {
@@ -3630,37 +3567,25 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    getTerritory: function getTerritory(id, prefix) {
+    getProfessions: function getProfessions() {
       var _this4 = this;
 
-      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["territory"])(id).then(function (res) {
-        if (prefix === 'w') {
-          _this4.$refs.w_city.style.border = '1px solid #9f12ad';
-          _this4.$refs.w_territory.style.border = '1px solid #9f12ad';
-          _this4.w_cities = res.cities;
-          _this4.w_territories = res.territories;
-        } else {
-          _this4.$refs.h_city.style.border = '1px solid #9f12ad';
-          _this4.$refs.h_territory.style.border = '1px solid #9f12ad';
-          _this4.h_cities = res.cities;
-          _this4.h_territories = res.territories;
-        }
+      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["profession"])().then(function (res) {
+        _this4.professions = res.prof;
       })["catch"](function (error) {
         _this4.$store.commit("getContentFailed", {
           error: error
         });
       });
     },
-    getVillage: function getVillage(id, prefix) {
+    getTerritory: function getTerritory(id, prefix) {
       var _this5 = this;
 
-      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["village"])(id).then(function (res) {
+      Object(_partials_help__WEBPACK_IMPORTED_MODULE_1__["territory"])(id).then(function (res) {
         if (prefix === 'w') {
-          _this5.$refs.w_village.style.border = '1px solid #9f12ad';
-          _this5.w_villages = res.villages;
+          _this5.w_territories = res.territories;
         } else {
-          _this5.$refs.h_village.style.border = '1px solid #9f12ad';
-          _this5.h_villages = res.villages;
+          _this5.h_territories = res.territories;
         }
       })["catch"](function (error) {
         _this5.$store.commit("getContentFailed", {
@@ -3822,10 +3747,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      nurse: '/css/template/img/nurse.svg',
-      doctor: '/css/template/img/doctor.png',
-      pharmacy: '/css/template/img/pharmacy-symbol.svg',
-      phar: '/css/template/img/pharmacy.png'
+      nurse: '/css/frontend/img/nurse.svg',
+      doctor: '/css/frontend/img/doctor.png',
+      pharmacy: '/css/frontend/img/pharmacy-symbol.svg',
+      phar: '/css/frontend/img/pharmacy.png'
     };
   }
 });
@@ -51533,6 +51458,184 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Banner.vue?vue&type=template&id=3d01b757&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Banner.vue?vue&type=template&id=3d01b757& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid m-0 p-0" }, [
+    _c("header", { staticClass: "header_area" }, [
+      _c("nav", { staticClass: "navbar navbar-expand-lg navbar-light" }, [
+        _c("div", { staticClass: "container" }, [
+          _c(
+            "a",
+            {
+              staticClass: "navbar-brand logo_h",
+              attrs: { href: "index.html" }
+            },
+            [_c("img", { attrs: { src: _vm.image_src, alt: "" } })]
+          ),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "collapse navbar-collapse offset",
+              attrs: { id: "navbarSupportedContent" }
+            },
+            [
+              _c("ul", { staticClass: "nav navbar-nav menu_nav ml-auto" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  { staticClass: "nav-item" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "about" } }
+                      },
+                      [_vm._v("Մեր մասին")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  { staticClass: "nav-item" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "contact" } }
+                      },
+                      [_vm._v("Հետադարձ կապ")]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(3)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler",
+        attrs: {
+          type: "button",
+          "data-toggle": "collapse",
+          "data-target": "#navbarSupportedContent",
+          "aria-controls": "navbarSupportedContent",
+          "aria-expanded": "false",
+          "aria-label": "Toggle navigation"
+        }
+      },
+      [
+        _c("span", { staticClass: "icon-bar" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon-bar" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon-bar" })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item active" }, [
+      _c("a", { staticClass: "nav-link", attrs: { href: "index.html" } }, [
+        _vm._v("Գլխավոր")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c("a", { staticClass: "nav-link", attrs: { href: "lessons.html" } }, [
+        _vm._v("Դասընթացներ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "home_banner_area" }, [
+      _c("div", { staticClass: "banner_inner" }, [
+        _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-lg-6" }, [
+              _c("div", { staticClass: "banner_content" }, [
+                _c("h2", [
+                  _vm._v("\n                                We Rank the Best "),
+                  _c("br"),
+                  _vm._v(
+                    "\n                                Courses on the Web\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "\n                                In the history of modern astronomy, there is probably no one greater leap forward than the building and launch\n                                of\n                                the space telescope known as the Hubble.\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "search_course_wrap" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn search_course_btn",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Դասընթացներ")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Contact.vue?vue&type=template&id=4c2584f6&":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Contact.vue?vue&type=template&id=4c2584f6& ***!
@@ -52259,7 +52362,7 @@ var render = function() {
                     _vm._v("Work Address ")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "w_region" } }, [
                       _vm._v("Region")
                     ]),
@@ -52340,82 +52443,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "w_city" } }, [_vm._v("City")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: {
-                              rules: { required: this.isWorkCityRequired }
-                            },
-                            expression:
-                              "{ rules: { required: this.isWorkCityRequired}}"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.formEdit.w_city,
-                            expression: "formEdit.w_city"
-                          }
-                        ],
-                        ref: "w_city",
-                        staticClass: "form-control",
-                        class: {
-                          input: true,
-                          "is-invalid": _vm.errors.has("w_city")
-                        },
-                        attrs: { id: "w_city", name: "w_city" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.formEdit,
-                              "w_city",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.w_cities, function(city, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(_vm._s(city))
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("w_city"),
-                            expression: "errors.has('w_city')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("w_city")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "w_territory" } }, [
                       _vm._v("Territory")
                     ]),
@@ -52427,11 +52455,8 @@ var render = function() {
                           {
                             name: "validate",
                             rawName: "v-validate",
-                            value: {
-                              rules: { required: this.isWorkTerritoryRequired }
-                            },
-                            expression:
-                              "{ rules: { required: this.isWorkTerritoryRequired}}"
+                            value: "required",
+                            expression: "'required'"
                           },
                           {
                             name: "model",
@@ -52448,40 +52473,56 @@ var render = function() {
                         },
                         attrs: { id: "w_territory", name: "w_territory" },
                         on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.formEdit,
-                                "w_territory",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            function($event) {
-                              return _vm.getVillage(
-                                _vm.formEdit.w_territory,
-                                "w"
-                              )
-                            }
-                          ]
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.formEdit,
+                              "w_territory",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
                         }
                       },
-                      _vm._l(_vm.w_territories, function(territory, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(
-                            _vm._s(territory) +
-                              "\n                                "
-                          )
-                        ])
+                      _vm._l(_vm.w_territories, function(group, name) {
+                        return _c(
+                          "optgroup",
+                          { attrs: { label: group.name + "ի համայք" } },
+                          [
+                            _vm._l(group.residence, function(option, key) {
+                              return group.residence
+                                ? _c(
+                                    "option",
+                                    { domProps: { value: option.id } },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(option.name) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            }),
+                            _vm._v(" "),
+                            _c("option", { domProps: { value: group.id } }, [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(group.name) +
+                                  "\n                                    "
+                              )
+                            ])
+                          ],
+                          2
+                        )
                       }),
                       0
                     ),
@@ -52503,65 +52544,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "w_village" } }, [
-                      _vm._v("Village")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: "required",
-                            expression: "'required'"
-                          }
-                        ],
-                        ref: "w_village",
-                        staticClass: "form-control",
-                        attrs: { id: "w_village", name: "w_village" },
-                        on: {
-                          change: function($event) {
-                            return _vm.getVillage(_vm.formEdit.w_territory, "w")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                :class=\"{'input': true, 'is-invalid': errors.has('w_village') }\"\n                                v-model=\"formEdit.w_village\">\n                                "
-                        ),
-                        _vm._l(_vm.w_villages, function(village, key) {
-                          return _c("option", { domProps: { value: key } }, [
-                            _vm._v(
-                              _vm._s(village) +
-                                "\n                                "
-                            )
-                          ])
-                        })
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("w_village"),
-                            expression: "errors.has('w_village')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("w_village")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-12" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "w_street" } }, [
                       _vm._v("Street")
                     ]),
@@ -52627,7 +52610,7 @@ var render = function() {
                     _vm._v("Home Address ")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "h_region" } }, [
                       _vm._v("Region")
                     ]),
@@ -52708,82 +52691,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "h_city" } }, [_vm._v("City")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: {
-                              rules: { required: this.isHomeCityRequired }
-                            },
-                            expression:
-                              "{ rules: { required: this.isHomeCityRequired}}"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.formEdit.h_city,
-                            expression: "formEdit.h_city"
-                          }
-                        ],
-                        ref: "h_city",
-                        staticClass: "form-control",
-                        class: {
-                          input: true,
-                          "is-invalid": _vm.errors.has("h_city")
-                        },
-                        attrs: { id: "h_city", name: "h_city" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.formEdit,
-                              "h_city",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.h_cities, function(city, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(_vm._s(city))
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("h_city"),
-                            expression: "errors.has('h_city')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("h_city")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "h_territory" } }, [
                       _vm._v("Territory")
                     ]),
@@ -52795,11 +52703,8 @@ var render = function() {
                           {
                             name: "validate",
                             rawName: "v-validate",
-                            value: {
-                              rules: { required: this.isHomeTerritoryRequired }
-                            },
-                            expression:
-                              "{ rules: { required: this.isHomeTerritoryRequired}}"
+                            value: "required",
+                            expression: "'required'"
                           },
                           {
                             name: "model",
@@ -52816,40 +52721,56 @@ var render = function() {
                         },
                         attrs: { id: "h_territory", name: "h_territory" },
                         on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.formEdit,
-                                "h_territory",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            function($event) {
-                              return _vm.getVillage(
-                                _vm.formEdit.h_territory,
-                                "h"
-                              )
-                            }
-                          ]
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.formEdit,
+                              "h_territory",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
                         }
                       },
-                      _vm._l(_vm.h_territories, function(territory, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(
-                            _vm._s(territory) +
-                              "\n                                "
-                          )
-                        ])
+                      _vm._l(_vm.h_territories, function(group, name) {
+                        return _c(
+                          "optgroup",
+                          { attrs: { label: group.name + "ի համայք" } },
+                          [
+                            _vm._l(group.residence, function(option, key) {
+                              return group.residence
+                                ? _c(
+                                    "option",
+                                    { domProps: { value: option.id } },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(option.name) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            }),
+                            _vm._v(" "),
+                            _c("option", { domProps: { value: group.id } }, [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(group.name) +
+                                  "\n                                    "
+                              )
+                            ])
+                          ],
+                          2
+                        )
                       }),
                       0
                     ),
@@ -52871,84 +52792,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "h_village" } }, [
-                      _vm._v("Village")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: "required",
-                            expression: "'required'"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.formEdit.h_village,
-                            expression: "formEdit.h_village"
-                          }
-                        ],
-                        ref: "h_village",
-                        staticClass: "form-control",
-                        class: {
-                          input: true,
-                          "is-invalid": _vm.errors.has("h_village")
-                        },
-                        attrs: { id: "h_village", name: "h_village" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.formEdit,
-                              "h_village",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.h_villages, function(village, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(
-                            _vm._s(village) +
-                              "\n                                "
-                          )
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("h_village"),
-                            expression: "errors.has('h_village')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("h_village")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-12" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "h_street" } }, [
                       _vm._v("Street")
                     ]),
@@ -53041,23 +52885,28 @@ var render = function() {
                     },
                     attrs: { id: "profession", name: "profession" },
                     on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.formEdit,
-                          "profession",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.formEdit,
+                            "profession",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        function($event) {
+                          return _vm.getSpecialties(_vm.formRegister.profession)
+                        }
+                      ]
                     }
                   },
                   [
@@ -53065,22 +52914,13 @@ var render = function() {
                       _vm._v("Select a profession")
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "doctor" } }, [
-                      _vm._v("բժիշկ")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "nurse" } }, [
-                      _vm._v("բուժ․ քույր")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "pharmacist" } }, [
-                      _vm._v("դեղագործ")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "provider" } }, [
-                      _vm._v("դեղագետ")
-                    ])
-                  ]
+                    _vm._l(_vm.professions, function(prof, key) {
+                      return _c("option", { domProps: { value: key } }, [
+                        _vm._v(_vm._s(prof))
+                      ])
+                    })
+                  ],
+                  2
                 ),
                 _vm._v(" "),
                 _c(
@@ -54006,167 +53846,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("header", { staticClass: "header_area" }, [
-      _c("nav", { staticClass: "navbar navbar-expand-lg navbar-light" }, [
-        _c("div", { staticClass: "container" }, [
-          _c(
-            "a",
-            {
-              staticClass: "navbar-brand logo_h",
-              attrs: { href: "index.html" }
-            },
-            [_c("img", { attrs: { src: _vm.image_src, alt: "" } })]
-          ),
-          _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "collapse navbar-collapse offset",
-              attrs: { id: "navbarSupportedContent" }
-            },
-            [
-              _c("ul", { staticClass: "nav navbar-nav menu_nav ml-auto" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "li",
-                  { staticClass: "nav-item" },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "nav-link",
-                        attrs: { to: { name: "about" } }
-                      },
-                      [_vm._v("Մեր մասին")]
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "li",
-                  { staticClass: "nav-item" },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "nav-link",
-                        attrs: { to: { name: "contact" } }
-                      },
-                      [_vm._v("Հետադարձ կապ")]
-                    )
-                  ],
-                  1
-                )
-              ])
-            ]
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _vm._m(3)
-  ])
+  return _c("div")
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "navbar-toggler",
-        attrs: {
-          type: "button",
-          "data-toggle": "collapse",
-          "data-target": "#navbarSupportedContent",
-          "aria-controls": "navbarSupportedContent",
-          "aria-expanded": "false",
-          "aria-label": "Toggle navigation"
-        }
-      },
-      [
-        _c("span", { staticClass: "icon-bar" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon-bar" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon-bar" })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item active" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "index.html" } }, [
-        _vm._v("Գլխավոր")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "lessons.html" } }, [
-        _vm._v("Դասընթացներ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid banner" }, [
-      _c("section", { staticClass: "home_banner_area" }, [
-        _c("div", { staticClass: "banner_inner" }, [
-          _c("div", { staticClass: "container" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-6" }, [
-                _c("div", { staticClass: "banner_content" }, [
-                  _c("h2", [
-                    _vm._v(
-                      "\n                                       We Rank the Best "
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n                                       Courses on the Web\n                                   "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "\n                                       In the history of modern astronomy, there is probably no one greater leap forward than the building and launch\n                                       of\n                                       the space telescope known as the Hubble.\n                                   "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "search_course_wrap" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn search_course_btn",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Դասընթացներ")]
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -54345,7 +54027,7 @@ var render = function() {
     [
       _c("Header"),
       _vm._v(" "),
-      _c("Home"),
+      _c("Banner"),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [_c("router-view")], 1),
       _vm._v(" "),
@@ -55320,7 +55002,7 @@ var render = function() {
                     _vm._v("Work Address ")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "w_region" } }, [
                       _vm._v("Region")
                     ]),
@@ -55401,79 +55083,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "w_city" } }, [_vm._v("City")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: "required",
-                            expression: "'required'"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.formRegister.w_city,
-                            expression: "formRegister.w_city"
-                          }
-                        ],
-                        ref: "w_city",
-                        staticClass: "form-control",
-                        class: {
-                          input: true,
-                          "is-invalid": _vm.errors.has("w_city")
-                        },
-                        attrs: { id: "w_city", name: "w_city" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.formRegister,
-                              "w_city",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.w_cities, function(city, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(_vm._s(city))
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("w_city"),
-                            expression: "errors.has('w_city')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("w_city")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "w_territory" } }, [
                       _vm._v("Territory")
                     ]),
@@ -55503,40 +55113,56 @@ var render = function() {
                         },
                         attrs: { id: "w_territory", name: "w_territory" },
                         on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.formRegister,
-                                "w_territory",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            function($event) {
-                              return _vm.getVillage(
-                                _vm.formRegister.w_territory,
-                                "w"
-                              )
-                            }
-                          ]
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.formRegister,
+                              "w_territory",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
                         }
                       },
-                      _vm._l(_vm.w_territories, function(territory, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(
-                            _vm._s(territory) +
-                              "\n                                "
-                          )
-                        ])
+                      _vm._l(_vm.w_territories, function(group, name) {
+                        return _c(
+                          "optgroup",
+                          { attrs: { label: group.name + "ի համայք" } },
+                          [
+                            _vm._l(group.residence, function(option, key) {
+                              return group.residence
+                                ? _c(
+                                    "option",
+                                    { domProps: { value: option.id } },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(option.name) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            }),
+                            _vm._v(" "),
+                            _c("option", { domProps: { value: group.id } }, [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(group.name) +
+                                  "\n                                    "
+                              )
+                            ])
+                          ],
+                          2
+                        )
                       }),
                       0
                     ),
@@ -55558,84 +55184,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "w_village" } }, [
-                      _vm._v("Village")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: "required",
-                            expression: "'required'"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.formRegister.w_village,
-                            expression: "formRegister.w_village"
-                          }
-                        ],
-                        ref: "w_village",
-                        staticClass: "form-control",
-                        class: {
-                          input: true,
-                          "is-invalid": _vm.errors.has("w_village")
-                        },
-                        attrs: { id: "w_village", name: "w_village" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.formRegister,
-                              "w_village",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.w_villages, function(village, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(
-                            _vm._s(village) +
-                              "\n                                "
-                          )
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("w_village"),
-                            expression: "errors.has('w_village')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("w_village")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-12" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "w_street" } }, [
                       _vm._v("Street")
                     ]),
@@ -55701,7 +55250,7 @@ var render = function() {
                     _vm._v("Home Address ")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "h_region" } }, [
                       _vm._v("Region")
                     ]),
@@ -55782,79 +55331,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "h_city" } }, [_vm._v("City")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: "required",
-                            expression: "'required'"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.formRegister.h_city,
-                            expression: "formRegister.h_city"
-                          }
-                        ],
-                        ref: "h_city",
-                        staticClass: "form-control",
-                        class: {
-                          input: true,
-                          "is-invalid": _vm.errors.has("h_city")
-                        },
-                        attrs: { id: "h_city", name: "h_city" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.formRegister,
-                              "h_city",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.h_cities, function(city, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(_vm._s(city))
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("h_city"),
-                            expression: "errors.has('h_city')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("h_city")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "h_territory" } }, [
                       _vm._v("Territory")
                     ]),
@@ -55884,40 +55361,56 @@ var render = function() {
                         },
                         attrs: { id: "h_territory", name: "h_territory" },
                         on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.formRegister,
-                                "h_territory",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            function($event) {
-                              return _vm.getVillage(
-                                _vm.formRegister.h_territory,
-                                "h"
-                              )
-                            }
-                          ]
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.formRegister,
+                              "h_territory",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
                         }
                       },
-                      _vm._l(_vm.h_territories, function(territory, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(
-                            _vm._s(territory) +
-                              "\n                                "
-                          )
-                        ])
+                      _vm._l(_vm.h_territories, function(group, name) {
+                        return _c(
+                          "optgroup",
+                          { attrs: { label: group.name + "ի համայք" } },
+                          [
+                            _vm._l(group.residence, function(option, key) {
+                              return group.residence
+                                ? _c(
+                                    "option",
+                                    { domProps: { value: option.id } },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(option.name) +
+                                          "\n                                    "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            }),
+                            _vm._v(" "),
+                            _c("option", { domProps: { value: group.id } }, [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(group.name) +
+                                  "\n                                    "
+                              )
+                            ])
+                          ],
+                          2
+                        )
                       }),
                       0
                     ),
@@ -55939,84 +55432,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-3" }, [
-                    _c("label", { attrs: { for: "h_village" } }, [
-                      _vm._v("Village")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: "required",
-                            expression: "'required'"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.formRegister.h_village,
-                            expression: "formRegister.h_village"
-                          }
-                        ],
-                        ref: "h_village",
-                        staticClass: "form-control",
-                        class: {
-                          input: true,
-                          "is-invalid": _vm.errors.has("h_village")
-                        },
-                        attrs: { id: "h_village", name: "h_village" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.formRegister,
-                              "h_village",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.h_villages, function(village, key) {
-                        return _c("option", { domProps: { value: key } }, [
-                          _vm._v(
-                            _vm._s(village) +
-                              "\n                                "
-                          )
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.errors.has("h_village"),
-                            expression: "errors.has('h_village')"
-                          }
-                        ],
-                        staticClass: "help is-danger"
-                      },
-                      [_vm._v(_vm._s(_vm.errors.first("h_village")))]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-lg-12" }, [
+                  _c("div", { staticClass: "form-group col-lg-4" }, [
                     _c("label", { attrs: { for: "h_street" } }, [
                       _vm._v("Street")
                     ]),
@@ -56109,23 +55525,28 @@ var render = function() {
                     },
                     attrs: { id: "profession", name: "profession" },
                     on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.formRegister,
-                          "profession",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.formRegister,
+                            "profession",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        function($event) {
+                          return _vm.getSpecialties(_vm.formRegister.profession)
+                        }
+                      ]
                     }
                   },
                   [
@@ -56133,22 +55554,13 @@ var render = function() {
                       _vm._v("Select a profession")
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "doctor" } }, [
-                      _vm._v("բժիշկ")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "nurse" } }, [
-                      _vm._v("բուժ․ քույր")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "pharmacist" } }, [
-                      _vm._v("դեղագործ")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "provider" } }, [
-                      _vm._v("դեղագետ")
-                    ])
-                  ]
+                    _vm._l(_vm.professions, function(prof, key) {
+                      return _c("option", { domProps: { value: key } }, [
+                        _vm._v(_vm._s(prof))
+                      ])
+                    })
+                  ],
+                  2
                 ),
                 _vm._v(" "),
                 _c(
@@ -56261,6 +55673,7 @@ var render = function() {
                         expression: "formRegister.specialty_id"
                       }
                     ],
+                    ref: "spec",
                     staticClass: "form-control",
                     class: {
                       input: true,
@@ -75895,6 +75308,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Banner.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Banner.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Banner_vue_vue_type_template_id_3d01b757___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Banner.vue?vue&type=template&id=3d01b757& */ "./resources/js/components/Banner.vue?vue&type=template&id=3d01b757&");
+/* harmony import */ var _Banner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Banner.vue?vue&type=script&lang=js& */ "./resources/js/components/Banner.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Banner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Banner_vue_vue_type_template_id_3d01b757___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Banner_vue_vue_type_template_id_3d01b757___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Banner.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Banner.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Banner.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Banner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Banner.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Banner.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Banner_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Banner.vue?vue&type=template&id=3d01b757&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Banner.vue?vue&type=template&id=3d01b757& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Banner_vue_vue_type_template_id_3d01b757___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Banner.vue?vue&type=template&id=3d01b757& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Banner.vue?vue&type=template&id=3d01b757&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Banner_vue_vue_type_template_id_3d01b757___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Banner_vue_vue_type_template_id_3d01b757___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Contact.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/Contact.vue ***!
@@ -76874,7 +76356,7 @@ function changePassword(id, credentials, token) {
 /*!***************************************!*\
   !*** ./resources/js/partials/help.js ***!
   \***************************************/
-/*! exports provided: education, specialty, region, territory, village */
+/*! exports provided: education, specialty, region, territory, profession */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76883,7 +76365,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "specialty", function() { return specialty; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "region", function() { return region; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "territory", function() { return territory; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "village", function() { return village; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "profession", function() { return profession; });
 function education() {
   return new Promise(function (res, rej) {
     axios.post('/api/edu').then(function (response) {
@@ -76893,9 +76375,9 @@ function education() {
     });
   });
 }
-function specialty() {
+function specialty(id) {
   return new Promise(function (res, rej) {
-    axios.post('/api/spec').then(function (response) {
+    axios.post('/api/spec/' + id).then(function (response) {
       res(response.data);
     })["catch"](function (err) {
       rej('An error occured.. try again later.');
@@ -76920,9 +76402,9 @@ function territory(id) {
     });
   });
 }
-function village(id) {
+function profession() {
   return new Promise(function (res, rej) {
-    axios.post('/api/village/' + id).then(function (response) {
+    axios.post('/api/prof/').then(function (response) {
       res(response.data);
     })["catch"](function (err) {
       rej('An error occured.. try again later.');

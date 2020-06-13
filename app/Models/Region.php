@@ -14,5 +14,13 @@ class Region extends Model
     protected $fillable = [
         'name', 'region_id', 'status',
     ];
+    public function residence()
+    {
+        return $this->hasMany(self::class, 'region_id');
+    }
 
+    public function territory()
+    {
+        return $this->belongsTo(self::class, 'region_id');
+    }
 }

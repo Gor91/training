@@ -35,7 +35,8 @@ Route::group(['middleware' => 'cors'], function () {
 
 Route::post('about', 'Frontend\PageController@about');
 Route::post('regions', 'Frontend\AddressController@index');
+Route::post('prof', 'Frontend\ExpertController@getProfession');
 Route::post('edu', 'Frontend\ExpertController@getEducation');
-Route::post('spec', 'Frontend\ExpertController@getSpecialty');
+Route::post('spec/{id}', 'Frontend\ExpertController@getSpecialty');
 Route::post('territory/{id}', 'Frontend\AddressController@getTerritories');
-Route::post('village/{id}', 'Frontend\AddressController@getVillages');
+
