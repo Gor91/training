@@ -1,0 +1,23 @@
+{
+
+  "name": "Անուն",
+  "surname": "Ազգանուն",
+  "fathername": "Հայրանուն",
+  "phone": "Հեռախոս",
+  "gender": "Սեռ",
+  "selectagender": "Ընտրել սեռը",
+  "male": "Արական",
+  "female": "Իգական",
+  "marriedstatus": "Ամուսնական կարգավիճակ",
+  "selectstatus": "Ընտրել կարգավիճակը",
+  "single": "Ամուսնացած",
+  "married": "Չամուսնացած",
+  "workplace": "Աշխատանքի վայրը",
+  "workaddress": "Աշխատանքային հասցե",
+  "region": "Մարզ",
+  "city": "Քաղաք",
+  "territory": "Համայնք",
+  "village": "Գյուղ",
+  "street":"Փողոց",
+  "homeaddress": "Բնակության հասցե"
+}
