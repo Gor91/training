@@ -2,31 +2,26 @@
     <div class="login row justify-content-center">
         <div class="col-md-6">
             <div v-if="registeredUser" class="text-success">Thank you {{registeredUser.name}}.You can now login</div>
-            <div class="card">
-                <div class="card-header">
-                   <h3>Login</h3> 
-                </div>
-                <div class="card-body">
-                    <form @submit.prevent="authenticate">
+           <div class="register_form">
+                    <h3>Գրանցվել</h3>
+                    <form @submit.prevent="authenticate" class="form_area">
                         <div class="form-group row" v-if="authError">
-                            <p class="error">
+                            <p class="error m-auto">
                                 {{authError}}
                             </p>
                         </div>
-                        <div class="form-group row">
-                            <label for="email">Email</label>
-                            <input id="email" type="email" class="form-control" v-model="formLogin.email" placeholder="Email address">
+                        <div class="row">
+                            <div class="col-lg-8 form_group m-auto">
+                            <input id="email" type="email" class="form-control p-4" v-model="formLogin.email" placeholder="էլ.հասցե">
+                            <input id="password" type="password" class="form-control p-4" v-model="formLogin.password" placeholder="Գաղտնաբառ">
+                             </div>
+                        <div class="col-lg-6 text-center m-auto">
+                            <input type="submit" value="Մուտք" class="btn primary-btn">
                         </div>
-                        <div class="form-group row">
-                            <label for="password">Password</label>
-                            <input id="password" type="password" class="form-control" v-model="formLogin.password" placeholder="password">
-                        </div>
-                        <div class="form-group row">
-                            <input type="submit" value="Login" class="btn btn-outline-primary ml-auto">
-                        </div>
-                    </form>
                 </div>
-            </div>
+                    </form>
+
+           </div>
         </div>
     </div>
 </template>

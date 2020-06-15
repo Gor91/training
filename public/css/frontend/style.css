@@ -1462,6 +1462,8 @@ button:focus {
     background: #fff;
     text-align: center;
     padding: 40px;
+    margin-top: 5%;
+    box-shadow: 0px 20px 50px rgba(0, 175, 224, 0.3);
 }
 
 @media (max-width: 991px) {
@@ -4639,7 +4641,12 @@ h6 {
 
 .login form {
     position: relative;
-    height: 1000px;
+    height: 300px;
+
+}
+.register form{
+    position: relative;
+    height: 650px;
 }
 
 .bio, .info, .edu {
@@ -4709,7 +4716,7 @@ h6 {
     content: '';
     width: 33.3%;
     height: 5rem;
-    background: #e392d6;
+    background: #9048F6;
     position: absolute;
     transition: .5s;
 }
@@ -4721,7 +4728,8 @@ input[name='tractor'] {
 .nav_label {
     /*width: 25%;*/
     float: left;
-    color: #e392d6;
+   /* color: #e392d6;*/
+    color: #771FF3;
     text-align: center;
     cursor: pointer;
     transition: .5s;

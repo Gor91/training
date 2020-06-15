@@ -38,6 +38,7 @@
                  </div>
              </div>
          </div>
+         <div class="container">
          <h4 class="title">Փաստաթղթեր</h4>
          <hr class="line">
          <div class="content">
@@ -47,6 +48,7 @@
                      <a class="primary-btn text-uppercase" href="#">Ներբեռնել</a>
                  </li>
              </ul>
+         </div>
          </div>
 
          <!--================ End About Area =================-->

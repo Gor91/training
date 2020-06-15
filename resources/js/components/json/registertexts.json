@@ -19,5 +19,15 @@
   "territory": "Համայնք",
   "village": "Գյուղ",
   "street":"Փողոց",
-  "homeaddress": "Բնակության հասցե"
+  "homeaddress": "Բնակության հասցե",
+  "serianumber": "Անձնագրի Սերիա",
+  "dateofissue": "Տրվել է",
+  "dateofexpire": "Վավերական է մինչև",
+  "birthday": "Ծննդյան տարեթիվ",
+
+  "profession": "Մասնագիտական խումբ",
+  "selectaprofession": "Ընտրել Մասնագիտություն",
+  "education": "Կրթություն",
+  "specialty": "Մասնագիտացում"
+
 }
