@@ -17,7 +17,7 @@ class CreateRegionsTable extends Migration
             $table->id();
             $table->string('name',255);
             $table->bigInteger('region_id')->unsigned()->nullable();
-            $table->enum('status',['region','city','territory','village']);
+            $table->enum('status',['region','territory','residence']);
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
         });

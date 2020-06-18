@@ -136,7 +136,7 @@
                                         v-validate="'required'"
                                         :class="{'input': true, 'is-invalid': errors.has('w_territory') }"
                                         v-model="formRegister.w_territory">
-                                    <optgroup v-for="(group, name) in w_territories" :label="group.name+ 'ի համայք'">
+                                    <optgroup v-for="(group, name) in w_territories" :label="group.name+ 'ի համայնք'">
                                         <option v-for="(option, key) in group.residence" v-if="group.residence"
                                                 :value="option.id">
                                             {{ option.name }}
@@ -452,7 +452,7 @@
             },
             getImagePreviews() {
                 for (let i = 0; i < this.files.length; i++) {
-                    if (/\.(jpe?g|png|gif)$/i.test(this.files[i].name)) {
+                    if (/\.(jpe?g|png|gif|pdf)$/i.test(this.files[i].name)) {
                         let reader = new FileReader();
 
                         reader.addEventListener("load", function () {

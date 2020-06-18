@@ -19,8 +19,8 @@ class CreateCoursesTable extends Migration
             $table->enum("status",['active', 'archive']);
             $table->date("duration_date");
             $table->integer("credit");
-            $table->timestamp("created_at");
-            $table->timestamps("updated_at");
+            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

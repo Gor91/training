@@ -1,11 +1,14 @@
 <?php
 return [
     'STORAGE_PATH' => '/app/public/',
+    'STORAGE' => '/storage',
     'AVATAR_PATH' => '/public/images/avatars/',
+    'AVATAR_PATH_UPLOADED' => '/images/avatars/',
     'USER_AVATAR_PATH' => '/app/public/uploads/users/',
     'DEFAULT_PATH' => '/images/avatars/default.jpg',
     'ADMIN_PATH' => '/public/admin/',
-    'DIPLOMA' => '/public/diploma/',
+    'DIPLOMA' => '/public/diplomas/',
+    'DIPLOMA_PATH' => '/storage/diplomas/',
     'REGIONS' => '/public/regions/',
     'APP' => '/app',
     'FILE_EX' => '.txt',

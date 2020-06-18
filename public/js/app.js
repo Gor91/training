@@ -3633,7 +3633,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this7 = this;
 
       var _loop = function _loop(i) {
-        if (/\.(jpe?g|png|gif)$/i.test(_this7.files[i].name)) {
+        if (/\.(jpe?g|png|gif|pdf)$/i.test(_this7.files[i].name)) {
           var reader = new FileReader();
           reader.addEventListener("load", function () {
             this.$refs['preview' + parseInt(i)][0].src = reader.result;
@@ -55135,7 +55135,7 @@ var render = function() {
                       _vm._l(_vm.w_territories, function(group, name) {
                         return _c(
                           "optgroup",
-                          { attrs: { label: group.name + "ի համայք" } },
+                          { attrs: { label: group.name + "ի համայնք" } },
                           [
                             _vm._l(group.residence, function(option, key) {
                               return group.residence

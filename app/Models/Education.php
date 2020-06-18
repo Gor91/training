@@ -15,4 +15,9 @@ class Education extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function prof()
+    {
+        return $this->hasOne('App\Models\Profession');
+    }
 }

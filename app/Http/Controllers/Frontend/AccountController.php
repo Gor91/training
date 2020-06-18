@@ -89,7 +89,6 @@ class AccountController extends Controller
 //            return response()->json(['success' => true, 'avatar' => $name, 200]);
             return $this->respondWithToken($request->token);
         }
-
     }
 
     public function updateProfile(AccountRequest $accountRequest,

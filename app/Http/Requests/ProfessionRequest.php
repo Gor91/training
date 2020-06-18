@@ -26,7 +26,7 @@ class ProfessionRequest extends FormRequest
         return [
             'specialty_id' => 'required|integer',
             'education_id' => 'required|integer',
-            'profession' => '|in:doctor, nurse, pharmacist, provider',
+            'profession' => 'required|integer',
             'palace' => 'required|bool|nullable',
             'diploma_1' => 'required|image',
         ];

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Education;
-use App\Models\Specialties;
+use App\Models\Specialty;
 use App\Models\SpecialtiesType;
 
 class ExpertController extends Controller
@@ -26,13 +26,13 @@ class ExpertController extends Controller
     {
         try {
             $spec = [];
-            $_spec = Specialties::where('type_id', $id)
+            $_spec = Specialty::where('type_id', $id)
                 ->whereNull('parent_id')
                 ->pluck('name', 'id');
             foreach ($_spec as $index => $item) {
                 //todo if Specialties is empty
 //                $spec[$index] = $item;
-                $s = Specialties::where('parent_id', $index)->pluck('name', 'id');
+                $s = Specialty::where('parent_id', $index)->pluck('name', 'id');
                 foreach ($s as $key => $value) {
                     $spec[$item][$key] = $value;
                 }
@@ -50,8 +50,7 @@ class ExpertController extends Controller
     {
         try {
             $prof = SpecialtiesType::pluck('name', 'id');
-
-//            return response()->json(['prof' => $prof]);
+            return response()->json(['prof' => $prof]);
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);

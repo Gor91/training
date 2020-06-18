@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'basic corporation') }}</title>
+    <title>{{ config('app.name', 'medical_training') }}</title>
 
     <meta name="description" content="Updates and statistics">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

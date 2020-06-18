@@ -13,25 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Clear route cache:
-Route::get('/route-cache', function() {
+Route::get('/route-cache', function () {
     $exitCode = \Illuminate\Support\Facades\Artisan::call('route:cache');
     return 'Routes cache cleared';
 });
 
 //Clear config cache:
-Route::get('/config-cache', function() {
+Route::get('/config-cache', function () {
     $exitCode = \Illuminate\Support\Facades\Artisan::call('config:cache');
     return 'Config cache cleared';
 });
 
 // Clear application cache:
-Route::get('/clear-cache', function() {
+Route::get('/clear-cache', function () {
     $exitCode = \Illuminate\Support\Facades\Artisan::call('cache:clear');
     return 'Application cache cleared';
 });
 
 // Clear view cache:
-Route::get('/view-clear', function() {
+Route::get('/view-clear', function () {
     $exitCode = \Illuminate\Support\Facades\Artisan::call('view:clear');
     return 'View cache cleared';
 });
@@ -78,7 +78,14 @@ Route::resource('/backend/courses/', 'Backend\CoursesController');
 Route::post('upload', "Backend\CoursesController@fileUpload");
 Route::get('backend/courses/getSpecialities/', "Backend\CoursesController@getSpecialities");
 
+//accounts
+Route::resource('/backend/accounts', 'Backend\AccountController');
 //generate pdf
 Route::get('/backend/admin_gdPDF', 'Backend\AdminController@gdPDF');
 Route::get('/backend/admin_gdExcel', 'Backend\AdminController@gdExcel');
+
+//settings
+Route::resource('/backend/messages', 'Backend\MessageController')->except(['destroy']);
 //    });
+
+

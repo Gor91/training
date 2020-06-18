@@ -36,9 +36,6 @@ class AdminController extends Controller
     public function index()
     {
         try {
-//            Storage::disk('local')->put('file.txt', 'Contents');
-            $f = (Storage::disk('local')->get('public/regions/region.php'));
-            dump(file((storage_path() . Config::get('constants.APP').'/regions/region.php')));
             $admins = $this->model->all();
             return view('backend.admin.index',
                 compact('admins'));

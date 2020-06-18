@@ -41,7 +41,6 @@ class AddressController extends Controller
             $territories = Region::select(['id', 'name', 'region_id'])
                 ->with(['residence' => function ($query) {
                     $query->select(['id', 'name', 'region_id']);
-
                 }])
                 ->where('region_id', $id)
                 ->get();

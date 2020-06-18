@@ -28,6 +28,7 @@ class Repository implements RepositoryInterface
     // update record in the database
     public function update(array $data, $id)
     {
+
         $record = $this->model->find($id);
 
         return $record->update($data);
@@ -65,7 +66,7 @@ class Repository implements RepositoryInterface
     // Eager load database relationships
     public function with($relations)
     {
-        return $this->model->with($relations);
+        return $this->model->with($relations)->get();
     }
 
     public function where($closure, array $pluck = null)

@@ -12,12 +12,14 @@ class Profession extends Model
      * @var array
      */
     protected $fillable = [
+        'account_id',
         'specialty_id',
         'education_id',
         'profession',
         'member_of_palace',
         'diplomas'
     ];
+
     /**
      * Get the user that owns the account.
      */
@@ -25,4 +27,21 @@ class Profession extends Model
     {
         return $this->belongsTo('App\Models\Account');
     }
+
+    /**
+     * Get the spec that owns the specialties.
+     */
+    public function spec()
+    {
+        return $this->belongsTo(Specialty::class, 'specialty_id');
+    }
+
+    /**
+     * Get the edu that owns the educations.
+     */
+    public function edu()
+    {
+        return $this->belongsTo(Education::class, 'education_id');
+    }
+
 }
