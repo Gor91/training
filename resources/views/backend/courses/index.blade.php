@@ -53,7 +53,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Անուն </th>
+                        <th>Անուն</th>
                         <th>Կարգավիճակ</th>
                         <th>Բալը</th>
                         <th>Պարունակություն</th>
@@ -72,11 +72,14 @@
                                 <td>{{$course->duration_date}}</td>
                                 <td>
                                     <div class="row justify-content-end">
-                                        <a href=""></a>
-                                        <a href=""
+                                        <a href="{{action('Backend\CoursesController@getCourse',$course->id)}}"
                                            class="btn btn-info kt-badge kt-badge--lg"
                                            data-toggle="m-tooltip" data-placement="top" data-original-title="Խմբագրել">
                                             <i class="la la-edit"></i>
+                                        </a>
+                                        <a href="{{action('Backend\CoursesController@destroy',$course->id)}}" class="btn btn-danger kt-badge kt-badge--lg"
+                                           data-toggle="m-tooltip" data-placement="top" data-original-title="Ջնջել">
+                                            <i class="la la-trash"></i>
                                         </a>
                                     </div>
                                 </td>
