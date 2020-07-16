@@ -95,3 +95,10 @@ table {
 .text-blue {
     color: #5867dd;
 }
+.dotted{
+    border-bottom: 1px dotted
+}
+.diploma{
+    max-width: 100%;
+    margin-top: 40px;
+   }

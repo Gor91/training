@@ -18,8 +18,6 @@ class CreateAccountsTable extends Migration
             $table->string('name', 127);
             $table->string('surname', 127);
             $table->string('father_name', 127);
-            $table->enum('gender', ['male', 'female']);
-            $table->enum('married_status', ['married', 'single']);
             $table->date('bday');
             $table->string('phone');
             $table->string('passport');
@@ -28,8 +26,8 @@ class CreateAccountsTable extends Migration
             $table->json('home_address');
             $table->json('work_address');
             $table->string('workplace_name');
-            $table->string('image_name');
-            $table->enum('role',['user', 'lecture']);
+            $table->string('image_name')->default('default.jpg');
+            $table->enum('role', ['user', 'lecture']);
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
         });

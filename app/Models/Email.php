@@ -17,17 +17,17 @@ class Email extends Authenticatable
      * @var array
      */
     protected $fillable = [
-       'resume_id', 'subject','message','created_by'
+       'account_id', 'subject','message','created_by'
     ];
     public function user()
     {
-        return $this->belongsTo(User::class,
+        return $this->belongsTo(Admin::class,
             'created_by','id');
     }
 
     public function resume()
     {
-        return $this->belongsTo(Resume::class,
-            'resume_id','id');
+        return $this->belongsTo(Account::class,
+            'account_id','id');
     }
 }

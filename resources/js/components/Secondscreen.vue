@@ -55,12 +55,14 @@
                  <div class="offset-lg-1 col-lg-5">
                      <div class="dpmt_right">
                          <h1>ԴԱՍԸՆԹԱՑՆԵՐՆ ԸՍՏ ՈՐՈԿԱՎՈՐՄԱՆ</h1>
-                         <p>There is a moment in the life of any aspiring astronomer that it is time to buy that first telescope. It’s
-                             exciting to think about setting up your own viewing station. In the life of any aspiring astronomer that it is
-                             time to buy that first telescope. It’s exciting to think about setting up your own viewing station.</p>
-                         <p>It’s exciting to think about setting up your own viewing station. In the life of any aspiring astronomer that
-                             it is time to buy that first telescope exciting is time to buy that first.</p>
-                         <a href="#" class="primary-btn text-uppercase search_course_btn">Դասընթացներ</a>
+                         <p>Բուժաշխատողների իրավունքները պաշտպանող, շարունակական մասնագիտական և այլ ծրագրեր իրականացնող մասնագիտական միություն:</p>
+                         <p>Ազգային Բժշկական Պալատը սկսում է Պալատին անդամակցած բժշկական կենտրոններում կրթական լայնածավալ
+                             ծրագրերի իրականացման գործընթաց։ Ուստի առաջարկում ենք այն բժշկական կենտրոններին և մասնագիտական
+                             ասոցիացիաներին, ովքեր ասելիք և անելիք ունեն կիրթ, պաշտպանված ու բանիմաց բուժաշխատողի կերտման
+                             շարունակական գործընթացում՝ արձագանքել համատեղ ծրագրերի իրականացման համար։ Երկու նման մասնագիտական
+                             ասոցիացիայի հետ համատեղ ծրագրեր մշակման փուլում են, որի մասին կհայտարարենք առաջիկայում։</p>
+                         <router-link :to="{ name: 'lesson' }" class="primary-btn text-uppercase search_course_btn">
+                             Դասընթացներ</router-link>
                      </div>
                  </div>
              </div>

@@ -83,9 +83,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::where('account_id', $id)->first();
+        dd($user->id);
         try {
             $this->model->update(['status' => "approved"], $user->id);
-            $user->notify(new ApprovedUser());
+            $user->notify(new ApprovedUser($user));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);

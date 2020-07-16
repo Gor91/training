@@ -39,11 +39,11 @@ $(document).ready(function () {
         }
     }).api();
 
-    t.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
+    t.on('order.dt search.dt', function () {
+        t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
 
 
     $(document).on("click", ".delete", function (e) {
@@ -97,12 +97,84 @@ $(document).ready(function () {
                     });
                     // } else {
                     //     this.element.parent().submit();
-                }else
+                } else
                     $(this).parent().submit();
             }
         });
     });
+    $(document).on('change', "#w_region, #h_region", function () {
 
+        $region_id = $(this).val();
+        $.ajax({
+            url: '/territory',
+            type: 'POST',
+            context: {element: $(this)},
+            data: {_token: CSRF_TOKEN, id: $region_id},
+            dataType: 'JSON',
+            success: function (data) {
+                $id = this.element.attr('id');
+                $territory = ($id === "h_region") ? '#h_territory' : '#w_territory';
+                $sub = this.element.parent().parent().next().find($territory);
+                console.log($sub.find('optgroup').length);
+                if ($sub.find('optgroup').length > 0)
+                    $sub.find('optgroup').remove();
+
+
+                for (var i in data) {
+                    if (data.hasOwnProperty(i)) {
+                        for (var item of data[i]) {
+                            $sub.append(' <optgroup class="text-capitalize" label="' + item.name + 'ի համայնք" id="' + item.id + '"></optgroup>');
+
+                            if (item.residence.length !== 0) {
+                                for (var r of item.residence)
+
+                                    $sub.find('#' + item.id).append(' <option class="text-capitalize" value="' + r.id + '">' + r.name + '</option>')
+                            } else
+                                $sub.find('#' + item.id).append(' <option class="text-capitalize" value="' + item.id + '">' + item.name + '</option>')
+
+
+                        }
+                    }
+
+                }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+    });
+    $(document).on('change', "#prof", function () {
+        $spec_id = $(this).val();
+        $.ajax({
+            url: '/spec',
+            type: 'POST',
+            context: {element: $(this)},
+            data: {_token: CSRF_TOKEN, id: $spec_id},
+            dataType: 'JSON',
+            success: function (data) {
+                $sub = this.element.parent().parent().next().find('#specialty_id');
+                alert($sub.find('option').length)
+
+                if ($sub.find('optgroup').length >0)
+                    $sub.html("");
+
+                for (var i in data.spec) {
+                    $sub.append(' <optgroup class="text-capitalize" label="' + i + '" id="spec"></optgroup>');
+
+                    for (var item in data.spec[i]) {
+                        $sub.find("#spec").append(' <option class="text-capitalize" value="' + item + '">' + data.spec[i][item] + '</option>')
+
+                        // }
+                    }
+                }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+    })
 });
 
 

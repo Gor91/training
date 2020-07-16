@@ -66,7 +66,7 @@ class Repository implements RepositoryInterface
     // Eager load database relationships
     public function with($relations)
     {
-        return $this->model->with($relations)->get();
+        return $this->model->with($relations);
     }
 
     public function where($closure, array $pluck = null)

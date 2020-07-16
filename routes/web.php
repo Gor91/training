@@ -48,17 +48,13 @@ Route::get('/contact', 'Frontend\PageController@get');
 \Illuminate\Support\Facades\Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/(any)', 'Frontend\SingleController@index')->where('any', '.*');
-Route::get('(any)', function () {
-    return view('welcome');
-}
-)->where('any', '.*');
+
 
 //backend
 //Route::prefix('/backend')->
 //name('backend.')
 //    ->namespace('Auth')->group(function () {
-Route::get('password/request', 'Auth\ForgotPasswordController@sendResetLinkEmail')
+Route::get('/backend/password/request', 'Auth\ForgotPasswordController@showLinkRequestForm')
     ->name('password.request');
 //Route::get('/home', 'Frontend\HomeController@index')->name('home');
 Route::get('/backend', 'Auth\LoginController@showLoginForm')->name('login');
@@ -79,13 +75,30 @@ Route::post('upload', "Backend\CoursesController@fileUpload");
 Route::get('backend/courses/getSpecialities/', "Backend\CoursesController@getSpecialities");
 
 //accounts
-Route::resource('/backend/accounts', 'Backend\AccountController');
+Route::get('/backend/account/{role}', 'Backend\AccountController@index', ['only' => [
+    'index'
+]])->where('role', 'user|lecture');
+Route::get('/backend/account/create', 'Backend\AccountController@create');
+Route::post('/backend/account/{role}', 'Backend\AccountController@store')->name('account.store');
+Route::match(['put', 'patch'],'/backend/account/{id}', 'Backend\AccountController@update')->name('account.update');
+Route::get('/backend/account/{id}', 'Backend\AccountController@show')->name('account.show');
+Route::delete('/backend/account/{id}', 'Backend\AccountController@destroy')->name('account.destroy');
+Route::get('/backend/account/{id}/edit', 'Backend\AccountController@edit')->name('account.edit');
+
+Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
 //generate pdf
 Route::get('/backend/admin_gdPDF', 'Backend\AdminController@gdPDF');
 Route::get('/backend/admin_gdExcel', 'Backend\AdminController@gdExcel');
 
 //settings
-Route::resource('/backend/messages', 'Backend\MessageController')->except(['destroy']);
+Route::resource('/backend/message', 'Backend\MessageController')->except(['destroy']);
+Route::get('/backend/account_gdPDF/{id}', 'Backend\AccountController@gdPDF');
+
 //    });
 
+//ajax
 
+Route::post('/territory', 'Backend\AccountController@getTerritory');
+Route::post('/spec', 'Backend\AccountController@getSpecialty');
+Route::post('/backend/ajaxImageUpload', 'Backend\BaseController@ajaxImageUpload');
+Route::delete('/backend/ajaxRemoveImage', 'Backend\BaseController@ajaxRemoveImage');

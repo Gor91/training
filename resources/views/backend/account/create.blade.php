@@ -48,7 +48,7 @@
                                 <div class="kt-portlet__head-wrapper">
                                     <div class="kt-portlet__head-actions">
                                         &nbsp;
-                                        <a href="{{action('Backend\AdminController@index')}}"
+                                        <a href="{{action('Backend\AccountController@index','lecture')}}"
                                            class="btn btn-warning btn-sm ">
                                             <i class="la la-undo"></i>
                                             {{__('messages.back')}}
@@ -58,79 +58,298 @@
                             </div>
                         </div>
 
-                        <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v3__wrapper">
+                        <div class="kt-portlet kt-portlet--tabs">
+                            <div class="kt-portlet__head">
+                                <div class="kt-portlet__head-toolbar offset-lg-2 col-lg-8">
+                                    <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-right " role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab"
+                                               href="#kt_portlet_base_demo_1_tab_content" role="tab">
+                                                <i class="flaticon2-information"></i> {{__('messages.info')}}
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab"
+                                               href="#kt_portlet_base_demo_2_tab_content"
+                                               role="tab">
+                                                <i class="flaticon-home-2"></i> {{__('messages.address')}}
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab"
+                                               href="#kt_portlet_base_demo_3_tab_content"
+                                               role="tab">
+                                                <i class="flaticon2-notepad"></i> {{__('messages.education')}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="kt-portlet__body">
+                                <form class="tab-content kt-form offset-lg-2 col-lg-8" id="kt_form" method="post"
+                                      enctype="multipart/form-data"
+                                      action="{{ action('Backend\AccountController@store','lecture')}}">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="POST">
+                                    <div class="tab-pane active" id="kt_portlet_base_demo_1_tab_content"
+                                         role="tabpanel">
+                                        <div class="kt-form__section kt-form__section--first">
+                                            <div class="kt-wizard-v3__form">
+                                                <div class="form-group row">
+                                                    <label for="name"
+                                                           class="col-lg-2 col-form-label">{{__('messages.name').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="name" type="text" name="name"
+                                                               class="form-control" value="{{old('name')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="surname"
+                                                           class="col-lg-2 col-form-label">{{__('messages.surname').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="surname" type="text" name="surname"
+                                                               class="form-control" value="{{old('surname')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="father_name"
+                                                           class="col-lg-2 col-form-label">{{__('messages.father_name').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="father_name" type="text" name="father_name"
+                                                               class="form-control" value="{{old('father_name')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="phone"
+                                                           class="col-lg-2 col-form-label">{{__('messages.phone').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="phone" type="text" name="phone"
+                                                               class="form-control" value="{{old('phone')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="email"
+                                                           class="col-lg-2 col-form-label">{{__('messages.email').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="email" type="email" name="email"
+                                                               class="form-control" value="{{old('email')}}">
 
-                            <!--begin: Form Wizard Form-->
-                            <form class="kt-form" id="kt_form" method="post" enctype="multipart/form-data"
-                                  action="{{ action('Backend\AdminController@store')}}">
-                            @csrf
-                            {{--                            <input name="_method" type="hidden" value="PATCH">--}}
-                            <!--begin: Form Wizard Step 1-->
-                                <div id="kt-wizard_general" class="kt-wizard-v3__content"
-                                     data-ktwizard-type="step-content"
-                                     data-ktwizard-state="current">
+                                                    </div>
+                                                </div>
 
-                                    <div class="kt-form__section kt-form__section--first">
-                                        <div class="kt-wizard-v3__form">
-                                            <div class="form-group row">
-                                                <label for="first_name" class="col-lg-2 col-form-label">{{__('messages.name')}}*</label>
-                                                <div class="col-lg-10">
-
-                                                    <input id="name" type="text" name="name"
-                                                           class="form-control" value="{{old('name')}}">
+                                                <div class="form-group row date">
+                                                    <label for="bday"
+                                                           class="col-lg-2 col-form-label">{{__('messages.bday').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="bday" type="date" name="bday"
+                                                               value="{{old('bday')}}" class="form-control">
+                                                    </div>
 
                                                 </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="email" class="col-lg-2 col-form-label">{{__('messages.email')}}*</label>
-                                                <div class="col-lg-10">
-                                                    <input id="email" type="email" name="email"
-                                                           class="form-control" value="{{old('email')}}">
-
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="password" class="col-lg-2 col-form-label">{{__('messages.password')}}</label>
-                                                <div class="col-lg-10">
-                                                    <input id="password" type="password" name="password"
-                                                           class="form-control">
-                                                    <span class="form-text text-muted">{{__('messages.complete_pass')}}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="c_password" class="col-lg-2 col-form-label">{{__('messages.confirm')}}</label>
-                                                <div class="col-lg-10">
-                                                    <input id="c_password" type="password" name="password_confirmation"
-                                                           class="form-control">
-                                                    <span class="form-text text-muted">{{__('messages.complete_pass')}}</span>
+                                                <div class="form-group row date">
+                                                    <label for="passport"
+                                                           class="col-lg-2 col-form-label">{{__('messages.passport').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="passport" type="text" name="passport"
+                                                               value="{{old('passport')}}" class="form-control">
+                                                    </div>
 
                                                 </div>
+                                                <div class="form-group row date">
+                                                    <label for="date_of_issue"
+                                                           class="col-lg-2 col-form-label">{{__('messages.date_of_issue').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="date_of_issue" type="date" name="date_of_issue"
+                                                               class="form-control" value="{{old('date_of_issue')}}">
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group row date">
+                                                    <label for="date_of_expiry"
+                                                           class="col-lg-2 col-form-label">{{__('messages.date_of_expiry').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="date_of_expiry" type="date" name="date_of_expiry"
+                                                               class="form-control" value="{{old('date_of_expiry')}}">
+                                                    </div>
+
+                                                </div>
 
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="tab-pane" id="kt_portlet_base_demo_2_tab_content"
+                                         role="tabpanel">
+                                        <div class="kt-form__section kt-form__section--first">
+                                            <div class="kt-wizard-v3__form">
+                                                <h4 class="form-group row">{{__('messages.work_address')}}</h4>
+                                                <div class="form-group row">
+                                                    <label for="workplace_name"
+                                                           class="col-lg-2 col-form-label">{{__('messages.workplace_name').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="workplace_name" type="text" name="workplace_name"
+                                                               value="{{old('workplace_name')}}"
+                                                               class="form-control">
 
-                                <!--end: Form Wizard Step 1-->
+                                                    </div>
+                                                </div>
 
-                                <div class="kt-form__actions text-right float-lg-right">
-                                    <button type="submit"
-                                            class="btn btn-primary">{{__('messages.save')}}</button>
-                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label"
+                                                           for="w_region">{{__('messages.region').'*'}}</label>
+                                                    <div class="col-lg-10">
+                                                        <select id="w_region" name="w_region" class="form-control">
+                                                            <option value="">{{__('messages.select_region')}}</option>
+                                                            @foreach($regions->regions as $key=>$region)
 
-                                <!--end: Form Actions -->
-                            </form>
+                                                                <option value="@if(!empty(old('w_region'))){{old('w_region')}} @else{{$key}}@endif">
+                                                                    {{$region}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="w_territory"
+                                                           class="col-lg-2 col-form-label">{{__('messages.territory')}}</label>
+                                                    <div class="col-lg-10">
+                                                        <select id="w_territory" name="w_territory"
+                                                                class="form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="w_street"
+                                                           class="col-lg-2 col-form-label">{{__('messages.street')}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="w_street" type="text" name="w_street"
+                                                               class="form-control" value="{{old('w_street')}}">
 
-                            <!--end: Form Wizard Form-->
+                                                    </div>
+                                                </div>
+
+                                                <h4 class="form-group row">{{__('messages.home_address')}}</h4>
+
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label"
+                                                           for="h_region">{{__('messages.region')}}</label>
+                                                    <div class="col-lg-10">
+                                                        <select id="h_region" name="h_region" class="form-control">
+                                                            <option value="">{{__('messages.select_region')}}</option>
+                                                            @foreach($regions->regions as $key=>$region)
+                                                                <option value="@if(!empty(old('h_region'))){{old('h_region')}} @else{{$key}}@endif">
+                                                                    {{$region}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="h_territory"
+                                                           class="col-lg-2 col-form-label">{{__('messages.territory')}}</label>
+                                                    <div class="col-lg-10">
+                                                        <select id="h_territory" name="h_territory"
+                                                                class="form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="h_street"
+                                                           class="col-lg-2 col-form-label">{{__('messages.street')}}</label>
+                                                    <div class="col-lg-10">
+                                                        <input id="h_street" type="text" name="h_street"
+                                                               class="form-control" value="{{old('h_street')}}">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="kt_portlet_base_demo_3_tab_content"
+                                         role="tabpanel">
+                                        <div class="kt-form__section kt-form__section--first">
+                                            <div class="kt-wizard-v3__form">
+                                                <h4 class="form-group row">{{__('messages.education')}}</h4>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label"
+                                                           for="prof">{{__('messages.prof')}}</label>
+                                                    <div class="col-lg-10">
+
+                                                        <select id="prof" name="profession" class="form-control">
+                                                            @if(!empty($prof))
+                                                                @foreach($prof as $key=>$p)
+                                                                    <option class="form-control" value="{{$key}}">
+                                                                        {{$p}}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label"
+                                                           for="specialty_id">{{__('messages.spec')}}</label>
+                                                    <div class="col-lg-10">
+                                                        <select id="specialty_id" name="specialty_id"
+                                                                class="form-control">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label"
+                                                           for="edu">{{__('messages.education')}}</label>
+                                                    <div class="col-lg-10">
+                                                        <select id="edu" name="education_id" class="form-control">
+                                                            @if(!empty($edu))
+                                                                @foreach($edu as $key=>$e)
+                                                                    <option class="form-control" value="{{$key}}">
+                                                                        {{$e}}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-6 col-form-label"
+                                                           for="member_of_palace">{{__('messages.member_of_palace')}}</label>
+                                                    <div class="col-lg-6">
+                                                        <input id="member_of_palace" type="checkbox"
+                                                               name="member_of_palace"
+                                                               value="{{old('member_of_palace')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-6 col-form-label"
+                                                           for="diploma">{{__('messages.diploma')}}</label>
+                                                    <div class="col-lg-6">
+                                                        <input id="diploma" type="file" name="diploma_1"
+                                                               value="{{old('diploma')}}" multiple="multiple">
+                                                    </div>
+                                                </div>
+
+                                                <div class="kt-form__actions text-right float-lg-right">
+                                                    <button type="submit"
+                                                            class="btn btn-primary">{{__('messages.save')}}</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end: Form Wizard Step 1-->
+
+
+                                    <!--end: Form Actions -->
+                                </form>
+                            </div>
                         </div>
                     </div>
+                    <!--end: Form Wizard Form-->
                 </div>
             </div>
         </div>
-        <!-- end:: Content -->
     </div>
+
+
 @endsection

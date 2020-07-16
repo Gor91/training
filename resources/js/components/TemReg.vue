@@ -7,8 +7,10 @@
                          <div class="row clock_sec clockdiv" id="clockdiv">
                              <div class="col-lg-12">
                                  <h1>Գրանցվեք հիմա</h1>
-                                 <p>There is a moment in the life of any aspiring astronomer that it is time to buy that first telescope. It’s
-                                     exciting to think about setting up your own viewing station.</p>
+                                 <p>Ազգային Բժշկական Պալատը սկսում է Պալատին անդամակցած բժշկական կենտրոններում կրթական լայնածավալ
+                                     ծրագրերի իրականացման գործընթաց։ Ուստի առաջարկում ենք այն բժշկական կենտրոններին և մասնագիտական
+                                     ասոցիացիաներին, ովքեր ասելիք և անելիք ունեն կիրթ, պաշտպանված ու բանիմաց բուժաշխատողի կերտման
+                                     շարունակական գործընթացում՝ արձագանքել համատեղ ծրագրերի իրականացման համար։ </p>
                              </div>
                              <div class="col clockinner1 clockinner">
                                  <h1 class="days">150</h1>
@@ -30,21 +32,22 @@
                      </div>
                      <div class="col-lg-4 offset-lg-1">
                          <div class="register_form">
-                             <h3>Մուտք</h3>
-                             <p>It is high time for learning</p>
+                             <h3>Ազգային բժշկական պալատ</h3>
+                             <p>Ժամանակն է սովորելու</p>
                              <form class="form_area" id="myForm" action="mail.html" method="post">
-                                 <div class="row">
+                                 <!--div class="row">
                                      <div class="col-lg-12 form_group">
                                          <input name="email" placeholder="էլ.հասցե" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
                                                 required="" type="email">
 
                                          <input name="password" placeholder="Գաղտնաբառ" required="" type="password">
-                                     </div>
+                                     </div-->
                                      <div class="col-lg-12 text-center">
-                                         <button class="primary-btn">Մուտք</button>
-                                         <button class="primary-btn">Գրանցվել</button>
+                                         <router-link to="/login" class="primary-btn">Մուտք</router-link>
+                                         <router-link to="/register" class="primary-btn">Գրանցվել</router-link>
+
                                      </div>
-                                 </div>
+                                 <!--/div-->
                              </form>
                          </div>
                      </div>

@@ -38,7 +38,7 @@
                                 <h3 class="kt-portlet__head-title ">
                                    <span class="kt-portlet__head-icon">
 											<i class="kt-font-brand flaticon-network"></i>
-                                    Խմբագրել&nbsp;&nbsp;<i>{{$user->first_name.' '.$user->last_name}}</i>
+                                    {{__('messages.edit')}}&nbsp;&nbsp;<i>{{$account->name.' '.$account->surname}}</i>
                                        </span>
                                 </h3>
                                 <span class="kt-portlet__head-icon">
@@ -49,10 +49,10 @@
                                 <div class="kt-portlet__head-wrapper">
                                     <div class="kt-portlet__head-actions">
                                         &nbsp;
-                                        <a href="{{action('Backend\UserController@index')}}"
+                                        <a href="{{action('Backend\AccountController@index', $account->role)}}"
                                            class="btn btn-warning btn-sm ">
                                             <i class="la la-undo"></i>
-                                            {{Lang::get('messages.back')}}
+                                            {{__('messages.back')}}
                                         </a>
                                     </div>
                                 </div>
@@ -65,14 +65,21 @@
                                         <li class="nav-item">
                                             <a class="nav-link active" data-toggle="tab"
                                                href="#kt_portlet_base_demo_1_tab_content" role="tab">
-                                                <i class="flaticon-cogwheel-2"></i> Ընդհանուր
+                                                <i class="flaticon2-information"></i> {{__('messages.info')}}
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab"
                                                href="#kt_portlet_base_demo_2_tab_content"
                                                role="tab">
-                                                <i class="flaticon-multimedia"></i> Իրավունքներ
+                                                <i class="flaticon-home-2"></i> {{__('messages.address')}}
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab"
+                                               href="#kt_portlet_base_demo_3_tab_content"
+                                               role="tab">
+                                                <i class="flaticon2-notepad"></i> {{__('messages.education')}}
                                             </a>
                                         </li>
                                     </ul>
@@ -80,7 +87,7 @@
                             </div>
                             <div class="kt-portlet__body">
                                 <form class="tab-content kt-form offset-lg-2 col-lg-8" id="kt_form" method="post"
-                                      action="{{ action('Backend\UserController@update', $user->id)}}">
+                                      action="{{ action('Backend\AccountController@update', $account->id)}}">
                                     @csrf
                                     <div class="tab-pane active" id="kt_portlet_base_demo_1_tab_content"
                                          role="tabpanel">
@@ -94,15 +101,15 @@
                                                             <div class="form-group row">
                                                                 <div class="kt-widget__media">
                                                                     @php
-                                                                        $img_path =storage_path().\Illuminate\Support\Facades\Config::get('constants.USER_AVATAR_PATH').$user->avatar;
+                                                                        $img_path =public_path().\Illuminate\Support\Facades\Config::get('constants.AVATAR_PATH').$account->image_name;
 
                                                                     @endphp
-                                                                    @if(!empty($user->avatar) && file_exists($img_path))
-                                                                        <img class="kt-widget__img "
-                                                                             src="{{asset('/storage'.\Illuminate\Support\Facades\Config::get('constants.USER_AVATAR_PATH').$user->avatar)}}"
+                                                                    @if(!empty($account->image_name && preg_match('/\d+/',$account->image_name)) )
+                                                                        <img class="kt-widget__img avatar"
+                                                                             src="{{asset(\Illuminate\Support\Facades\Config::get('constants.AVATAR_PATH').$account->image_name)}}"
                                                                              alt="image">
                                                                     @else
-                                                                        <img class="kt-widget__img "
+                                                                        <img class="kt-widget__img avatar"
                                                                              src="{{asset(\Illuminate\Support\Facades\Config::get('constants.DEFAULT_PATH'))}}"
                                                                              alt="image">
                                                                     @endif
@@ -115,7 +122,7 @@
                                                                        style="text-decoration: none;">
                                                                         <i class="flaticon2-edit"></i>
                                                                     </a>
-                                                                    @if(!empty($user->avatar))
+                                                                    @if(!empty($account->image_name))
                                                                         <a href="javascript:removeFile()"
                                                                            style="color: red;text-decoration: none;">
                                                                             <i class="flaticon2-delete"></i>
@@ -124,105 +131,109 @@
                                                                 </p>
                                                                 <input type="file" id="file" style="display: none"/>
                                                                 <input type="hidden" id="file_name"
-                                                                       value="{{$user->avatar}}">
-                                                                <input type="hidden" name="id" value="{{$user->id}}">
+                                                                       value="{{$account->image_name}}">
+                                                                <input type="hidden" name="id" value="{{$account->id}}">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="form-group row">
-                                                            <label for="first_name"
-                                                                   class="col-lg-2 col-form-label">Անուն*</label>
+                                                            <label for="name"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.name')."*"}}
+                                                            </label>
                                                             <div class="col-lg-10">
-                                                                <input type="hidden" name="id" value="{{$user->id}}">
-                                                                <input id="first_name" type="text" name="first_name"
+                                                                <input type="hidden" name="id" value="{{$account->id}}">
+                                                                <input id="name" type="text" name="name"
                                                                        class="form-control m-input"
-                                                                       placeholder="Enter First Name"
-                                                                       value="{{  $user->first_name}}">
+
+                                                                       value="{{  $account->name}}">
 
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
-                                                            <label for="last_name"
-                                                                   class="col-lg-2 col-form-label">Ազգանուն*</label>
+                                                            <label for="surname"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.surname')."*"}}
+                                                            </label>
                                                             <div class="col-lg-10">
-                                                                <input id="last_name" type="text" name="last_name"
+                                                                <input id="surname" type="text" name="surname"
                                                                        class="form-control m-input"
-                                                                       placeholder="Enter Last Name"
-                                                                       value="{{$user->last_name}}"></div>
+                                                                       value="{{$account->surname}}"></div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="father_name"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.father_name')."*"}}
+                                                            </label>
+                                                            <div class="col-lg-10">
+                                                                <input id="father_name" type="text" name="father_name"
+                                                                       class="form-control m-input"
+                                                                       value="{{$account->father_name}}">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="email" class="col-lg-2 col-form-label">Էլ.
-                                                        փոստ*</label>
-                                                    <div class="col-lg-10">
-                                                        <input id="email" type="email" name="email"
-                                                               class="form-control m-input"
-                                                               placeholder="Enter Email" value="{{$user->email}}">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group row">
+                                                            <label for="email"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.email')."*"}}
+                                                            </label>
+                                                            <div class="col-lg-10">
+                                                                <input id="email" type="email" name="email"
+                                                                       class="form-control m-input"
+                                                                       value="{{$account->user->email}}">
 
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="phone"
-                                                           class="col-lg-2 col-form-label">Հեռախոս*</label>
-                                                    <div class="col-lg-10">
-                                                        <input id="phone" type="tel" name="phone"
-                                                               class="form-control m-input"
-                                                               placeholder="Enter Phone" value="{{$user->phone}}">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="password"
-                                                           class="col-lg-2 col-form-label">Ծածկագիր</label>
-                                                    <div class="col-lg-10">
-                                                        <input id="password" type="password" name="password"
-                                                               class="form-control m-input">
-                                                        <span class="form-text text-muted">Լրացնել միայն փոփոխելու կամ նորը սահմանելու դեպքում</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="c_password" class="col-lg-2 col-form-label">Կրկնել
-                                                        ծածկագիր</label>
-                                                    <div class="col-lg-10">
-                                                        <input id="c_password" type="password"
-                                                               name="confirm_password"
-                                                               class="form-control m-input">
-                                                        <span class="form-text text-muted">Լրացնել միայն փոփոխելու կամ նորը սահմանելու դեպքում</span>
-
-                                                    </div>
-
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="group" class="col-lg-2 col-form-label">Դեր*</label>
-                                                    <div class="col-lg-10">
-                                                        <select id="group" name="group"
-                                                                class="form-control ">
-
-                                                            @foreach ($groups as $group)
-                                                                <option value="{{$group->id}}"
-                                                                        @if ($user->group[0]['id'] == $group->id)
-                                                                        selected="selected"
-                                                                        @endif>
-                                                                    {{$group->description}}
-                                                                </option>
-
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="status"
-                                                           class="col-lg-2 col-form-label">Ակտիվ*</label>
-                                                    <div class="col-lg-10 m-select2">
-                                                        <select id="status" name="status"
-                                                                class="form-control m-input m-input--air m_selectpicker">
-                                                            <option value="1">Ակտիվ</option>
-                                                            <option value="0"
-                                                                    @if($user->active==0) selected="selected" @endif>
-                                                                Պասիվ
-                                                            </option>
-                                                        </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="phone"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.phone')."*"}}
+                                                            </label>
+                                                            <div class="col-lg-10">
+                                                                <input id="phone" type="tel" name="phone"
+                                                                       class="form-control m-input"
+                                                                       value="{{$account->phone}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="bday"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.bday')."*"}}
+                                                            </label>
+                                                            <div class="col-lg-10">
+                                                                <input id="bday" type="date" name="bday"
+                                                                       class="form-control m-input"
+                                                                       value="{{$account->bday}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="passport"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.passport')."*"}}
+                                                            </label>
+                                                            <div class="col-lg-10">
+                                                                <input id="passport" type="text" name="passport"
+                                                                       class="form-control m-input"
+                                                                       value="{{$account->passport}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="date_of_issue"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.date_of_issue')."*"}}
+                                                            </label>
+                                                            <div class="col-lg-10">
+                                                                <input id="date_of_issue" type="date"
+                                                                       name="date_of_issue"
+                                                                       class="form-control m-input"
+                                                                       value="{{$account->date_of_issue}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="date_of_expiry"
+                                                                   class="col-lg-2 col-form-label">{{__('messages.date_of_expiry')."*"}}
+                                                            </label>
+                                                            <div class="col-lg-10">
+                                                                <input id="date_of_expiry" type="date"
+                                                                       name="date_of_expiry"
+                                                                       class="form-control m-input"
+                                                                       value="{{$account->date_of_expiry}}">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -230,72 +241,168 @@
                                     </div>
                                     <div class="tab-pane" id="kt_portlet_base_demo_2_tab_content"
                                          role="tabpanel">
-                                        <ul>
-                                            {{--                                            @php--}}
-                                            {{--                                            dd($gp_json);--}}
-                                            {{--                                            @endphp--}}
-                                            @if(!$permissions->isEmpty())
+                                        <h4 class="form-group row">{{__('messages.work_address')}}</h4>
+                                        <div class="form-group row">
+                                            <label for="workplace_name"
+                                                   class="col-lg-2 col-form-label">{{__('messages.workplace_name')."*"}}
+                                            </label>
+                                            <div class="col-lg-10">
+                                                <input id="workplace_name" name="workplace_name"
+                                                       class="form-control " value="{{$account->workplace_name}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label"
+                                                   for="w_region">{{__('messages.region')."*"}}</label>
+                                            <div class="col-lg-10">
+                                                <select id="w_region" name="w_region" class="form-control">
+                                                    <option value="">{{__('messages.select_region')}}</option>
+                                                    @foreach($regions->regions as $key=>$region)
+
+                                                        <option value="@if(!empty(old('w_region'))){{old('w_region')}} @else{{$key}}@endif"
+                                                        @if($region === $account->w_region) {{'selected'}}@endif>
+                                                            {{$region}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="w_territory"
+                                                   class="col-lg-2 col-form-label">{{__('messages.territory')."*"}}</label>
+                                            <div class="col-lg-10">
+                                                <select id="w_territory" name="w_territory"
+                                                        class="form-control">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="w_street"
+                                                   class="col-lg-2 col-form-label">{{__('messages.street')."*"}}</label>
+                                            <div class="col-lg-10">
+                                                <input id="w_street" type="text" name="w_street"
+                                                       class="form-control"
+                                                       value="{{$account->w_street}}{{old('w_street')}}">
+
+                                            </div>
+                                        </div>
+                                        <h4 class="form-group row">{{__('messages.home_address')}}</h4>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label"
+                                                   for="w_region">{{__('messages.region')."*"}}</label>
+                                            <div class="col-lg-10">
+                                                <select id="h_region" name="h_region" class="form-control">
+                                                    <option value="">{{__('messages.select_region')}}</option>
+                                                    @foreach($regions->regions as $key=>$region)
+
+                                                        <option value="@if(!empty(old('h_region'))){{old('h_region')}} @else{{$key}}@endif"
+                                                        @if($region === $account->h_region) {{'selected'}}@endif>
+                                                            {{$region}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="h_territory"
+                                                   class="col-lg-2 col-form-label">{{__('messages.territory')."*"}}</label>
+                                            <div class="col-lg-10">
+                                                <select id="h_territory" name="h_territory"
+                                                        class="form-control">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="h_street"
+                                                   class="col-lg-2 col-form-label">{{__('messages.street')."*"}}</label>
+                                            <div class="col-lg-10">
+                                                <input id="h_street" type="text" name="h_street"
+                                                       class="form-control"
+                                                       value="{{$account->h_street}}{{old('h_street')}}">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane" id="kt_portlet_base_demo_3_tab_content"
+                                         role="tabpanel">
+                                        <h4 class="form-group row">{{__('messages.education')}}</h4>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label"
+                                                   for="prof">{{__('messages.prof')."*"}}</label>
+                                            <div class="col-lg-10">
+
+                                                <select id="prof" name="profession" class="form-control">
+                                                    @if(!empty($prof))
+                                                        @foreach($prof as $key=>$p)
+                                                            <option class="form-control" value="{{$key}}{{old('')}}"
+                                                            @if($p === $profession->name){{'selected'}} @endif>
+                                                                {{$p}}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label"
+                                                   for="specialty_id">{{__('messages.spec')}}</label>
+                                            <div class="col-lg-10">
+                                                <select id="specialty_id" name="specialty_id" class="form-control">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label"
+                                                   for="edu">{{__('messages.education')}}</label>
+                                            <div class="col-lg-10">
+                                                <select id="edu" name="education_id" class="form-control">
+                                                    @if(!empty($edu))
+                                                        @foreach($edu as $key=>$e)
+                                                            <option class="form-control" value="{{old('education_id')}}{{$key}}"
+                                                            @if($e=== $profession->edu_name){{'selected'}}@endif>
+                                                                {{$e}}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-8 col-form-label"
+                                                   for="member_of_palace">{{__('messages.member_of_palace')}}</label>
+                                            <div class="col-lg-4">
+                                                <input id="member_of_palace" type="checkbox" name="member_of_palace"
+                                                    @if($profession->member_of_palace == 1){{'checked'}}@endif   value="{{old('member_of_palace')}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-8 col-form-label"
+                                                   for="diploma">{{__('messages.diploma')}}</label>
+                                            <div class="col-lg-4">
+                                                <input id="diploma" type="file" name="diploma_1"
+                                                       multiple="multiple">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            @if(!empty($profession->diplomas))
                                                 @php
-                                                    if(!empty($gp_json->permission_id))
-                                                        $gp =json_decode($gp_json->permission_id,true);
-                                                        if(!empty($ugp))
-                                                        $ugp =json_decode($ugp->permissions,true);
-                                                        $action = [1=>'Դիտել',2=>'Խմբագրել',3=>'Ստեղծել',4=>'Հաստատել'];
-                                                        $step=3;
-                                                        $class="vec";
-
+                                                    $diplomas = json_decode($account->prof->diplomas, true);
                                                 @endphp
-                                                @foreach($permissions as $gn=> $items)
-                                                    <li class="permission_group">{{$gn}}
-                                                        <ul>
-                                                            @foreach($items as $p)
-                                                                @if(in_array($p->id, $gp))
-                                                                    @if($p->id > 34 && $p->id < 37)
-                                                                        @php
-                                                                            $step=4;
-                                                                        $class ="approve";
-                                                                        @endphp
-                                                                    @endif
-                                                                    <li class="permission-name">{{$p->name}}
-                                                                        <ul>
-                                                                            @for($i = 1; $i<= $step; ++$i)
-                                                                                <li>
-                                                                                    <label class="kt-checkbox permission">
-                                                                                        <input type="checkbox"
-                                                                                               class="{{$class}}"
-                                                                                               value="{{$p->id}}"
-                                                                                               name="permission_{{$class}}_{{$i}}[]"
-                                                                                        @if(!empty($ugp[$p->id]) )
-                                                                                            @if(!is_array($ugp[$p->id]) &&  $ugp[$p->id] === $i)
-                                                                                                {{'checked'}}
-                                                                                                    @endif
-                                                                                            @if(is_array($ugp[$p->id]))
-                                                                                                @foreach($ugp[$p->id] as $jp)
-                                                                                                    @if($jp === $i)
-                                                                                                        {{'checked'}}
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                    @endif
-                                                                                                @endif
-                                                                                        >
-                                                                                        <span></span>
-
-                                                                                        {{$action[$i]}}
-                                                                                    </label></li>
-                                                                            @endfor
-                                                                        </ul>
-                                                                    </li>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    </li>
+                                                @foreach($diplomas as $diploma)
+                                                    <a href="{{Config::get('constants.DIPLOMA').$diploma}}" target="_blank">
+                                                    <img src="{{Config::get('constants.DIPLOMA').$diploma}}"
+                                                         alt="diploma" class="col-lg-4 diploma">
+                                                    </a>
                                                 @endforeach
                                             @endif
-                                        </ul>
+                                        </div>
+
                                         <div class="kt-form__actions text-right float-lg-right">
                                             <button class="btn btn-info btn-md  right-align kt-font-bold kt-font-transform-u"
                                                     type="submit">
-                                                Հաստատել
+                                                {{__('messages.approved')}}
                                             </button>
                                         </div>
                                     </div>
@@ -337,7 +444,7 @@
                 processData: false,
                 success: function (data) {
                     if (data.fail) {
-                        $('#preview_image').attr('src', '{{asset("images/noimage.jpg")}}');
+                        $('#preview_image').attr('src', '{{asset("images/default.jpg")}}');
                         alert(data.errors['file']);
                     } else {
                         location.reload()
@@ -346,7 +453,7 @@
                 },
                 error: function (xhr, status, error) {
                     alert(xhr.responseText);
-                    $('#preview_image').attr('src', '{{asset("images/noimage.jpg")}}');
+                    $('#preview_image').attr('src', '{{asset("images/default.jpg")}}');
                 }
             });
         }

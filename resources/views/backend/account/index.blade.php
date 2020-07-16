@@ -66,12 +66,13 @@
                                     </ul>
                                 </div>
                             </div>
-                            &nbsp;
-                            <a href="{{action('Backend\AccountController@create')}}"
-                               class="btn btn-brand btn-elevate btn-icon-sm">
-                                <i class="la la-plus"></i>
-                                {{__('messages.add')}}
-                            </a>
+                            &nbsp; @if($role !== 'user')
+                                <a href="{{action('Backend\AccountController@create')}}"
+                                   class="btn btn-brand btn-elevate btn-icon-sm">
+                                    <i class="la la-plus"></i>
+                                    {{__('messages.add')}}
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -100,16 +101,16 @@
                             <tr class="text-center">
                                 <td></td>
                                 <td>
-                                    <img src="{{ Config::get('constants.STORAGE') . Config::get('constants.AVATAR_PATH_UPLOADED').$account->image_name}}"
+                                    <img src="{{  Config::get('constants.AVATAR_PATH_UPLOADED').$account->image_name}}"
                                          alt="avatar" style="height: 50px"></td>
                                 <td>{{$account->name}}</td>
                                 <td>{{$account->surname}}</td>
                                 <td>{{$account->prof->profession}}</td>
                                 <td>{{$account->phone}}</td>
                                 <td>{{$account->user->email}}</td>
-                                <td >
+                                <td>
                                     <a @if($account->user->status ==="pending")
-                                        class="btn btn-danger" @endif>{{__('messages.'.$account->user->status)}}</a></td>
+                                       class="btn btn-danger" @endif>{{__('messages.'.$account->user->status)}}</a></td>
                                 <td>
                                     <div class="row justify-content-end">
                                         <a href="{{action('Backend\AccountController@show', $account->id)}}"
@@ -118,6 +119,14 @@
                                            data-original-title="{{__('messages.show')}}">
                                             <i class="la la-eye"></i>
                                         </a>
+                                        @if($account->role !=='user')
+                                            <a href="{{action('Backend\AccountController@edit', $account->id)}}"
+                                               class="btn btn-info kt-badge kt-badge--lg"
+                                               data-toggle="m-tooltip" data-placement="top"
+                                               data-original-title="{{__('messages.edit')}}">
+                                                <i class="la la-edit"></i>
+                                            </a>
+                                        @endif
 
                                         <form action="{{action('Backend\AccountController@destroy', $account->id)}}"
                                               id="_form" method="post">

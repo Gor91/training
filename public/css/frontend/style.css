@@ -106,19 +106,6 @@ button:focus {
 .text {
     color: #fff;
 }
-
-.banner {
-    /*margin: 0 !important;*/
-    /*padding: 0 !important;*/
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-    url('/images/banner.jpeg') no-repeat scroll center;
-    background-size: cover;
-}
-
-.container-fluid {
-    /*padding: 0 !important;*/
-}
-
 /*Custom CSS */
 
 
@@ -141,7 +128,7 @@ button:focus {
 /*---------------------------------------------------- */
 /*----------------------------------------------------*/
 .section_gap {
-    padding: 120px 0;
+    padding: 60px 0;
 }
 
 @media (max-width: 991px) {
@@ -267,7 +254,7 @@ button:focus {
     line-height: 50px;
     border-radius: 0px;
     outline: none !important;
-    box-shadow: 0px 20px 50px rgba(0, 175, 224, 0.3);
+    box-shadow: 0px 20px 50px rgba(203, 208, 210, 0.3);
     text-align: center;
     cursor: pointer;
     -webkit-transition: all 0.3s ease 0s;
@@ -284,6 +271,9 @@ button:focus {
 
 /* End Buttons Area css
 ============================================================================================ */
+
+
+
 /* Start Overlay css
 ============================================================================================ */
 .overlay {
@@ -582,11 +572,12 @@ button:focus {
 ============================================================================================ */
 .home_banner_area {
     z-index: 1;
-    min-height: 780px;
+    min-height: 580px;
     display: flex;
     position: relative;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(img/banner/home-banner.jpg) no-repeat scroll center;
+    url(img/banner/banner.jpeg) no-repeat scroll center;
+    /*url(img/banner/home-banner.jpg) no-repeat scroll center;*/
 }
 
 .home_banner_area .banner_inner {
@@ -770,7 +761,7 @@ button:focus {
     position: relative;
     background: url(../img/banner/banner.jpg) no-repeat center center;
     z-index: 1;
-    min-height: 392px;
+    /*min-height: 392px;*/
     padding-top: 0 !important;
 }
 
@@ -778,7 +769,7 @@ button:focus {
     position: relative;
     overflow: hidden;
     width: 100%;
-    min-height: 392px;
+    min-height: 70px;
     z-index: 1;
 }
 
@@ -788,8 +779,8 @@ button:focus {
     right: 0;
     top: 0;
     bottom: 0;
-    background: #000;
-    opacity: 0.4;
+    /*background: #000;
+    opacity: 0.4;*/
 }
 
 .banner_area .banner_inner .banner_content {
@@ -812,14 +803,14 @@ button:focus {
 .banner_area .banner_inner .banner_content .page_link {
     display: inline-block;
     padding: 7px 20px;
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;
-    margin-top: 20px;
+    border-top: 1px solid #761DD1;
+    border-bottom: 1px solid #761DD1;
+    /* margin-top: 20px;*/
 }
 
 .banner_area .banner_inner .banner_content .page_link a {
     font-size: 14px;
-    color: #fff;
+    color: #761DD1;
     font-family: "Crimson Text", serif;
     margin-right: 32px;
     position: relative;
@@ -904,7 +895,7 @@ button:focus {
 ============================================================================================ */
 .single_department {
     background: #f9f9f9;
-    background-image: url('/images/poligon.png');
+    background-image: url('img/poligon.png');
     background-repeat: no-repeat;
     padding: 56px 30px;
     margin-bottom: 30px;
@@ -932,7 +923,7 @@ button:focus {
 }
 
 .single_department:hover {
-    box-shadow: 0px 20px 50px rgba(0, 175, 224, 0.3);
+    box-shadow: 0px 20px 50px rgba(203, 208, 210, 0.3);
 }
 
 .single_department:hover img {
@@ -1471,6 +1462,8 @@ button:focus {
     background: #fff;
     text-align: center;
     padding: 40px;
+    margin-top: 5%;
+    box-shadow: 0 20px 50px rgba(146, 146, 150, 0.3)
 }
 
 @media (max-width: 991px) {
@@ -1757,7 +1750,13 @@ button:focus {
     width: 100%;
     height: 1px;
 }
-
+.line:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 30%;
+    background: #761DD1;
+}
 .categories_post:hover .categories_details {
     background-color: transparent;
     opacity: .6;
@@ -2473,7 +2472,7 @@ button:focus {
     top: 0;
     font-size: 20px;
     line-height: 24px;
-    color: #00aee0;
+    color: #9b35f9;
     font-weight: 600;
 }
 
@@ -3651,6 +3650,7 @@ h6 {
     height: 100%;
     background: transparent;
     border-radius: 8.5px;
+    border:1px solid #9048F6;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -o-transition: all 0.2s;
@@ -3666,7 +3666,7 @@ h6 {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #fff;
+    background: #B755FF;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -o-transition: all 0.2s;
@@ -3680,14 +3680,14 @@ h6 {
 }
 
 .confirm-switch input:checked + label:before {
-    background: #4cd3e3;
+    background: #9048F6;
 }
 
 .primary-checkbox {
     width: 16px;
     height: 16px;
     border-radius: 3px;
-    background: #fff;
+    background: #9048F6;
     position: relative;
     cursor: pointer;
 }
@@ -4472,7 +4472,7 @@ h6 {
 /*  Footer Styles
 /* =================================== */
 .footer-area {
-    background: #000000;
+    background: #761DD1;
 }
 
 @media (max-width: 991px) {
@@ -4512,7 +4512,7 @@ h6 {
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
-    color: #777777;
+    color: #d2cece;
 }
 
 .footer-area .single-footer-widget ul li a:hover {
@@ -4597,7 +4597,7 @@ h6 {
 }
 
 .footer-area .footer-bottom .footer-social a {
-    background: #111111;
+    background: #561754;
     width: 20px;
     width: 40px;
     display: inline-table;
@@ -4638,9 +4638,23 @@ h6 {
     font-family: 'fontawesome', sans-serif;
 }
 
+.diploms_container{
+    height: 250px;
+    overflow: auto;
+}
 .login form {
     position: relative;
-    height: 1000px;
+    height: 300px;
+
+}
+.register form{
+    position: relative;
+    /*height: 650px;*/
+    padding:0 0 50% 0;
+}
+.register .form{
+    position: relative;
+    height: 800px;
 }
 
 .bio, .info, .edu {
@@ -4699,18 +4713,18 @@ h6 {
     right: 1rem;
 }
 
-.reg_nav {
+.reg_nav, .edit_nav {
     background: #fff;
     width: 100%;
     height: 5rem;
     box-shadow: 0 0 6px rgba(0, 0, 0, .4);
 }
 
-.reg_nav:after {
+.reg_nav:after, .edit_nav:after {
     content: '';
     width: 33.3%;
     height: 5rem;
-    background: #e392d6;
+    background: #9048F6;
     position: absolute;
     transition: .5s;
 }
@@ -4722,7 +4736,8 @@ input[name='tractor'] {
 .nav_label {
     /*width: 25%;*/
     float: left;
-    color: #e392d6;
+    /* color: #e392d6;*/
+    color: #771FF3;
     text-align: center;
     cursor: pointer;
     transition: .5s;
@@ -4730,7 +4745,7 @@ input[name='tractor'] {
 }
 
 .nav_label:hover {
-    color: #671060;
+    color: #B755FF;
 }
 
 .nav_label:before {
@@ -4745,8 +4760,8 @@ input[name='tractor'] {
 #address:checked ~ nav [for='address'],
 #education:checked ~ nav [for='education'],
 #register:checked ~ nav [for='register'] {
-    color: #671060;
-    font-weight: 600;
+    color: #ffffff;
+
 }
 
 #address:checked ~ nav [for='address'] {

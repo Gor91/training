@@ -46,7 +46,7 @@
                                 <div class="kt-portlet__head-wrapper">
                                     <div class="kt-portlet__head-actions">
                                         &nbsp;
-                                        <a href="{{action('Backend\AccountController@index')}}"
+                                        <a href="{{action('Backend\AccountController@index', $account->role)}}"
                                            class="btn btn-warning btn-sm ">
                                             <i class="la la-undo"></i>
                                             {{__('messages.back')}}
@@ -92,7 +92,7 @@
                                         </span>
                                     </li>
                                     <li class="kt-nav__item">
-                                        <a href="{{action('Backend\AdminController@gdPDF', $account->id)}}"
+                                        <a href="{{action('Backend\AccountController@gdPDF', $account->id)}}"
                                            class="kt-nav__link">
                                             <i class="kt-nav__link-icon flaticon2-download"></i>
                                             <span class="kt-nav__link-text">{{__('messages.cv')}}</span>
@@ -108,7 +108,7 @@
                             <div class="kt-widget__head">
                                 <div class="kt-widget__media">
                                     <img class="kt-widget__img "
-                                         src="{{Config::get('constants.STORAGE') . Config::get('constants.AVATAR_PATH_UPLOADED').$account->image_name}}"
+                                         src="{{ Config::get('constants.AVATAR_PATH_UPLOADED').$account->image_name}}"
                                          alt="image">
                                 </div>
                                 @if(!empty($account->name) || !empty($account->surname || !empty($account->father_name)))
@@ -160,7 +160,7 @@
                                             <span class="kt-widget__label">
                                                 <i class="flaticon2-map"></i></span>
                                             <span class="kt-widget__data">
-                                                {{$account->h_region.__('messages.region')}}
+                                                {{$account->h_region."ի ".__('messages.region')}}
                                             </span>
                                         </div>
                                     @endif
@@ -220,7 +220,7 @@
                             </div>
                             <div class="kt-widget__footer">
                                 <div class="row ">
-                                    <a href="{{action('Backend\AdminController@gdPDF', $account->id)}}" type="button"
+                                    <a href="{{action('Backend\AccountController@gdPDF', $account->id)}}" type="button"
                                        class="btn btn-label-info btn-lg btn-upper">բեռնել CV
                                     </a>
                                 </div>
@@ -236,18 +236,31 @@
                             </div>
                             <div class="kt-widget__footer">
                                 <div class="row ">
-                                    <form method="post" class="col-lg-6"
-                                          action="{{ action('Backend\AccountController@update', $account->id)}}">
-                                        @csrf
-                                        <input name="_method" type="hidden" value="PATCH">
+                                    @if($account->role == "user")
+                                        <form method="post" class="col-lg-6"
+                                              action="{{ action('Backend\AccountController@update', $account->id)}}">
+                                            @csrf
+                                            <input name="_method" type="hidden" value="PATCH">
 
-                                        <button type="submit"
-                                                class="btn btn-label-success btn-lg btn-upper col-lg-12">{{__('messages.approve')}}
+                                            <button type="submit"
+                                                    @if($account->user->status == 'approved') {{'disabled'}}@endif
+                                                    class="btn btn-label-success btn-lg btn-upper col-lg-12">{{__('messages.approve')}}
+                                            </button>
+                                        </form>
+                                    @endif
+                                    <form action="{{action('Backend\AccountController@destroy', $account->id)}}"
+                                          class="col-lg-6" id="_form" method="post">
+                                        @csrf
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        <input name="_id" type="hidden" value="{{$account->id}}">
+                                        <button data-ref="" type="button"
+                                                {{--                                                    data-title="admin"--}}
+                                                class="delete btn btn-label-danger btn-lg btn-upper col-lg-12"
+                                                data-original-title="{{__('messages.reject')}}">
+                                            {{__('messages.reject')}}
+
                                         </button>
-                                    </form>
-                                    <form method="post" class="col-lg-6">
-                                        <button type="button"
-                                                class="btn btn-label-danger btn-lg btn-upper col-lg-12">{{__('messages.reject')}}</button>
+                                        {{--                                                <button  data-title="admin"type="button" class="btn sweetalert"> Show me</button>--}}
                                     </form>
                                 </div>
                             </div>
@@ -269,7 +282,7 @@
                             <div class="kt-portlet__head">
                                 <div class="kt-portlet__head-label">
                                     <h3 class="kt-portlet__head-title">
-                                        Կրթություն
+                                        {{__('messages.education')}}
                                     </h3>
                                 </div>
 
@@ -349,18 +362,18 @@
                                                 <div class="kt-widget3__text--bold col-12">
 
                                                     <h5 class="kt-widget3__text--bold text-uppercase">{{__('messages.region')}}</h5>
-                                                    @if(!empty($account->h_region && $account->h_territory))
+                                                    @if(!empty($account->w_region && $account->w_territory))
                                                         <p class="kt-widget3__text">
-                                                            {{$account->h_region. 'ի մարզ,  բնակավայր՝  '. $account->h_territory}}
+                                                            {{$account->w_region. 'ի մարզ,  բնակավայր՝  '. $account->w_territory}}
                                                         </p>
                                                     @endif
                                                 </div>
                                                 <div class="kt-widget3__text--bold col-12">
 
                                                     <h5 class="kt-widget3__text--bold text-uppercase">{{__('messages.street')}}</h5>
-                                                    @if(!empty($account->h_street ))
+                                                    @if(!empty($account->w_street ))
                                                         <p class="kt-widget3__text">
-                                                            {{$account->h_street}}
+                                                            {{$account->w_street}}
                                                         </p>
                                                     @endif
                                                 </div>
@@ -393,11 +406,15 @@
                                             <div class="kt-widget3__body">
                                                 @if(!empty($account->prof->diplomas))
                                                     @php
+
                                                         $diplomas = json_decode($account->prof->diplomas, true);
                                                     @endphp
                                                     @foreach($diplomas as $diploma)
-                                                        <img src="{{asset(\Illuminate\Support\Facades\Config::get('constants.DIPLOMA_PATH')).DIRECTORY_SEPARATOR.$diploma}}"
-                                                             alt="diploma" class="col-lg-3">
+                                                        <a href="{{Config::get('constants.DIPLOMA').$diploma}}"
+                                                           target="_blank">
+                                                            <img src="{{Config::get('constants.DIPLOMA').$diploma}}"
+                                                                 alt="diploma" class="col-lg-4">
+                                                        </a>
                                                     @endforeach
                                                 @endif
                                             </div>
@@ -433,7 +450,7 @@
                         @csrf
                         <input type="hidden" name="email" value="{{$account->user->email}}">
                         <input type="hidden" name="id" value="{{$account->id}}">
-                        <input type="hidden" name="name" value="{{$account->first_name." ".$account->last_name}}">
+                        <input type="hidden" name="name" value="{{$account->name." ".$account->surname}}">
                         <div class="form-group row">
                             <label for="subject" class=" col-lg-3 col-form-label text-capitalize">թեմա*:</label>
                             <div class="col-lg-12">
@@ -451,7 +468,8 @@
                             </div>
                         </div>
                         <div class="form-group row justify-content-end">
-                            <button type="submit" class="p-15 col-3 btn btn-primary align-self-end">ՈՒղարկել</button>
+                            <button type="submit"
+                                    class="p-15 col-3 btn btn-primary align-self-end">{{__('messages.send')}}</button>
                         </div>
                     </form>
                 </div>

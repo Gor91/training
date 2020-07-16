@@ -3,16 +3,17 @@
       <div class="container">
 <!--            <router-link class="navbar-brand" to="/">Authentication  Laravel 5.6/Vue SPA</router-link>-->
           <div class="col-lg-6 col-sm-6 col-4 header-top-left">
-              <a href="tel:+9530123654896">
+              <a href="tel:+37443007107">
                   <span class="fa fa-phone"></span>
                   <span class="text">
-								<span class="text">+953012 3654 896</span>
+								<span class="text">(+374) 43-007-107</span>
 							</span>
               </a>
               <a href="mailto:support@colorlib.com">
-                  <span class="fa fa-envelope"></span>
+                  <span class="fa fa-envelope pl-3"></span>
                   <span class="text">
-								<span class="text">support@colorlib.com</span>
+								<span class="text">
+national.med.palace@gmail.com</span>
 							</span>
               </a>
           </div>

@@ -1,27 +1,16 @@
 <template>
     <div class="container">
         <router-link :to="'/edit/'+currentUser.id" class="button is-fullwidth">Edit</router-link>
-        <router-link :to="'/changePassword/'+currentUser.id" class="button is-fullwidth">Change Password</router-link>
-        <img v-bind:src="imgName" class="avatar">
-        <form @submit.prevent="upload" class="row" enctype="multipart/form-data">
-            <input type="hidden" name="_method" value="PUT">
-            <div class="filezone">
-                <input id="avatar" type="file" @change="changedAvatar"
-                       ref="avatar">
-            </div>
-            <div v-for="(file, key) in avatar" class="file-listing">
-                <img class="preview" v-bind:ref="'preview'"/>
+        <div id="preview">
+            <img v-bind:src="imgName" class="avatar">
+            <i class="fa fa-camera-retro fa-2x icon"></i>
+            <input type="file" @change="onFileChange"/>
 
-                <div class="success-container" v-if="file.id > 0">
-                    Success
-                    <input type="hidden" :name="input_name" :value="file.id"/>
-                </div>
-            </div>
-            <input type="submit" value="Change Avatar" class="btn btn-outline-primary ml-auto">
-        </form>
+        </div>
+
         <h3>{{currentUser.name}} {{currentUser.surname}} {{currentUser.father_name}}</h3>
-                <p>{{currentUser.prof.profession}}</p>
-                <p>{{currentUser.user.email}}</p>
+        <p>{{currentUser.prof.profession}}</p>
+        <p>{{currentUser.user.email}}</p>
     </div>
 </template>
 
@@ -33,6 +22,7 @@
         data() {
             return {
                 avatar: [],
+                url: null,
             }
         },
         computed: {
@@ -46,53 +36,38 @@
                 let img_name = this.$store.getters.currentUser.image_name;
                 let pattern = /\d+/ig;
                 if (pattern.exec(img_name))
-                    src = "/storage/images/avatars/" + img_name;
+                    src = "/uploads/images/avatars/" + img_name;
                 else
                     src = "/images/avatars/" + img_name;
                 return src;
             },
         },
         methods: {
-            changedAvatar() {
-                let uploadedFiles = this.$refs.avatar.files;
-                for (var i = 0; i < uploadedFiles.length; i++) {
-                    this.avatar.push(uploadedFiles[i]);
-                }
 
-                this.getImagePreviews();
-
-            },
-            getImagePreviews() {
-                for (var i = 0; i < this.avatar.length; i++) {
-                    if (/\.(jpe?g|png|gif)$/i.test(this.avatar[i].name)) {
-                        let reader = new FileReader();
-                        reader.addEventListener("load", function () {
-                            this.$refs['preview'][0].src = reader.result;
-                        }.bind(this), false);
-                        reader.readAsDataURL(this.avatar[i]);
-                    } else {
-                        this.$nextTick(function () {
-                            this.$refs['preview'][0].src = '/images/avatars/generic.png';
-                        });
-                    }
-                }
-            },
-            upload() {
-                let file = this.$refs.avatar.files[0];
+            upload(file) {
+                // let file = this.$refs.avatar.files[0];
                 uploadAvatar(file, this.currentUser.id, this.currentUser.token)
                     .then(res => {
                         this.$store.commit("uploadSuccess", res);
                         this.$nextTick(() => {
                             let ls = JSON.parse(localStorage.getItem('user'));
-                            ls['image_name'] = res.avatar;
-
+                            ls.image_name = res.user.image_name;
                             localStorage.setItem('user', JSON.stringify(ls))
+                            // console.log('str',localStorage.getItem('user'))
                         })
                         // this.$router.push({path: '/dashboard'});
                     })
                     .catch(error => {
                         this.$store.commit("uploadFailed", {error});
                     });
+            },
+
+            onFileChange(e) {
+                const file = e.target.files[0];
+                // this.url = URL.createObjectURL(file);
+                // console.log(file)
+                // console.log(this.url)
+                this.upload(file);
             }
 
         }
@@ -100,89 +75,38 @@
 </script>
 
 <style scoped>
-    .avatar {
+    #preview {
+        display: flex;
+        position: relative;
         width: 120px;
+    }
+
+    .avatar {
+        width: 100%;
         border-radius: 50%;
         border: 2px solid #202095;
-        padding: 5px
-    }
-
-    .is-danger, .fa-warning {
-        color: red;
-    }
-
-    input[type="file"] {
-        opacity: 0;
-        width: 100%;
-        height: 200px;
-        position: absolute;
-        cursor: pointer;
-    }
-
-    form {
+        padding: 6px;
         position: relative;
+        z-index: 0;
     }
 
-    .filezone {
-        outline: 2px dashed grey;
-        outline-offset: -10px;
-        background: #ccc;
-        color: dimgray;
-        padding: 10px 10px;
-        min-height: 10px;
+    input[type="file"], .icon {
+        opacity: 0;
         position: absolute;
+        z-index: 1;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .icon {
+        /*z-index: 3;*/
+        right: 0;
+        opacity: 1;
         cursor: pointer;
-        left: 100px;
+        border-radius: 50%;
+        width: 36px;
+        background-color: #9c8fa2;
+        padding: 5px;
     }
 
-    .filezone:hover {
-        background: #c0c0c0;
-    }
-
-    .filezone p {
-        font-size: 1.2em;
-        text-align: center;
-        padding: 50px 50px 50px 50px;
-    }
-
-    div.file-listing img {
-        max-width: 90%;
-    }
-
-    div.file-listing {
-        margin: auto;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    div.file-listing img {
-        height: 100px;
-    }
-
-    div.success-container {
-        text-align: center;
-        color: green;
-    }
-
-    div.remove-container {
-        text-align: center;
-    }
-
-    div.remove-container a {
-        color: red;
-        cursor: pointer;
-    }
-
-    a.submit-button {
-        display: block;
-        margin: auto;
-        text-align: center;
-        width: 200px;
-        padding: 10px;
-        text-transform: uppercase;
-        background-color: #CCC;
-        color: white;
-        font-weight: bold;
-        margin-top: 20px;
-    }
 </style>

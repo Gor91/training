@@ -9,7 +9,9 @@ export function education() {
             })
     })
 }
+
 export function specialty(id) {
+
     return new Promise((res, rej) => {
         axios.post('/api/spec/' + id)
             .then(response => {
@@ -20,6 +22,7 @@ export function specialty(id) {
             })
     })
 }
+
 export function region() {
     return new Promise((res, rej) => {
         axios.post('/api/regions')
@@ -31,9 +34,10 @@ export function region() {
             })
     })
 }
+
 export function territory(id) {
     return new Promise((res, rej) => {
-        axios.post('/api/territory/'+id)
+        axios.post('/api/territory/' + id)
             .then(response => {
                 res(response.data);
             })
@@ -42,9 +46,10 @@ export function territory(id) {
             })
     })
 }
+
 export function profession() {
     return new Promise((res, rej) => {
-        axios.post('/api/prof/')
+        axios.get('/api/prof/')
             .then(response => {
                 res(response.data);
             })

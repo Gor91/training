@@ -8,6 +8,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Account extends Model implements JWTSubject
 {
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

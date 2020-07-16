@@ -5,7 +5,10 @@ import Account from './components/Account.vue';
 import About from './components/About.vue';
 import Contact from './components/Contact.vue';
 import Edit from './components/Edit.vue';
-import Pass from './components/Pass.vue';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPasswordForm from './pages/ResetPasswordForm';
+import Lesson from './components/Lesson.vue';
+
 export const routes = [
     {
         path: '/',
@@ -39,21 +42,52 @@ export const routes = [
         },
     },
     {
-        path: '/changePassword/:id',
-        name: 'changePassword',
-        component: Pass,
-        meta: {
-            requiresAuth: true
-        },
-    },
-    {
         path: '/about',
         name: 'about',
         component: About,
+        meta: {
+            breadCrumbs: [{
+                to: '/about', // hyperlink
+                text: 'ՄԵՐ ՄԱՍԻՆ' // crumb text
+            }]
+        },
     },
     {
         path: '/contact',
         name: 'contact',
         component: Contact,
+        meta: {
+            breadCrumbs: [{
+                to: '/contact', // hyperlink
+                text: 'ՀԵՏԱԴԱՐՁ ԿԱՊ' // crumb text
+            }]
+        },
     },
+    {
+        path: '/lesson',
+        name: 'lesson',
+        component: Lesson,
+        meta: {
+            breadCrumbs: [{
+                to: '/lesson', // hyperlink
+                text: 'ԴԱՍԸՆԹԱՑՆԵՐ' // crumb text
+            }]
+        },
+    },
+    {
+        path: '/reset-password',
+        name: 'reset-password',
+        component: ForgotPassword,
+        meta: {
+            auth: false
+        }
+    },
+    {
+        path: '/reset-password/:token',
+        name: 'reset-password-form',
+        component: ResetPasswordForm,
+        meta: {
+            auth: false
+        }
+    }
 ];

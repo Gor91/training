@@ -2,6 +2,7 @@ export function registerUser(credentials, files) {
     let formData = new FormData();
 
     for (let key in credentials) {
+        if(credentials.hasOwnProperty(key))
         formData.append(key, credentials[key]);
         // JSON.stringify(credentials));
     }
@@ -31,6 +32,19 @@ export function registerUser(credentials, files) {
 export function login(credentials) {
     return new Promise((res, rej) => {
         axios.post('/api/auth/login', credentials)
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej('Wrong Email/Password combination.')
+            })
+    })
+}
+
+export function resetPassword() {
+
+    return new Promise((res, rej) => {
+        axios.get('/api/password/request')
             .then(response => {
                 res(response.data);
             })
@@ -92,6 +106,40 @@ export function editUser(id, credentials, files, token) {
         if (credentials.hasOwnProperty(key))
             formData.append(key, credentials[key]);
     }
+    // for (let i = 0; i < files.length; i++) {
+    //     if (files[i].id) {
+    //         continue;
+    //     }
+    //     formData.append(`diploma_${i + 1}`, files[i]);
+    // }
+    formData.append('_method', 'PUT');
+    formData.append('_token', token);
+    return new Promise(function (res, rej) {
+        // console.log('id',token)
+        axios.post('/api/auth/edit/' + id,
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej('An error occured.. try again later.')
+            })
+    })
+}
+
+export function approveUser(id, credentials, files, token) {
+    let formData = new FormData();
+
+    for (let key in credentials) {
+        if (credentials.hasOwnProperty(key))
+            formData.append(key, credentials[key]);
+    }
     for (let i = 0; i < files.length; i++) {
         if (files[i].id) {
             continue;
@@ -102,7 +150,7 @@ export function editUser(id, credentials, files, token) {
     formData.append('_token', token);
     return new Promise(function (res, rej) {
         // console.log('id',token)
-        axios.post('/api/auth/edit/' + id,
+        axios.post('/api/auth/approve/' + id,
             formData,
             {
                 headers: {

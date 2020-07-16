@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Symon Kibaru">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Medical Training</title>
+    <title>Ազգային Բժշկական Պալատ</title>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 

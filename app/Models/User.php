@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -16,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'account_id', 'email', 'password','status'
+        'account_id', 'email', 'password', 'status'
     ];
 
     /**
@@ -38,6 +38,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->getKey();
     }
 //
+
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
@@ -54,5 +55,13 @@ class User extends Authenticatable implements JWTSubject
     public function account()
     {
         return $this->belongsTo('App\Models\Account');
+    }
+
+    /**
+     * Override the mail body for reset password notification mail.
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
     }
 }
