@@ -153,6 +153,7 @@ return [
     'course_credit' => 'Կրեդիտ',
     'course_paragraph' => 'Դասընթաց',
     'video_version' => 'Դասընթաց վիդեո տարբերակով',
+    'course_detete' => 'Կուրսը հաջողությամբ ջնջվեց:'
 
 
 ];

@@ -63,10 +63,9 @@
 
                             <!--begin: Form Wizard Form-->
                             {{--                            {{Form::}}--}}
+                            <form class="kt-form" id="kt_form" method="{{isset($course) ? "get" : "post"}}" enctype="multipart/form-data"
 
-                            <form class="kt-form" id="kt_form" method="post" enctype="multipart/form-data"
-
-                                  action="{{ action('Backend\CoursesController@store')}}">
+                                  action="{{isset($course) ? action('Backend\CoursesController@editCourse',$course->id) : action('Backend\CoursesController@store')}}">
                             @csrf
                             <!--begin: Form Wizard Step 1-->
                                 <div id="kt-wizard_general" class="kt-wizard-v3__content"
@@ -81,7 +80,8 @@
                                                     *</label>
                                                 <div class="col-lg-10">
                                                     <input id="name" type="text" name="name"
-                                                           class="form-control" value="{{old('name')}}">
+                                                           class="form-control"
+                                                           value="{{isset($course) ?  $course->name : old('name')}}">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -90,6 +90,13 @@
                                                 <div class="col-lg-10">
                                                     <select class="js-example-basic-multiple form-control" id="special"
                                                             name="specialty_ids[]" multiple="multiple">
+                                                        @if(isset($course))
+                                                            @for ($i = 0; $i < count($course->specialities); $i++)
+                                                                <option selected value="{{$course->specialities[$i]["id"]}}">
+                                                                    {{$course->specialities[$i]["name"]}}
+                                                                </option>
+                                                            @endfor
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>
@@ -99,9 +106,9 @@
                                                 <div class="col-lg-10">
                                                     <select class="js-example-basic-multiple form-control" id="special"
                                                             name="status">
-                                                        <option
+                                                        <option {{isset($course) && $course->status == "active" ?  'selected' : ''}}
                                                             value="active">{{__('messages.course_status_active')}}</option>
-                                                        <option
+                                                        <option {{isset($course) && $course->status == "archive" ?  'selected' : ''}}
                                                             value="archive">{{__('messages.course_status_deactive')}}</option>
                                                     </select>
                                                 </div>
@@ -111,7 +118,7 @@
                                                        class="col-lg-2 col-form-label">{{__('messages.course_duration_date')}}
                                                     *</label>
                                                 <div class="col-lg-10">
-                                                    <input id="date" type="date" name="date"
+                                                    <input id="date" type="date" name="date" value="{{isset($course) ? $course->duration_date : ""}}"
                                                            class="form-control">
                                                 </div>
                                             </div>
@@ -120,7 +127,7 @@
                                                        class="col-lg-2 col-form-label">{{__('messages.course_credit')}}
                                                     *</label>
                                                 <div class="col-lg-10">
-                                                    <input id="credit" type="number" name="credit"
+                                                    <input id="credit" type="number" name="credit" value="{{isset($course) ? $course->credit : ""}}"
                                                            class="form-control">
                                                 </div>
                                             </div>
@@ -130,7 +137,7 @@
                                                     *</label>
                                                 <div class="col-lg-10">
                                                     <textarea id="content_data" type="text" name="content_data"
-                                                              class="form-control"></textarea>
+                                                              class="form-control">{{isset($course) ? $course->content : ""}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">

@@ -70,7 +70,9 @@ Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
 
 //courses
 Route::resource('/backend/courses/', 'Backend\CoursesController');
-//Route::post('/backend/editCourses', 'Backend\CoursesController@editCourses');
+Route::get( '/backend/getCourse/{id}', 'Backend\CoursesController@getCourse');
+Route::get( '/backend/editCourse/{id}', 'Backend\CoursesController@editCourse');
+Route::get('/backend/deleteCourse/{id}','Backend\CoursesController@destroy');
 Route::post('upload', "Backend\CoursesController@fileUpload");
 Route::get('backend/courses/getSpecialities/', "Backend\CoursesController@getSpecialities");
 
