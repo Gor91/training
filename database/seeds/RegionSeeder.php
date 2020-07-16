@@ -21,6 +21,7 @@ class RegionSeeder extends Seeder
     public function setData($data, $status, $i = null)
     {
         $regions = [
+            1=>['yerevan' => 'Երևան'],
             2 => [
                 'ashtarak' => 'Աշտարակ',
                 'aparan' => 'Ապարան',
@@ -170,8 +171,4 @@ class RegionSeeder extends Seeder
         ];
     }
 
-    public function getRegions()
-    {
-
-    }
 }
