@@ -22,14 +22,28 @@ return [
     //group
     'group_name' => 'Դերի անվանումը',
     'group_text' => 'Դերի նկարագրություն',
+
+    //account
+    'name'=> 'Անուն',
+    'surname'=> 'Ազգանուն',
+    'father_name'=> 'Հայրանուն',
+    'gender'=> 'Սեռ',
+    'bday'=> 'Ծննդյան ամսաթիվ',
+    'married_status'=> 'Կարգավիճակ',
+    'phone'=> 'Հեռախոս',
+    'passport'=> 'Անձնագրի տվյալներ',
+    'date_of_issue'=> 'Անուն',
+    'date_of_expiry'=> 'Վավեր է մինչև',
+    'work_address'=> 'Աշխատավայրի հասցե',
+    'home_address'=> 'Հասցե',
+    'workplace_name'=> 'Աշխատավայրի անվանումը',
+    'image_name'=> 'Նկար',
+    'role' => 'Դեր',
     //user
     'first_name' => 'Անուն',
     'last_name' => 'Ազգանուն',
     'email' => 'Էլ․ հասցե',
     'email_field' => 'Էլ․ հասցե դաշտը ',
-    'phone' => 'Հեռախոս',
-    'group' => 'Դեր',
-    'name' => 'Անուն',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 //permission
     'new_group_name' => 'Ընտրել բաժին',
@@ -108,7 +122,20 @@ return [
     'profile' => 'Իմ էջը',
     'admin' => 'կառավարման բաժին',
     'manage_account' => 'Հաշվի կարգավորումները',
-    'hello' => 'Բարև'
+    'hello' => 'Բարև',
+
+//  courses
+    'courses' => 'Դասընթացներ',
+    'course_name' => 'Դասընթացի անվանում',
+    'course_list' => 'Դասընթացների ցուցակ',
+    'course_status' => 'Կարգավիճակ',
+    'course_status_active' => 'Ակտիվ',
+    'course_status_deactive' => 'Անջատված',
+    'course_duration_date' => 'Վաղեմ․ Ժամկետ',
+    'course_credit' => 'Կրեդիտ',
+    'course_paragraph' => 'Դասընթաց',
+    'video_version' => 'Դասընթաց վիդեո տարբերակով',
+    'course_detete' => 'Կուրսը հաջողությամբ ջնջվեց:'
 
 
 ];

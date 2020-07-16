@@ -1,7 +1,5 @@
 import {getLoggedinUser} from './partials/auth';
-
 const user = getLoggedinUser();
-
 export default {
     state: {
         currentUser: user,
@@ -10,11 +8,15 @@ export default {
         auth_error: null,
         reg_error: null,
         registeredUser: null,
+        // about:page
     },
     getters: {
         isLoading(state) {
             return state.loading;
         },
+        // aboutPage(state) {
+        //     return state.loading;
+        // },
         isLoggedin(state) {
             return state.isLoggedin;
         },
@@ -36,6 +38,11 @@ export default {
             state.loading = true;
             state.auth_error = null;
         },
+        // aboutPage(state) {
+        //     state.loading = true;
+        //     state.auth_error = null;
+        // },
+
         loginSuccess(state, payload) {
             state.auth_error = null;
             state.isLoggedin = true;

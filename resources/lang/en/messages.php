@@ -11,6 +11,22 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    //account
+    'name'=> 'Name',
+    'surname'=> 'Surname',
+    'father_name'=> 'Father name',
+    'gender'=> 'Gender',
+    'bday'=> 'Date of birth',
+    'married_status'=> 'Married status',
+    'phone'=> 'phone',
+    'passport'=> 'Passport details',
+    'date_of_issue'=> 'Date of issue',
+    'date_of_expiry'=> 'Date of expiry',
+    'work_address'=> 'Work address',
+    'home_address'=> 'Address',
+    'workplace_name'=> 'Workplace Name',
+    'image_name'=> 'Image',
+    'role' => 'Role',
 
     'work' => 'Work with us',
     'job' => 'Job Search',

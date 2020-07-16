@@ -73,10 +73,10 @@
 export default {
         data() {
             return {
-                nurse: '/css/template/img/nurse.svg',
-                doctor:'/css/template/img/doctor.png',
-                pharmacy:'/css/template/img/pharmacy-symbol.svg',
-                phar:'/css/template/img/pharmacy.png'
+                nurse: '/css/frontend/img/nurse.svg',
+                doctor:'/css/frontend/img/doctor.png',
+                pharmacy:'/css/frontend/img/pharmacy-symbol.svg',
+                phar:'/css/frontend/img/pharmacy.png'
             };
         },
 
