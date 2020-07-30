@@ -16,7 +16,7 @@ class Page extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'title', 'description',
+        'title', 'description','homedescription'
     ];
 
     /**

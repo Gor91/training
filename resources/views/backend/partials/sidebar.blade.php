@@ -68,7 +68,7 @@
                                       id="Path" fill="#000000" opacity="0.3"/>
                             </g>
                         </svg>
-                        <span class="kt-menu__link-text">Հիմնական</span>
+                        <span class="kt-menu__link-text">{{__('messages.main')}}</span>
                     </a>
                 </li>
 
@@ -82,7 +82,7 @@
                                         <span class="kt-menu__link-icon kt-demo-icon__preview">
                                            <i class="flaticon-interface-3"></i>
                                         </span>
-                        <span class="kt-menu__link-text">Ադմին</span>
+                        <span class="kt-menu__link-text">{{__('messages.admin')}}</span>
                     </a>
 
                 </li>
@@ -105,6 +105,25 @@
                         <span class="kt-menu__link-text">{{__('messages.lecture')}}</span>
                     </a>
 
+                </li> <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                    data-ktmenu-submenu-toggle="hover">
+                    <a href="{{action('Backend\TypeController@index')}}" class="kt-menu__link kt-menu__toggle">
+                                        <span class="kt-menu__link-icon kt-demo-icon__preview">
+                                           <i class="flaticon2-group"></i>
+                                        </span>
+                        <span class="kt-menu__link-text">{{__('messages.type')}}</span>
+                    </a>
+
+                </li>
+                </li> <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                          data-ktmenu-submenu-toggle="hover">
+                    <a href="{{action('Backend\TypeController@index')}}" class="kt-menu__link kt-menu__toggle">
+                                        <span class="kt-menu__link-icon kt-demo-icon__preview">
+                                           <i class="flaticon2-files-and-folders"></i>
+                                        </span>
+                        <span class="kt-menu__link-text">{{__('messages.sections')}}</span>
+                    </a>
+
                 </li>
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                     data-ktmenu-submenu-toggle="hover">
@@ -116,6 +135,7 @@
                     </a>
 
                 </li>
+
                 {{--                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"--}}
                 {{--                    data-ktmenu-submenu-toggle="hover">--}}
                 {{--                    <a href="{{action('Backend\EmailController@index')}}" class="kt-menu__link kt-menu__toggle">--}}
@@ -154,6 +174,26 @@
             <ul class="kt-menu__nav ">
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                     data-ktmenu-submenu-toggle="hover">
+                    <a href="{{action('Backend\LogController@index')}}" class="kt-menu__link kt-menu__toggle">
+                                        <span class="kt-menu__link-icon kt-demo-icon__preview">
+                                           <i class="flaticon-book"></i>
+                                        </span>
+                        <span class="kt-menu__link-text">{{__('messages.logs')}}</span>
+                    </a>
+
+                </li>
+                   <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                    data-ktmenu-submenu-toggle="hover">
+                    <a href="{{action('Backend\PageController@index')}}" class="kt-menu__link kt-menu__toggle">
+                                        <span class="kt-menu__link-icon kt-demo-icon__preview">
+                                           <i class="flaticon2-writing"></i>
+                                        </span>
+                        <span class="kt-menu__link-text">{{__('messages.aboutus')}}</span>
+                    </a>
+
+                </li>
+                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                    data-ktmenu-submenu-toggle="hover">
                     <a href="{{action('Backend\MessageController@index')}}" class="kt-menu__link kt-menu__toggle">
                                         <span class="kt-menu__link-icon kt-demo-icon__preview">
                                            <i class="flaticon2-writing"></i>
@@ -162,6 +202,7 @@
                     </a>
 
                 </li>
+
             </ul>
         </div>
     </div>

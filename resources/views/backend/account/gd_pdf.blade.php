@@ -100,14 +100,14 @@
         <tr>
             <th>{{__('messages.edu')}}</th>
             <th>{{__('messages.prof')}}</th>
-            <th>{{__('messages.spec')}}</th>
+            {{--<th>{{__('messages.spec')}}</th>--}}
         </tr>
         </thead>
         <tbody>
         <tr>
             <td>{{$data->profession->edu_name}}</td>
             <td>{{$data->profession->spec_name}}</td>
-            <td>{{$data->profession->name}}</td>
+            {{--<td>{{$data->profession->name}}</td>--}}
 
         </tr>
         </tbody>

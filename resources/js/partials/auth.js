@@ -68,7 +68,7 @@ export function uploadAvatar(file, id, token) {
     let data = new FormData();
     data.append('avatar', file);
     data.append('_method', 'PUT');
-    data.append('_token', token);
+    data.append('token', token);
     return new Promise((res, rej) => {
         axios.post('/api/auth/avatar/' + id, data,
             {
@@ -113,7 +113,7 @@ export function editUser(id, credentials, files, token) {
     //     formData.append(`diploma_${i + 1}`, files[i]);
     // }
     formData.append('_method', 'PUT');
-    formData.append('_token', token);
+    formData.append('token', token);
     return new Promise(function (res, rej) {
         // console.log('id',token)
         axios.post('/api/auth/edit/' + id,
@@ -147,7 +147,7 @@ export function approveUser(id, credentials, files, token) {
         formData.append(`diploma_${i + 1}`, files[i]);
     }
     formData.append('_method', 'PUT');
-    formData.append('_token', token);
+    formData.append('token', token);
     return new Promise(function (res, rej) {
         // console.log('id',token)
         axios.post('/api/auth/approve/' + id,

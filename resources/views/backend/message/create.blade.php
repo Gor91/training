@@ -73,7 +73,7 @@
                                     <div class="kt-form__section kt-form__section--first">
                                         <div class="kt-wizard-v3__form">
                                             <div class="form-group row">
-                                                <label for="first_name"
+                                                <label for="name"
                                                        class="col-lg-3 col-form-label">{{__('messages.name')}}*</label>
                                                 <div class="col-lg-9">
 

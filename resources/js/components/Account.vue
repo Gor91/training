@@ -1,28 +1,77 @@
 <template>
     <div class="container">
-        <router-link :to="'/edit/'+currentUser.id" class="button is-fullwidth">Edit</router-link>
-        <div id="preview">
-            <img v-bind:src="imgName" class="avatar">
-            <i class="fa fa-camera-retro fa-2x icon"></i>
-            <input type="file" @change="onFileChange"/>
+        <section class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+                <div class="overlay"></div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="banner_content text-center">
+                                <div class="page_link"  v-for="b in $route.meta.breadCrumbs" :key="b.to">
+                                    <router-link :to="{ name: 'home' }" class="nav-link">ԳԼԽԱՎՈՐ</router-link>
+                                    <router-link to="" class="nav-link">{{b.text}}</router-link>
 
-        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ Start Course Details Area =================-->
+        <section class="course_details_area section_gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 course_details_left">
+                        <div class="main_image">
+                            <p class="pb-4"> {{texts.hint}}</p>
+                            <div id="preview">
+                                <img v-bind:src="imgName" class="avatar">
+                                <i class="fa fa-camera-retro fa-2x icon"></i>
+                                <input type="file" @change="onFileChange"/>
 
-        <h3>{{currentUser.name}} {{currentUser.surname}} {{currentUser.father_name}}</h3>
-        <p>{{currentUser.prof.profession}}</p>
-        <p>{{currentUser.user.email}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 right-contents">
+                        <ul>
+                            <li>
+                                <a class="justify-content-between d-flex" href="#">
+                                    <p>{{texts.profilename}}</p>
+                                    <span class="or">{{currentUser.name}} {{currentUser.surname}} {{currentUser.father_name}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="justify-content-between d-flex" href="#">
+                                    <p>{{texts.profession}} </p>
+                                    <span>{{currentUser.prof.profession}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="justify-content-between d-flex" href="#">
+                                    <p>{{texts.email}}</p>
+                                    <span>{{currentUser.user.email}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <router-link :to="'/edit/'+currentUser.id" class="primary-btn text-uppercase enroll">Edit</router-link>
+                </div>
+            </div>
+            </div>
+        </section>
     </div>
 </template>
 
 <script>
     import {uploadAvatar} from '../partials/auth';
-
+    import registertexts from './json/registertexts.json'
     export default {
         props: ['input_name'],
         data() {
             return {
                 avatar: [],
                 url: null,
+                texts:registertexts
             }
         },
         computed: {
@@ -105,7 +154,7 @@
         cursor: pointer;
         border-radius: 50%;
         width: 36px;
-        background-color: #9c8fa2;
+        background-color: #8638FC;
         padding: 5px;
     }
 

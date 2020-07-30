@@ -15,7 +15,7 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['orders_of_the_minister', 'health_care_orders']);
+            $table->enum('type', ['rules','orders_of_decrees_presidential','government_decisions', 'health_care_orders','sanitary_rules_and_norms']);
             $table->string('doc_path', 255);
             $table->bigInteger('page_id');
             $table->timestamps();

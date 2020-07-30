@@ -2,6 +2,7 @@
 return [
     'STORAGE_PATH' => '/app/public/',
     'STORAGE' => '/storage',
+    'AVATAR' => 'default.jpg',
     'AVATAR_PATH' => '/uploads/images/avatars/',
     'AVATAR_PATH_UPLOADED' => '/images/avatars/',
     'USER_AVATAR_PATH' => '/app/public/uploads/users/',

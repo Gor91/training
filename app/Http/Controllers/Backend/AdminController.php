@@ -11,7 +11,6 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +41,7 @@ class AdminController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/dashboard')->with('error', __('messages.wrong'));
         }
     }
 
@@ -58,7 +57,7 @@ class AdminController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/dashboard')->with('error', __('messages.wrong'));
         }
     }
 
@@ -77,11 +76,11 @@ class AdminController extends Controller
             $data['email'] = $request->email;
             $data['password'] = bcrypt($request->password);
             $this->model->create($data);
-            return redirect('backend/admin')->with('success', Lang::get('messages.success'));
+            return redirect('backend/admin')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/admin')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/admin')->with('error', __('messages.wrong'));
         }
     }
 
@@ -101,7 +100,7 @@ class AdminController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/dashboard')->with('error', __('messages.wrong'));
         }
     }
 
@@ -136,7 +135,7 @@ class AdminController extends Controller
                 $admin['email'] = $request->email;
                 $this->model->update($admin, $id);
 
-                return redirect()->back()->with('success', Lang::get('messages.success'));
+                return redirect()->back()->with('success', __('messages.success'));
             } else
                 return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $e) {
@@ -157,7 +156,7 @@ class AdminController extends Controller
     {
         try {
             $this->model->delete($id);
-            return redirect('backend/admin/index')->with('success', Lang::get('messages.success'));
+            return redirect('backend/admin/index')->with('success', __('messages.success'));
         } catch (\Exception $e) {
             logger()->error($e);
             return redirect()->back()
@@ -168,7 +167,7 @@ class AdminController extends Controller
 
     public function changePassword(Request $request, $id)
     {
-//        try {
+        try {
         $v = Validator::make($request->all(), [
             'old_password' => 'required',
             'password' => 'required|min:8',
@@ -183,14 +182,14 @@ class AdminController extends Controller
                 $data = [];
                 $data['password'] = bcrypt($request->password);
                 $this->model->update($data, $id);
-                return Redirect::to('backend/logout')->with('success', Lang::get('messages.success'));
+                return Redirect::to('backend/logout')->with('success', __('messages.success'));
             }
         } else
             return redirect()->back()->withErrors($v->errors());
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect()->back()->with('error', Lang::get('messages.wrong'));
-//        }
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect()->back()->with('error', __('messages.wrong'));
+        }
     }
 
     public function gdPDF()

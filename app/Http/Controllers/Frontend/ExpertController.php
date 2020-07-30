@@ -4,21 +4,24 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Expert;
-use App\Models\Education;
-use App\Models\Specialty;
-use App\Models\SpecialtiesType;
 
 class ExpertController extends Controller
 {
     use Expert;
-    public function education()
+
+    public function educate()
     {
-       return $this->getEducation();
+        return $this->getEducate();
+    }
+
+    public function education($id)
+    {
+        return $this->getEducation($id);
     }
 
     public function specialty($id)
     {
-       return $this->getSpecialty($id);
+        return $this->getSpecialty($id);
     }
 
     public function profession()

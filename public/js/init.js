@@ -1,7 +1,29 @@
 $(document).ready(function () {
     var CSRF_TOKEN = $('[name="csrf-token"]').attr('content');
 
-
+    var lang = {
+        "sEmptyTable": "Տվյալները բացակայում են",
+        "sProcessing": "Կատարվում է...",
+        "sInfoThousands": ",",
+        "sLengthMenu": "Ցուցադրել _MENU_ արդյունքներ մեկ էջում",
+        "sLoadingRecords": "Բեռնվում է ...",
+        "sZeroRecords": "Հարցմանը համապատասխանող արդյունքներ չկան",
+        "sInfo": "Ցուցադրված են _START_-ից _END_ արդյունքները ընդհանուր _TOTAL_-ից",
+        "sInfoEmpty": "Արդյունքներ գտնված չեն",
+        "sInfoFiltered": "(ֆիլտրվել է ընդհանուր _MAX_ արդյունքներից)",
+        "sInfoPostFix": "",
+        "sSearch": "Փնտրել",
+        "oPaginate": {
+            "sFirst": "Առաջին էջ",
+            "sPrevious": "Նախորդ էջ",
+            "sNext": "Հաջորդ էջ",
+            "sLast": "Վերջին էջ"
+        },
+        "oAria": {
+            "sSortAscending": ": ակտիվացրեք աճման կարգով դասավորելու համար",
+            "sSortDescending": ": ակտիվացրեք նվազման կարգով դասավորելու համար"
+        }
+    };
     var t = $('#kt_table_1').dataTable({
         "ordering": true,
         "initComplete": function () {
@@ -14,38 +36,54 @@ $(document).ready(function () {
             "orderable": false,
             "targets": 0
         }],
-        "language": {
-            "sEmptyTable": "Տվյալները բացակայում են",
-            "sProcessing": "Կատարվում է...",
-            "sInfoThousands": ",",
-            "sLengthMenu": "Ցուցադրել _MENU_ արդյունքներ մեկ էջում",
-            "sLoadingRecords": "Բեռնվում է ...",
-            "sZeroRecords": "Հարցմանը համապատասխանող արդյունքներ չկան",
-            "sInfo": "Ցուցադրված են _START_-ից _END_ արդյունքները ընդհանուր _TOTAL_-ից",
-            "sInfoEmpty": "Արդյունքներ գտնված չեն",
-            "sInfoFiltered": "(ֆիլտրվել է ընդհանուր _MAX_ արդյունքներից)",
-            "sInfoPostFix": "",
-            "sSearch": "Փնտրել",
-            "oPaginate": {
-                "sFirst": "Առաջին էջ",
-                "sPrevious": "Նախորդ էջ",
-                "sNext": "Հաջորդ էջ",
-                "sLast": "Վերջին էջ"
-            },
-            "oAria": {
-                "sSortAscending": ": ակտիվացրեք աճման կարգով դասավորելու համար",
-                "sSortDescending": ": ակտիվացրեք նվազման կարգով դասավորելու համար"
-            }
-        }
+        "language": lang,
+
+
     }).api();
 
+    var groupColumn = 1, topColumn = 2;
+    var t = $('#example').DataTable({
+        "columnDefs": [
+            {"visible": false,
+                "targets": [topColumn,groupColumn]}
+        ],
+        "order": [[topColumn, 'asc'], [groupColumn, 'asc']],
+        "language": lang,
+        "rowGroup": {
+            dataSrc: [ topColumn, groupColumn ]
+        },
+
+        "drawCallback": function (settings) {
+            var api = this.api();
+            var rows = api.rows({page: 'current'}).nodes();
+            var last = null;
+
+            // api.column(groupColumn, {page: 'current'}).data().each(function (group, i) {
+            //     if (last !== group) {
+            //         $(rows).eq(i).before(
+            //             '<tr class="group"><td colspan="5">' + group + '</td></tr>'
+            //         );
+            //
+            //         last = group;
+            //     }
+            // });
+        }
+    });
+
+    // Order by the grouping
+    $('#example tbody').on('click', 'tr.group', function () {
+        var currentOrder = t.order()[0];
+        if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+            t.order([groupColumn, 'desc']).draw();
+        } else {
+            t.order([groupColumn, 'asc']).draw();
+        }
+    });
     t.on('order.dt search.dt', function () {
         t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
             cell.innerHTML = i + 1;
         });
     }).draw();
-
-
     $(document).on("click", ".delete", function (e) {
         swal.fire({
             title: "Դուք համոզվա՞ծ եք:",
@@ -154,16 +192,16 @@ $(document).ready(function () {
             dataType: 'JSON',
             success: function (data) {
                 $sub = this.element.parent().parent().next().find('#specialty_id');
-                alert($sub.find('option').length)
+                console.log(data.spec)
 
-                if ($sub.find('optgroup').length >0)
-                    $sub.html("");
+                if ($sub.find('option').length > 1)
+                    $sub.find('option').remove();
 
                 for (var i in data.spec) {
-                    $sub.append(' <optgroup class="text-capitalize" label="' + i + '" id="spec"></optgroup>');
+                    $sub.append(' <optgroup class="text-capitalize" label="' + i + '" ></optgroup>');
 
                     for (var item in data.spec[i]) {
-                        $sub.find("#spec").append(' <option class="text-capitalize" value="' + item + '">' + data.spec[i][item] + '</option>')
+                        $sub.append(' <option class="text-capitalize" value="' + item + '">' + data.spec[i][item] + '</option>')
 
                         // }
                     }
@@ -174,7 +212,86 @@ $(document).ready(function () {
             }
         });
 
+    });
+    $(document).on('change', "#type", function () {
+        $type_id = $(this).val();
+        $.ajax({
+            url: '/spec',
+            type: 'POST',
+            context: {element: $(this)},
+            data: {_token: CSRF_TOKEN, id: $type_id},
+            dataType: 'JSON',
+            success: function (data) {
+                $sub = this.element.parent().parent().next().find('#parent_id');
+                // alert($sub.find('option').length)
+
+                if ($sub.find('option').length > 0)
+                    $sub.html("");
+                $sub.append(' <option class="text-capitalize" value="">' + "" + '</option>');
+                for (var item in data.spec) {
+                    if (data.spec.hasOwnProperty(item))
+                        $sub.append(' <option class="text-capitalize" value="' + item + '">' + data.spec[item] + '</option>')
+                }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+    });
+
+    $(document).on('click', '.edit', function () {
+
+        $(this).parent().parent().siblings().children().attr('disabled', false);
+        $(this).nextAll().css('display', 'none');
+        $(this).siblings('.save').css('display', 'inline-block');
+
+        $(this).siblings('.save_app').css('display', 'inline-block');
+        $(this).siblings('.save_prop').css('display', 'inline-block');
+
+        $(this).siblings('.cancel').css('display', 'inline-block');
+        $(this).css('display', 'none');
+    });
+    $(document).on('click', '.save', function () {
+        $id = $(this).siblings('.id').val();
+        $url = $(this).siblings('.url').val();
+
+        $siblings = $(this).parent().parent().prev().children();
+        var name = $siblings.val();
+        console.log(name);
+        $.ajax({
+            url: $url,
+            type: 'POST',
+            context: {element: $(this)},
+            data: {
+                _token: CSRF_TOKEN,
+                id: $id,
+                name: name
+            },
+            dataType: 'JSON',
+            success: function (data) {
+                this.element.parent().parent().siblings('td').children().attr('disabled', true);
+                this.element.siblings('').css('display', 'inline-block');
+                this.element.siblings('.cancel').css('display', 'none');
+                this.element.css('display', 'none');
+                location.reload();
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    });
+    $(document).on('click', '.cancel', function () {
+        $(this).parent().siblings('td').children().attr('disabled', true);
+        $(this).siblings('').css('display', 'inline-block');
+        $(this).siblings('.save').css('display', 'none');
+
+        $(this).siblings('.save_app').css('display', 'none');
+        $(this).siblings('.save_prop').css('display', 'none');
+
+        $(this).css('display', 'none');
     })
-});
+})
+;
 
 

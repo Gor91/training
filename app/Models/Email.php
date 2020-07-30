@@ -19,13 +19,13 @@ class Email extends Authenticatable
     protected $fillable = [
        'account_id', 'subject','message','created_by'
     ];
-    public function user()
+    public function admin()
     {
         return $this->belongsTo(Admin::class,
             'created_by','id');
     }
 
-    public function resume()
+    public function account()
     {
         return $this->belongsTo(Account::class,
             'account_id','id');

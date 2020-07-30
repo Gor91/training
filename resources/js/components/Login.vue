@@ -1,9 +1,9 @@
 <template>
-    <div class="login row justify-content-center">
+    <div class="login row justify-content-center m-0">
         <div class="col-md-6">
             <div v-if="registeredUser" class="text-success">Thank you {{registeredUser.name}}.You can now login</div>
             <div class="register_form">
-                <h3>Գրանցվել</h3>
+                <h3>Մուտք</h3>
                 <form @submit.prevent="authenticate" class="form_area">
                     <div class="form-group row" v-if="authError">
                         <p class="error m-auto">
@@ -21,7 +21,7 @@
 
                         <div class="col-lg-6 text-center m-auto">
                             <div  class="btn btn-link">
-                                <router-link to="/reset-password"> Մոռացել եք Ձեր գաղտնաբառը?</router-link>
+                                <router-link to="/reset-password" class="yellow"> Մոռացել եք Ձեր գաղտնաբառը?</router-link>
                             </div>
 
                             <input type="submit" value="Մուտք" class="btn primary-btn">

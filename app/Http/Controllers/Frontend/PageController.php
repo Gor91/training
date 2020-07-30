@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Courses;
 use App\Models\Document;
 use App\Models\Page;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -38,8 +39,31 @@ class PageController extends Controller
 
         return response()->json(['data'=>$coursestitle]);
     }
+    public function applicantcount(Request $request)
+    {
+        $accounts = Account::where('role', '=', 'user')->get();
+        $accountscount = $accounts->count();
 
+        return response()->json(['data'=>$accountscount]);
+    }
+    public function coursescount(Request $request)
+    {
+        $courses = Courses::all();
+        $coursescount = $courses->count();
 
+        return response()->json(['data'=>$coursescount]);
+    }
+    public function allcourses(Request $request)
+    {
+        $courses = Courses::all();
+        return response()->json(['data'=>$courses]);
+    }
+    public function coursedetails(Request $request,$id)
+    {
+
+        $courses = Courses::where("id",'=',$id)->get();
+        return response()->json(['data'=>$courses]);
+    }
     public function get(Request $request)
     {
 

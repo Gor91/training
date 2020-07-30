@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Exports\AccountExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Http\Requests\ProfessionRequest;
@@ -11,7 +12,6 @@ use App\Http\Traits\Expert;
 use App\Http\Traits\Registration;
 use App\Models\Account;
 use App\Models\Message;
-use App\Models\Region;
 use App\Models\User;
 use App\Notifications\ManageUserStatus;
 use App\Repositories\Repository;
@@ -20,7 +20,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AccountController extends Controller
 {
@@ -56,6 +58,7 @@ class AccountController extends Controller
     public function index($role)
     {
         $this->role = $role;
+        Session::put('role', $role);
         try {
             $accounts = $this->model->with([
                 'user' => function ($query) {
@@ -138,28 +141,27 @@ class AccountController extends Controller
             if (!empty($account)) {
 
                 $home_address = json_decode($account->home_address, true);
-                if(!empty($home_address['h_region']))
-                $account->h_region = $this->getRegionName($home_address['h_region']);
-                if(!empty($home_address['h_street']))
-                $account->h_street = $home_address['h_street'];
-                if(!empty($home_address['h_territory']))
-                $account->h_territory = $this->getRegionName($home_address['h_territory']);
+                if (!empty($home_address['h_region']))
+                    $account->h_region = getRegionName($home_address['h_region']);
+                if (!empty($home_address['h_street']))
+                    $account->h_street = $home_address['h_street'];
+                if (!empty($home_address['h_territory']))
+                    $account->h_territory = getRegionName($home_address['h_territory']);
 
                 $work_address = json_decode($account->work_address, true);
-                if(!empty($work_address['w_region']))
-                $account->w_region = $this->getRegionName($work_address['w_region']);
-                if(!empty($work_address['w_street']))
-                $account->w_street = $work_address['w_street'];
-                if(!empty($work_address['w_territory']))
-                $account->w_territory = $this->getRegionName($work_address['w_territory']);
+                if (!empty($work_address['w_region']))
+                    $account->w_region = getRegionName($work_address['w_region']);
+                if (!empty($work_address['w_street']))
+                    $account->w_street = $work_address['w_street'];
+                if (!empty($work_address['w_territory']))
+                    $account->w_territory = getRegionName($work_address['w_territory']);
             }
 
             $profession = DB::table('professions AS p')
-                ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
-                ->join('specialties AS sp', 's.parent_id', '=', 'sp.id')
-                ->join('educations AS e', 'e.id', '=', 'p.education_id')
-                ->select('e.name AS edu_name', 's.icon',
-                    's.name AS name', 'sp.name AS spec_name')
+                ->join('specialties AS s', 's.id', '=', 'p.education_id')
+                ->join('specialties AS sp', 'sp.id', '=', 'p.specialty_id')
+                ->select('s.icon', 'sp.name as edu_name',
+                    's.name AS spec_name')
                 ->where('p.account_id', '=', $id)
                 ->first();
 
@@ -191,14 +193,14 @@ class AccountController extends Controller
             if (!empty($account)) {
 
                 $home_address = json_decode($account->home_address, true);
-                $account->h_region = $this->getRegionName($home_address['h_region']);
+                $account->h_region = getRegionName($home_address['h_region']);
                 $account->h_street = $home_address['h_street'];
-                $account->h_territory = $this->getRegionName($home_address['h_territory']);
+                $account->h_territory = getRegionName($home_address['h_territory']);
 
                 $work_address = json_decode($account->work_address, true);
-                $account->w_region = $this->getRegionName($work_address['w_region']);
+                $account->w_region = getRegionName($work_address['w_region']);
                 $account->w_street = $work_address['w_street'];
-                $account->w_territory = $this->getRegionName($work_address['w_territory']);
+                $account->w_territory = getRegionName($work_address['w_territory']);
             }
             $regions = self::getRegions();
             $regions = $regions->getData();
@@ -206,9 +208,9 @@ class AccountController extends Controller
             $profession = DB::table('professions AS p')
                 ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
                 ->join('specialties AS sp', 's.parent_id', '=', 'sp.id')
-                ->join('educations AS e', 'e.id', '=', 'p.education_id')
-                ->select('e.name AS edu_name', 's.icon',
-                    's.name AS name', 'sp.name AS spec_name', 'p.member_of_palace','p.diplomas')
+//                ->join('educations AS e', 'e.id', '=', 'p.education_id')
+                ->select('s.icon',
+                    's.name AS name', 'sp.name AS spec_name', 'p.member_of_palace', 'p.diplomas')
                 ->where('p.account_id', '=', $id)
                 ->first();
 
@@ -218,7 +220,7 @@ class AccountController extends Controller
             $prof = (array)$prof->getData()->prof;
 
             return view('backend.account.edit',
-                compact('account', 'profession', 'regions','edu','prof'));
+                compact('account', 'profession', 'regions', 'edu', 'prof'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
@@ -243,7 +245,7 @@ class AccountController extends Controller
                 ->where('account_id', $id)
                 ->update(['status' => "approved"]);
             $user->notify(new ManageUserStatus($user, $account, $message, true));
-            return redirect('backend/account/user' )->with('success', Lang::get('messages.success'));
+            return redirect('backend/account/user')->with('success', Lang::get('messages.success'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
@@ -274,18 +276,6 @@ class AccountController extends Controller
         }
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getRegionName($id)
-    {
-        $region = Region::select('name')
-            ->where('id', $id)
-            ->first();
-
-        return $region->name;
-    }
 
 //TODO change functions
 
@@ -305,21 +295,20 @@ class AccountController extends Controller
         if (!empty($account)) {
 
             $home_address = json_decode($account->home_address, true);
-            $account->h_region = $this->getRegionName($home_address['h_region']);
+            $account->h_region = getRegionName($home_address['h_region']);
             $account->h_street = $home_address['h_street'];
-            $account->h_territory = $this->getRegionName($home_address['h_territory']);
+            $account->h_territory = getRegionName($home_address['h_territory']);
 
             $work_address = json_decode($account->work_address, true);
-            $account->w_region = $this->getRegionName($work_address['w_region']);
+            $account->w_region = getRegionName($work_address['w_region']);
             $account->w_street = $work_address['w_street'];
-            $account->w_territory = $this->getRegionName($work_address['w_territory']);
+            $account->w_territory = getRegionName($work_address['w_territory']);
         }
         $profession = DB::table('professions AS p')
-            ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
-            ->join('specialties AS sp', 's.parent_id', '=', 'sp.id')
-            ->join('educations AS e', 'e.id', '=', 'p.education_id')
-            ->select('e.name AS edu_name', 's.icon',
-                's.name AS name', 'sp.name AS spec_name')
+            ->join('specialties AS s', 's.id', '=', 'p.education_id')
+            ->join('specialties AS sp', 'sp.id', '=', 'p.specialty_id')
+            ->select('s.icon', 'sp.name as edu_name',
+                's.name AS spec_name')
             ->where('p.account_id', '=', $id)
             ->first();
         $account->profession = $profession;
@@ -354,4 +343,30 @@ class AccountController extends Controller
     {
         return Expert::getSpecialty($request->id);
     }
+
+    public function gdPDFRole()
+    {
+        $data = $this->model->all();
+
+        $title = __('messages.admin');
+        $pdf = PDF::loadView('backend.admin.gd_pdf', ['data' => $data])->setPaper('a4', 'landscape')->setWarnings(false);
+        // If you want to store the generated pdf to the server then you can use the store function
+        if (!Storage::exists(Config::get('constants.ADMIN_PATH'))) {
+            Storage::makeDirectory(Config::get('constants.ADMIN_PATH'), 0775, true);
+        }
+
+        $pdf->save(storage_path() . Config::get('constants.APP') . Config::get('constants.ADMIN_PATH') . 'admin.pdf');
+
+        // Finally, you can download the file using download function
+        return response()->download(storage_path(Config::get('constants.APP') . Config::get('constants.ADMIN_PATH') . 'admin.pdf'));
+//        return $pdf->download($title.'.pdf');
+    }
+
+    public function gdExcel()
+    {
+        $role = Session::get('role');
+        return Excel::download(new AccountExport($role),
+            'accounts.xlsx');
+    }
+
 }

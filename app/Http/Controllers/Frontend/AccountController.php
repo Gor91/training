@@ -58,7 +58,7 @@ class AccountController extends Controller
     {
         $profile = DB::table('accounts as a')
             ->join('professions as p', 'a.id', '=', 'p.account_id')
-            ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
+            ->join('specialties AS s', 's.id', '=', 'p.education_id')
             ->join('users AS u', 'u.account_id', '=', 'a.id')
             ->select('a.id', 'a.name', 'a.surname', 'a.father_name',
                 'a.bday', 'u.email', 'a.phone', 'a.home_address', 'a.work_address', 'a.workplace_name',
@@ -97,7 +97,9 @@ class AccountController extends Controller
             $image_name = $account->image_name;
             $account->image_name = $name;
             $account->save();
-            unlink($aup . $image_name);
+            if ($image_name !== Config::get('constants.AVATAR')
+                && $name !== $image_name)
+                unlink($aup . $image_name);
 
 //            return response()->json(['success' => true, 'avatar' => $name, 200]);
             return $this->respondWithToken($request->token);
@@ -131,19 +133,18 @@ class AccountController extends Controller
                     'specialty_id' => $professionRequest->specialty_id,
                     'education_id' => $professionRequest->education_id,
                     'profession' => $professionRequest->profession,
-//
+
                 ]);
             $user = User::where('account_id', $id)->update([
                 'email' => $userRequest->email
             ]);
             DB::commit();
-
             return response()->json(['success' => true, 'user' => $account->id, 200]);
         } catch (\Exception $exception) {
             DB::rollback();
             dd($exception);
             logger()->error($exception);
-            return response()->json(['error' => true, 500]);
+            return response()->json(['error' => true],500);
 //            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));
 
         }
@@ -169,9 +170,9 @@ class AccountController extends Controller
             if (strlen($professionRequest->diplomas) > 0) {
                 $a_f = explode(',', $professionRequest->diplomas);
             }
-            if (!file_exists(Config::get('constants.DIPLOMA'))) {
-                mkdir(Config::get('constants.DIPLOMA'), 0775, true);
-            }
+//            if (!file_exists(Config::get('constants.DIPLOMA'))) {
+//                mkdir(Config::get('constants.DIPLOMA'), 0775, true);
+//            }
             foreach ($allFiles as $index => $allFile) {
                 $name = grs() . "_" . $account->id . "." . $allFile->extension();
                 $a_f[] = $name;
@@ -183,15 +184,19 @@ class AccountController extends Controller
                     'member_of_palace' => (int)$professionRequest->member_of_palace,
                     'diplomas' => json_encode($a_f, true)
                 ]);
+            User::where('account_id', $id)
+                ->update([
+                    'status' => 'pending'
+                ]);
 //todo unlink diplomas
             DB::commit();
 
-            return response()->json(['success' => true, 'user' => $account->id, 200]);
+            return response()->json(['success' => 'pending', 'user' => $account->id], 200);
         } catch (\Exception $exception) {
             DB::rollback();
-            dd($exception);
+//            dd($exception);
             logger()->error($exception);
-            return response()->json(['error' => true, 500]);
+            return response()->json(['error' => true],500);
 //            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));
 
         }
@@ -222,7 +227,7 @@ class AccountController extends Controller
             'access_token' => $token,
             'user' => $account,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 60 * 3
         ]);
     }
 
