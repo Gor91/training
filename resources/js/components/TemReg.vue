@@ -13,11 +13,12 @@
                                      շարունակական գործընթացում՝ արձագանքել համատեղ ծրագրերի իրականացման համար։ </p>
                              </div>
                              <div class="col clockinner1 clockinner">
-                                 <h1 class="days">150</h1>
+
+                                 <h1>{{count}}</h1>
                                  <span class="smalltext">Մասնակիցներ</span>
                              </div>
                              <div class="col clockinner clockinner1">
-                                 <h1 class="hours">23</h1>
+                                 <h1>{{coursecount}}</h1>
                                  <span class="smalltext">Դասընթացներ</span>
                              </div>
                              <div class="col clockinner clockinner1">
@@ -58,15 +59,46 @@
  </template>
 
 <script>
+    import {applicantcount} from '../partials/help';
+    import {coursescount} from '../partials/help';
 export default {
         data() {
             return {
                 nurse: '/css/template/img/nurse.svg',
                 doctor:'/css/template/img/doctor.png',
                 pharmacy:'/css/template/img/pharmacy-symbol.svg',
-                phar:'/css/template/img/pharmacy.png'
+                phar:'/css/template/img/pharmacy.png',
+                count:"",
+                coursecount:""
             };
+        },methods:{
+        appcount: function() {
+            applicantcount("hhh")
+                .then(res => {
+                    this.count = res.data;
+
+                })
+                .catch(error => {
+                    console.log('errorsss');
+                    // this.$store.commit("registerFailed", {error});
+                })
         },
+        ccount: function() {
+            coursescount("hhh")
+                .then(res => {
+                    this.coursecount = res.data;
+                })
+                .catch(error => {
+                    console.log('errorsss');
+                    // this.$store.commit("registerFailed", {error});
+                })
+        }
+
+    },
+    beforeMount(){
+        this.appcount(),
+        this.ccount()
+    },
 
 }
 </script>

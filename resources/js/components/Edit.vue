@@ -1,5 +1,5 @@
 <template>
-    <div class="register  justify-content-center container-fluid">
+    <div class="register  justify-content-center container">
         <div class="form row position-relative">
             <p class="error col-12" v-if="editError">
                 {{editError}}
@@ -18,7 +18,7 @@
                     <input type="hidden" name="_method" value="PUT">
                     <div class="form-group row">
                         <div class="form-group col-lg-4">
-                            <label for="phone">Phone</label>
+                            <label for="phone">{{texts.phone}}</label>
                             <input id="phone" type="text" name="phone"
                                    class="form-control"
                                    v-validate="'required'"
@@ -27,14 +27,14 @@
                             <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="email">Email</label>
+                            <label for="email">{{texts.email}}</label>
                             <input id="email" type="email" name="email" v-validate="'required|email'"
                                    :class="{'input': true, 'is-invalid': errors.has('email') }"
                                    class="form-control" v-model="formEdit.email">
                             <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="bday">Birthday</label>
+                            <label for="bday">{{texts.birthday}}</label>
                             <vuejs-datepicker value="state.date" v-validate="'required'" id="bday"
                                               format="dd-MM-yyyy" :open-date="openDate"
                                               :class="{'input': true, 'is-invalid': errors.has('bday') }"
@@ -42,41 +42,41 @@
                             <span v-show="errors.has('bday')" class="help is-danger">{{ errors.first('bdsy') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="profession">Profession</label>
+                            <label for="profession">{{texts.profession}}</label>
                             <select id="profession" name="profession" class="form-control" v-validate="'required'"
                                     :class="{'input': true, 'is-invalid': errors.has('profession') }"
                                     v-model="formEdit.profession" @change="getSpecialties(formEdit.profession)">
-                                <option value="">Select a profession</option>
+                                <option value="">{{texts.selectaprofession}}</option>
                                 <option v-for="(prof, key) in professions" v-bind:value="key">{{prof}}</option>
                             </select>
                             <span v-show="errors.has('profession')"
                                   class="help is-danger">{{ errors.first('profession') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="education_id">Education</label>
-                            <select id="education_id" name="education_id" class="form-control" v-validate="'required'"
-                                    :class="{'input': true, 'is-invalid': errors.has('education_id') }"
-                                    v-model="formEdit.education_id">
-                                <option v-for="(edu, key) in educations" v-bind:value="key">{{edu}}</option>
-                            </select>
-                            <span v-show="errors.has('education_id')" class="help is-danger">{{ errors.first('education_id') }}</span>
-                        </div>
-                        <div class="form-group col-lg-4">
-                            <label for="specialty_id">Specialty</label>
+                            <label for="specialty_id">{{texts.specialty}}</label>
                             <select id="specialty_id" name="specialty_id" class="form-control" v-validate="'required'"
-                                    :class="{'input': true, 'is-invalid': errors.has('specialty_id') }" ref="spec"
-                                    v-model="formEdit.specialty_id">
-                                <optgroup v-for="(group, name) in specialties" :label="name">
-                                    <option v-for="(option, key) in group" :value="key">
-                                        {{ option }}
-                                    </option>
-                                </optgroup>
+                                   :class="{'input': true, 'is-invalid': errors.has('specialty_id') }" ref="spec"
+                                    v-model="formEdit.specialty_id"  @change="getEducations(formEdit.specialty_id)">
+                                <option v-for="(group, name) in specialties" :value="name">
+                                    {{ group }}
+                                </option>
                             </select>
                             <span v-show="errors.has('specialty_id')"
                                   class="help is-danger">{{ errors.first('specialty_id') }}</span>
                         </div>
+                        <div class="form-group col-lg-4">
+                            <label for="education_id">{{texts.education}}</label>
+                            <select id="education_id" name="education_id" class="form-control" v-validate="'required'"
+                                    :class="{'input': true, 'is-invalid': errors.has('education_id') }"
+                                    v-model="formEdit.education_id" ref="edu">
+                                <option v-for="(edu, key) in educations" v-bind:value="key">{{edu}}</option>
+                            </select>
+                            <span v-show="errors.has('education_id')" class="help is-danger">{{ errors.first('education_id') }}</span>
+                        </div>
+
+
                         <div class="form-group col-lg-12">
-                            <label for="workplace_name">Name of the workplace</label>
+                            <label for="workplace_name">{{texts.workplace}}</label>
                             <input id="workplace_name" type="text" name="workplace_name" class="form-control"
                                    v-validate="'required'"
                                    :class="{'input': true, 'is-invalid': errors.has('workplace_name') }"
@@ -86,9 +86,9 @@
                         </div>
                         <div class="form-group col-lg-12">
                             <div class="row ">
-                                <p class="form-group-lg col-lg-12">Work Address </p>
+                                <p class="form-group-lg col-lg-12">{{texts.workaddress}} </p>
                                 <div class="form-group col-lg-4">
-                                    <label for="w_region">Region</label>
+                                    <label for="w_region">{{texts.region}}</label>
                                     <select id="w_region" name="w_region" class="form-control"
                                             :class="{'input': true, 'is-invalid': errors.has('w_region') }"
                                             v-validate="'required'" @change="getTerritory(formEdit.w_region,'w')"
@@ -98,7 +98,7 @@
                                     <span v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <label for="w_territory">Territory</label>
+                                    <label for="w_territory">{{texts.territory}}</label>
                                     <select id="w_territory" name="w_territory" ref="w_territory" class="form-control"
                                             v-validate="'required'"
                                             :class="{'input': true, 'is-invalid': errors.has('w_territory') }"
@@ -118,7 +118,7 @@
                                           class="help is-danger">{{ errors.first('w_territory') }}</span>
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <label for="w_street">Street</label>
+                                    <label for="w_street">{{texts.street}}</label>
                                     <input id="w_street" type="text" name="w_street" class="form-control"
                                            v-validate="'required'"
                                            :class="{'input': true, 'is-invalid': errors.has('w_street') }"
@@ -129,9 +129,9 @@
                         </div>
                         <div class="form-group col-lg-12">
                             <div class="row ">
-                                <p class="form-group-lg col-lg-12">Home Address </p>
+                                <p class="form-group-lg col-lg-12">{{texts.homeaddress}} </p>
                                 <div class="form-group col-lg-4">
-                                    <label for="h_region">Region</label>
+                                    <label for="h_region">{{texts.region}}</label>
                                     <select id="h_region" name="h_region" class="form-control"
                                             v-validate="'required'" @change="getTerritory(formEdit.h_region,'h')"
                                             :class="{'input': true, 'is-invalid': errors.has('h_region') }"
@@ -142,7 +142,7 @@
 
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <label for="h_territory">Territory</label>
+                                    <label for="h_territory">{{texts.territory}}</label>
                                     <select id="h_territory" name="h_territory" ref="h_territory" class="form-control"
                                             v-validate="'required'"
                                             :class="{'input': true, 'is-invalid': errors.has('h_territory') }"
@@ -164,7 +164,7 @@
                                 </div>
                                 <div class="form-group col-lg-4">
 
-                                    <label for="h_street">Street</label>
+                                    <label for="h_street">{{texts.street}}</label>
                                     <input id="h_street" type="text" name="h_street" class="form-control"
                                            v-validate="'required'"
                                            :class="{'input': true, 'is-invalid': errors.has('h_street') }"
@@ -175,7 +175,7 @@
                         </div>
                     </div>
                     <div class="form-group col-lg-4">
-                        <input type="submit" value="Edit" class="btn btn-outline-primary ml-auto">
+                        <button type="submit" class="btn primary-btn mt-3">{{texts.edit}}</button>
                     </div>
                 </form>
             </article>
@@ -183,7 +183,7 @@
                 <form @submit.prevent="updateApp" enctype="multipart/form-data">
                     <div class="form-group row ">
                         <div class="form-group col-lg-4">
-                            <label for="name">Name</label>
+                            <label for="name">{{texts.name}}</label>
                             <input id="name" type="text" name="name" class="form-control" v-validate="'required'"
                                    :class="{'input': true, 'is-invalid': errors.has('name') }" v-model="appEdit.name"
                             >
@@ -191,7 +191,7 @@
 
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="surname">Surname</label>
+                            <label for="surname">{{texts.surname}}</label>
                             <input id="surname" type="text" name="surname" class="form-control "
                                    :class="{'input': true, 'is-invalid': errors.has('surname') }"
                                    v-validate="'required'" v-model="appEdit.surname">
@@ -199,7 +199,7 @@
                                   class="help is-danger">{{ errors.first('surname') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="father_name">Father Name</label>
+                            <label for="father_name">{{texts.surname}}</label>
                             <input id="father_name" type="text" name="father_name" class="form-control"
                                    :class="{'input': true, 'is-invalid': errors.has('father_name') }"
                                    v-validate="'required'"
@@ -207,7 +207,7 @@
                             <span v-show="errors.has('father_name')" class="help is-danger">{{ errors.first('father_name') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="passport">Social number</label>
+                            <label for="passport">{{texts.serianumber}}</label>
                             <input id="passport" type="text" name="passport"
                                    class="form-control"
                                    v-validate="'required'"
@@ -215,7 +215,7 @@
                             <span v-if="errors.has('passport')" class="help is-danger" role="alert">{{ errors.first('passport') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="issue">Data of Issue</label>
+                            <label for="issue">{{texts.dateofissue}}</label>
                             <vuejs-datepicker value="state.date" v-validate="'required'" id="issue"
                                               format="dd-MM-yyyy"
                                               :class="{'input': true, 'is-invalid': errors.has('date_of_issue') }"
@@ -224,7 +224,7 @@
                             <span v-show="errors.has('date_of_issue')" class="help is-danger">{{ errors.first('date_of_issue') }}</span>
                         </div>
                         <div class="form-group col-lg-4">
-                            <label for="expiry">Data of Expiry</label>
+                            <label for="expiry">{{texts.dateofexpire}}</label>
                             <vuejs-datepicker value="state.date" v-validate="'required'" id="expiry"
                                               name="date_of_expiry"
                                               format="dd-MM-yyyy"
@@ -233,12 +233,15 @@
                             <span v-show="errors.has('date_of_expiry')" class="help is-danger">{{ errors.first('date_of_expiry') }}</span>
                         </div>
                         <div class="form-group col-lg-12">
-                            <div class="confirm-switch">
-                                <input type="checkbox" id="confirm-switch"
-                                       :class="{'input': true, 'is-invalid': errors.has('member_of_palace') }"
-                                       i="" name="member_of_palace" class="form-control"
-                                       v-validate="'required'" v-model="appEdit.member_of_palace">
-                                <label for="confirm-switch" class="col-lg-6">Member of palace</label>
+                            <div class="form-group  col-lg-6"><span>{{texts.member_of_palace}}</span></div>
+                            <div class="form-group  col-lg-6">
+                                <div class="confirm-switch">
+                                    <input type="checkbox" id="confirm-switch"
+                                           :class="{'input': true, 'is-invalid': errors.has('member_of_palace') }"
+                                           i="" name="member_of_palace" class="form-control"
+                                           v-validate="'required'" v-model="appEdit.member_of_palace">
+                                    <label for="confirm-switch"></label>
+                                </div>
                             </div>
                             <span v-show="errors.has('member_of_palace')" class="help is-danger">{{ errors.first('member_of_palace') }}</span>
                         </div>
@@ -248,7 +251,7 @@
                                        type="file" id="files" multiple
                                        name="files" v-validate="'required'">
                                 <p>
-                                    Drop your files here <br>or click to search
+                                    {{texts.uploadfiles}}
                                 </p>
                             </div>
 
@@ -279,8 +282,7 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-4">
-                            <input type="submit" value="Edit" class="btn btn-outline-primary ml-auto">
-
+                            <button type="submit" class="btn primary-btn mt-3">{{texts.edit}}</button>
                         </div>
                     </div>
                 </form>
@@ -294,7 +296,7 @@
                         </p>
                         <div class="form-group  col-lg-4">
                             <div class="row">
-                                <label for="old_password">Old Password</label>
+                                <label for="old_password">{{texts.oldpassword}}</label>
                                 <input id="old_password" type="password" name="old_password" class="form-control"
                                        v-validate="'required|min:8'" v-model="passEdit.old_password"
                                        :class="{'input': true, 'is-invalid': errors.has('old_password') }">
@@ -303,7 +305,7 @@
                             </div>
                         </div>
                         <div class="form-group  col-lg-4">
-                            <label for="password">Password</label>
+                            <label for="password">{{texts.newpassword}}</label>
                             <input id="password" type="password" name="password" class="form-control"
                                    v-validate="'required|min:8'" v-model="passEdit.password"
                                    :class="{'input': true, 'is-invalid': errors.has('password') }">
@@ -311,7 +313,7 @@
                                   class="help is-danger">{{ errors.first('password') }}</span>
                         </div>
                         <div class="form-group  col-lg-4">
-                            <label for="re_password">Confirm Password</label>
+                            <label for="re_password">{{texts.confirmpassword}}</label>
                             <input id="re_password" type="password" name="re_password" class="form-control"
                                    :class="{'input': true, 'is-invalid': errors.has('re_password') }"
                                    v-validate="'required|min:8'" v-model="passEdit.re_password">
@@ -319,8 +321,7 @@
                         </div>
                     </div>
                     <div class="form-group col-lg-12">
-                        <input type="submit" value="Edit" class="btn btn-outline-primary ml-auto">
-
+                        <button type="submit" class="btn primary-btn mt-3">{{texts.edit}}</button>
                     </div>
                 </form>
             </article>
@@ -330,8 +331,9 @@
 
 <script>
     import {approveUser, changePassword, editUser} from '../partials/auth';
-    import {education, profession, region, specialty, territory} from '../partials/help';
+    import {educate,education, profession, region, specialty, territory} from '../partials/help';
     import Datepicker from 'vuejs-datepicker';
+    import registertexts from './json/registertexts.json'
 
     export default {
         props: ['input_name'],
@@ -378,20 +380,35 @@
                 openDate: new Date('January 31 1980'),
                 error:
                     null,
+                texts: registertexts
             }
         },
         created() {
             this.getAccountInfo();
             this.getRegions();
             this.getProfessions();
-            this.getEducations();
+            this.getEducate();
+            // this.getEducations();
             // console.log(this.$data.formEdit)
         },
         methods: {
-            getEducations() {
-                education()
+            getEducate() {
+                educate()
                     .then(res => {
                         this.educations = res.edu;
+                    })
+                    .catch(error => {
+                        this.$store.commit("getContentFailed", {error});
+                    });
+            },
+            getEducations(id) {
+                education(id)
+                    .then(res => {
+
+                        this.$refs.edu.style.border = '1px solid #9f12ad';
+                        this.$refs.spec.style.border = '1px solid #ced4da';
+                        this.educations = res.edu;
+
                     })
                     .catch(error => {
                         this.$store.commit("getContentFailed", {error});
@@ -421,6 +438,7 @@
             getProfessions() {
                 profession()
                     .then(res => {
+                        console.log(res);
                         this.professions = res.prof;
                     })
                     .catch(error => {
@@ -485,7 +503,8 @@
                             this.files, this.$data.formEdit.token)
                             .then(res => {
                                 this.$store.commit("editSuccess", res);
-                                this.$router.push({path: '/account'});
+                                // this.$router.push({path: '/login'});
+                                this.logout();
                             })
                             .catch(error => {
                                 this.$store.commit("editFailed", {error});
@@ -538,6 +557,7 @@
                     });
             },
             logout() {
+                console.log('mtav');
                 this.$store.commit('logout');
                 this.$router.push('/login');
             },

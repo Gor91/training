@@ -53,14 +53,9 @@
                  </div>
 
                  <div class="offset-lg-1 col-lg-5">
-                     <div class="dpmt_right">
+                     <div class="dpmt_right" v-for="data in datas" :key="data.id">
                          <h1>ԴԱՍԸՆԹԱՑՆԵՐՆ ԸՍՏ ՈՐՈԿԱՎՈՐՄԱՆ</h1>
-                         <p>Բուժաշխատողների իրավունքները պաշտպանող, շարունակական մասնագիտական և այլ ծրագրեր իրականացնող մասնագիտական միություն:</p>
-                         <p>Ազգային Բժշկական Պալատը սկսում է Պալատին անդամակցած բժշկական կենտրոններում կրթական լայնածավալ
-                             ծրագրերի իրականացման գործընթաց։ Ուստի առաջարկում ենք այն բժշկական կենտրոններին և մասնագիտական
-                             ասոցիացիաներին, ովքեր ասելիք և անելիք ունեն կիրթ, պաշտպանված ու բանիմաց բուժաշխատողի կերտման
-                             շարունակական գործընթացում՝ արձագանքել համատեղ ծրագրերի իրականացման համար։ Երկու նման մասնագիտական
-                             ասոցիացիայի հետ համատեղ ծրագրեր մշակման փուլում են, որի մասին կհայտարարենք առաջիկայում։</p>
+                             <p>{{ data.homedescription }}</p>
                          <router-link :to="{ name: 'lesson' }" class="primary-btn text-uppercase search_course_btn">
                              Դասընթացներ</router-link>
                      </div>
@@ -72,15 +67,33 @@
  </template>
 
 <script>
+    import {getPagesData} from '../partials/auth';
 export default {
         data() {
             return {
+                datas: [],
                 nurse: '/css/frontend/img/nurse.svg',
                 doctor:'/css/frontend/img/doctor.png',
                 pharmacy:'/css/frontend/img/pharmacy-symbol.svg',
                 phar:'/css/frontend/img/pharmacy.png'
             };
         },
+    methods:{
+        aboutpage: function() {
+            getPagesData("hhh")
+                .then(res => {
+                    this.datas = res.data;
+                    //this.docs = res.document;
+                })
+                .catch(error => {
+                    console.log('error');
+                    // this.$store.commit("registerFailed", {error});
+                })
+        }
+    },
+    beforeMount(){
+        this.aboutpage()
+    },
 
 }
 </script>

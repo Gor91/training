@@ -2,16 +2,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-6">
-                <div class="card card-default">
-                    <div class="card-header">Reset Password</div>
+                <div class="register_form">
+                    <h3>{{texts.resetpassword}}</h3>
                     <div class="card-body">
                         <form autocomplete="off" @submit.prevent="requestResetPassword" method="post">
                             <div class="form-group">
-                                <label for="email">E-mail</label>
-                                <input type="email" id="email" class="form-control" placeholder="user@example.com"
+                                <input type="email" id="email" class="form-control" placeholder="էլ.հասցե"
                                        v-model="email" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
+                            <button type="submit" class="btn primary-btn">{{texts.resetlink}}</button>
                         </form>
                     </div>
                 </div>
@@ -21,11 +20,13 @@
 </template>
 
 <script>
+    import registertexts from '../components/json/registertexts.json'
     export default {
         data() {
             return {
                 email: null,
-                has_error: false
+                has_error: false,
+                texts: registertexts,
             }
         },
         methods: {

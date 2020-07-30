@@ -1,11 +1,24 @@
-export function education() {
+import texts from '../components/json/registertexts.json';
+export function educate() {
     return new Promise((res, rej) => {
-        axios.post('/api/edu')
+        axios.post('/api/educate/')
             .then(response => {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
+            })
+    })
+}
+
+export function education(id) {
+    return new Promise((res, rej) => {
+        axios.post('/api/edu/' + id)
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej(texts.error)
             })
     })
 }
@@ -18,7 +31,7 @@ export function specialty(id) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -30,7 +43,7 @@ export function region() {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -42,10 +55,11 @@ export function territory(id) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
+
 
 export function profession() {
     return new Promise((res, rej) => {
@@ -54,7 +68,32 @@ export function profession() {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
+            })
+    })
+}
+
+
+export function applicantcount() {
+    return new Promise((res, rej) => {
+        axios.post('/api/applicantcount/')
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej(texts.error)
+            })
+    })
+}
+
+export function coursescount() {
+    return new Promise((res, rej) => {
+        axios.post('/api/coursescount/')
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej(texts.error)
             })
     })
 }

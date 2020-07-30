@@ -21,6 +21,8 @@ class Specialty extends Model
     {
         return $this->hasOne('App\Models\Profession');
     }
+
+    //tdo stugel ogg e
     public function parent()
     {
         return $this->hasMany(self::class, 'parent_id');
@@ -28,6 +30,11 @@ class Specialty extends Model
 
     public function specialty()
     {
-        return $this->belongsToMany(self::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id','id' );
     }
+    public function type()
+    {
+        return $this->belongsTo(SpecialtiesType::class, 'type_id');
+    }
+
 }

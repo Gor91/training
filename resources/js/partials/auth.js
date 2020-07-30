@@ -1,3 +1,4 @@
+import texts from '../components/json/registertexts.json';
 export function registerUser(credentials, files) {
     let formData = new FormData();
 
@@ -24,7 +25,7 @@ export function registerUser(credentials, files) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -68,7 +69,7 @@ export function uploadAvatar(file, id, token) {
     let data = new FormData();
     data.append('avatar', file);
     data.append('_method', 'PUT');
-    data.append('_token', token);
+    data.append('token', token);
     return new Promise((res, rej) => {
         axios.post('/api/auth/avatar/' + id, data,
             {
@@ -94,7 +95,7 @@ export function getPagesData(credentials) {
                 console.log(credentials);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -113,7 +114,7 @@ export function editUser(id, credentials, files, token) {
     //     formData.append(`diploma_${i + 1}`, files[i]);
     // }
     formData.append('_method', 'PUT');
-    formData.append('_token', token);
+    formData.append('token', token);
     return new Promise(function (res, rej) {
         // console.log('id',token)
         axios.post('/api/auth/edit/' + id,
@@ -128,7 +129,7 @@ export function editUser(id, credentials, files, token) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -147,7 +148,7 @@ export function approveUser(id, credentials, files, token) {
         formData.append(`diploma_${i + 1}`, files[i]);
     }
     formData.append('_method', 'PUT');
-    formData.append('_token', token);
+    formData.append('token', token);
     return new Promise(function (res, rej) {
         // console.log('id',token)
         axios.post('/api/auth/approve/' + id,
@@ -162,7 +163,7 @@ export function approveUser(id, credentials, files, token) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -188,7 +189,7 @@ export function changePassword(id, credentials, token) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }

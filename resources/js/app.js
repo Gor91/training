@@ -3,25 +3,19 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import VeeValidate, {Validator} from 'vee-validate';
-import am from "vee-validate/dist/locale/am";
+import hy from "vee-validate/dist/locale/hy";
 import {routes} from './routes.js';
 import storeData from './store.js';
 import MainApp from './components/MainApp.vue';
 
-Validator.localize({am: am});
+Validator.localize({hy: hy});
 const config = {
-    locale: 'am'
+    locale: 'hy'
 };
 
 Vue.use(VeeValidate, config);
 
-// Vue.use(VeeValidate, {
-//     i18nRootKey: "validations", // customize the root path for validation messages.
-//     i18n,
-//     dictionary: {
-//         am
-//     }
-// });
+
 Vue.use(VueRouter);
 Vue.use(Vuex);
 

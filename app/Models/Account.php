@@ -41,6 +41,11 @@ class Account extends Model implements JWTSubject
         return $this->hasOne('App\Models\Profession');
     }
 
+    public function email()
+    {
+        return $this->hasMany(Email::class);
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

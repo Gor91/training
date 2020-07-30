@@ -23,8 +23,8 @@
                         <label for="name">{{texts.name}}</label>
                         <input id="name" type="text" name="name" class="form-control" v-validate="'required'"
                                :class="{'input': true, 'is-invalid': errors.has('name') }" autocomplete="off"
-                               v-model="formRegister.name" :data-vv-as="texts.name" v-on:blur="checkLang('name')"
-                               data-toggle="tooltip" ref="name" :title="texts.name" v-b-tooltip.focus title="Մուտքագրեք հայերեն">
+                               v-model="formRegister.name" :data-vv-as="texts.name" v-on:blur="checkLang('name','hy')"
+                               data-toggle="tooltip" ref="name" :placeholder="texts.enterarm">
 
                         <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
 
@@ -32,14 +32,16 @@
                     <div class="form-group col-lg-4 ">
                         <label for="surname">{{texts.surname}}</label>
                         <input id="surname" type="text" name="surname" class="form-control "
-                               :class="{'input': true, 'is-invalid': errors.has('surname') }"  v-on:blur="checkLang('surname')"
+                               :class="{'input': true, 'is-invalid': errors.has('surname') }"
+                               v-on:blur="checkLang('surname','hy')" :placeholder="texts.enterarm"
                                v-validate="'required'" v-model="formRegister.surname" :data-vv-as="texts.surname">
                         <span v-show="errors.has('surname')" class="help is-danger">{{ errors.first('surname') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="father_name">{{texts.fathername}}</label>
                         <input id="father_name" type="text" name="father_name" class="form-control"
-                               :class="{'input': true, 'is-invalid': errors.has('father_name') }"  v-on:blur="checkLang('father_name')"
+                               :class="{'input': true, 'is-invalid': errors.has('father_name') }"
+                               v-on:blur="checkLang('father_name','hy')" :placeholder="texts.enterarm"
                                v-validate="'required'" :data-vv-as="texts.fathername"
                                v-model="formRegister.father_name">
                         <span v-show="errors.has('father_name')" class="help is-danger">{{ errors.first('father_name') }}</span>
@@ -60,6 +62,7 @@
                         <input id="passport" type="text" name="passport"
                                class="form-control"
                                v-validate="'required'" :data-vv-as="texts.serianumber"
+                               v-on:blur="checkLang('passport','en')"
                                v-model="formRegister.passport">
                         <span v-if="errors.has('passport')" class="help is-danger" role="alert">{{ errors.first('passport') }}</span>
                     </div>
@@ -95,8 +98,9 @@
                     <div class="form-group col-lg-12">
                         <label for="workplace_name">{{texts.workplace}}</label>
                         <input id="workplace_name" type="text" name="workplace_name" class="form-control"
-                               v-validate="'required'" :data-vv-as="texts.workplace"
-                               :class="{'input': true, 'is-invalid': errors.has('workplace_name') }"  v-on:blur="checkLang('workplace_name')"
+                               v-validate="'required'" :data-vv-as="texts.workplace" :placeholder="texts.enterarm"
+                               :class="{'input': true, 'is-invalid': errors.has('workplace_name') }"
+                               v-on:blur="checkLang('workplace_name', 'hy')"
                                v-model="formRegister.workplace_name">
                         <span v-show="errors.has('workplace_name')"
                               class="help is-danger">{{ errors.first('workplace_name') }}</span>
@@ -109,7 +113,8 @@
                                 <select id="w_region" name="w_region" class="form-control" :data-vv-as="texts.region"
                                         :class="{'input': true, 'is-invalid': errors.has('w_region') }"
                                         v-validate="'required'" @change="getTerritory(formRegister.w_region,'w')"
-                                        v-model="formRegister.w_region" >
+                                        v-model="formRegister.w_region">
+                                    <option value="">{{texts.selectregion}}</option>
                                     <option v-for="(region, key) in regions" v-bind:value="key">{{region}}</option>
                                 </select>
                                 <span v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
@@ -121,6 +126,7 @@
                                         v-validate="'required'"
                                         :class="{'input': true, 'is-invalid': errors.has('w_territory') }"
                                         v-model="formRegister.w_territory" :data-vv-as="texts.territory">
+                                    <option value="">{{texts.selectterritory}}</option>
                                     <optgroup v-for="(group, name) in w_territories" :label="group.name+ 'ի համայնք'">
                                         <option v-for="(option, key) in group.residence" v-if="group.residence"
                                                 :value="option.id">
@@ -138,7 +144,8 @@
                             <div class="form-group col-lg-4">
                                 <label for="w_street">{{texts.street}}</label>
                                 <input id="w_street" type="text" name="w_street" class="form-control"
-                                       v-validate="'required'" v-on:blur="checkLang('w_street')"
+                                       v-validate="'required'" v-on:blur="checkLang('w_street','hy')"
+                                       :placeholder="texts.enterarm"
                                        :class="{'input': true, 'is-invalid': errors.has('w_street') }"
                                        v-model="formRegister.w_street" :data-vv-as="texts.street">
                                 <span v-show="errors.has('w_street')" class="help is-danger">{{ errors.first('w_street') }}</span>
@@ -154,6 +161,7 @@
                                         v-validate="'required'" @change="getTerritory(formRegister.h_region,'h')"
                                         :class="{'input': true, 'is-invalid': errors.has('h_region') }"
                                         v-model="formRegister.h_region" :data-vv-as="texts.region">
+                                    <option value="">{{texts.selectregion}}</option>
                                     <option v-for="(region, key) in regions" v-bind:value="key">{{region}}</option>
                                 </select>
                                 <span v-show="errors.has('h_region')" class="help is-danger">{{ errors.first('h_region') }}</span>
@@ -166,6 +174,7 @@
                                         v-validate="'required'"
                                         :class="{'input': true, 'is-invalid': errors.has('h_territory') }"
                                         v-model="formRegister.h_territory" :data-vv-as="texts.territory">
+                                    <option value="">{{texts.selectterritory}}</option>
                                     <optgroup v-for="(group, name) in h_territories" :label="group.name+ 'ի համայնք'">
                                         <option v-for="(option, key) in group.residence" v-if="group.residence"
                                                 :value="option.id">
@@ -182,7 +191,8 @@
                             <div class="form-group col-lg-4">
                                 <label for="h_street">{{texts.street}}</label>
                                 <input id="h_street" type="text" name="h_street" class="form-control"
-                                       v-validate="'required'" v-on:blur="checkLang('h_street')"
+                                       v-validate="'required'" v-on:blur="checkLang('h_street', 'hy')"
+                                       :placeholder="texts.enterarm"
                                        :class="{'input': true, 'is-invalid': errors.has('h_street') }"
                                        v-model="formRegister.h_street" :data-vv-as="texts.street">
                                 <span v-show="errors.has('h_street')" class="help is-danger">{{ errors.first('h_street') }}</span>
@@ -202,32 +212,34 @@
                             <option value="">{{texts.selectaprofession}}</option>
                             <option v-for="(prof, key) in professions" v-bind:value="key">{{prof}}</option>
                         </select>
+
                         <span v-show="errors.has('profession')"
                               class="help is-danger">{{ errors.first('profession') }}</span>
-                    </div>
-                    <div class="form-group  col-lg-4">
-                        <label for="edu">{{texts.education}}</label>
-                        <select id="edu" name="education" class="form-control" v-validate="'required'"
-                                :class="{'input': true, 'is-invalid': errors.has('education_id') }"
-                                v-model="formRegister.education_id" :data-vv-as="texts.education">
-                            <option v-for="(edu, key) in educations" v-bind:value="key">{{edu}}</option>
-                        </select>
-                        <span v-show="errors.has('education_id')" class="help is-danger">{{ errors.first('education_id') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
                         <label for="specialty_id">{{texts.specialty}}</label>
                         <select id="specialty_id" name="specialty_id" class="form-control" v-validate="'required'"
                                 :class="{'input': true, 'is-invalid': errors.has('specialty_id') }"
-                                v-model="formRegister.specialty_id" ref="spec" :data-vv-as="texts.specialty">
-                            <optgroup v-for="(group, name) in specialties" :label="name">
-                                <option v-for="(option, key) in group" :value="key">
-                                    {{ option }}
-                                </option>
-                            </optgroup>
+                                v-model="formRegister.specialty_id" ref="spec" :data-vv-as="texts.specialty"
+                                @change="getEducations(formRegister.specialty_id)">
+                            <option v-for="(name, group) in specialties" :value="group">
+                                {{ name }}
+                            </option>
+
                         </select>
                         <span v-show="errors.has('specialty_id')"
                               class="help is-danger">{{ errors.first('specialty_id') }}</span>
                     </div>
+                    <div class="form-group  col-lg-4">
+                        <label for="edu">{{texts.education}}</label>
+                        <select id="edu" name="education" class="form-control" v-validate="'required'"
+                                :class="{'input': true, 'is-invalid': errors.has('education_id') }" ref="edu"
+                                v-model="formRegister.education_id" :data-vv-as="texts.education">
+                            <option v-for="(edu, key) in educations" v-bind:value="key">{{edu}}</option>
+                        </select>
+                        <span v-show="errors.has('education_id')" class="help is-danger">{{ errors.first('education_id') }}</span>
+                    </div>
+
                     <div class="form-group  col-lg-5"><span>{{texts.member_of_palace}}</span></div>
                     <div class="form-group  col-lg-5">
                         <div class="confirm-switch">
@@ -267,24 +279,29 @@
                     <div class="form-group  col-lg-4">
                         <label for="email">{{texts.email}}</label>
                         <input id="email" type="email" name="email" v-validate="'required|email'"
+                               v-on:blur="checkLang('email','en')" :title="texts.name"
+                               title="Մուտքագրեք անգլերեն"
                                :class="{'input': true, 'is-invalid': errors.has('email') }"
                                class="form-control" v-model="formRegister.email" :data-vv-as="texts.email">
                         <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
                         <label for="password">{{texts.password}}</label>
-                        <input id="password" type="password" name="password" class="form-control"
+                        <input autocomplete="off" id="password" type="password" name="password" class="form-control"
                                v-validate="'required|min:8'" v-model="formRegister.password"
                                :class="{'input': true, 'is-invalid': errors.has('password') }"
+                               v-on:blur="checkLang('password','en')"
                                :data-vv-as="texts.password">
                         <span v-show="errors.has('password')"
                               class="help is-danger">{{ errors.first('password') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
                         <label for="re_password">{{texts.confirmpassword}}</label>
-                        <input id="re_password" type="password" name="re_password" class="form-control"
+                        <input autocomplete="off" id="re_password" type="password" name="re_password"
+                               class="form-control"
                                :class="{'input': true, 'is-invalid': errors.has('re_password') }"
                                v-validate="'required|min:8'" v-model="formRegister.re_password"
+                               v-on:blur="checkLang('re_password','en')"
                                :data-vv-as="texts.confirmpassword">
                         <span v-show="errors.has('re_password')" class="help is-danger">{{ errors.first('re_password') }}</span>
                     </div>
@@ -328,7 +345,7 @@
                     h_street: '',
                     profession: '',
                     specialty_id: '',
-                    education: '',
+                    education_id: '',
                     member_of_palace: '',
                     email: '',
                     password: '',
@@ -351,13 +368,16 @@
         mounted() {
             this.getRegions();
             this.getProfessions();
-            this.getEducations();
         },
         methods: {
-            getEducations() {
-                education()
+            getEducations(id) {
+                education(id)
                     .then(res => {
+
+                        this.$refs.edu.style.border = '1px solid #9f12ad';
+                        this.$refs.spec.style.border = '1px solid #ced4da';
                         this.educations = res.edu;
+
                     })
                     .catch(error => {
                         this.$store.commit("getContentFailed", {error});
@@ -392,13 +412,16 @@
                     });
             },
             getTerritory(id, prefix) {
-                territory(id).then(res => {
-                    if (prefix === 'w') {
-                        this.w_territories = res.territories;
-                    } else {
-                        this.h_territories = res.territories;
-                    }
-                })
+                territory(id)
+                    .then(res => {
+                        if (prefix === 'w') {
+                            this.$refs.w_territory.style.border = '1px solid #9f12ad';
+                            this.w_territories = res.territories;
+                        } else {
+                            this.$refs.h_territory.style.border = '1px solid #9f12ad';
+                            this.h_territories = res.territories;
+                        }
+                    })
                     .catch(error => {
                         this.$store.commit("getContentFailed", {error});
                     });
@@ -451,9 +474,13 @@
                     }
                 }
             },
-            checkLang(val) {
+            checkLang(val, lng) {
                 let el = this.$data.formRegister[val];
-                const pattern = /^[\u0530-\u058FF|\u0020-\u0040]*$/;
+                let pattern;
+                if (lng === 'hy')
+                    pattern = /^[\u0530-\u058FF|\u0020-\u0040]*$/;
+                else
+                    pattern = /^[\u0000-\u009F]*$/;
                 if (!pattern.test(el)) {
                     this.$data.formRegister[val] = "";
                     console.log(this.$data.formRegister)

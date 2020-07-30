@@ -292,32 +292,22 @@
                                     <div class="kt-widget3">
                                         <div class="kt-widget3__item">
                                             <div class="kt-widget3__body">
-                                                <div class="kt-widget3__text--bold col-12">
 
-                                                    <h5 class="kt-widget3__text--bold text-uppercase">{{__('messages.edu')}}</h5>
-                                                    @if(!empty($profession->edu_name))
-                                                        <p class="kt-widget3__text">
-                                                            {{$profession->edu_name}}
-                                                        </p>
-                                                    @endif
-
-
-                                                </div>
                                                 <div class="kt-widget3__text--bold col-12">
 
                                                     <h5 class="kt-widget3__text--bold text-uppercase">{{__('messages.prof')}}</h5>
-                                                    @if(!empty($profession->spec_name))
+                                                    @if(!empty($profession->edu_name))
                                                         <p class="kt-widget3__text">
-                                                            {{$profession->spec_name}}
+                                                            {{$profession->edu_name}}
                                                         </p>
                                                     @endif
                                                 </div>
                                                 <div class="kt-widget3__text--bold col-12">
 
                                                     <h5 class="kt-widget3__text--bold text-uppercase">{{__('messages.spec')}}</h5>
-                                                    @if(!empty($profession->name))
+                                                    @if(!empty($profession->spec_name))
                                                         <p class="kt-widget3__text">
-                                                            {{$profession->name}}
+                                                            {{$profession->spec_name}}
                                                         </p>
                                                     @endif
 

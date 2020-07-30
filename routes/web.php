@@ -67,6 +67,7 @@ Route::get('/backend/dashboard/', 'Backend\DashboardController@index')->name('da
 Route::resource('/backend/admin', 'Backend\AdminController');
 Route::match(['put', 'patch'], '/backend/changePassword/{id}', 'Backend\AdminController@changePassword');
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
+Route::post('/backend/sendEmails', 'Backend\BaseController@sendEmails');
 
 //courses
 Route::resource('/backend/courses/', 'Backend\CoursesController');
@@ -86,15 +87,24 @@ Route::match(['put', 'patch'],'/backend/account/{id}', 'Backend\AccountControlle
 Route::get('/backend/account/{id}', 'Backend\AccountController@show')->name('account.show');
 Route::delete('/backend/account/{id}', 'Backend\AccountController@destroy')->name('account.destroy');
 Route::get('/backend/account/{id}/edit', 'Backend\AccountController@edit')->name('account.edit');
-
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
+
+//specialty
+Route::resource('/backend/type', 'Backend\TypeController');
 //generate pdf
 Route::get('/backend/admin_gdPDF', 'Backend\AdminController@gdPDF');
 Route::get('/backend/admin_gdExcel', 'Backend\AdminController@gdExcel');
+Route::get('/backend/type_gdPDF', 'Backend\TypeController@gdPDF');
+Route::get('/backend/type_gdExcel', 'Backend\TypeController@gdExcel');
+Route::get('/backend/account_gdPDF', 'Backend\AccountController@gdPDFRole');
+Route::get('/backend/account_gdExcel', 'Backend\AccountController@gdExcel');
 
 //settings
 Route::resource('/backend/message', 'Backend\MessageController')->except(['destroy']);
 Route::get('/backend/account_gdPDF/{id}', 'Backend\AccountController@gdPDF');
+Route::resource('backend/logs', 'Backend\LogController')->only([
+    'index', 'show'
+]);
 
 //    });
 
@@ -108,5 +118,16 @@ Route::get('/backend/deleteTest/{id}','Backend\TestsController@destroy');
 
 Route::post('/territory', 'Backend\AccountController@getTerritory');
 Route::post('/spec', 'Backend\AccountController@getSpecialty');
+Route::post('/updateSpec', 'Backend\SpecialtyController@updateSpecialty');
+Route::post('/specialty', 'Backend\SpecialtyController@getSpecialty');
+Route::post('/backend/specialtyCheck', 'Backend\SpecialtyController@checkSpecialty');
 Route::post('/backend/ajaxImageUpload', 'Backend\BaseController@ajaxImageUpload');
 Route::delete('/backend/ajaxRemoveImage', 'Backend\BaseController@ajaxRemoveImage');
+
+//check
+Route::post('/backend/typeCheck', 'Backend\TypeController@typeCheck');
+
+Route::resource('/backend/specialty', 'Backend\SpecialtyController');
+
+Route::resource('/backend/pages', 'Backend\PageController');
+//Route::get( '/backend/index/{id}', 'Backend\CoursesController@edit');

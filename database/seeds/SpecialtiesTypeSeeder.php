@@ -23,28 +23,28 @@ class SpecialtiesTypeSeeder extends Seeder
     {
         return [
             [
-                'name' => 'ԲԺՇԿԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
+                'name' => 'ԲԺԻՇԿ',
                 'description' => 'ԲԺՇԿԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now(),
             ],
             [
-                'name' => 'ՍՏՈՄԱՏՈԼՈԳԻԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
+                'name' => 'ԲՈՒԺՔՈՒՅՐ',
                 'description' => 'ՍՏՈՄԱՏՈԼՈԳԻԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now(),
             ],
             [
-                'name' => 'ԴԵՂԱԳԻՏԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
+                'name' => 'ԴԵՂԱԳԵՏ',
                 'description' => 'ԴԵՂԱԳԻՏԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now(),
             ],
             [
-                'name' => 'ՀԱՆՐԱՅԻՆ ԱՌՈՂՋԱՊԱՀԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
+                'name' => 'ԴԵՂԱԳՈՐԾ',
                 'description' => 'ՀԱՆՐԱՅԻՆ ԱՌՈՂՋԱՊԱՀԱԿԱՆ ՄԱՍՆԱԳԻՏՈՒԹՅՈՒՆՆԵՐ',
                 'icon' => 'fa ',
                 'created_at'=>Carbon::now(),

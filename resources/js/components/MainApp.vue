@@ -1,11 +1,11 @@
 <template>
     <div class="main">
         <Header />
-        <Banner />
+        <Banner v-if="$route.path!='/login' && $route.path!='/register' && $route.path!='/account' && $route.path!='/reset-password' " />
         <div class="content">
             <router-view></router-view>
         </div>
-        <Secondscreen />
+        <Secondscreen v-if="$route.path!='/register'" />
         <TemReg />
         <Footer />
     </div>

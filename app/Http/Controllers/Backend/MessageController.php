@@ -34,7 +34,7 @@ class MessageController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/message')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 
@@ -50,7 +50,7 @@ class MessageController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/message')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 
@@ -68,11 +68,11 @@ class MessageController extends Controller
             $data['key'] = $request->key;
             $data['value'] = $request->value;
             $this->model->create($data);
-            return redirect('backend/message')->with('success', Lang::get('messages.success'));
+            return redirect('backend/message')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/message')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 
@@ -91,7 +91,7 @@ class MessageController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/message')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 
@@ -110,7 +110,7 @@ class MessageController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/message')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 
@@ -129,11 +129,11 @@ class MessageController extends Controller
             $data['value'] = $request->value;
 
             $this->model->update($data, $id);
-            return redirect('backend/message')->with('success', Lang::get('messages.success'));
+            return redirect('backend/message')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
 
             logger()->error($exception);
-            return redirect('backend/message')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 

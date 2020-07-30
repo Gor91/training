@@ -7,10 +7,8 @@
   "fathername": "Հայրանուն",
   "phone": "Հեռախոս",
   "gender": "Սեռ",
-  "selectagender": "Ընտրել սեռը",
-  "male": "Արական",
-  "female": "Իգական",
-  "marriedstatus": "Ամուսնական կարգավիճակ",
+  "selectregion": "Ընտրել մարզ",
+  "selectterritory": "Ընտրել համայնք",
   "selectstatus": "Ընտրել կարգավիճակը",
   "single": "Ամուսնացած",
   "married": "Չամուսնացած",
@@ -24,8 +22,8 @@
   "homeaddress": "Բնակության հասցե",
   "serianumber": "Անձնագրի Սերիա",
   "dateofissue": "Տրվել է",
-  "dateofexpire": "Վավերական է մինչև",
-  "birthday": "Ծննդյան տարեթիվ",
+  "dateofexpire": "Վավեր է մինչև",
+  "birthday": "Ծննդյան ամսաթիվ",
 
   "profession": "Մասնագիտական խումբ",
   "selectaprofession": "Ընտրել Մասնագիտություն",
@@ -35,7 +33,15 @@
   "uploadfiles": "Վերբեռնեք Ձեր դիպլոմի պատճեն",
   "email": "Էլ.հասցե",
   "password": "Գաղտնաբառ",
-  "confirmpassword": "Հաստատել գաղտնաբառը"
+  "confirmpassword": "Հաստատել գաղտնաբառը",
+  "resetpassword": "Վերականգնել գաղտնաբառը",
+  "resetlink":"Ուղարկել գաղտնաբառի վերափոխման հղումը",
 
-
+  "hint": "Նկարը փոխելու համար սեղմել պատկերակը:",
+  "profilename": "Օգտատերի անունը",
+  "edit": "Խմբագրել",
+  "oldpassword": "Հին գաղտնաբառը",
+  "newpassword": "Նոր գաղտնաբառը",
+  "enterarm": "Մուտքագրեք հայերեն",
+  "error": "Սխալ է տեղի ունեցել .. փորձեք ավելի ուշ"
 }

@@ -8,6 +8,8 @@ import Edit from './components/Edit.vue';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPasswordForm from './pages/ResetPasswordForm';
 import Lesson from './components/Lesson.vue';
+import Coursedetails from './components/Coursedetails.vue';
+
 
 export const routes = [
     {
@@ -30,7 +32,11 @@ export const routes = [
         name: 'account',
         component: Account,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            breadCrumbs: [{
+                to: '/account', // hyperlink
+                text: 'Օգտվողի պրոֆիլ' // crumb text
+            }]
         },
     },
     {
@@ -75,11 +81,23 @@ export const routes = [
         },
     },
     {
+        path: '/coursedetails/:id',
+        name: 'coursedetails',
+        component: Coursedetails,
+        meta: {
+            breadCrumbs: [{
+                to: '/coursedetails', // hyperlink
+                text: 'ԴԱՍԸՆԹԱՑՆԵՐ' // crumb text
+            }]
+        },
+    },
+    {
         path: '/reset-password',
         name: 'reset-password',
         component: ForgotPassword,
         meta: {
-            auth: false
+            auth: false,
+
         }
     },
     {
