@@ -1,3 +1,4 @@
+import texts from '../components/json/registertexts.json';
 export function registerUser(credentials, files) {
     let formData = new FormData();
 
@@ -24,7 +25,7 @@ export function registerUser(credentials, files) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -94,7 +95,7 @@ export function getPagesData(credentials) {
                 console.log(credentials);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -128,7 +129,7 @@ export function editUser(id, credentials, files, token) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -162,7 +163,7 @@ export function approveUser(id, credentials, files, token) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -188,7 +189,7 @@ export function changePassword(id, credentials, token) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }

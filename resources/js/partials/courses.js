@@ -1,4 +1,4 @@
-
+import texts from '../components/json/registertexts.json';
 export function getCoursesTitle(credentials) {
     return new Promise((res, rej) => {
         axios.post('/api/coursestitle', credentials)
@@ -7,7 +7,7 @@ export function getCoursesTitle(credentials) {
 
             })
             .catch(err => {
-                rej('An error occured.. try again later.');
+                rej(texts.error);
             })
     })
 }
@@ -20,19 +20,19 @@ export function getAllCourses(credentials) {
 
             })
             .catch(err => {
-                rej('An error occured.. try again later.');
+                rej(texts.error);
             })
     })
 }
-export function getCourseDetails(credentials) {
+export function getCourseDetails(credentials,id) {
     return new Promise((res, rej) => {
-        axios.post('/api/coursedetails/'+credentials)
+        axios.get('/api/coursedetails/', credentials)
             .then(response => {
                 res(response.data);
 
             })
             .catch(err => {
-                rej('An error occured.. try again later.');
+                rej(texts.error);
             })
     })
 }

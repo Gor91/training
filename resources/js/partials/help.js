@@ -1,3 +1,4 @@
+import texts from '../components/json/registertexts.json';
 export function educate() {
     return new Promise((res, rej) => {
         axios.post('/api/educate/')
@@ -5,7 +6,7 @@ export function educate() {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -17,7 +18,7 @@ export function education(id) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -30,7 +31,7 @@ export function specialty(id) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -42,7 +43,7 @@ export function region() {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -54,7 +55,7 @@ export function territory(id) {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -67,7 +68,7 @@ export function profession() {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -80,7 +81,7 @@ export function applicantcount() {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
@@ -92,7 +93,7 @@ export function coursescount() {
                 res(response.data);
             })
             .catch(err => {
-                rej('An error occured.. try again later.')
+                rej(texts.error)
             })
     })
 }
