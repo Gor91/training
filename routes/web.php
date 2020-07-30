@@ -100,6 +100,12 @@ Route::get('/backend/account_gdPDF/{id}', 'Backend\AccountController@gdPDF');
 
 //ajax
 
+//tests
+Route::resource('/backend/tests/', 'Backend\TestsController');
+Route::get('backend/tests/getCourses/', "Backend\TestsController@getCourses");
+Route::get( '/backend/editTests/{id}', 'Backend\TestsController@editTests');
+Route::get('/backend/deleteTest/{id}','Backend\TestsController@destroy');
+
 Route::post('/territory', 'Backend\AccountController@getTerritory');
 Route::post('/spec', 'Backend\AccountController@getSpecialty');
 Route::post('/backend/ajaxImageUpload', 'Backend\BaseController@ajaxImageUpload');
