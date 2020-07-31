@@ -133,7 +133,15 @@
                                         </span>
                         <span class="kt-menu__link-text">{{__('messages.courses')}}</span>
                     </a>
-
+                </li>
+                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                    data-ktmenu-submenu-toggle="hover">
+                    <a href="{{action('Backend\TestsController@index')}}" class="kt-menu__link kt-menu__toggle">
+                                        <span class="kt-menu__link-icon kt-demo-icon__preview">
+                                           <i class="flaticon2-note"></i>
+                                        </span>
+                        <span class="kt-menu__link-text">{{__('messages.tests')}}</span>
+                    </a>
                 </li>
 
                 {{--                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"--}}
@@ -170,7 +178,6 @@
                 {{--                </li>--}}
 
             </ul>
-            <hr>
             <ul class="kt-menu__nav ">
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                     data-ktmenu-submenu-toggle="hover">

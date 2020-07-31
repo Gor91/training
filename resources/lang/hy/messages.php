@@ -174,7 +174,15 @@ return [
     'course_paragraph' => 'Դասընթաց',
     'video_version' => 'Դասընթաց վիդեո տարբերակով',
     'course_detete' => 'Կուրսը հաջողությամբ ջնջվեց:',
+    'new_course'=> 'Ավելացնել նոր դասընթաց',
+    'edit_course'=> 'Փոփոխել դասընթացը',
 
+// tests
+    'tests'=>'Թեստեր',
+    'test_name'=>'Թեստի հարց',
+    'test_answer'=>'Հնարավոր պատասխաններ',
+    'new_test'=> 'Ավելացնել նոր թեստ',
+    'edit_test'=>'Փոփոխել թեստը',
 
     'aboutus' =>'Մեր Մասին',
     'shortdescription'=>'Գլխավոր էջի նկարագիր',
@@ -186,6 +194,7 @@ return [
     'government_decisions'=>'Կառավարության որոշումներ',
     'health_care_orders'=>'Նախարարի հրամաններ',
     'sanitary_rules_and_norms'=>'Սանիտարական կանոններ և նորմեր'
+
 
 ];
 
