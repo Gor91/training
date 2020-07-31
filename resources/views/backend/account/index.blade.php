@@ -52,7 +52,7 @@
                             <div class="dropdown dropdown-inline">
                                 <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="la la-download"></i> {{__('massages.export')}}Export
+                                    <i class="la la-download"></i> {{__('messages.export')}}
                                 </button>
 
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -62,7 +62,7 @@
                                                     href="{{action('Backend\AccountController@gdExcel')}}"
                                                     class="kt-nav__link">
                                                 <i class="kt-nav__link-icon la la-file-excel-o"></i>
-                                                <span class="kt-nav__link-text">{{__('massages.excel')}}</span>
+                                                <span class="kt-nav__link-text">{{__('messages.excel')}}</span>
                                             </a>
                                         </li>
                                         <li class="kt-nav__item">
@@ -70,7 +70,7 @@
                                                     href="{{action('Backend\AccountController@gdPDFRole')}}"
                                                     class="kt-nav__link">
                                                 <i class="kt-nav__link-icon la la-file-pdf-o"></i>
-                                                <span class="kt-nav__link-text">{{__('massages.PDF')}}</span>
+                                                <span class="kt-nav__link-text">{{__('messages.PDF')}}</span>
                                             </a>
                                         </li>
                                     </ul>

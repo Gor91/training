@@ -72,7 +72,7 @@ $user = isAdmin();
                                                 {{__('messages.profile')}}
                                             </div>
                                             <div class="kt-notification__item-time">
-                                                                                                {{__('messages.manage_account')}}
+                                                {{__('messages.manage_account')}}
                                             </div>
                                         </div>
                                     </a>
@@ -106,12 +106,14 @@ $user = isAdmin();
                 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
                     <div class="kt-subheader__main">
                         <h3 class="kt-subheader__title">{{__('messages.system')}}</h3>
-                        <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-                        @php
-                        $uri =request()->segment(count(request()->segments()));
-                        @endphp
-                        <span class="kt-subheader__desc text-uppercase">{{__("messages.$uri")}}</span>
 
+                        @php
+                            $uri =request()->segment(count(request()->segments()));
+                        @endphp
+                        @if(!preg_match('/[0-9]+$/',$uri))
+                            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                            <span class="kt-subheader__desc text-uppercase">{{__("messages.$uri")}}</span>
+                        @endif
                         <div class="kt-input-icon kt-input-icon--right kt-subheader__search kt-hidden">
                             <input type="text" class="form-control" placeholder="Search order..." id="generalSearch">
                             <span class="kt-input-icon__icon kt-input-icon__icon--right">

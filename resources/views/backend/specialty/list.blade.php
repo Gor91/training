@@ -52,7 +52,7 @@
             <div class="kt-portlet__body">
 
                 <!--begin: Datatable -->
-                <table class="table table-striped- table-hover table-checkable" id="example">
+                <table class="table table-striped- table-hover table-checkable spec_table" id="example">
                     <thead>
                     <tr>
                         <th>#</th>

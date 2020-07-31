@@ -4,6 +4,8 @@ interface RepositoryInterface
 {
     public function all();
 
+    public function selected($data);
+
     public function create(array $data);
 
     public function update(array $data, $id);

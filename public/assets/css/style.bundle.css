@@ -49992,3 +49992,11 @@ td .save,
 td .cancel {
     display: none;
 }
+.spec_table td input{
+    border:none;
+    background-color:transparent!important;
+}
+.spec_table td input:active, .spec_table td input:focus{
+    border:1px solid #7197ec;
+
+}

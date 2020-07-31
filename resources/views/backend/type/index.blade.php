@@ -51,13 +51,13 @@
                                             <a href="{{action('Backend\TypeController@gdExcel')}}"
                                             class="kt-nav__link">
                                             <i class="kt-nav__link-icon la la-file-excel-o"></i>
-                                            <span class="kt-nav__link-text">{{__('massages.excel')}}</span>
+                                            <span class="kt-nav__link-text">{{__('messages.excel')}}</span>
                                             </a>
                                         </li>
                                         <li class="kt-nav__item">
                                             <a href="{{action('Backend\TypeController@gdPDF')}}" class="kt-nav__link">
                                             <i class="kt-nav__link-icon la la-file-pdf-o"></i>
-                                            <span class="kt-nav__link-text">{{__('massages.PDF')}}</span>
+                                            <span class="kt-nav__link-text">{{__('messages.PDF')}}</span>
                                             </a>
                                         </li>
                                     </ul>

@@ -242,7 +242,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.edit', function () {
 
-        $(this).parent().parent().siblings().children().attr('disabled', false);
+        $(this).parent().parent().siblings().children().attr('disabled', false).css('border','1px solid #7197ec');
         $(this).nextAll().css('display', 'none');
         $(this).siblings('.save').css('display', 'inline-block');
 

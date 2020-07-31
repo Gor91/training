@@ -8,6 +8,7 @@ return [
     'USER_AVATAR_PATH' => '/app/public/uploads/users/',
     'DEFAULT_PATH' => '/images/avatars/default.jpg',
     'ADMIN_PATH' => '/public/admin/',
+    'TYPE_PATH' => '/public/type/',
     'ACCOUNT_PATH' => '/public/accounts/',
     'DIPLOMA' => '/uploads/diplomas/',
     'DIPLOMA_PATH' => '/storage/diplomas/',

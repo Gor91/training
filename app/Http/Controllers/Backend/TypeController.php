@@ -134,7 +134,7 @@ class TypeController extends Controller
             $data['description'] = $request->description;
 
             $this->model->update($data, $id);
-            return redirect('backend/type')->with('success', __('messages.success'));
+            return redirect('backend/type')->with('success', __('messages.updated'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
@@ -152,7 +152,7 @@ class TypeController extends Controller
     {
         try {
             $this->model->delete($id);
-            return redirect('backend/type')->with('delete', 'deleted');
+            return redirect('backend/type')->with('delete', __('messages.deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('backend/type')->with('error', __('messages.wrong'));
@@ -180,17 +180,16 @@ class TypeController extends Controller
     {
         $data = $this->model->all();
 
-        $title = __('messages.type');
         $pdf = PDF::loadView('backend.type.gd_pdf', ['data' => $data])->setPaper('a4', 'landscape')->setWarnings(false);
         // If you want to store the generated pdf to the server then you can use the store function
         if (!Storage::exists(Config::get('constants.TYPE_PATH'))) {
             Storage::makeDirectory(Config::get('constants.TYPE_PATH'), 0775, true);
         }
 
-        $pdf->save(storage_path() . Config::get('constants.APP') . Config::get('constants.TYPE_PATH') . 'type.pdf');
+        $pdf->save(storage_path() . Config::get('constants.APP') . Config::get('constants.TYPE_PATH') . 'types.pdf');
 
         // Finally, you can download the file using download function
-        return response()->download(storage_path(Config::get('constants.APP') . Config::get('constants.TYPE_PATH') . 'type.pdf'));
+        return response()->download(storage_path(Config::get('constants.APP') . Config::get('constants.TYPE_PATH') . 'types.pdf'));
 //        return $pdf->download($title.'.pdf');
     }
 

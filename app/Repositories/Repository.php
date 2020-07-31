@@ -18,6 +18,11 @@ class Repository implements RepositoryInterface
     {
         return $this->model->all();
     }
+    // todo kareli e poxel Get selected  instances of model
+    public function selected($data)
+    {
+        return $this->model->select($data);
+    }
 
     // create a new record in the database
     public function create(array $data)

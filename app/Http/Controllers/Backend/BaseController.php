@@ -38,7 +38,7 @@ class BaseController extends Controller
                 $this->createEmail($sender);
             }
 
-            return redirect()->back()->with('success', "success");
+            return redirect()->back()->with('success', __("messages.success"));
         } else
             return redirect()->back()->withErrors($v->errors());
     }
@@ -79,7 +79,7 @@ class BaseController extends Controller
                 }
             }
 
-            return redirect()->back()->with('success', "success");
+            return redirect()->back()->with('success', __("messages.success"));
         } else
             return redirect()->back()->withErrors($v->errors());
     }

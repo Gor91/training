@@ -91,7 +91,7 @@ trait Registration
             return response()->json(['success' => true, 'user' => $account->id, 200]);
         } catch (\Exception $exception) {
             DB::rollback();
-//            dd($exception);
+            dd($exception);
             logger()->error($exception);
             return response()->json(['error' => true, 500]);
 //            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));

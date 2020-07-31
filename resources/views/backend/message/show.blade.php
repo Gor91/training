@@ -36,29 +36,18 @@
                         <div class="kt-portlet__head kt-portlet__head--lg">
                             <div class="kt-portlet__head-label">
 										<span class="kt-portlet__head-icon">
-											<i class="kt-font-brand flaticon2-user-outline-symbol"></i>
+											<i class="kt-font-brand flaticon2-email"></i>
 										</span>
                                 <h3 class="kt-portlet__head-title">
-                                    Իմ էջը
+                                   {{__('messages.message')}}
                                     &nbsp;&nbsp; </h3>
                             </div>
-                            <div class="kt-portlet__head-toolbar">
-                                <div class="kt-portlet__head-wrapper">
-                                    <div class="kt-portlet__head-actions">
-                                        <i class="la la-edit"></i>
-                                        {{__('messages.edit')}}
-
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
-        <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+
             <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
                 <div class="row">
                     <div class="col">
@@ -67,7 +56,7 @@
                             <div class="kt-portlet__head">
                                 <div class="kt-portlet__head-label">
                                     <h3 class="kt-portlet__head-title">
-                                        {{__('message.name')}}
+                                        {{__('messages.purpose')}}
                                     </h3>
                                 </div>
 
@@ -86,6 +75,7 @@
                                                         </p>
                                                     @endif
                                                 </div>
+                                                <br>
                                                 <div class="kt-widget3__text--bold col-12">
 
                                                     <h5 class="kt-widget3__text--bold text-uppercase">{{__('messages.subject')}}</h5>
@@ -95,7 +85,7 @@
                                                         </p>
                                                     @endif
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
 
@@ -106,10 +96,8 @@
                         <!--End::Section-->
                     </div>
                 </div>
-              
+
             </div>
         </div>
-
-    </div>
     <!-- end:: Content -->
 @endsection

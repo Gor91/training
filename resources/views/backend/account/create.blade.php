@@ -36,7 +36,7 @@
                                 <h3 class="kt-portlet__head-title ">
                                    <span class="kt-portlet__head-icon">
 											<i class="kt-font-brand flaticon-user-add"></i>
-                                   {{__('messages.add')}} {{__('messages.new_user')}}&nbsp;
+                                   {{__('messages.add')}} {{__('messages.new_lecture')}}&nbsp;
                                        </span>
                                 </h3>
                                 <span class="kt-portlet__head-icon">
@@ -100,6 +100,7 @@
                                                            class="col-lg-2 col-form-label">{{__('messages.name').'*'}}</label>
                                                     <div class="col-lg-10">
                                                         <input id="name" type="text" name="name"
+                                                               placeholder="{{__('messages.arm')}}"
                                                                class="form-control" value="{{old('name')}}">
                                                     </div>
                                                 </div>
@@ -108,6 +109,7 @@
                                                            class="col-lg-2 col-form-label">{{__('messages.surname').'*'}}</label>
                                                     <div class="col-lg-10">
                                                         <input id="surname" type="text" name="surname"
+                                                               placeholder="{{__('messages.arm')}}"
                                                                class="form-control" value="{{old('surname')}}">
                                                     </div>
                                                 </div>
@@ -116,6 +118,7 @@
                                                            class="col-lg-2 col-form-label">{{__('messages.father_name').'*'}}</label>
                                                     <div class="col-lg-10">
                                                         <input id="father_name" type="text" name="father_name"
+                                                               placeholder="{{__('messages.arm')}}"
                                                                class="form-control" value="{{old('father_name')}}">
                                                     </div>
                                                 </div>
@@ -155,21 +158,28 @@
                                                     </div>
 
                                                 </div>
+                                                @php
+                                                    $date = strtotime(date('Y-m-d').'-10 year');
+                                                @endphp
                                                 <div class="form-group row date">
                                                     <label for="date_of_issue"
                                                            class="col-lg-2 col-form-label">{{__('messages.date_of_issue').'*'}}</label>
                                                     <div class="col-lg-10">
-                                                        <input id="date_of_issue" type="date" name="date_of_issue"
-                                                               class="form-control" value="{{old('date_of_issue')}}">
+                                                        <input id="date_of_issue" type="date" name="date_of_issue" min="{{date('Y-m-d', $date)}}"
+                                                          max="{{date('Y-m-d')}}"     class="form-control" value="{{old('date_of_issue')}}">
                                                     </div>
 
                                                 </div>
+                                                @php
+                                                    $date_start = strtotime(date('Y-m-d').'-10 year');
+                                                    $date_end = strtotime(date('Y-m-d').'+10 year');
+                                                @endphp
                                                 <div class="form-group row date">
                                                     <label for="date_of_expiry"
                                                            class="col-lg-2 col-form-label">{{__('messages.date_of_expiry').'*'}}</label>
                                                     <div class="col-lg-10">
-                                                        <input id="date_of_expiry" type="date" name="date_of_expiry"
-                                                               class="form-control" value="{{old('date_of_expiry')}}">
+                                                        <input id="date_of_expiry" type="date" name="date_of_expiry" min="{{date('Y-m-d', $date_start)}}"
+                                                             min="{{date('Y-m-d', $date_end)}}"  class="form-control" value="{{old('date_of_expiry')}}">
                                                     </div>
 
                                                 </div>
@@ -187,6 +197,7 @@
                                                            class="col-lg-2 col-form-label">{{__('messages.workplace_name').'*'}}</label>
                                                     <div class="col-lg-10">
                                                         <input id="workplace_name" type="text" name="workplace_name"
+                                                               placeholder="{{__('messages.arm')}}"
                                                                value="{{old('workplace_name')}}"
                                                                class="form-control">
 
@@ -222,6 +233,7 @@
                                                            class="col-lg-2 col-form-label">{{__('messages.street')}}</label>
                                                     <div class="col-lg-10">
                                                         <input id="w_street" type="text" name="w_street"
+                                                               placeholder="{{__('messages.arm')}}"
                                                                class="form-control" value="{{old('w_street')}}">
 
                                                     </div>
@@ -258,6 +270,7 @@
                                                            class="col-lg-2 col-form-label">{{__('messages.street')}}</label>
                                                     <div class="col-lg-10">
                                                         <input id="h_street" type="text" name="h_street"
+                                                               placeholder="{{__('messages.arm')}}"
                                                                class="form-control" value="{{old('h_street')}}">
 
                                                     </div>

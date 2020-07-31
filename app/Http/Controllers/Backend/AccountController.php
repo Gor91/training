@@ -19,7 +19,6 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -73,7 +72,7 @@ class AccountController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/account/' . $role)->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/account/' . $role)->with('error', __('messages.wrong'));
         }
     }
 
@@ -87,7 +86,7 @@ class AccountController extends Controller
         try {
             $regions = self::getRegions();
             $regions = $regions->getData();
-            $edu = self::getEducation();
+            $edu = self::getEducate();
             $edu = (array)$edu->getData()->edu;
             $prof = self::getProfession();
             $prof = (array)$prof->getData()->prof;
@@ -95,7 +94,7 @@ class AccountController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/account/' . $this->role)->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/account/' . $this->role)->with('error', __('messages.wrong'));
         }
     }
 
@@ -112,11 +111,11 @@ class AccountController extends Controller
     {
         try {
             Registration::register($accountRequest, $professionRequest, $userRequest, 'lecture', 'approved');
-            return redirect('backend/account/' . $this->role)->with('success', Lang::get('messages.success'));
+            return redirect('backend/account/lecture')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/account/' . $this->role)->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/account/lecture')->with('error', __('messages.wrong'));
         }
     }
 
@@ -170,7 +169,7 @@ class AccountController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/account/' . $this->role)->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/account/' . $this->role)->with('error', __('messages.wrong'));
         }
     }
 
@@ -224,7 +223,7 @@ class AccountController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/account/' . $this->role)->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/account/' . $this->role)->with('error', __('messages.wrong'));
         }
     }
 
@@ -245,11 +244,11 @@ class AccountController extends Controller
                 ->where('account_id', $id)
                 ->update(['status' => "approved"]);
             $user->notify(new ManageUserStatus($user, $account, $message, true));
-            return redirect('backend/account/user')->with('success', Lang::get('messages.success'));
+            return redirect('backend/account/user')->with('success', __('messages.updated'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/account/user')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/account/user')->with('error', __('messages.wrong'));
         }
     }
 
@@ -268,11 +267,11 @@ class AccountController extends Controller
             $user = User::where('account_id', $id)->first();
             $this->model->delete($id);
             $user->notify(new ManageUserStatus($user, $account, $message));
-            return back()->with('success', Lang::get('messages.deleted'));
+            return back()->with('success', __('messages.deleted'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
-            return redirect('backend/account/' . $this->role)->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/account/' . $this->role)->with('error', __('messages.wrong'));
         }
     }
 
@@ -292,6 +291,7 @@ class AccountController extends Controller
             'prof' => function ($query) {
                 $query->select(['account_id', 'profession', 'diplomas']);
             }])->where('id', $id)->first();
+
         if (!empty($account)) {
 
             $home_address = json_decode($account->home_address, true);
@@ -346,20 +346,49 @@ class AccountController extends Controller
 
     public function gdPDFRole()
     {
-        $data = $this->model->all();
+        $accounts = $this->model->with([
+            'user' => function ($query) {
+                $query->select(['email', 'account_id', 'status']);
+            },
+            'prof' => function ($query) {
+                $query->select(['account_id', 'profession', 'diplomas']);
+            }])->get();
 
-        $title = __('messages.admin');
-        $pdf = PDF::loadView('backend.admin.gd_pdf', ['data' => $data])->setPaper('a4', 'landscape')->setWarnings(false);
+        if (!empty($accounts)) {
+            foreach ($accounts as $index => $account) {
+
+                $home_address = json_decode($account->home_address, true);
+                $accounts[$index]->h_region = getRegionName($home_address['h_region']);
+                $accounts[$index]->h_street = $home_address['h_street'];
+                $accounts[$index]->h_territory = getRegionName($home_address['h_territory']);
+
+                $work_address = json_decode($account->work_address, true);
+                $accounts[$index]->w_region = getRegionName($work_address['w_region']);
+                $accounts[$index]->w_street = $work_address['w_street'];
+                $accounts[$index]->w_territory = getRegionName($work_address['w_territory']);
+
+                $profession = DB::table('professions AS p')
+                    ->join('specialties AS s', 's.id', '=', 'p.education_id')
+                    ->join('specialties AS sp', 'sp.id', '=', 'p.specialty_id')
+                    ->select('s.icon', 'sp.name as edu_name',
+                        's.name AS spec_name')
+                    ->where('p.account_id', '=', $account->id)
+                    ->first();
+                $accounts[$index]->profession = $profession;
+            }
+        }
+        dd($accounts);
+        $pdf = PDF::loadView('backend.account.gd_pdf', ['data' => $accounts])->setPaper('a4', 'landscape')->setWarnings(false);
         // If you want to store the generated pdf to the server then you can use the store function
-        if (!Storage::exists(Config::get('constants.ADMIN_PATH'))) {
-            Storage::makeDirectory(Config::get('constants.ADMIN_PATH'), 0775, true);
+        if (!Storage::exists(Config::get('constants.ACCOUNT_PATH'))) {
+            Storage::makeDirectory(Config::get('constants.ACCOUNT_PATH'), 0775, true);
         }
 
-        $pdf->save(storage_path() . Config::get('constants.APP') . Config::get('constants.ADMIN_PATH') . 'admin.pdf');
+        $pdf->save(storage_path() . Config::get('constants.APP') . Config::get('constants.ACCOUNT_PATH') . 'accounts.pdf');
 
         // Finally, you can download the file using download function
-        return response()->download(storage_path(Config::get('constants.APP') . Config::get('constants.ADMIN_PATH') . 'admin.pdf'));
-//        return $pdf->download($title.'.pdf');
+        return response()->download(storage_path(Config::get('constants.APP') . Config::get('constants.ACCOUNT_PATH') . 'accounts.pdf'));
+
     }
 
     public function gdExcel()

@@ -135,7 +135,7 @@ class AdminController extends Controller
                 $admin['email'] = $request->email;
                 $this->model->update($admin, $id);
 
-                return redirect()->back()->with('success', __('messages.success'));
+                return redirect()->back()->with('success', __('messages.updated'));
             } else
                 return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $e) {
@@ -182,7 +182,7 @@ class AdminController extends Controller
                 $data = [];
                 $data['password'] = bcrypt($request->password);
                 $this->model->update($data, $id);
-                return Redirect::to('backend/logout')->with('success', __('messages.success'));
+                return Redirect::to('backend/logout')->with('success', __('messages.updated'));
             }
         } else
             return redirect()->back()->withErrors($v->errors());

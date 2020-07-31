@@ -36,20 +36,21 @@ class AccountExport implements FromCollection, WithHeadings, ShouldAutoSize
 
             $home_address = json_decode($account->home_address, true);
             $h = getRegionName($home_address['h_region']);
-            $h .= " " . $home_address['h_street'];
             $h .= " " . getRegionName($home_address['h_territory']);
+            $h .= " " . $home_address['h_street'];
             $account->home_address = $h;
             $work_address = json_decode($account->work_address, true);
             $w = getRegionName($work_address['w_region']);
-            $w .= " " . $work_address['w_street'];
             $w .= " " . getRegionName($work_address['w_territory']);
+            $w .= " " . $work_address['w_street'];
             $account->work_address = $w;
             unset($account->role);
             unset($account->image_name);
             unset($account->created_at);
             unset($account->updated_at);
             $prof = getProfession($account->id);
-            $account['education'] = $prof->prof_name . " " . $prof->spec_name . " " . $prof->name;
+
+            $account['education'] =  $prof->edu_name . " - " . $prof->spec_name;
             $account['email'] = $account->user->email;
         }
 

@@ -129,7 +129,7 @@ class MessageController extends Controller
             $data['value'] = $request->value;
 
             $this->model->update($data, $id);
-            return redirect('backend/message')->with('success', __('messages.success'));
+            return redirect('backend/message')->with('success', __('messages.updated'));
         } catch (\Exception $exception) {
 
             logger()->error($exception);

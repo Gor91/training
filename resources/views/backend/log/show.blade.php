@@ -36,10 +36,10 @@
                         <div class="kt-portlet__head kt-portlet__head--lg">
                             <div class="kt-portlet__head-label">
 										<span class="kt-portlet__head-icon">
-											<i class="kt-font-brand flaticon2-user-outline-symbol"></i>
+											<i class="kt-font-brand flaticon2-lock"></i>
 										</span>
                                 <h3 class="kt-portlet__head-title">
-                                    Իմ էջը
+                                   {{__('messages.log')}}
                                     &nbsp;&nbsp; </h3>
                             </div>
                             <div class="kt-portlet__head-toolbar">
@@ -61,7 +61,7 @@
                         <div class="kt-portlet__head">
                             <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">
-                                    {{__('messages.logs')}}
+                                    {{__('messages.description')}}
                                 </h3>
                             </div>
 
@@ -84,8 +84,8 @@
 
                                 <div class="kt-widget3__text--bold ">
 
-                                    <h5 class="kt-widget3__text--bold text-uppercase">{{$log->message}}</h5>
-                                    <h5 class="kt-widget3__text--bold text-uppercase">{{__('messages.subject')}}</h5>
+                                    <h5 class="kt-widget3__text--bold text-uppercase"><u>{{$log->subject}}</u></h5><br>
+                                    <h6 class="kt-widget3__text--bold text-uppercase">{{__('messages.subject')}}</h6>
                                     @if(!empty($log->message))
                                         <p class="kt-widget3__text">
                                             {{$log->message}}

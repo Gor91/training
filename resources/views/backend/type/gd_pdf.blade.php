@@ -9,23 +9,18 @@
         <thead>
         <tr>
             <th>{{__('messages.name')}}</th>
-            <th>{{__('messages.email')}}</th>
             <th>{{__('messages.created_at')}}</th>
         </tr>
         </thead>
         <tbody>
         @if(!empty($data))
-            @foreach($data as $key => $user)
+            @foreach($data as $key => $type)
                 <tr>
                     <td>
-                        {{$user->name}}
+                        {{$type->name}}
                     </td>
                     <td>
-                        {{$user->email}}
-                    </td>
-
-                    <td>
-                        {{$user->created_at}}
+                        {{$type->created_at}}
                     </td>
 
                 </tr>

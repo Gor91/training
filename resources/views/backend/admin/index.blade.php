@@ -34,7 +34,7 @@
 											<i class="kt-font-brand flaticon-admins-1"></i>
 										</span>
                     <h3 class="kt-portlet__head-title">
-                        Օգտագործողներ
+                      {{__('messages.users_list')}}
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
@@ -43,7 +43,7 @@
                             <div class="dropdown dropdown-inline">
                                 <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="la la-download"></i> Export
+                                    <i class="la la-download"></i> {{__('messages.export')}}
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <ul class="kt-nav">
@@ -51,13 +51,13 @@
                                             <a href="{{action('Backend\AdminController@gdExcel')}}"
                                                class="kt-nav__link">
                                                 <i class="kt-nav__link-icon la la-file-excel-o"></i>
-                                                <span class="kt-nav__link-text">Excel</span>
+                                                <span class="kt-nav__link-text">{{__('messages.excel')}}</span>
                                             </a>
                                         </li>
                                         <li class="kt-nav__item">
                                             <a href="{{action('Backend\AdminController@gdPDF')}}" class="kt-nav__link">
                                                 <i class="kt-nav__link-icon la la-file-pdf-o"></i>
-                                                <span class="kt-nav__link-text">PDF</span>
+                                                <span class="kt-nav__link-text">{{__('messages.PDF')}}</span>
                                             </a>
                                         </li>
                                     </ul>
