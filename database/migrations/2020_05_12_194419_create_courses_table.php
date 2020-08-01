@@ -15,10 +15,13 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->string("name");
             $table->json("specialty_ids");
-            $table->enum("status",['active', 'archive']);
-            $table->date("duration_date");
+            $table->enum("status", array_keys(\App\Models\Courses::getStatus()));
+            $table->date("duration_date")->nullable();
             $table->integer("credit");
+            $table->enum("credit_type", array_keys(\App\Models\Courses::getCreditType()));
+            $table->text("content")->nullable();
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
         });
