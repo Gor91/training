@@ -31,7 +31,6 @@ class CoursesController extends Controller
             $courses = $this->model->all();
             return view('backend.courses.index', compact('courses'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/courses')->with('error', Lang::get('messages.wrong'));
         }
@@ -47,7 +46,6 @@ class CoursesController extends Controller
         try {
             return view('backend.courses.create');
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
         }
@@ -70,7 +68,6 @@ class CoursesController extends Controller
             $this->model->create($cours);
             return redirect('backend/courses')->with('success', Lang::get('messages.success'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/courses')->with('error', Lang::get('messages.wrong'));
         }
@@ -107,8 +104,7 @@ class CoursesController extends Controller
         try {
             $this->model->delete($id);
             return redirect('backend/courses')->with('success', Lang::get('messages.course_detete'));
-        }catch (\Exception $exception){
-            dd($exception);
+        } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('backend/courses')->with('error', Lang::get('messages.wrong'));
         }
@@ -135,19 +131,9 @@ class CoursesController extends Controller
             }
             return view('backend.courses.create', compact('course'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/courses')->with('error', Lang::get('messages.wrong'));
         }
-    }
-
-    /**
-     * @param Request $request
-     */
-    public function fileUpload(Request $request)
-    {
-        //will be implemented
-
     }
 
     /**
