@@ -85,18 +85,15 @@ trait Registration
             $user->status = $status;
             if ($user->save()) {
                 $message = Message::where('key', 'registered_' . $role)->first();
-//                $user->notify(new ManageUserStatus($user, $account, $message));
+                $user->notify(new ManageUserStatus($user, $account, $message));
             }
 
             DB::commit();
-            return response()->json(['success' => true, 'user' => $account->id, 200]);
+            return response()->json(['success' => true, 'user' => $account->id]);
         } catch (\Exception $exception) {
             DB::rollback();
-            dd($exception);
-            logger()->error($exception);
-            return response()->json(['error' => true, 500]);
-//            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));
 
+            return response()->json(['error' => true, 'message'=>$exception->getMessage()], 500);
         }
     }
 
