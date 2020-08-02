@@ -103,7 +103,7 @@ class AuthController extends Controller
                     $query->select(['account_id', 'email']);
                 },
                 'prof' => function ($query) {
-                    $query->select(['account_id', 'profession', 'member_of_palace']);
+                    $query->select(['account_id',  'member_of_palace']);
                 }
             ])->where('id', $user->account_id)
             ->first();

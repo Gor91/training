@@ -258,10 +258,12 @@
                                                 <select id="w_region" name="w_region" class="form-control">
                                                     <option value="">{{__('messages.select_region')}}</option>
                                                     @foreach($regions->regions as $key=>$region)
-
-                                                        <option value="@if(!empty(old('w_region'))){{old('w_region')}} @else{{$key}}@endif"
-                                                        @if($region === $account->w_region) {{'selected'}}@endif>
-                                                            {{$region}}
+                                                        @php
+                                                        var_dump($region->name);
+                                                        @endphp
+                                                        <option value="@if(!empty(old('w_region'))){{old('w_region')}} @else{{$region->id}}@endif"
+{{--                                                        @if($region->name === $account->w_region) {{'selected'}}@endif>--}}>
+                                                        {{(string)$region->name}}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -295,9 +297,9 @@
                                                     <option value="">{{__('messages.select_region')}}</option>
                                                     @foreach($regions->regions as $key=>$region)
 
-                                                        <option value="@if(!empty(old('h_region'))){{old('h_region')}} @else{{$key}}@endif"
-                                                        @if($region === $account->h_region) {{'selected'}}@endif>
-                                                            {{$region}}
+                                                        <option value="@if(!empty(old('h_region'))){{old('h_region')}} @else{{$region->id}}@endif"
+                                                        @if($region->name === $account->h_region) {{'selected'}}@endif>
+                                                            {{$region->name}}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -359,9 +361,11 @@
                                             <div class="col-lg-10">
                                                 <select id="edu" name="education_id" class="form-control">
                                                     @if(!empty($edu))
-                                                        @foreach($edu as $key=>$e)
-                                                            <option class="form-control" value="{{old('education_id')}}{{$key}}"
-                                                            @if($e=== $profession->edu_name){{'selected'}}@endif>
+
+                                                        @foreach($edu as $key =>$e)
+                                                            <option class="form-control"
+                                                                    value="{{old('education_id')}}{{$key}}"
+                                                            @if($e=== $profession->spec_name){{'selected'}}@endif>
                                                                 {{$e}}
                                                             </option>
                                                         @endforeach
@@ -374,7 +378,7 @@
                                                    for="member_of_palace">{{__('messages.member_of_palace')}}</label>
                                             <div class="col-lg-4">
                                                 <input id="member_of_palace" type="checkbox" name="member_of_palace"
-                                                    @if($profession->member_of_palace == 1){{'checked'}}@endif   value="{{old('member_of_palace')}}">
+                                                       @if($profession->member_of_palace == 1){{'checked'}}@endif   value="{{old('member_of_palace')}}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -391,9 +395,10 @@
                                                     $diplomas = json_decode($account->prof->diplomas, true);
                                                 @endphp
                                                 @foreach($diplomas as $diploma)
-                                                    <a href="{{Config::get('constants.DIPLOMA').$diploma}}" target="_blank">
-                                                    <img src="{{Config::get('constants.DIPLOMA').$diploma}}"
-                                                         alt="diploma" class="col-lg-4 diploma">
+                                                    <a href="{{Config::get('constants.DIPLOMA').$diploma}}"
+                                                       target="_blank">
+                                                        <img src="{{Config::get('constants.DIPLOMA').$diploma}}"
+                                                             alt="diploma" class="col-lg-4 diploma">
                                                     </a>
                                                 @endforeach
                                             @endif

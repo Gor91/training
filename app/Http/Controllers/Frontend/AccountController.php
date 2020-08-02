@@ -58,16 +58,16 @@ class AccountController extends Controller
     {
         $profile = DB::table('accounts as a')
             ->join('professions as p', 'a.id', '=', 'p.account_id')
-            ->join('specialties AS s', 's.id', '=', 'p.education_id')
+            ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
             ->join('users AS u', 'u.account_id', '=', 'a.id')
             ->select('a.id', 'a.name', 'a.surname', 'a.father_name',
                 'a.bday', 'u.email', 'a.phone', 'a.home_address', 'a.work_address', 'a.workplace_name',
-                'p.specialty_id', 'p.education_id', 's.type_id as profession')
+                'p.specialty_id as education_id', 's.parent_id as specialty_id', 's.type_id as profession')
             ->where('a.id', '=', $id)
             ->first();
         $approve = Account::select('id', 'name', 'surname', 'father_name', 'date_of_expiry', 'passport', 'date_of_issue')->where('id', $id)
             ->with(['prof' => function ($query) {
-                $query->select(['member_of_palace', 'diplomas', 'account_id']);
+                $query->select(['specialty_id', 'member_of_palace', 'diplomas', 'account_id']);
             }])->first();
 
         return response()->json([
@@ -130,9 +130,9 @@ class AccountController extends Controller
             Profession::where('account_id', $id)
                 ->update([
                     'account_id' => $account->id,
-                    'specialty_id' => $professionRequest->specialty_id,
-                    'education_id' => $professionRequest->education_id,
-                    'profession' => $professionRequest->profession,
+                    'specialty_id' => $professionRequest->education_id,
+//                    'education_id' => $professionRequest->,
+//                    'profession' => $professionRequest->profession,
 
                 ]);
             $user = User::where('account_id', $id)->update([
@@ -144,7 +144,7 @@ class AccountController extends Controller
             DB::rollback();
             dd($exception);
             logger()->error($exception);
-            return response()->json(['error' => true],500);
+            return response()->json(['error' => true], 500);
 //            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));
 
         }
@@ -196,7 +196,7 @@ class AccountController extends Controller
             DB::rollback();
 //            dd($exception);
             logger()->error($exception);
-            return response()->json(['error' => true],500);
+            return response()->json(['error' => true], 500);
 //            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));
 
         }

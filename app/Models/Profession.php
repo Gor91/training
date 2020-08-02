@@ -36,12 +36,4 @@ class Profession extends Model
         return $this->belongsTo(Specialty::class, 'specialty_id');
     }
 
-    /**
-     * Get the edu that owns the educations.
-     */
-    public function edu()
-    {
-        return $this->belongsTo(Education::class, 'education_id');
-    }
-
-}
+   }

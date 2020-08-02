@@ -3,9 +3,9 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Models\Courses;
 use App\Models\Tests;
-use App\Http\Controllers\Controller;
 use App\Repositories\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -67,7 +67,7 @@ class TestsController extends Controller
             return redirect('backend/tests')->with('success', Lang::get('messages.success'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-
+            dd($exception);
             return redirect('backend/tests')->with('error', Lang::get('messages.wrong'));
         }
     }

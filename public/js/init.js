@@ -198,13 +198,13 @@ $(document).ready(function () {
                     $sub.find('option').remove();
 
                 for (var i in data.spec) {
-                    $sub.append(' <optgroup class="text-capitalize" label="' + i + '" ></optgroup>');
+                    // $sub.append(' <optgroup class="text-capitalize" label="' + i + '" ></optgroup>');
 
-                    for (var item in data.spec[i]) {
-                        $sub.append(' <option class="text-capitalize" value="' + item + '">' + data.spec[i][item] + '</option>')
+                    // for (var item in data.spec[i]) {
+                        $sub.append(' <option class="text-capitalize" value="' + i + '">' + data.spec[i] + '</option>')
 
                         // }
-                    }
+                    // }
                 }
             },
             error: function (data) {

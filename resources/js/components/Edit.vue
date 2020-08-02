@@ -93,7 +93,7 @@
                                             :class="{'input': true, 'is-invalid': errors.has('w_region') }"
                                             v-validate="'required'" @change="getTerritory(formEdit.w_region,'w')"
                                             v-model="formEdit.w_region">
-                                        <option v-for="(region, key) in regions" v-bind:value="key">{{region}}</option>
+                                        <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}</option>
                                     </select>
                                     <span v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
                                 </div>
@@ -136,7 +136,7 @@
                                             v-validate="'required'" @change="getTerritory(formEdit.h_region,'h')"
                                             :class="{'input': true, 'is-invalid': errors.has('h_region') }"
                                             v-model="formEdit.h_region">
-                                        <option v-for="(region, key) in regions" v-bind:value="key">{{region}}</option>
+                                        <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}</option>
                                     </select>
                                     <span v-show="errors.has('h_region')" class="help is-danger">{{ errors.first('h_region') }}</span>
 
@@ -387,9 +387,8 @@
             this.getAccountInfo();
             this.getRegions();
             this.getProfessions();
-            this.getEducate();
-            // this.getEducations();
-            // console.log(this.$data.formEdit)
+            // this.getEducate();
+
         },
         methods: {
             getEducate() {
@@ -492,6 +491,7 @@
                         this.getTerritory(this.$data.formEdit.w_region, 'w');
                         this.getTerritory(this.$data.formEdit.h_region, 'h');
                         this.getSpecialties(this.$data.formEdit.profession);
+                        this.getEducations(this.$data.formEdit.specialty_id);
                     })
             },
 

@@ -44,16 +44,11 @@ function getRegionName($id)
 }
 
 function getProfession($id){
-//    return DB::table('professions AS p')
-//        ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
-//        ->join('specialties AS sp', 's.parent_id', '=', 'sp.id')
-//        ->join('specialties_types AS st', 's.type_id', '=', 'st.id')
-//        ->select( 's.icon','s.name AS name', 'sp.name AS spec_name','st.name AS prof_name')
-//        ->where('p.account_id', '=', $id)
-//        ->first();
+
     return DB::table('professions AS p')
-        ->join('specialties AS s', 's.id', '=', 'p.education_id')
-        ->join('specialties AS sp', 'sp.id', '=', 'p.specialty_id')
+        ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
+        ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
+        ->join('specialties_types AS st', 'st.id', '=', 's.type_id')
         ->select('s.icon', 'sp.name as edu_name',
             's.name AS spec_name')
         ->where('p.account_id', '=', $id)

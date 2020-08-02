@@ -8,12 +8,23 @@
     <table>
         <tbody>
         <tr>
+            @php
+                $img = Config::get('constants.AVATAR_PATH_UPLOADED').'default.jpg';
+
+            @endphp
+            @if(file_exists(Config::get('constants.AVATAR_PATH').$data->image_name));
+            @php
+                $img = Config::get('constants.AVATAR_PATH').$data->image_name;
+
+            @endphp
+            @endif
             <td>
                 <img class="kt-widget__img"
-                     src="{{ asset(Config::get('constants.AVATAR_PATH_UPLOADED').$data->image_name)}}"
+                     src="{{ asset($img)}}"
                      alt="image">
 
             </td>
+
             <td>
                 <h4 class="text-blue">
                     {{$data->name." ".$data->surname." ".$data->father_name}}
@@ -26,7 +37,7 @@
                     {{$data->phone}}
                 </p>
                 <p>
-                    {{$data->prof->profession}}
+                    {{$data->prof->spec->type->name}}
                 </p>
             </td>
         </tr>
@@ -37,9 +48,7 @@
         <thead>
         <tr>
             <th>{{__('messages.bday')}}</th>
-            <th>{{__('messages.gender')}}</th>
-            <th>{{__('messages.married_status')}}</th>
-            <th>{{__('messages.passport')}}</th>
+           <th>{{__('messages.passport')}}</th>
             <th>{{__('messages.date_of_issue')}}</th>
             <th>{{__('messages.date_of_expiry')}}</th>
         </tr>
@@ -47,8 +56,6 @@
         <tbody>
         <tr>
             <td>{{$data->bday}}</td>
-            <td>{{$data->gender}}</td>
-            <td>{{$data->married_status}}</td>
             <td>{{$data->passport}}</td>
             <td>{{$data->date_of_issue}}</td>
             <td>{{$data->date_of_expiry}}</td>
@@ -56,7 +63,7 @@
         </tr>
         </tbody>
     </table>
-     <h4 class="dotted">
+    <h4 class="dotted">
         {{__('messages.home_address')}}
 
     </h4>
@@ -77,7 +84,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                 <h4 class="dotted">
+                <h4 class="dotted">
                     {{__('messages.work_address')}}`
                     {{$data->workplace_name}}
                 </h4>
@@ -92,35 +99,43 @@
 
         </tbody>
     </table>
-     <h4 class="dotted">
+
+    <h4 class="dotted">
         {{__('messages.education')}}
     </h4>
     <table>
         <thead>
         <tr>
-            <th>{{__('messages.edu')}}</th>
+{{--            <th>{{__('messages.edu')}}</th>--}}
             <th>{{__('messages.prof')}}</th>
-            {{--<th>{{__('messages.spec')}}</th>--}}
+            <th>{{__('messages.spec')}}</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td>{{$data->profession->edu_name}}</td>
             <td>{{$data->profession->spec_name}}</td>
-            {{--<td>{{$data->profession->name}}</td>--}}
+{{--            <td>{{$data->profession->type_name}}</td>--}}
 
         </tr>
         </tbody>
     </table>
-   <h4>{{__('messages.diplomas')}}</h4>
+    <h4>{{__('messages.diplomas')}}</h4>
     <!-- end:: Content -->
+    @php
+
+
+    @endphp
     @if(!empty($data->prof->diplomas))
         @php
             $diplomas = json_decode($data->prof->diplomas, true);
         @endphp
         @foreach($diplomas as $diploma)
+
+            @if(!file_exists(asset(\Illuminate\Support\Facades\Config::get('constants.DIPLOMA').$diploma)))
             <img src="{{asset(\Illuminate\Support\Facades\Config::get('constants.DIPLOMA').$diploma)}}"
                  alt="diploma" class="diploma">
+            @endif
         @endforeach
     @endif
 @endsection

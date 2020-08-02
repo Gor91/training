@@ -30,7 +30,10 @@ class AccountExport implements FromCollection, WithHeadings, ShouldAutoSize
                 $query->select(['email', 'account_id']);
             },
             'prof' => function ($query) {
-                $query->select(['account_id', 'profession']);
+                $query->select(['account_id', 'specialty_id']);
+            },
+            'prof.spec.type' => function ($query) {
+                $query->select(['id', 'name']);
             }])->where('role', $this->role)->get();
         foreach ($accounts as $index => $account) {
 

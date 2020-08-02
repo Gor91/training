@@ -165,8 +165,10 @@
                                                     <label for="date_of_issue"
                                                            class="col-lg-2 col-form-label">{{__('messages.date_of_issue').'*'}}</label>
                                                     <div class="col-lg-10">
-                                                        <input id="date_of_issue" type="date" name="date_of_issue" min="{{date('Y-m-d', $date)}}"
-                                                          max="{{date('Y-m-d')}}"     class="form-control" value="{{old('date_of_issue')}}">
+                                                        <input id="date_of_issue" type="date" name="date_of_issue"
+                                                               min="{{date('Y-m-d', $date)}}"
+                                                               max="{{date('Y-m-d')}}" class="form-control"
+                                                               value="{{old('date_of_issue')}}">
                                                     </div>
 
                                                 </div>
@@ -178,8 +180,10 @@
                                                     <label for="date_of_expiry"
                                                            class="col-lg-2 col-form-label">{{__('messages.date_of_expiry').'*'}}</label>
                                                     <div class="col-lg-10">
-                                                        <input id="date_of_expiry" type="date" name="date_of_expiry" min="{{date('Y-m-d', $date_start)}}"
-                                                             min="{{date('Y-m-d', $date_end)}}"  class="form-control" value="{{old('date_of_expiry')}}">
+                                                        <input id="date_of_expiry" type="date" name="date_of_expiry"
+                                                               min="{{date('Y-m-d', $date_start)}}"
+                                                               max="{{date('Y-m-d', $date_end)}}" class="form-control"
+                                                               value="{{old('date_of_expiry')}}">
                                                     </div>
 
                                                 </div>
@@ -212,8 +216,8 @@
                                                             <option value="">{{__('messages.select_region')}}</option>
                                                             @foreach($regions->regions as $key=>$region)
 
-                                                                <option value="@if(!empty(old('w_region'))){{old('w_region')}} @else{{$key}}@endif">
-                                                                    {{$region}}
+                                                                <option value="{{$region->id}}">
+                                                                    {{$region->name}}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -249,8 +253,8 @@
                                                         <select id="h_region" name="h_region" class="form-control">
                                                             <option value="">{{__('messages.select_region')}}</option>
                                                             @foreach($regions->regions as $key=>$region)
-                                                                <option value="@if(!empty(old('h_region'))){{old('h_region')}} @else{{$key}}@endif">
-                                                                    {{$region}}
+                                                                <option value="{{$region->id}}">
+                                                                    {{$region->name}}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -330,7 +334,7 @@
                                                     <div class="col-lg-6">
                                                         <input id="member_of_palace" type="checkbox"
                                                                name="member_of_palace"
-                                                               value="{{old('member_of_palace')}}">
+                                                               value="0">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">

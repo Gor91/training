@@ -64,9 +64,13 @@ class AccountController extends Controller
                     $query->select(['email', 'account_id', 'status']);
                 },
                 'prof' => function ($query) {
-                    $query->select(['account_id', 'profession']);
-                }])->where('role', $role)->get();
-
+                    $query->select(['account_id', 'specialty_id']);
+                },
+                'prof.spec.type' => function ($query) {
+                    $query->select(['id', 'name']);
+                }])->select('id', 'name', 'surname', 'image_name', 'phone')
+                ->where('role', $role)->get();
+//dd($accounts);
             return view('backend.account.index',
                 compact('accounts', 'role'));
         } catch (\Exception $exception) {
@@ -134,7 +138,7 @@ class AccountController extends Controller
                     $query->select(['email', 'account_id', 'status']);
                 },
                 'prof' => function ($query) {
-                    $query->select(['account_id', 'profession', 'diplomas']);
+                    $query->select(['account_id', 'diplomas']);
                 }])->where('id', $id)->first();
 
             if (!empty($account)) {
@@ -157,10 +161,11 @@ class AccountController extends Controller
             }
 
             $profession = DB::table('professions AS p')
-                ->join('specialties AS s', 's.id', '=', 'p.education_id')
-                ->join('specialties AS sp', 'sp.id', '=', 'p.specialty_id')
+                ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
+                ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
+                ->join('specialties_types AS st', 'st.id', '=', 's.type_id')
                 ->select('s.icon', 'sp.name as edu_name',
-                    's.name AS spec_name')
+                    's.name AS spec_name', 'st.name AS type_name')
                 ->where('p.account_id', '=', $id)
                 ->first();
 
@@ -187,7 +192,7 @@ class AccountController extends Controller
                     $query->select(['email', 'account_id', 'status']);
                 },
                 'prof' => function ($query) {
-                    $query->select(['account_id', 'profession', 'diplomas']);
+                    $query->select(['account_id', 'diplomas']);
                 }])->where('id', $id)->first();
             if (!empty($account)) {
 
@@ -202,6 +207,7 @@ class AccountController extends Controller
                 $account->w_territory = getRegionName($work_address['w_territory']);
             }
             $regions = self::getRegions();
+
             $regions = $regions->getData();
 
             $profession = DB::table('professions AS p')
@@ -213,7 +219,7 @@ class AccountController extends Controller
                 ->where('p.account_id', '=', $id)
                 ->first();
 
-            $edu = self::getEducation();
+            $edu = self::getEducate();
             $edu = (array)$edu->getData()->edu;
             $prof = self::getProfession();
             $prof = (array)$prof->getData()->prof;
@@ -284,13 +290,18 @@ class AccountController extends Controller
      */
     public function gdPDF($id)
     {
+
         $account = $this->model->with([
             'user' => function ($query) {
                 $query->select(['email', 'account_id', 'status']);
             },
             'prof' => function ($query) {
-                $query->select(['account_id', 'profession', 'diplomas']);
-            }])->where('id', $id)->first();
+                $query->select(['account_id', 'specialty_id', 'diplomas']);
+            },
+            'prof.spec.type' => function ($query) {
+                $query->select(['id', 'name']);
+            }])
+            ->where('id', $id)->first();
 
         if (!empty($account)) {
 
@@ -304,18 +315,24 @@ class AccountController extends Controller
             $account->w_street = $work_address['w_street'];
             $account->w_territory = getRegionName($work_address['w_territory']);
         }
+
         $profession = DB::table('professions AS p')
-            ->join('specialties AS s', 's.id', '=', 'p.education_id')
-            ->join('specialties AS sp', 'sp.id', '=', 'p.specialty_id')
+            ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
+            ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
+            ->join('specialties_types AS st', 'st.id', '=', 's.type_id')
             ->select('s.icon', 'sp.name as edu_name',
-                's.name AS spec_name')
+                's.name AS spec_name', 'st.name As type_name')
             ->where('p.account_id', '=', $id)
             ->first();
+
         $account->profession = $profession;
+//dd($profession);
         $pdf = PDF::loadView('backend.account.gd_pdf', ['data' => $account])->setPaper('a4', 'landscape')->setWarnings(false);
+
         // If you want to store the generated pdf to the server then you can use the store function
         if (!Storage::exists(Config::get('constants.ACCOUNT_PATH'))) {
             Storage::makeDirectory(Config::get('constants.ACCOUNT_PATH'), 0775, true);
+
         }
 
         $pdf->save(storage_path() . Config::get('constants.APP') . Config::get('constants.ACCOUNT_PATH') . 'account-' . $id . '.pdf');
@@ -351,7 +368,9 @@ class AccountController extends Controller
                 $query->select(['email', 'account_id', 'status']);
             },
             'prof' => function ($query) {
-                $query->select(['account_id', 'profession', 'diplomas']);
+                $query->select(['account_id', 'diplomas']);
+            }, 'prof.spec.type' => function ($query) {
+                $query->select(['id', 'name']);
             }])->get();
 
         if (!empty($accounts)) {
@@ -368,8 +387,9 @@ class AccountController extends Controller
                 $accounts[$index]->w_territory = getRegionName($work_address['w_territory']);
 
                 $profession = DB::table('professions AS p')
-                    ->join('specialties AS s', 's.id', '=', 'p.education_id')
-                    ->join('specialties AS sp', 'sp.id', '=', 'p.specialty_id')
+                    ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
+                    ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
+                    ->join('specialties_types AS st', 'st.id', '=', 's.type_id')
                     ->select('s.icon', 'sp.name as edu_name',
                         's.name AS spec_name')
                     ->where('p.account_id', '=', $account->id)
@@ -377,8 +397,9 @@ class AccountController extends Controller
                 $accounts[$index]->profession = $profession;
             }
         }
-        dd($accounts);
-        $pdf = PDF::loadView('backend.account.gd_pdf', ['data' => $accounts])->setPaper('a4', 'landscape')->setWarnings(false);
+
+
+        $pdf = PDF::loadView('backend.account.gd_role_pdf', ['datas' => $accounts])->setPaper('a4', 'landscape')->setWarnings(false);
         // If you want to store the generated pdf to the server then you can use the store function
         if (!Storage::exists(Config::get('constants.ACCOUNT_PATH'))) {
             Storage::makeDirectory(Config::get('constants.ACCOUNT_PATH'), 0775, true);

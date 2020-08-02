@@ -185,10 +185,10 @@
             $(".select2-selection__arrow").hide()
             $("#select2-courses-container").css("display", "inline")
 
-        </script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-        <script>
+{{--        </script>--}}
+{{--        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>--}}
+{{--        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>--}}
+{{--        <script>--}}
             $(function () {
                 $(document).on('click', '.btn-add', function (e) {
                     e.preventDefault();

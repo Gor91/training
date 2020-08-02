@@ -125,7 +125,7 @@
                                          alt="avatar" style="height: 50px"></td>
                                 <td>{{$account->name}}</td>
                                 <td>{{$account->surname}}</td>
-                                <td>{{$account->prof->profession}}</td>
+                                <td>{{$account->prof->spec->type->name}}</td>
                                 <td>{{$account->phone}}</td>
                                 <td class="email">{{$account->user->email}}</td>
                                 <td>

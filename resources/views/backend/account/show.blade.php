@@ -116,9 +116,11 @@
                                             {{$account->name." ".$account->surname." ".$account->father_name}}
                                         </span>
                                         <br>
-                                        <span class="kt-widget__data">
-                                            {{$account->prof->profession}}
+                                        @if(!empty($profession->type_name))
+                                            <span class="kt-widget__data">
+                                            {{$profession->type_name}}
                                         </span>
+                                        @endif
                                     </div>
                                 @endif
                             </div>
@@ -168,7 +170,7 @@
                                             <span class="kt-widget__label">
                                                 <i class="flaticon2-architecture-and-city"></i></span>
                                             <span class="kt-widget__data">
-                                                {{$account->h_territory.__('messages.territory')}}
+                                                {{$account->h_territory." ".__('messages.territory')}}
                                             </span>
                                         </div>
                                     @endif

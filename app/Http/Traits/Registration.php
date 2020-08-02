@@ -28,6 +28,7 @@ trait Registration
                              $professionRequest,
                              $userRequest, $role, $status)
     {
+//        dd($professionRequest);
 
         DB::beginTransaction();
         try {
@@ -65,9 +66,9 @@ trait Registration
             }
             $prof = new Profession();
             $prof->account_id = $account->id;
-            $prof->specialty_id = $professionRequest->specialty_id;
-            $prof->education_id = $professionRequest->education_id;
-            $prof->profession = $professionRequest->profession;
+            $prof->specialty_id = $professionRequest->education_id;
+//            $prof->education_id = $professionRequest->education_id;
+//            $prof->profession = $professionRequest->profession;
             if (!empty($professionRequest->member_of_palace))
                 $prof->member_of_palace = (int)$professionRequest->member_of_palace;
             $prof->diplomas = json_encode($a_f, true);
@@ -84,7 +85,7 @@ trait Registration
             $user->status = $status;
             if ($user->save()) {
                 $message = Message::where('key', 'registered_' . $role)->first();
-                $user->notify(new ManageUserStatus($user, $account, $message));
+//                $user->notify(new ManageUserStatus($user, $account, $message));
             }
 
             DB::commit();

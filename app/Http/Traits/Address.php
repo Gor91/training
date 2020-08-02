@@ -5,7 +5,6 @@ namespace App\Http\Traits;
 
 
 use App\Models\Region;
-use App\Repositories\Repository;
 
 trait Address
 {
@@ -18,7 +17,9 @@ trait Address
     static function getRegions()
     {
         try {
-            $region = Region::whereNull('region_id')->pluck('name', 'id');
+            $region = Region::select('id', 'name')
+                ->whereNull('region_id')->get();
+
             return response()->json(['regions' => $region]);
         } catch (\Exception $exception) {
             dd($exception);

@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <title>{{ config('app.name', 'Basic Corporation') }}</title>
+    <title>{{ config('app.name', __('messages.site_name')) }}</title>
     <style>
         @font-face {
             font-family: 'DejaVu Serif';

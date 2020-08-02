@@ -115,7 +115,7 @@
                                         v-validate="'required'" @change="getTerritory(formRegister.w_region,'w')"
                                         v-model="formRegister.w_region">
                                     <option value="">{{texts.selectregion}}</option>
-                                    <option v-for="(region, key) in regions" v-bind:value="key">{{region}}</option>
+                                    <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}</option>
                                 </select>
                                 <span v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
                             </div>
@@ -162,7 +162,7 @@
                                         :class="{'input': true, 'is-invalid': errors.has('h_region') }"
                                         v-model="formRegister.h_region" :data-vv-as="texts.region">
                                     <option value="">{{texts.selectregion}}</option>
-                                    <option v-for="(region, key) in regions" v-bind:value="key">{{region}}</option>
+                                    <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}</option>
                                 </select>
                                 <span v-show="errors.has('h_region')" class="help is-danger">{{ errors.first('h_region') }}</span>
 
@@ -246,7 +246,7 @@
                             <input type="checkbox" id="confirm-switch"
                                    :class="{'input': true, 'is-invalid': errors.has('member_of_palace') }"
                                    checked="" name="member_of_palace" class="form-control"
-                                   :data-vv-as="texts.member_of_palace "
+                                   :data-vv-as="texts.member_of_palace " value="0"
                                    v-validate="'required'" v-model="formRegister.member_of_palace">
                             <label for="confirm-switch"></label>
                         </div>

@@ -24,7 +24,7 @@ class ProfessionApproveRequest extends FormRequest
     public function rules()
     {
         return [
-            'palace' => 'required|bool|nullable',
+            'member_of_palace' => 'integer|nullable',
             'diploma_1' => 'image',
         ];
     }
@@ -37,8 +37,8 @@ class ProfessionApproveRequest extends FormRequest
     public function messages()
     {
         return [
-            'palace.required' => __('messages.member_of_palace') . __('validation.required'),
-            'palace.boolean' => __('messages.member_of_palace') . __('validation.boolean'),
+//            'member_of_palace.required' => __('messages.member_of_palace') . __('validation.required'),
+            'member_of_palace.integer' => __('messages.member_of_palace') . __('validation.boolean'),
             'diploma_1.required' => __('messages.diploma') . __('validation.required'),
             'diploma_1.image' => __('messages.diploma') . __('validation.image'),
         ];
@@ -47,7 +47,7 @@ class ProfessionApproveRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'palace' => (bool)$this->palace
+            'member_of_palace' => (bool)$this->member_of_palace
         ]);
     }
 
