@@ -69,6 +69,11 @@ Route::match(['put', 'patch'], '/backend/changePassword/{id}', 'Backend\AdminCon
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
 Route::post('/backend/sendEmails', 'Backend\BaseController@sendEmails');
 
+//videos
+Route::resource('/backend/videos', 'Backend\VideoController');
+Route::post( '/delete-video', 'Backend\VideoController@removeVideo');
+Route::post( '/backend/videos/{id}', 'Backend\VideoController@update');
+
 //courses
 Route::resource('/backend/courses/', 'Backend\CoursesController');
 Route::get( '/backend/getCourse/{id}', 'Backend\CoursesController@getCourse');

@@ -102,5 +102,5 @@
 <!--end::Layout Skins -->
     <link rel="shortcut icon" href="{{ asset('favicon.ico')}}"/>
     <script src="{{ asset('assets/vendors/general/jquery/dist/jquery.js')}}" type="text/javascript"></script>
-
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js" type="text/javascript"></script>
 </head>

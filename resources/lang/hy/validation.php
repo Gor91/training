@@ -81,7 +81,7 @@ return [
         'string' => 'The :attribute may not be greater than :max characters.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
-    'mimes' => 'The :attribute must be a file of type: :values.',
+    'mimes' => 'պետք է լինի հետևյալ տիպերի ֆայլ: :values:',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
         'numeric' => ' պետք է լինի առնվազն :min նիշից ավել։',

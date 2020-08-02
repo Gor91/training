@@ -12,7 +12,10 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'site_name' => 'ազգային Բժսհկական Պալատ',
+=======
+>>>>>>> a95a8c2db1c0a2735325ecc72115360464a7a446
 
     //account
     'user_info' => 'Անձնական տվյալներ',
@@ -61,7 +64,7 @@ return [
     'new_specialty' => ' նոր մասնագիտական բաժիններ',
     'diplomas' => 'Դիպլոմներ',
     'education' => 'Կրթություն',
-    'lecture' => 'Դասախոսներ',
+    'lectures' => 'Դասախոսներ',
 //backend messages
 
     'dt' => 'Վերջնաժամկետ',
@@ -162,6 +165,26 @@ return [
     'select_territory' => 'Ընտրել բնակավայր',
     'street' => 'Հասցե',
 
+//  videos
+    'media' => 'Մեդիա',
+    'images' => 'Նկարներ',
+    'videos' => 'Տեսանյութեր',
+    'new_video' => 'նոր տեսանյութ',
+    'video' => 'Տեսանյութ',
+    'lecture' => 'Դասախոս',
+    'loading' => 'Բեռնում․․․',
+    'upload' => 'Վերբեռնել',
+    'cancel' => 'Չեղարկել',
+    'remove' => 'Ջնջել',
+    'video_of' => '-ը ',
+    'video_bytes' => ' բայթից',
+    'duration' => 'Տևողություն',
+    'not_support_html5_video' => 'Ձեր զննարկիչը չի ապահովում HTML5 տեսանյութը:',
+    'confirm_message' => 'Դու՞ք վստահ եք որ ցանկանում եք անվերադարձ հեռացնել տեսանյութը։',
+    'invalid_format' => 'Խնդրում ենք ընտրել «mp4» տիպի տեսանյութ',
+    'title_unique' => 'Նման անուն գոյություն ունի',
+    'path_unique' => 'Նման ֆայլի հասցե գոյություն ունի',
+
 //  courses
     'courses' => 'Դասընթացներ',
     'course_name' => 'Դասընթացի անվանում',
@@ -169,6 +192,8 @@ return [
     'course_status' => 'Կարգավիճակ',
     'course_status_active' => 'Ակտիվ',
     'course_status_deactive' => 'Անջատված',
+    'course_status_delete' => 'Ջնջված',
+    'course_status_archive' => 'Արխիվ',
     'course_duration_date' => 'Վաղեմ․ Ժամկետ',
     'course_credit' => 'Կրեդիտ',
     'course_paragraph' => 'Դասընթաց',
