@@ -11,13 +11,13 @@ class AddressController extends Controller
 {
     use Address;
 //    // space that we can use the repository from
-//    protected $model;
-//
-//    public function __construct(Region $region)
-//    {
-//        // set the model
-//        $this->model = new Repository($region);
-//    }
+    protected $model;
+
+    public function __construct(Region $region)
+    {
+        // set the model
+        $this->model = new Repository($region);
+    }
 
     /**
      * Display a listing of the resource.
