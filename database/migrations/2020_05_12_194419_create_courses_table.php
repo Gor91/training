@@ -21,6 +21,8 @@ class CreateCoursesTable extends Migration
             $table->date("duration_date")->nullable();
             $table->integer("credit");
             $table->enum("credit_type", array_keys(\App\Models\Courses::getCreditType()));
+            $table->json("videos")->nullable();
+            $table->float("cost")->nullable();
             $table->text("content")->nullable();
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();

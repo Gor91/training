@@ -16,10 +16,10 @@ class Tests extends Migration
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('courses_id')->unsigned()->nullable();
-            $table->string('question', 10)->nullable(false);
-            $table->string('	answers')->jsonSerialize();
-            $table->string('question_icons_paths')->jsonSerialize();
-            $table->string('answers_icons_paths')->jsonSerialize();
+            $table->text('question')->nullable(false);
+            $table->text('answers')->jsonSerialize();
+            $table->string('question_icons_paths')->nullable()->jsonSerialize();
+            $table->string('answers_icons_paths')->nullable()->jsonSerialize();
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
         });

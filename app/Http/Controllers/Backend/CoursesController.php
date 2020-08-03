@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Courses;
 use App\Models\Specialty;
+use App\Models\Videos;
 use App\Repositories\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,10 @@ class CoursesController extends Controller
     public function create(Request $request)
     {
         try {
-            return view('backend.courses.create');
+            $credit_types = Courses::getCreditType();
+            $videos = Videos::query()->select(['id', 'title'])->get();
+
+            return view('backend.courses.create', compact('credit_types', 'videos'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
@@ -66,6 +70,9 @@ class CoursesController extends Controller
             $cours['status'] = $request->status;
             $cours['duration_date'] = $request->date;
             $cours['credit'] = $request->credit;
+            $cours['credit_type'] = $request->credit_type;
+            $cours['videos'] = json_encode($request->videos);
+            $cours['cost'] = $request->cost;
             $cours['content'] = $request->content_data;
             $this->model->create($cours);
             return redirect('backend/courses')->with('success', Lang::get('messages.success'));
@@ -90,6 +97,9 @@ class CoursesController extends Controller
             $cours['status'] = $request->status;
             $cours['duration_date'] = $request->date;
             $cours['credit'] = $request->credit;
+            $cours['credit_type'] = $request->credit_type;
+            $cours['videos'] = json_encode($request->videos);
+            $cours['cost'] = $request->cost;
             $cours['content'] = $request->content_data;
             $this->model->update($cours, $id);
             return redirect('backend/courses')->with('success', Lang::get('messages.success'));
@@ -106,8 +116,8 @@ class CoursesController extends Controller
     {
         try {
             $this->model->delete($id);
-            return redirect('backend/courses')->with('success', Lang::get('messages.course_detete'));
-        }catch (\Exception $exception){
+            return redirect('backend/courses')->with('success', Lang::get('messages.course_delete'));
+        } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/courses')->with('error', Lang::get('messages.wrong'));
@@ -121,6 +131,9 @@ class CoursesController extends Controller
     {
         try {
             $course = $this->model->show($request->id);
+            $credit_types = Courses::getCreditType();
+            $videos = Videos::query()->select(['id', 'title'])->get();
+
             $specialties_obj = [];
             if (isset($course)) {
                 if ($course->specialty_ids) {
@@ -133,7 +146,7 @@ class CoursesController extends Controller
                 }
                 $course["specialities"] = $specialties_obj;
             }
-            return view('backend.courses.create', compact('course'));
+            return view('backend.courses.create', compact('course', 'credit_types', 'videos'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);

@@ -74,6 +74,10 @@ Route::resource('/backend/videos', 'Backend\VideoController');
 Route::post( '/delete-video', 'Backend\VideoController@removeVideo');
 Route::post( '/backend/videos/{id}', 'Backend\VideoController@update');
 
+//images S3
+Route::resource('/backend/image', 'Backend\ImageController');
+Route::post( '/delete-image', 'Backend\ImageController@removeImage');
+
 //courses
 Route::resource('/backend/courses/', 'Backend\CoursesController');
 Route::get( '/backend/getCourse/{id}', 'Backend\CoursesController@getCourse');
