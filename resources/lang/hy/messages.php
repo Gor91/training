@@ -11,9 +11,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
     'site_name' => 'ազգային Բժշկական Պալատ',
-
     //account
     'user_info' => 'Անձնական տվյալներ',
     'name' => 'Անուն',

@@ -85,7 +85,7 @@ trait Registration
             $user->status = $status;
             if ($user->save()) {
                 $message = Message::where('key', 'registered_' . $role)->first();
-//                $user->notify(new ManageUserStatus($user, $account, $message));
+                $user->notify(new ManageUserStatus($user, $account, $message));
             }
 
             DB::commit();
