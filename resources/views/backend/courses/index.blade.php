@@ -53,11 +53,11 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Անուն</th>
-                        <th>Կարգավիճակ</th>
-                        <th>Բալը</th>
-                        <th>Պարունակություն</th>
-                        <th>Ակտիվության ժամկետը</th>
+                        <th>{{__('messages.name')}}</th>
+                        <th>{{__('messages.course_status')}}</th>
+                        <th>{{__('messages.course_credit')}}</th>
+                        <th>{{__('messages.cost')}}</th>
+                        <th>{{__('messages.activity_period')}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -66,9 +66,9 @@
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$course->name}}</td>
-                                <td>{{$course->status == "active" ? "Ակտիվ" : "Արխիվացված"}}</td>
+                                <td>{{$course->status == "active" ? __('messages.course_status_active') : __('messages.course_status_archive')}}</td>
                                 <td>{{$course->credit}}</td>
-                                <td>{{$course->content}}</td>
+                                <td>{{$course->cost}}</td>
                                 <td>{{$course->duration_date}}</td>
                                 <td>
                                     <div class="row justify-content-end">

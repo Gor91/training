@@ -2,7 +2,6 @@
 @section('content')
     <!-- begin:: Content -->
     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css"/>
         <div class="kt-portlet">
             <div class="kt-portlet__body kt-portlet__body--fit">
                 <div class="kt-grid kt-wizard-v3 kt-wizard-v3--white" id="kt_wizard_v3"
@@ -63,7 +62,8 @@
 
                             <!--begin: Form Wizard Form-->
                             {{--                            {{Form::}}--}}
-                            <form class="kt-form" id="kt_form" method="{{isset($course) ? "get" : "post"}}" enctype="multipart/form-data"
+                            <form class="kt-form" id="kt_form" method="{{isset($course) ? "get" : "post"}}"
+                                  enctype="multipart/form-data"
 
                                   action="{{isset($course) ? action('Backend\CoursesController@editCourse',$course->id) : action('Backend\CoursesController@store')}}">
                             @csrf
@@ -92,7 +92,8 @@
                                                             name="specialty_ids[]" multiple="multiple">
                                                         @if(isset($course))
                                                             @for ($i = 0; $i < count($course->specialities); $i++)
-                                                                <option selected value="{{$course->specialities[$i]["id"]}}">
+                                                                <option selected
+                                                                        value="{{$course->specialities[$i]["id"]}}">
                                                                     {{$course->specialities[$i]["name"]}}
                                                                 </option>
                                                             @endfor
@@ -101,15 +102,16 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-lg-2 col-form-label">{{__('messages.course_status')}}
+                                                <label for="status"
+                                                       class="col-lg-2 col-form-label">{{__('messages.course_status')}}
                                                     *</label>
                                                 <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control" id="special"
+                                                    <select class="js-example-basic-multiple form-control" id="status"
                                                             name="status">
                                                         <option {{isset($course) && $course->status == "active" ?  'selected' : ''}}
-                                                            value="active">{{__('messages.course_status_active')}}</option>
+                                                                value="active">{{__('messages.course_status_active')}}</option>
                                                         <option {{isset($course) && $course->status == "archive" ?  'selected' : ''}}
-                                                            value="archive">{{__('messages.course_status_deactive')}}</option>
+                                                                value="archive">{{__('messages.course_status_deactive')}}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -118,7 +120,8 @@
                                                        class="col-lg-2 col-form-label">{{__('messages.course_duration_date')}}
                                                     *</label>
                                                 <div class="col-lg-10">
-                                                    <input id="date" type="date" name="date" value="{{isset($course) ? $course->duration_date : ""}}"
+                                                    <input id="date" type="date" name="date"
+                                                           value="{{isset($course) ? $course->duration_date : ""}}"
                                                            class="form-control">
                                                 </div>
                                             </div>
@@ -127,17 +130,59 @@
                                                        class="col-lg-2 col-form-label">{{__('messages.course_credit')}}
                                                     *</label>
                                                 <div class="col-lg-10">
-                                                    <input id="credit" type="number" name="credit" value="{{isset($course) ? $course->credit : ""}}"
+                                                    <input id="credit" type="number" name="credit"
+                                                           value="{{isset($course) ? $course->credit : ""}}"
                                                            class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
+                                                <label for="credit_type"
+                                                       class="col-lg-2 col-form-label">{{__('messages.credit_type')}}
+                                                    *</label>
+                                                <div class="col-lg-10">
+                                                    <select class="js-example-basic-multiple form-control"
+                                                            id="credit_type"
+                                                            name="credit_type">
+                                                        @foreach ($credit_types as $key=>$credit_type)
+                                                            <option {{isset($course) && $course->credit_type == $key ?  'selected' : ''}}
+                                                                    value="{{$key}}">{{__(sprintf('messages.%s', $key))}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="cost"
+                                                       class="col-lg-2 col-form-label">{{__('messages.cost')}}
+                                                    *</label>
+                                                <div class="col-lg-10">
+                                                    <input id="cost" type="number" name="cost"
+                                                           value="{{isset($course) ? $course->cost : ""}}"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="course_videos"
+                                                       class="col-lg-2 col-form-label">{{__('messages.videos')}}</label>
+                                                <div class="col-lg-10">
+                                                    <select class="js-example-basic-multiple form-control"
+                                                            id="course_videos" name="videos[]" multiple="multiple">
+                                                        @if($videos)
+                                                            @foreach ($videos as $video)
+                                                                <option {{isset($course) && !empty($course->videos) && in_array($video->id, json_decode($course->videos)) ?  'selected' : ''}}
+                                                                        value="{{$video->id}}">{{$video->title}}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <label for="content_data"
-                                                       class="col-lg-2 col-form-label">{{__('messages.course_paragraph')}}
+                                                       class="col-lg-2 col-form-label">{{__('messages.content')}}
                                                     *</label>
                                                 <div class="col-lg-10">
                                                     <textarea id="content_data" type="text" name="content_data"
-                                                              class="form-control">{{isset($course) ? $course->content : ""}}</textarea>
+                                                              class="form-control summernote">{{isset($course) ? $course->content : ""}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -165,37 +210,6 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-        <script>
-            $("#special").select2({
-                placeholder: "Ընտրեք մասնագիտություն",
-                tags: true,
-                ajax: {
-                    dataType: "json",
-                    method: 'GET',
-                    url: "courses/getSpecialities",
-                    processResults: function (data) {
-                        var select_result = [];
-                        var final_data = {};
-                        if (data) {
-                            $.each(data, function (key, value) {
-                                final_data["id"] = key;
-                                final_data["text"] = key;
-                                final_data["children"] = [];
-                                for (var i = 0; i < value.length; i++) {
-                                    final_data["children"].push(value[i])
-                                }
-                                select_result.push(final_data)
-                                final_data = {};
-
-                            })
-                        }
-                        return {results : select_result }
-                    }
-                }
-            })
-        </script>
         <!-- end:: Content -->
     </div>
 @endsection

@@ -239,6 +239,34 @@ $(document).ready(function () {
         });
 
     });
+    $("#course_videos").select2();
+    $("#special").select2({
+        placeholder: "Ընտրեք մասնագիտություն",
+        tags: true,
+        ajax: {
+            dataType: "json",
+            method: 'GET',
+            url: "courses/getSpecialities",
+            processResults: function (data) {
+                var select_result = [];
+                var final_data = {};
+                if (data) {
+                    $.each(data, function (key, value) {
+                        final_data["id"] = key;
+                        final_data["text"] = key;
+                        final_data["children"] = [];
+                        for (var i = 0; i < value.length; i++) {
+                            final_data["children"].push(value[i])
+                        }
+                        select_result.push(final_data)
+                        final_data = {};
+
+                    })
+                }
+                return {results : select_result }
+            }
+        }
+    });
 
     $(document).on('click', '.edit', function () {
 

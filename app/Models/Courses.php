@@ -13,7 +13,7 @@ class Courses extends Model
     use Notifiable;
 
     protected $fillable = [
-        'id', 'name', 'specialty_ids', 'status', 'duration_date', 'credit', 'credit_type', 'content',
+        'id', 'name', 'specialty_ids', 'status', 'duration_date', 'credit', 'credit_type', 'videos', 'cost', 'content',
     ];
 
     /**
@@ -22,9 +22,9 @@ class Courses extends Model
     public static function getCreditType()
     {
         return [
-            'economic' => 'Տնտեսական',
-            'practical' => 'Գործնական',
-            'unknown' => 'Անորոշ'
+            'theoretical' => __('messages.theoretical'),
+            'practical' => __('messages.practical'),
+            'unknown' => __('messages.unknown')
         ];
     }
 
