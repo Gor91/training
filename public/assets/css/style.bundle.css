@@ -323,6 +323,15 @@ legend {
     white-space: normal;
 }
 
+.label.label-inline {
+    width: auto;
+    padding: 0.15rem 0.75rem;
+    border-radius: 0.42rem;
+}
+.label.label-danger {
+    color: #ffffff;
+    background-color: #F64E60;
+}
 progress {
     vertical-align: baseline;
 }

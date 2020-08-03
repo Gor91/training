@@ -89,7 +89,7 @@ Route::get('/backend/account/{role}', 'Backend\AccountController@index', ['only'
 Route::get('/backend/account/create', 'Backend\AccountController@create');
 Route::post('/backend/account/{role}', 'Backend\AccountController@store')->name('account.store');
 Route::match(['put', 'patch'],'/backend/account/{id}', 'Backend\AccountController@update')->name('account.update');
-Route::get('/backend/account/{id}', 'Backend\AccountController@show')->name('account.show');
+Route::match(['put', 'patch'],'/backend/updateAccount/{id}', 'Backend\AccountController@updateAccount');
 Route::delete('/backend/account/{id}', 'Backend\AccountController@destroy')->name('account.destroy');
 Route::get('/backend/account/{id}/edit', 'Backend\AccountController@edit')->name('account.edit');
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
@@ -122,6 +122,8 @@ Route::get( '/backend/editTests/{id}', 'Backend\TestsController@editTests');
 Route::get('/backend/deleteTest/{id}','Backend\TestsController@destroy');
 
 Route::post('/territory', 'Backend\AccountController@getTerritory');
+//todo compare with SpecialtyController
+Route::post('/edu', 'Backend\AccountController@getEducation');
 Route::post('/spec', 'Backend\AccountController@getSpecialty');
 Route::post('/updateSpec', 'Backend\SpecialtyController@updateSpecialty');
 Route::post('/specialty', 'Backend\SpecialtyController@getSpecialty');
@@ -135,4 +137,6 @@ Route::post('/backend/typeCheck', 'Backend\TypeController@typeCheck');
 Route::resource('/backend/specialty', 'Backend\SpecialtyController');
 
 Route::resource('/backend/pages', 'Backend\PageController');
+Route::resource('/backend/comments', 'Backend\CommentController');
+Route::post('/commentstatus', 'Backend\CommentController@commentstatus');
 //Route::get( '/backend/index/{id}', 'Backend\CoursesController@edit');

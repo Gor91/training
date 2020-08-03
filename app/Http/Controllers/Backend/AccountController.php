@@ -47,6 +47,7 @@ class AccountController extends Controller
     {
         // set the model
         $this->model = new Repository($account);
+        $this->middleware('auth:admin');
     }
 
     /**
@@ -88,11 +89,11 @@ class AccountController extends Controller
     public function create()
     {
         try {
-            $regions = self::getRegions();
+            $regions = $this->getRegions();
             $regions = $regions->getData();
-            $edu = self::getEducate();
+            $edu = $this->getEducate();
             $edu = (array)$edu->getData()->edu;
-            $prof = self::getProfession();
+            $prof = $this->getProfession();
             $prof = (array)$prof->getData()->prof;
             return view('backend.account.create', compact('regions', 'edu', 'prof'));
         } catch (\Exception $exception) {
@@ -115,6 +116,7 @@ class AccountController extends Controller
     {
         try {
             Registration::register($accountRequest, $professionRequest, $userRequest, 'lecture', 'approved');
+
             return redirect('backend/account/lecture')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
             dd($exception);
@@ -206,22 +208,22 @@ class AccountController extends Controller
                 $account->w_street = $work_address['w_street'];
                 $account->w_territory = getRegionName($work_address['w_territory']);
             }
-            $regions = self::getRegions();
+            $regions = $this->getRegions();
 
             $regions = $regions->getData();
 
             $profession = DB::table('professions AS p')
                 ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
                 ->join('specialties AS sp', 's.parent_id', '=', 'sp.id')
-//                ->join('educations AS e', 'e.id', '=', 'p.education_id')
-                ->select('s.icon',
-                    's.name AS name', 'sp.name AS spec_name', 'p.member_of_palace', 'p.diplomas')
+                ->join('specialties_types AS st', 'st.id', '=', 's.type_id')
+                ->select('s.icon', 'sp.name as edu_name', 'p.member_of_palace', 'p.specialty_id', 's.parent_id As education_id',
+                    's.name AS spec_name', 'st.name AS type_name')
                 ->where('p.account_id', '=', $id)
                 ->first();
 
-            $edu = self::getEducate();
+            $edu = $this->getEducate();
             $edu = (array)$edu->getData()->edu;
-            $prof = self::getProfession();
+            $prof = $this->getProfession();
             $prof = (array)$prof->getData()->prof;
 
             return view('backend.account.edit',
@@ -250,6 +252,25 @@ class AccountController extends Controller
                 ->where('account_id', $id)
                 ->update(['status' => "approved"]);
             $user->notify(new ManageUserStatus($user, $account, $message, true));
+            return redirect('backend/account/user')->with('success', __('messages.updated'));
+        } catch (\Exception $exception) {
+            dd($exception);
+            logger()->error($exception);
+            return redirect('backend/account/user')->with('error', __('messages.wrong'));
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAccount(Request $request, $id)
+    {
+        try {
+            dd($request);
             return redirect('backend/account/user')->with('success', __('messages.updated'));
         } catch (\Exception $exception) {
             dd($exception);
@@ -356,9 +377,14 @@ class AccountController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getSpecialty(Request $request)
+    public function getEducation(Request $request)
     {
         return Expert::getSpecialty($request->id);
+    }
+
+    public function getSpecialty(Request $request)
+    {
+        return Expert::getEducation($request->id);
     }
 
     public function gdPDFRole()

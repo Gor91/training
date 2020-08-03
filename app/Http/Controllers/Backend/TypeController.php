@@ -22,6 +22,7 @@ class TypeController extends Controller
     {
         // set the model
         $this->model = new Repository($type);
+        $this->middleware('auth:admin');
     }
 
     /**

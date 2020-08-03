@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Lang;
 
 class PageController extends Controller
 {
+
     // space that we can use the repository from
     protected $model;
 
@@ -17,6 +18,7 @@ class PageController extends Controller
     {
         // set the model
         $this->model = new Repository($page);
+        $this->middleware('auth:admin');
     }
 
     /**

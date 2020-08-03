@@ -87,7 +87,7 @@
                             </div>
                             <div class="kt-portlet__body">
                                 <form class="tab-content kt-form offset-lg-2 col-lg-8" id="kt_form" method="post"
-                                      action="{{ action('Backend\AccountController@update', $account->id)}}">
+                                      action="{{ action('Backend\AccountController@updateAccount', $account->id)}}">
                                     @csrf
                                     <div class="tab-pane active" id="kt_portlet_base_demo_1_tab_content"
                                          role="tabpanel">
@@ -258,23 +258,25 @@
                                                 <select id="w_region" name="w_region" class="form-control">
                                                     <option value="">{{__('messages.select_region')}}</option>
                                                     @foreach($regions->regions as $key=>$region)
-                                                        @php
-                                                        var_dump($region->name);
-                                                        @endphp
+
                                                         <option value="@if(!empty(old('w_region'))){{old('w_region')}} @else{{$region->id}}@endif"
-{{--                                                        @if($region->name === $account->w_region) {{'selected'}}@endif>--}}>
-                                                        {{(string)$region->name}}
+                                                        @if($region->name === $account->w_region) {{'selected'}}@endif>
+                                                            {{(string)$region->name}}
                                                         </option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
+                                        @php
+                                            $w = json_decode($account->work_address, true);
+                                        @endphp
                                         <div class="form-group row">
                                             <label for="w_territory"
                                                    class="col-lg-2 col-form-label">{{__('messages.territory')."*"}}</label>
                                             <div class="col-lg-10">
                                                 <select id="w_territory" name="w_territory"
                                                         class="form-control">
+                                                    <option value="{{$w['w_territory']}}">{{$account->w_territory}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -305,12 +307,16 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        @php
+                                            $h = json_decode($account->home_address, true);
+                                        @endphp
                                         <div class="form-group row">
                                             <label for="h_territory"
                                                    class="col-lg-2 col-form-label">{{__('messages.territory')."*"}}</label>
                                             <div class="col-lg-10">
                                                 <select id="h_territory" name="h_territory"
                                                         class="form-control">
+                                                    <option value="{{$w['w_territory']}}">{{$account->w_territory}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -328,7 +334,7 @@
                                     </div>
                                     <div class="tab-pane" id="kt_portlet_base_demo_3_tab_content"
                                          role="tabpanel">
-                                        <h4 class="form-group row">{{__('messages.education')}}</h4>
+                                        <h4 class="form-group row">{{__('messages.section')}}</h4>
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label"
                                                    for="prof">{{__('messages.prof')."*"}}</label>
@@ -338,7 +344,7 @@
                                                     @if(!empty($prof))
                                                         @foreach($prof as $key=>$p)
                                                             <option class="form-control" value="{{$key}}{{old('')}}"
-                                                            @if($p === $profession->name){{'selected'}} @endif>
+                                                            @if($p === $profession->type_name){{'selected'}} @endif>
                                                                 {{$p}}
                                                             </option>
                                                         @endforeach
@@ -346,15 +352,9 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-2 col-form-label"
-                                                   for="specialty_id">{{__('messages.spec')}}</label>
-                                            <div class="col-lg-10">
-                                                <select id="specialty_id" name="specialty_id" class="form-control">
-
-                                                </select>
-                                            </div>
-                                        </div>
+                                        {{--                                                                                @php--}}
+                                        {{--                                                                                dd($profession);--}}
+                                        {{--                                                                                @endphp--}}
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label"
                                                    for="edu">{{__('messages.education')}}</label>
@@ -362,14 +362,26 @@
                                                 <select id="edu" name="education_id" class="form-control">
                                                     @if(!empty($edu))
 
-                                                        @foreach($edu as $key =>$e)
-                                                            <option class="form-control"
-                                                                    value="{{old('education_id')}}{{$key}}"
-                                                            @if($e=== $profession->spec_name){{'selected'}}@endif>
-                                                                {{$e}}
-                                                            </option>
-                                                        @endforeach
+                                                        <option class="form-control"
+                                                                value="@if(!empty(old('education_id'))){{old('education_id')}}@else{{$profession->education_id}}@endif">
+                                                            {{$profession->edu_name}}
+                                                        </option>
+
                                                     @endif
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label"
+                                                   for="spec">{{__('messages.education')}}</label>
+                                            <div class="col-lg-10">
+                                                <select id="spec" name="specialty_id" class="form-control">
+                                                    <option class="form-control"
+                                                            value="@if(!empty(old('specialty_id'))){{old('specialty_id')}}@else{{$profession->specialty_id}}@endif">
+                                                        {{$profession->spec_name}}
+                                                    </option>
+
                                                 </select>
                                             </div>
                                         </div>

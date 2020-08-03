@@ -207,6 +207,7 @@ return [
     'new_test' => 'Ավելացնել նոր թեստ',
     'edit_test' => 'Փոփոխել թեստը',
 
+//about us
     'aboutus' => 'Մեր Մասին',
     'shortdescription' => 'Գլխավոր էջի նկարագիր',
     'title' => 'Վերնագիր',
@@ -216,8 +217,12 @@ return [
     'orders_of_decrees_presidential' => 'Նախագահի հրամանագրեր և կարգադրություններ',
     'government_decisions' => 'Կառավարության որոշումներ',
     'health_care_orders' => 'Նախարարի հրամաններ',
-    'sanitary_rules_and_norms' => 'Սանիտարական կանոններ և նորմեր'
+    'sanitary_rules_and_norms' => 'Սանիտարական կանոններ և նորմեր',
 
+//comments
+    'comments' =>'Մեկնաբանություններ',
+    'username'  =>'Օգտատեր',
+    'showcomment' =>'Դիտել մեկնաբանությունը',
 
 ];
 

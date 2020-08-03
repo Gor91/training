@@ -17,6 +17,7 @@ class SpecialtyController extends Controller
     {
         // set the model
         $this->model = new Repository($specialty);
+        $this->middleware('auth:admin');
     }
 
     /**
@@ -187,4 +188,6 @@ class SpecialtyController extends Controller
     {
         //
     }
+
+
 }

@@ -305,26 +305,18 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label"
-                                                           for="specialty_id">{{__('messages.spec')}}</label>
+                                                           for="edu">{{__('messages.spec')}}</label>
                                                     <div class="col-lg-10">
-                                                        <select id="specialty_id" name="specialty_id"
+                                                        <select id="edu" name="education_id"
                                                                 class="form-control">
-
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label"
-                                                           for="edu">{{__('messages.education')}}</label>
+                                                           for="spec">{{__('messages.education')}}</label>
                                                     <div class="col-lg-10">
-                                                        <select id="edu" name="education_id" class="form-control">
-                                                            @if(!empty($edu))
-                                                                @foreach($edu as $key=>$e)
-                                                                    <option class="form-control" value="{{$key}}">
-                                                                        {{$e}}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
+                                                        <select id="spec" name="specialty_id" class="form-control">
                                                         </select>
                                                     </div>
                                                 </div>

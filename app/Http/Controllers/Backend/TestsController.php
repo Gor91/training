@@ -21,6 +21,7 @@ class TestsController extends Controller
     public function __construct(Tests $tests)
     {
         $this->model = new Repository($tests);
+        $this->middleware('auth:admin');
     }
 
     public function index()

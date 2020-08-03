@@ -66,9 +66,7 @@ trait Registration
             }
             $prof = new Profession();
             $prof->account_id = $account->id;
-            $prof->specialty_id = $professionRequest->education_id;
-//            $prof->education_id = $professionRequest->education_id;
-//            $prof->profession = $professionRequest->profession;
+            $prof->specialty_id = $professionRequest->specialty_id;
             if (!empty($professionRequest->member_of_palace))
                 $prof->member_of_palace = (int)$professionRequest->member_of_palace;
             $prof->diplomas = json_encode($a_f, true);

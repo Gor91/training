@@ -11,7 +11,7 @@ function isAdmin()
     if (!empty($user))
         return $user;
     else
-        return false;
+        return redirect('/login');;
 }
 
 /**

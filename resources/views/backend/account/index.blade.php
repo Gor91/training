@@ -105,7 +105,9 @@
                         <th>{{__('messages.prof')}}</th>
                         <th>{{__('messages.phone')}}</th>
                         <th>{{__('messages.email')}}</th>
-                        <th>{{__('messages.status')}}</th>
+                        @if(\Illuminate\Support\Facades\Session::get('role') ==='user')
+                            <th>{{__('messages.status')}}</th>
+                        @endif
                         <th>{{__('messages.action')}}</th>
                     </tr>
                     </thead>
@@ -128,9 +130,12 @@
                                 <td>{{$account->prof->spec->type->name}}</td>
                                 <td>{{$account->phone}}</td>
                                 <td class="email">{{$account->user->email}}</td>
-                                <td>
-                                    <a @if($account->user->status ==="pending")
-                                       class="btn btn-danger" @endif>{{__('messages.'.$account->user->status)}}</a></td>
+                                @if(Session::get('role') ==='user')
+                                    <td>
+                                        <a @if($account->user->status ==="pending")
+                                           class="btn btn-danger" @endif>{{__('messages.'.$account->user->status)}}</a>
+                                    </td>
+                                @endif
                                 <td>
                                     <div class="row justify-content-end">
                                         <a href="{{action('Backend\AccountController@show', $account->id)}}"
@@ -139,7 +144,8 @@
                                            data-original-title="{{__('messages.show')}}">
                                             <i class="la la-eye"></i>
                                         </a>
-                                        @if($account->role !=='user')
+
+                                        @if(Session::get('role') !=='user')
                                             <a href="{{action('Backend\AccountController@edit', $account->id)}}"
                                                class="btn btn-info kt-badge kt-badge--lg"
                                                data-toggle="m-tooltip" data-placement="top"

@@ -89,11 +89,11 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="parent_id"
+                                                <label for="edu"
                                                        class="col-lg-3 col-form-label">{{__('messages.section')}}
                                                     *</label>
                                                 <div class="col-lg-9">
-                                                    <select type="text" name="parent_id" id="parent_id"
+                                                    <select type="text" name="parent_id" id="edu"
                                                             class="form-control">
                                                         <option value="">{{__('messages.select_section')}}</option>
                                                         { </select>

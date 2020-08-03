@@ -20,6 +20,7 @@ class LogController extends Controller
      */
     public function __construct(Email $email)
     {
+        $this->middleware('auth:admin');
         // set the model
         $this->model = new Repository($email);
     }

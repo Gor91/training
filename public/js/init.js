@@ -44,13 +44,15 @@ $(document).ready(function () {
     var groupColumn = 1, topColumn = 2;
     var t = $('#example').DataTable({
         "columnDefs": [
-            {"visible": false,
-                "targets": [topColumn,groupColumn]}
+            {
+                "visible": false,
+                "targets": [topColumn, groupColumn]
+            }
         ],
         "order": [[topColumn, 'asc'], [groupColumn, 'asc']],
         "language": lang,
         "rowGroup": {
-            dataSrc: [ topColumn, groupColumn ]
+            dataSrc: [topColumn, groupColumn]
         },
 
         "drawCallback": function (settings) {
@@ -182,28 +184,28 @@ $(document).ready(function () {
         });
 
     });
-    $(document).on('change', "#prof", function () {
+    $(document).on('change', "#prof, #type", function () {
         $spec_id = $(this).val();
         $.ajax({
-            url: '/spec',
+            url: '/edu',
             type: 'POST',
             context: {element: $(this)},
             data: {_token: CSRF_TOKEN, id: $spec_id},
             dataType: 'JSON',
             success: function (data) {
-                $sub = this.element.parent().parent().next().find('#specialty_id');
+                $sub = this.element.parent().parent().next().find('#edu');
                 console.log(data.spec)
 
-                if ($sub.find('option').length > 1)
+                if ($sub.find('option').length > 0)
                     $sub.find('option').remove();
 
                 for (var i in data.spec) {
                     // $sub.append(' <optgroup class="text-capitalize" label="' + i + '" ></optgroup>');
 
                     // for (var item in data.spec[i]) {
-                        $sub.append(' <option class="text-capitalize" value="' + i + '">' + data.spec[i] + '</option>')
+                    $sub.append(' <option class="text-capitalize" value="' + i + '">' + data.spec[i] + '</option>')
 
-                        // }
+                    // }
                     // }
                 }
             },
@@ -213,24 +215,24 @@ $(document).ready(function () {
         });
 
     });
-    $(document).on('change', "#type", function () {
-        $type_id = $(this).val();
+    $(document).on('change', "#edu", function () {
+        $edu_id = $(this).val();
         $.ajax({
             url: '/spec',
             type: 'POST',
             context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $type_id},
+            data: {_token: CSRF_TOKEN, id: $edu_id},
             dataType: 'JSON',
             success: function (data) {
-                $sub = this.element.parent().parent().next().find('#parent_id');
+                $sub = this.element.parent().parent().next().find('#spec');
                 // alert($sub.find('option').length)
 
                 if ($sub.find('option').length > 0)
                     $sub.html("");
-                $sub.append(' <option class="text-capitalize" value="">' + "" + '</option>');
-                for (var item in data.spec) {
-                    if (data.spec.hasOwnProperty(item))
-                        $sub.append(' <option class="text-capitalize" value="' + item + '">' + data.spec[item] + '</option>')
+                $sub.append(' <option class="text-capitalize" value="A">' + "" + '</option>');
+                for (var item in data.edu) {
+                    if (data.edu.hasOwnProperty(item))
+                        $sub.append(' <option class="text-capitalize" value="' + item + '">' + data.edu[item] + '</option>')
                 }
             },
             error: function (data) {
@@ -242,7 +244,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.edit', function () {
 
-        $(this).parent().parent().siblings().children().attr('disabled', false).css('border','1px solid #7197ec');
+        $(this).parent().parent().siblings().children().attr('disabled', false).css('border', '1px solid #7197ec');
         $(this).nextAll().css('display', 'none');
         $(this).siblings('.save').css('display', 'inline-block');
 
@@ -290,7 +292,27 @@ $(document).ready(function () {
         $(this).siblings('.save_prop').css('display', 'none');
 
         $(this).css('display', 'none');
+    });
+
+    $(document).on('click', ".unread", function () {
+        $comment_id = $(this).attr('id');
+        $.ajax({
+            url: '/commentstatus',
+            type: 'POST',
+            context: {element: $(this)},
+            data: {_token: CSRF_TOKEN, id: $comment_id},
+            dataType: 'JSON',
+            success: function (data) {
+                alert(data);
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
     })
+
 })
 ;
 

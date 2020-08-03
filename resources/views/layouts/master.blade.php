@@ -1,5 +1,6 @@
 <?php
 $user = isAdmin();
+
 ?>
         <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -36,7 +37,9 @@ $user = isAdmin();
                             <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
                                 <div class="kt-header__topbar-user">
                                     <span class="kt-header__topbar-welcome kt-hidden-mobile">{{__('messages.hello')}}, </span>
+                                    @if(!empty($user))
                                     <span class="kt-header__topbar-username kt-hidden-mobile mobile_name">{{$user->name}}</span>
+                                    @endif
 
                                     <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                                     {{--                                    <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">{{$fn}}</span>--}}

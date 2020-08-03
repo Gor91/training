@@ -24,6 +24,7 @@ class AdminController extends Controller
     public function __construct(Admin $admin)
     {
         // set the model
+        $this->middleware('auth:admin');
         $this->model = new Repository($admin);
     }
 

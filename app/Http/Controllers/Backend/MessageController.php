@@ -15,6 +15,7 @@ class MessageController extends Controller
 
     public function __construct(Message $message)
     {
+        $this->middleware('auth:admin');
         // set the model
         $this->model = new Repository($message);
     }
