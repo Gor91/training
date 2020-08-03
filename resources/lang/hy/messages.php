@@ -11,10 +11,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
-
-    'site_name' => 'ազգային Բժսհկական Պալատ',
-
+    'site_name' => 'ազգային Բժշկական Պալատ',
     //account
     'user_info' => 'Անձնական տվյալներ',
     'name' => 'Անուն',
@@ -35,6 +32,9 @@ return [
     'workplace_name' => 'Աշխատավայրի անվանումը',
     'member_of_palace' => 'Հանդիսանում եք Ազգային Բժշկական Պալատի անդամ?',
     'image_name' => 'Նկար',
+    'new_image' => 'Նոր նկար',
+    'image' => 'Նկար',
+    'copy_link' => 'Կրկնօրինակել հասցեն',
     'diploma' => 'Վերբեռնեք Ձեր դիպլոմի պատճեն',
     'role' => 'Դեր',
     'approved' => 'Հաստատված',
@@ -196,9 +196,16 @@ return [
     'course_credit' => 'Կրեդիտ',
     'course_paragraph' => 'Դասընթաց',
     'video_version' => 'Դասընթաց վիդեո տարբերակով',
-    'course_detete' => 'Կուրսը հաջողությամբ ջնջվեց:',
+    'course_delete' => 'Կուրսը հաջողությամբ ջնջվեց:',
     'new_course' => 'Ավելացնել նոր դասընթաց',
     'edit_course' => 'Փոփոխել դասընթացը',
+    'cost' => 'Արժեքը',
+    'activity_period' => 'Ակտիվության ժամկետը',
+    'content' => 'Բովանդակություն',
+    'credit_type' => 'Կրեդիտի տեսակ',
+    'theoretical' => 'Տեսական',
+    'practical' => 'Գործնական',
+    'unknown' => 'Անորոշ',
 
 // tests
     'tests' => 'Թեստեր',
