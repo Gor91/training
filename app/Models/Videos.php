@@ -21,7 +21,6 @@ class Videos extends Model
         return [
             'title' => 'required|unique:videos|string|min:2|max:190',
             'path' => 'required|unique:videos|string|min:2|max:190',
-            'video' => 'required|mimes:mp4',
             'duration' => 'nullable|numeric',
             'lecture' => 'required|exists:accounts,id',
         ];
