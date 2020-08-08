@@ -268,6 +268,26 @@ $(document).ready(function () {
         }
     });
 
+    $('#fileuploader-image').on('change', function () {
+        let fileReader = new FileReader();
+        let view_image= $('#view_image');
+
+        if($(this).prop('files').length==0){
+            view_image.attr('src', '');
+            view_image.attr('hidden','hidden');
+            return;
+        }
+
+        fileReader.readAsDataURL($(this).prop('files')[0]);
+        fileReader.onload = function () {
+            var data = fileReader.result;
+            if (fileReader.result.indexOf('data:image') !== -1) {
+                view_image.attr('src', data);
+                view_image.removeAttr('hidden');
+            }
+        };
+    });
+
     $(document).on('click', '.edit', function () {
 
         $(this).parent().parent().siblings().children().attr('disabled', false).css('border','1px solid #7197ec');

@@ -55,6 +55,9 @@
                                             <div class="form-group row">
                                                 <div class="col-lg-10">
                                                     <div class="form-group">
+                                                        <img id="view_image" class="col-lg-10" src="" alt="" hidden>
+                                                    </div>
+                                                    <div class="form-group">
                                                         <label class="btn btn-success col-lg-10">
                                                             {{__('messages.upload')}} <input type="file" hidden
                                                                                              id="fileuploader-image"
