@@ -32,7 +32,6 @@ class CoursesController extends Controller
             $courses = $this->model->all();
             return view('backend.courses.index', compact('courses'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/courses')->with('error', Lang::get('messages.wrong'));
         }
@@ -51,7 +50,6 @@ class CoursesController extends Controller
 
             return view('backend.courses.create', compact('credit_types', 'videos'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
         }
@@ -68,9 +66,9 @@ class CoursesController extends Controller
             $cours['name'] = $request->name;
             $cours['specialty_ids'] = json_encode($request->specialty_ids);
             $cours['status'] = $request->status;
-            $cours['duration_date'] = $request->date;
-            $cours['credit'] = $request->credit;
-            $cours['credit_type'] = $request->credit_type;
+            $cours['start_date'] = date('Y-m-d', strtotime($request->start_date));
+            $cours['duration_date'] = date('Y-m-d', strtotime($request->date));
+            $cours['credit'] = json_encode($request->credit);
             $cours['videos'] = json_encode($request->videos);
             $cours['cost'] = $request->cost;
             $cours['content'] = $request->content_data;
@@ -95,9 +93,9 @@ class CoursesController extends Controller
             $cours['name'] = $request->name;
             $cours['specialty_ids'] = json_encode($request->specialty_ids);
             $cours['status'] = $request->status;
-            $cours['duration_date'] = $request->date;
-            $cours['credit'] = $request->credit;
-            $cours['credit_type'] = $request->credit_type;
+            $cours['start_date'] = date('Y-m-d', strtotime($request->start_date));
+            $cours['duration_date'] = date('Y-m-d', strtotime($request->date));
+            $cours['credit'] = json_encode($request->credit);
             $cours['videos'] = json_encode($request->videos);
             $cours['cost'] = $request->cost;
             $cours['content'] = $request->content_data;
@@ -131,7 +129,6 @@ class CoursesController extends Controller
     {
         try {
             $course = $this->model->show($request->id);
-            $credit_types = Courses::getCreditType();
             $videos = Videos::query()->select(['id', 'title'])->get();
 
             $specialties_obj = [];
@@ -146,7 +143,15 @@ class CoursesController extends Controller
                 }
                 $course["specialities"] = $specialties_obj;
             }
-            return view('backend.courses.create', compact('course', 'credit_types', 'videos'));
+
+            $credit = $course->credit;
+
+            if (!empty($credit)) {
+                $credit = (array)json_decode($credit);
+                $course["credit"] = $credit;
+            }
+
+            return view('backend.courses.create', compact('course', 'videos'));
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);

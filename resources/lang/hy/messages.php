@@ -192,6 +192,8 @@ return [
     'course_status_deactive' => 'Անջատված',
     'course_status_delete' => 'Ջնջված',
     'course_status_archive' => 'Արխիվ',
+    'course_date_format' => 'ԱՄ/ՕՐ/ՏԱՐԻ',
+    'course_start_date' => 'Մեկնարկի ամսաթիվ',
     'course_duration_date' => 'Վաղեմ․ Ժամկետ',
     'course_credit' => 'Կրեդիտ',
     'course_paragraph' => 'Դասընթաց',
