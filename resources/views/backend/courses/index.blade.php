@@ -83,6 +83,7 @@
                                     @endif
                                 </td>
                                 <td>{{$course->cost}}</td>
+                                <td>{{$course->start_date}}</td>
                                 <td>{{$course->duration_date}}</td>
                                 <td>
                                     <div class="row justify-content-end">

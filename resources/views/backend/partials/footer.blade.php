@@ -137,6 +137,10 @@
 
 <!--begin::Page Scripts(used by this page) -->
 
+<script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script defer type='text/javascript'
+        src='https://cdn.jsdelivr.net/npm/froala-editor@3.2.0/js/froala_editor.pkgd.min.js'></script>
+
 <script defer src="{{ asset('assets/js/pages/crud/forms/widgets/summernote.js')}}" type="text/javascript"></script>
 <script defer src="{{ asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js')}}"
         type="text/javascript"></script>
