@@ -192,6 +192,8 @@ return [
     'course_status_deactive' => 'Անջատված',
     'course_status_delete' => 'Ջնջված',
     'course_status_archive' => 'Արխիվ',
+    'course_date_format' => 'ԱՄ/ՕՐ/ՏԱՐԻ',
+    'course_start_date' => 'Մեկնարկի ամսաթիվ',
     'course_duration_date' => 'Վաղեմ․ Ժամկետ',
     'course_credit' => 'Կրեդիտ',
     'course_paragraph' => 'Դասընթաց',
@@ -211,6 +213,8 @@ return [
     'tests' => 'Թեստեր',
     'test_name' => 'Թեստի հարց',
     'test_answer' => 'Հնարավոր պատասխաններ',
+    'answer' => 'Պատասխան',
+    'choose_profession' => 'Ընտրեք մասնագիտություն',
     'new_test' => 'Ավելացնել նոր թեստ',
     'edit_test' => 'Փոփոխել թեստը',
 

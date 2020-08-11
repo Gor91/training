@@ -5,6 +5,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css"/>
         <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"
               id="bootstrap-css">
+        <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.2.0/css/froala_editor.pkgd.min.css' rel='stylesheet'
+              type='text/css'/>
+
         <style>
             .entry:not(:first-of-type) {
                 margin-top: 10px;
@@ -40,6 +43,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v3__wrapper">
                             <!--begin: Form Wizard Form-->
                             <form class="kt-form" id="kt_form1" method="{{isset($test) ? "get" : "post"}}"
@@ -56,7 +60,7 @@
                                                 <label for="courses"
                                                        class="col-lg-2 col-form-label">{{__('messages.course_list')}}</label>
                                                 <div class="col-lg-10">
-                                                    <select class="js-data-example-ajax form-control" id="courses"
+                                                    <select class="js-data-example-ajax form-control" id="courses" data-placeholder="{{__('messages.choose_profession')}}"
                                                             name="courses">
                                                         @if(isset($test))
                                                             <option selected value="{{$test->courses_id}}">
@@ -66,7 +70,7 @@
                                                     </select>
                                                     @error('courses')
                                                     <div class="alert alert-danger" role="alert">
-                                                         {{$message}}
+                                                        {{$message}}
                                                     </div>
                                                     @enderror
                                                 </div>
@@ -94,12 +98,11 @@
                                                         @if(isset($test))
                                                             <?php $i = 0;?>
                                                             @foreach (json_decode($test->answers) as $key=>$value)
-                                                                <div
-                                                                    class="entry input-group col-sm-10 custom_counter_g">
-                                                                    <input id="answer" class="form-control"
+                                                                <div class="entry input-group custom_counter_g">
+                                                                    <textarea class="form-control froala-editor"
                                                                            name="fields[{{$i}}][inp]"
-                                                                           type="text" placeholder="Պատասխան"
-                                                                           value="{{$value->inp}}"/>
+                                                                           type="text"
+                                                                           placeholder="{{__('messages.answer')}}">{{$value->inp}}</textarea>
                                                                     <span class="input-group-btn">
                                                                         <button class="btn {{$i+1 == count((array)json_decode($test->answers)) ?
                                                                                     "btn-success btn-add" : "btn-danger btn-remove"}}"
@@ -119,21 +122,29 @@
                                                             @endforeach
                                                         @endif
                                                         @if(!isset($test))
-                                                            <div class="entry input-group col-sm-10 custom_counter_g">
-                                                                <input id="answer" class="form-control"
-                                                                       name="fields[0][inp]"
-                                                                       type="text" placeholder="Պատասխան"/>
-                                                                <span class="input-group-btn">
+                                                            <div class="entry input-group custom_counter_g">
+                                                                <div class="col-sm-10">
+                                                                    <textarea class="form-control froala-editor"
+                                                                              name="fields[0][inp]"
+                                                                              type="text"
+                                                                              placeholder="{{__('messages.answer')}}"></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    <span class="input-group-btn">
                                                                         <button class="btn btn-success btn-add"
                                                                                 type="button">
                                                                                 <span
-                                                                                    class="glyphicon glyphicon-plus"></span>
+                                                                                        class="glyphicon glyphicon-plus"></span>
                                                                         </button>
                                                                 </span>
-                                                                <input type="checkbox" name="fields[0][check]" id="0"
-                                                                       value="1"
-                                                                       class="form-check-input">
-                                                                <label class="form-check-label" for="0"></label>
+                                                                </div>
+                                                                <div class="col-sm-1">
+                                                                    <input type="checkbox" name="fields[0][check]"
+                                                                           id="0"
+                                                                           value="1"
+                                                                           class="form-check-input">
+                                                                    <label class="form-check-label" for="0"></label>
+                                                                </div>
                                                             </div>
                                                         @endif
                                                     </div>
@@ -154,67 +165,6 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-        <script>
-            $("#courses").select2({
-                placeholder: "Ընտրեք մասնագիտություն",
-                tags: true,
-                ajax: {
-                    dataType: "json",
-                    method: 'GET',
-                    url: "tests/getCourses",
-                    processResults: function (data) {
-                        var select_result = [];
-                        var final_data = {};
-                        if (data) {
-                            $.each(data, function (key, value) {
-                                final_data["children"] = [];
-                                for (var i = 0; i < value.length; i++) {
-                                    final_data["children"].push(value[i])
-                                }
-                                select_result.push(final_data)
-                                final_data = {};
-
-                            })
-                        }
-                        return {results: select_result}
-                    }
-                }
-            })
-            $(".select2-selection__arrow").hide()
-            $("#select2-courses-container").css("display", "inline")
-
-{{--        </script>--}}
-{{--        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>--}}
-{{--        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>--}}
-{{--        <script>--}}
-            $(function () {
-                $(document).on('click', '.btn-add', function (e) {
-                    e.preventDefault();
-                    var t = $('.custom_counter_g').length;
-                    var dynaForm = $('.dynamic-wrap:first'),
-                        currentEntry = $(this).parents('.entry:first'),
-                        newEntry = $(currentEntry.clone()).appendTo(dynaForm);
-                    newEntry.find('input[type=text]').val('');
-                    newEntry.find('input[type=text]').attr("name", "fields[" + t + "][inp]").val('');
-                    newEntry.find('input[type=checkbox]').attr("name", "fields[" + t + "][check]");
-                    newEntry.find('input[type=checkbox]').attr("id", t);
-                    newEntry.find('input[type=checkbox]').prop("checked", false);
-                    newEntry.find('.form-check-label').attr("for", t);
-
-                    dynaForm.find('.entry:not(:last) .btn-add')
-                        .removeClass('btn-add').addClass('btn-remove')
-                        .removeClass('btn-success').addClass('btn-danger')
-                        .html('<span class="glyphicon glyphicon-minus"></span>');
-                    t++;
-                }).on('click', '.btn-remove', function (e) {
-                    $(this).parents('.entry:first').remove();
-                    e.preventDefault();
-                    return false;
-                });
-            });
-        </script>
         <!-- end:: Content -->
     </div>
 @endsection

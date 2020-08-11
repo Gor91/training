@@ -54,7 +54,7 @@
                         <!--begin: Datatable -->
                         @if($images)
                             @foreach($images as $image)
-                                <div class="col-md-2 gallery__item">
+                                <div class="col-md-3 gallery__item">
                                     <img class="gallery__item__img"
                                          src="{{sprintf("%s/%s", env('AWS_URL_ACL'),$image )}}" alt="">
                                     <div class="gallery__item__copy">

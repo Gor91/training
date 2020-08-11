@@ -13,7 +13,7 @@ class Courses extends Model
     use Notifiable;
 
     protected $fillable = [
-        'id', 'name', 'specialty_ids', 'status', 'duration_date', 'credit', 'credit_type', 'videos', 'cost', 'content',
+        'id', 'name', 'specialty_ids', 'status', 'start_date', 'duration_date', 'credit', 'videos', 'cost', 'content',
     ];
 
     /**

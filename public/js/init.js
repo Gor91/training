@@ -268,6 +268,125 @@ $(document).ready(function () {
         }
     });
 
+    $('#fileuploader-image').on('change', function () {
+        let fileReader = new FileReader();
+        let view_image= $('#view_image');
+
+        if($(this).prop('files').length==0){
+            view_image.attr('src', '');
+            view_image.attr('hidden','hidden');
+            return;
+        }
+
+        fileReader.readAsDataURL($(this).prop('files')[0]);
+        fileReader.onload = function () {
+            var data = fileReader.result;
+            if (fileReader.result.indexOf('data:image') !== -1) {
+                view_image.attr('src', data);
+                view_image.removeAttr('hidden');
+            }
+        };
+    });
+
+    function init_editor() {
+        new FroalaEditor('textarea.froala-editor', {
+            imageUploadToS3: {
+                bucket: 'natmedpalace',
+                uploadURL:'https://natmedpalace.s3.amazonaws.com',
+                region: 'us-west-2',
+                keyStart: 'uploads/test/images',
+                params: {
+                    acl: 'public-read', // ACL according to Amazon Documentation.
+                    accessKey: 'AKIA4BPCYKMDDCLDSJVK',
+                    secretKey: 'WtAyUoUcXgUykRTkXUAUP8gY1ibnHyGFUGdmNERm'
+                }
+            },
+            placeholderText: $(this).attr('placeholder'),
+            imageEditButtons: ['imageDisplay', 'imageAlign', 'imageRemove']
+        })
+    }
+
+    FroalaEditor.DefineIcon('imageInfo', {NAME: 'info', SVG_KEY: 'help'});
+        FroalaEditor.RegisterCommand('imageInfo', {
+        title: 'Info',
+        focus: false,
+        undo: false,
+        refreshAfterCallback: false,
+        callback: function () {
+            var $img = this.image.get();
+            alert($img.attr('src'));
+        }
+    });
+
+    init_editor();
+
+    $("#courses").select2({
+        placeholder: $('#courses').data('placeholder'),
+        tags: true,
+        ajax: {
+            dataType: "json",
+            method: 'GET',
+            url: "tests/getCourses",
+            processResults: function (data) {
+                var select_result = [];
+                var final_data = {};
+                if (data) {
+                    $.each(data, function (key, value) {
+                        final_data["children"] = [];
+                        for (var i = 0; i < value.length; i++) {
+                            final_data["children"].push(value[i])
+                        }
+                        select_result.push(final_data);
+                        final_data = {};
+
+                    })
+                }
+                return {results: select_result}
+            }
+        }
+    });
+
+    $(".select2-selection__arrow").hide();
+    $("#select2-courses-container").css("display", "inline");
+
+    $(function () {
+        $(document).on('click', '.btn-add', function (e) {
+            e.preventDefault();
+            var t = $('.custom_counter_g').length;
+
+            var template = '<div class="entry input-group custom_counter_g"><div class="col-sm-10">\
+                        <textarea class="form-control froala-editor"\
+                    name="fields[' + t + '][inp]"\
+                    type="text"></textarea></div>\
+                        <div class="col-sm-1">\
+                        <span class="input-group-btn">\
+                        <button class="btn btn-success btn-add" type="button">\
+                        <span class="glyphicon glyphicon-plus"></span>\
+                        </button>\
+                        </span>\
+                        </div>\
+                        <div class="col-sm-1">\
+                        <input type="checkbox" name="fields[' + t + '][check]" id="check_' + t + '" value="1" class="form-check-input">\
+                        <label class="form-check-label" for="check_' + t + '"></label>\
+                        </div>\
+                        </div>\
+                        </div>';
+            var dynaForm = $('.dynamic-wrap:first');
+            $($.parseHTML(template)).appendTo(dynaForm);
+
+            dynaForm.find('.entry:not(:last) .btn-add')
+                .removeClass('btn-add').addClass('btn-remove')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('<span class="glyphicon glyphicon-minus"></span>');
+            t++;
+            init_editor();
+        }).on('click', '.btn-remove', function (e) {
+            $(this).parents('.entry:first').remove();
+            e.preventDefault();
+            return false;
+        });
+    });
+
     $(document).on('click', '.edit', function () {
 
         $(this).parent().parent().siblings().children().attr('disabled', false).css('border','1px solid #7197ec');

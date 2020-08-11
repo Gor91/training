@@ -109,11 +109,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="btn btn-success">
-                                                            {{__('messages.upload')}} <input type="file" hidden
-                                                                                             id="fileuploader-video"
-                                                                                             name="video"
-                                                                                             accept="video/*">
+                                                        <label class="btn btn-success" for="fileuploader-video">
+                                                            {{__('messages.upload')}}
                                                         </label>
                                                         <label id="cancel" class="btn btn-warning"
                                                                hidden>{{__('messages.cancel')}}</label>
@@ -147,6 +144,10 @@
                                 </div>
                                 <!--end: Form Actions -->
                             </form>
+                            <input type="file" hidden
+                                   id="fileuploader-video"
+                                   name="video"
+                                   accept="video/*">
                             <!--end: Form Wizard Form-->
                         </div>
                     </div>
