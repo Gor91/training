@@ -7,7 +7,9 @@
                     <i class="kt-font-brand flaticon-dashboard"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Գլխավոր
+                    @php
+
+                    @endphp
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">

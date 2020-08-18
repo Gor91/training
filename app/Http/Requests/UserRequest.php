@@ -3,9 +3,19 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class UserRequest extends FormRequest
 {
+    /**
+     * @param array $errors
+     * @return mixed
+     */
+    public function response(array $errors)
+    {
+        return Redirect::back()->withErrors($errors)->withInput();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *

@@ -5,29 +5,36 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountApproveRequest;
 use App\Http\Requests\AccountEditRequest;
+use App\Http\Requests\AvatarRequest;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ProfessionApproveRequest;
 use App\Http\Requests\ProfessionEditRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Models\Account;
-use App\Models\Profession;
 use App\Models\User;
+use App\Repositories\Repository;
+use App\Services\AccountService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AccountController extends Controller
 {
     /**
+     * @var Repository
+     */
+    protected $service;
+
+    /**
      * Create a new AccountController instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AccountService $service)
     {
+        $this->service = $service;
         $this->user = JWTAuth::parseToken()->authenticate();
 //        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
@@ -48,28 +55,16 @@ class AccountController extends Controller
         }
     }
 
+
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function editProfile(Request $request, $id)
     {
-        $profile = DB::table('accounts as a')
-            ->join('professions as p', 'a.id', '=', 'p.account_id')
-            ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
-            ->join('users AS u', 'u.account_id', '=', 'a.id')
-            ->select('a.id', 'a.name', 'a.surname', 'a.father_name',
-                'a.bday', 'u.email', 'a.phone', 'a.home_address', 'a.work_address', 'a.workplace_name',
-                'p.specialty_id as education_id', 's.parent_id as specialty_id', 's.type_id as profession')
-            ->where('a.id', '=', $id)
-            ->first();
-        $approve = Account::select('id', 'name', 'surname', 'father_name', 'date_of_expiry', 'passport', 'date_of_issue')->where('id', $id)
-            ->with(['prof' => function ($query) {
-                $query->select(['specialty_id', 'member_of_palace', 'diplomas', 'account_id']);
-            }])->first();
-
+        $profile = $this->service->getFAccountById($id);
+        $approve = $this->service->getFAccount($id);
         return response()->json([
             'access_token' => $request->token,
             'user' => $profile,
@@ -79,125 +74,61 @@ class AccountController extends Controller
         ]);
     }
 
-    public function avatar(Request $request)
+    /**
+     * @param AvatarRequest $request
+     * @param AccountService $service
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function avatar(AvatarRequest $request)
     {
-//todo transaction
-        $this->validate($request, [
-//            'id' => 'required|integer',
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        $id = $request->id;
-        if ($request->hasFile('avatar')) {
-            $aup = public_path() . Config::get('constants.UPLOADS') . Config::get('constants.AVATAR_PATH_UPLOADED');
-            if (!file_exists($aup))
-                mkdir($aup, 0755, true);
-            $name = 'avatar_' . $id . '.' . $request->file('avatar')->extension();
-            $send = $request->file('avatar')->move($aup, $name);
-            $account = Account::find($id);
-            $image_name = $account->image_name;
-            $account->image_name = $name;
-            $account->save();
-            if ($image_name !== Config::get('constants.AVATAR')
-                && $name !== $image_name)
-                unlink($aup . $image_name);
-
-//            return response()->json(['success' => true, 'avatar' => $name, 200]);
+//todo test
+        $result = $this->service->updateFAvatar($request);
+        if ($result)
             return $this->respondWithToken($request->token);
-        }
+        return response()->json(['error' => true], 500);
+
     }
 
+    /**
+     * @param AccountEditRequest $accountRequest
+     * @param ProfessionEditRequest $professionRequest
+     * @param UserEditRequest $userRequest
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateProfile(AccountEditRequest $accountRequest,
                                   ProfessionEditRequest $professionRequest,
                                   UserEditRequest $userRequest, $id)
     {
-        DB::beginTransaction();
-        try {
-            $home_address = [];
-            $work_address = [];
-            $home_address['h_region'] = $accountRequest->h_region;
-            $work_address['w_region'] = $accountRequest->w_region;
-            $home_address['h_territory'] = $accountRequest->h_territory;
-            $work_address['w_territory'] = $accountRequest->w_territory;
-            $home_address['h_street'] = $accountRequest->h_street;
-            $work_address['w_street'] = $accountRequest->w_street;
-            $account = Account::find($id);
-            $account->bday = date("Y-m-d", strtotime($accountRequest->bday));
-            $account->phone = $accountRequest->phone;
-            $account->workplace_name = $accountRequest->workplace_name;
-            $account->work_address = json_encode($work_address, true);
-            $account->home_address = json_encode($home_address, true);
-            $account->save();
-            Profession::where('account_id', $id)
-                ->update([
-                    'account_id' => $account->id,
-                    'specialty_id' => $professionRequest->education_id,
-//                    'education_id' => $professionRequest->,
-//                    'profession' => $professionRequest->profession,
-
-                ]);
-            $user = User::where('account_id', $id)->update([
-                'email' => $userRequest->email
-            ]);
-            DB::commit();
-            return response()->json(['success' => true, 'user' => $account->id, 200]);
-        } catch (\Exception $exception) {
-            DB::rollback();
-            dd($exception);
-            logger()->error($exception);
-            return response()->json(['error' => true], 500);
-//            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));
-
-        }
+        $code = $this->service->updateFProfile($accountRequest, $professionRequest, $userRequest, $id);
+dd($code);
+//        if (is_numeric($code))
+//            return response()->json(['error' => true, 'message' => getErrorMessage($code)], 500);
+//        else {
+//            return response()->json(['success' => true, 'user' => $id, 200]);
+//        }
     }
 
+    /**
+     * @param AccountApproveRequest $accountRequest
+     * @param ProfessionApproveRequest $professionRequest
+     * @param $id
+     * @param AccountService $service
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function editApprove(AccountApproveRequest $accountRequest,
                                 ProfessionApproveRequest $professionRequest, $id)
     {
-        DB::beginTransaction();
+
         try {
 
-            $account = Account::find($id);
-            $account->name = $accountRequest->name;
-            $account->surname = $accountRequest->surname;
-            $account->father_name = $accountRequest->father_name;
-            $account->passport = $accountRequest->passport;
-            $account->date_of_issue = date("Y-m-d", strtotime($accountRequest->date_of_issue));
-            $account->date_of_expiry = date("Y-m-d", strtotime($accountRequest->date_of_expiry));
-            $account->save();
+            $this->service->updateFAccount($accountRequest, $professionRequest, $id);
 
-            $allFiles = $professionRequest->allFiles();
-            $a_f = [];
-            if (strlen($professionRequest->diplomas) > 0) {
-                $a_f = explode(',', $professionRequest->diplomas);
-            }
-//            if (!file_exists(Config::get('constants.DIPLOMA'))) {
-//                mkdir(Config::get('constants.DIPLOMA'), 0775, true);
-//            }
-            foreach ($allFiles as $index => $allFile) {
-                $name = grs() . "_" . $account->id . "." . $allFile->extension();
-                $a_f[] = $name;
-                $allFile->move(public_path() . Config::get('constants.DIPLOMA'), $name);
-            }
-
-            Profession::where('account_id', $id)
-                ->update([
-                    'member_of_palace' => (int)$professionRequest->member_of_palace,
-                    'diplomas' => json_encode($a_f, true)
-                ]);
-            User::where('account_id', $id)
-                ->update([
-                    'status' => 'pending'
-                ]);
-//todo unlink diplomas
-            DB::commit();
-
-            return response()->json(['success' => 'pending', 'user' => $account->id], 200);
+            return response()->json(['success' => 'pending', 'user' => $id], 200);
         } catch (\Exception $exception) {
-            DB::rollback();
-//            dd($exception);
             logger()->error($exception);
             return response()->json(['error' => true], 500);
-//            return redirect('backend/users')->with('error', Lang::get('messages.wrong'));
+
 
         }
     }
@@ -212,16 +143,16 @@ class AccountController extends Controller
      */
     protected function respondWithToken($token)
     {
-//        $user = $this->guard()->user();
+        $user = $this->guard()->user();
         $account = Account::select(['id', 'name', 'surname', 'father_name', 'image_name'])
             ->with([
                 'user' => function ($query) {
                     $query->select(['account_id', 'email']);
                 },
                 'prof' => function ($query) {
-                    $query->select(['account_id', 'profession', 'member_of_palace']);
+                    $query->select(['account_id', 'member_of_palace']);
                 }
-            ])->first();
+            ])->where('id', $user->account_id)->first();
 
         return response()->json([
             'access_token' => $token,
@@ -231,28 +162,34 @@ class AccountController extends Controller
         ]);
     }
 
+    /**
+     * @param PasswordRequest $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changePassword(PasswordRequest $request, $id)
     {
         try {
-
             $user = User::where('account_id', $id)->first();
             if (!Hash::check($request->old_password, $user->password)) {
-                return response()->json(['error' => false, 'user' => $id, 401]);
+                return response()->json(['error' => false, 'user' => $id], 401);
             } else {
-                $user->password = bcrypt($request->password);
-                $user->save();
+                $this->service->updatePassword($request, $id);
                 return response()->json([
                     'success' => true,
                     'user' => $id,
                 ]);
             }
 //
-        } catch (\Exception $exception) {
+        } catch (MethodNotAllowedHttpException $exception) {
             logger()->error($exception);
-            return response()->json(['success' => false, 'user' => $id, 500]);
+            return response()->json(['success' => false, 'user' => $id], 500);
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function guard()
     {
         return \Auth::Guard('api');

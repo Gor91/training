@@ -4824,3 +4824,8 @@ a:hover {
 .vdp-datepicker__calendar{
     width: 100%!important;
 }
+
+textarea{
+   resize: none;
+    height: 110px!important;
+}

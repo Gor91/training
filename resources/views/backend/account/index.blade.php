@@ -125,15 +125,18 @@
                                 <td>
                                     <img src="{{  Config::get('constants.AVATAR_PATH_UPLOADED').$account->image_name}}"
                                          alt="avatar" style="height: 50px"></td>
-                                <td>{{$account->name}}</td>
-                                <td>{{$account->surname}}</td>
-                                <td>{{$account->prof->spec->type->name}}</td>
-                                <td>{{$account->phone}}</td>
-                                <td class="email">{{$account->user->email}}</td>
+                                <td>@if(!empty($account->name)){{$account->name}}@endif</td>
+                                <td>@if(!empty($account->surname)){{$account->surname}}@endif</td>
+                                <td>@if(!empty($account->prof->spec->type->name)){{$account->prof->spec->type->name}}@endif</td>
+                                <td>@if(!empty($account->phone)){{$account->phone}}@endif</td>
+                                <td class="email">
+                                    @if(!empty($account->user->email)) {{$account->user->email}}@endif
+                                </td>
                                 @if(Session::get('role') ==='user')
                                     <td>
-                                        <a @if($account->user->status ==="pending")
-                                           class="btn btn-danger" @endif>{{__('messages.'.$account->user->status)}}</a>
+                                        <a @if(!empty($account->user->status) && $account->user->status ==="pending")
+                                           class="btn btn-danger" @endif>{{__('messages.'.$account->user->status)}}
+                                        </a>
                                     </td>
                                 @endif
                                 <td>
@@ -197,7 +200,7 @@
                         <input type="hidden" name="ids" id="ids">
                         <div class="form-group row">
                             <label for="subject"
-                                   class=" col-lg-3 col-form-label text-capitalize">{{__('messages.topic')}}*:</label>
+                                   class=" col-lg-3 col-form-label text-capitalize">{{__('messages.topic')."*"}}:</label>
                             <div class="col-lg-12">
                                 <input id="subject" type="text"
                                        name="subject" class="form-control ">
@@ -205,10 +208,9 @@
                         </div>
                         <div class="form-group row">
                             <label for="message"
-                                   class="text-right col-lg-3 col-form-label text-capitalize">{{__('messages.message')}}
-                                *:</label>
+                                   class="text-right col-lg-3 col-form-label text-capitalize">{{__('messages.message')."*"}}
+                                :</label>
                             <div class="col-lg-12">
-                                Can I insert rich text editor?
                                 <textarea id="message" name="message"
                                           class="form-control"
                                           style="max-height: 200px; min-height: 200px; max-width: 100%; min-width: 100%"></textarea>

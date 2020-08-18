@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\SpecialtiesType;
-use App\Models\Specialty;
-use App\Repositories\Repository;
+use App\Services\SpecialtyService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class SpecialtyController extends Controller
 {
     // space that we can use the repository from
-    protected $model;
+    private $service;
 
-    public function __construct(Specialty $specialty)
+    public function __construct(SpecialtyService $service)
     {
-        // set the model
-        $this->model = new Repository($specialty);
+
+        $this->service = $service;
         $this->middleware('auth:admin');
     }
 
@@ -28,19 +27,11 @@ class SpecialtyController extends Controller
     public function index()
     {
         try {
-            $specs = $this->model->with([
-                'specialty' => function ($query) {
-                    $query->select(['id', 'parent_id', 'type_id', 'name']);
-
-                },
-                'specialty.type' => function ($query) {
-                    $query->select(['id', 'name']);
-
-                }])->whereNull('parent_id')->get();
+            $specs = $this->service->getParentSpecialties();
 
             return view('backend.specialty.index',
                 compact('specs'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/specialty')->with('error', __('specialtys.wrong'));
@@ -55,11 +46,11 @@ class SpecialtyController extends Controller
     public function create()
     {
         try {
-            $sections = $this->model->whereNull('parent_id', ['name', 'id']);
-            $types = SpecialtiesType::pluck('name', 'id');
+
+            $types = $this->service->getSpecialtiesType();
 
             return view('backend.specialty.create', compact('types'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException  $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/specialty')->with('error', __('messages.wrong'));
@@ -76,14 +67,9 @@ class SpecialtyController extends Controller
     {
 
         try {
-            $data = [];
-            $data['type_id'] = $request->type_id;
-            $data['parent_id'] = $request->parent_id;
-            $data['name'] = $request->name;
-            $data['icon'] = $request->icon;
-            $this->model->create($data);
+            $this->service->store($request);
             return redirect('backend/specialty')->with('success', __('messages.success'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/specialty')->with('error', __('messages.wrong'));
@@ -99,62 +85,36 @@ class SpecialtyController extends Controller
     public function show($id)
     {
         try {
-            $specs = $this->model->with([
-                'specialty' => function ($query) {
-                    $query->select(['id', 'parent_id', 'type_id', 'name']);
-                },
-                'specialty.type' => function ($query) {
-                    $query->select(['id', 'name']);
-                }])
-                ->where('id', $id)->get();
+            $specs = $this->service->getSpecialties($id);
 
             return view('backend.specialty.list',
                 compact('specs'));
-        } catch (\Exception $exception) {
-            dd($exception);
+        } catch (ModelNotFoundException $exception) {
+            //dd($exception);
             logger()->error($exception);
             return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+//todo route without edit, update
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     public function updateSpecialty(Request $request)
     {
+        $response = [];
         try {
-            $data['name'] = $request->name;
-            $this->model->update($data, $request->id);
-            $response = [
-                'success' => true
-            ];
-        } catch (\Exception $exception) {
 
+            if ($request->ajax()) {
+
+                $i_id = $this->service->updateSpecialty($request);
+                if ($i_id)
+                    $response ['success'] = true;
+            } else return redirect('backend/message')->with('error', __('messages.wrong'));
+        } catch (ModelNotFoundException $exception) {
             logger()->error($exception);
-            $response = [
-                'success' => false,
-                'error' => 'Do not save'
-            ];
+            $response['success'] = false;
+            $response['error'] = 'Do not save';
+
         }
         return response()->json($response);
     }

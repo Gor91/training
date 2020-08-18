@@ -95,9 +95,9 @@ hu.js
 ----------------
 hu.js
 
-hy.js
+hy.json
 ----------------
-hy.js
+hy.json
 
 id.js
 ----------------

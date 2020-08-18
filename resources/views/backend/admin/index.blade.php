@@ -95,12 +95,13 @@
                                 <td>{{$admin->email}}</td>
                                 <td>
                                     <div class="row justify-content-end">
-                                        {{--                                        <a href="{{action('Backend\AdminController@edit', $admin->id)}}"--}}
-                                        {{--                                           class="btn btn-info kt-badge kt-badge--lg"--}}
-                                        {{--                                           data-toggle="m-tooltip" data-placement="top" data-original-title="Խմբագրել">--}}
-                                        {{--                                            <i class="la la-edit"></i>--}}
-                                        {{--                                        </a>--}}
-                                        @if($admin->id !== \Illuminate\Support\Facades\Session::get('u_id'))
+                                        @if($admin->id === \Illuminate\Support\Facades\Session::get('u_id'))
+                                        <a href="{{action('Backend\AdminController@show', $admin->id)}}"
+                                           class="btn btn-info kt-badge kt-badge--lg"
+                                           data-toggle="m-tooltip" data-placement="top" data-original-title="{{__('messages.edit')}}">
+                                            <i class="la la-edit"></i>
+                                        </a>
+                                        @else
                                             <form action="{{action('Backend\AdminController@destroy', $admin->id)}}"
                                                   id="_form" method="post">
                                                 @csrf

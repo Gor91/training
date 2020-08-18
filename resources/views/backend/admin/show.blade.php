@@ -3,25 +3,12 @@
 
     <!-- begin:: Content -->
     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
-        <div class="kt-portlet resume">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+        <div class="kt-portlet ">
+
             @if (\Session::has('success'))
                 <div class="alert alert-success">
                     <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
                 </div><br/>
-            @endif
-            @if (\Session::has('error'))
-                <div class="alert alert-danger">
-                    <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
-                </div>
             @endif
             @if (Session::has('delete'))
                 <div class="alert alert-info">
@@ -39,7 +26,7 @@
 											<i class="kt-font-brand flaticon2-user-outline-symbol"></i>
 										</span>
                                 <h3 class="kt-portlet__head-title">
-                                    Իմ էջը
+                                   {{__('messages.profile')}}
                                     &nbsp;&nbsp; </h3>
                             </div>
                             <div class="kt-portlet__head-toolbar">
@@ -156,22 +143,27 @@
 
                                 <div class="kt-form__section kt-form__section--first">
                                     <div class="kt-wizard-v3__form">
-                                        <div class="form-group row">
+                                        <div class="form-group row validated">
                                             <label for="name" class="col-lg-2 col-form-label">{{__('messages.name')}}*</label>
                                             <div class="col-lg-10">
                                                 <input type="hidden" name="id" value="{{$data->id}}">
                                                 <input id="name" type="text" name="name"
-                                                       class="form-control"
+                                                       class="form-control @if($errors->first('name')){{'is-invalid'}} @endif"
                                                        value="{{  $data->name}}">
-
+                                                @error('name')
+                                                <div class="invalid-feedback">{{$message}}</div>
+                                                @enderror
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row validated">
                                             <label for="email" class="col-lg-2 col-form-label">{{__('messages.email')}}*</label>
                                             <div class="col-lg-10">
-                                                <input id="email" type="tel" name="email" class="form-control m-input"
+                                                <input id="email" type="tel" name="email" class="form-control m-input @if($errors->first('email')){{'is-invalid'}} @endif"
                                                        value="{{$data->email}}">
+                                                @error('email')
+                                                <div class="invalid-feedback">{{$message}}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -193,29 +185,37 @@
                             <!--begin: Form Wizard Step 1-->
                             <div id="kt-wizard_general" class="kt-wizard-v3__content" data-ktwizard-type="step-content"
                                  data-ktwizard-state="current">
-                                <div class="form-group row">
+                                <div class="form-group row validated">
                                     <label for="password" class="col-lg-2 col-form-label">{{__('messages.old_password')}}</label>
                                     <div class="col-lg-10">
                                         <input id="password" type="password" name="old_password"
-                                               class="form-control m-input">
+                                               class="form-control m-input @if($errors->first('old_password')){{'is-invalid'}} @endif">
                                         <span class="form-text text-muted">{{__('messages.complete_pass')}}</span>
+                                        @error('old_password')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="password" class="col-lg-2 col-form-label">{{__('messages.new_password')}}</label>
                                     <div class="col-lg-10">
                                         <input id="password" type="password" name="password"
-                                               class="form-control m-input">
+                                               class="form-control m-input @if($errors->first('password')){{'is-invalid'}} @endif">
                                         <span class="form-text text-muted">{{__('messages.complete_pass')}}</span>
+                                        @error('password')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="c_password" class="col-lg-2 col-form-label">{{__('messages.confirm_password')}}</label>
                                     <div class="col-lg-10">
-                                        <input id="c_password" type="password" name="confirm_password"
-                                               class="form-control m-input">
+                                        <input id="c_password" type="password" name="re_password"
+                                               class="form-control m-input @if($errors->first('re_password')){{'is-invalid'}} @endif">
                                         <span class="form-text text-muted">{{__('messages.complete_pass')}}</span>
-
+                                        @error('confirm_password')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                        @enderror
                                     </div>
 
                                 </div>

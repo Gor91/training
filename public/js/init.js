@@ -200,13 +200,8 @@ $(document).ready(function () {
                     $sub.find('option').remove();
 
                 for (var i in data.spec) {
-                    // $sub.append(' <optgroup class="text-capitalize" label="' + i + '" ></optgroup>');
-
-                    // for (var item in data.spec[i]) {
-                    $sub.append(' <option class="text-capitalize" value="' + i + '">' + data.spec[i] + '</option>')
-
-                    // }
-                    // }
+                    if (data.spec.hasOwnProperty(i))
+                        $sub.append(' <option class="text-capitalize" value="' + data.spec[i].id + '">' + data.spec[i].name + '</option>')
                 }
             },
             error: function (data) {
@@ -232,7 +227,7 @@ $(document).ready(function () {
                 $sub.append(' <option class="text-capitalize" value="A">' + "" + '</option>');
                 for (var item in data.edu) {
                     if (data.edu.hasOwnProperty(item))
-                        $sub.append(' <option class="text-capitalize" value="' + item + '">' + data.edu[item] + '</option>')
+                        $sub.append(' <option class="text-capitalize" value="' + data.edu[item].id + '">' + data.edu[item].name + '</option>')
                 }
             },
             error: function (data) {
@@ -265,7 +260,7 @@ $(document).ready(function () {
 
                     })
                 }
-                return {results : select_result }
+                return {results: select_result}
             }
         }
     });
@@ -320,6 +315,13 @@ $(document).ready(function () {
         $(this).siblings('.save_prop').css('display', 'none');
 
         $(this).css('display', 'none');
+    });
+    $(document).on('click', '.remove_diploma', function () {
+        $diploamas = $(this).parent().siblings('.diplomas');
+        $diploma = $(this).next().find('img').attr('src');
+        $i = $diploma.slice($diploma.lastIndexOf('/') + 1);
+        $diploamas.val($diploamas.val().replace($i, ''));
+        $(this).parent().remove();
     });
 
     $(document).on('click', ".unread", function () {

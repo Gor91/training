@@ -3,11 +3,19 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminRequest extends FormRequest
 {
+    /**
+     * @param array $errors
+     * @return mixed
+     */
+    public function response(array $errors)
+    {
+        return Redirect::back()->withErrors($errors)->withInput();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,21 +35,29 @@ class AdminRequest extends FormRequest
     {
 
         return [
+            'name' => 'required|min:2|max:127',
             'email' => 'required|email', // make sure the email is an actual email
-            'password' => 'required|alphaNum|min:5' // password can only be alphanumeric and has to be greater than 3 characters
+            'password' => 'required|confirmed|alphaNum|min:8', // password can only be alphanumeric and has to be greater than 3 characters
+            'password_confirmation' => 'sometimes|required_with:password',
         ];
     }
 
+    /**
+     * @return array
+     */
     public function messages()
     {
-        $email = Lang::get('messages.email_field');
-        $password = Lang::get('messages.password_field');
+        $name = __('messages.name');
+        $email = __('messages.email_field');
+        $password = __('messages.password_field');
         return [
-
-            'email.required' => $email . Lang::get('validation.required'),
-            'password.required' => $password . Lang::get('validation.required'),
-            'password.min' => $password . Lang::get('validation.min.string'),
-            'email.email' => $email . Lang::get('validation.email'),
+            'name.required' => $name . __('validation.required'),
+            'name.min' => $name . __('validation.min.string'),
+            'name.max' => $name . __('validation.max.string'),
+            'email.required' => $email . __('validation.required'),
+            'password.required' => $password . __('validation.required'),
+            'password.min' => $password . __('validation.min.string'),
+            'email.email' => $email . __('validation.email'),
 
         ];
     }

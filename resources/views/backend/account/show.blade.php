@@ -397,7 +397,6 @@
                                             <div class="kt-widget3__body">
                                                 @if(!empty($account->prof->diplomas))
                                                     @php
-
                                                         $diplomas = json_decode($account->prof->diplomas, true);
                                                     @endphp
                                                     @foreach($diplomas as $diploma)

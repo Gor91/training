@@ -13,8 +13,8 @@ trait Expert
     static function getEducation($id)
     {
         try {
-            $edu = Specialty::where('parent_id', $id)
-                ->pluck('name', 'id');
+            $edu = Specialty::select('id', 'name')->where('parent_id', $id)
+                ->get();
 
             return response()->json(['edu' => $edu]);
         } catch (\Exception $exception) {
@@ -23,14 +23,13 @@ trait Expert
 //            return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
         }
     }
-
-    static function getEducate()
+//todo jnjel stugel
+    static function getEducate($id)
     {
-        try {
-            $edu = Specialty::whereNull('parent_id')
-                ->pluck('name', 'id');
 
-            return response()->json(['edu' => $edu]);
+        try {
+            $edu = Specialty::select('id', 'name')->where('id', $id)->first();
+           return response()->json(['edu' => $edu]);
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
@@ -42,9 +41,9 @@ trait Expert
     {
         try {
 //            $spec = [];
-            $spec = Specialty::where('type_id', $id)
+            $spec = Specialty::select('id', 'name')->where('type_id', $id)
                 ->whereNull('parent_id')
-                ->pluck('name', 'id');
+                ->get();
 
             return response()->json(['spec' => $spec]);
         } catch (\Exception $exception) {
@@ -57,7 +56,7 @@ trait Expert
     static function getProfession()
     {
         try {
-            $prof = SpecialtiesType::pluck('name', 'id');
+            $prof = SpecialtiesType::select('name', 'id')->get();
 
             return response()->json(['prof' => $prof]);
         } catch (\Exception $exception) {

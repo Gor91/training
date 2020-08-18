@@ -19,7 +19,8 @@ function isAdmin()
  * @param int $length
  * @return string
  */
-function grs($length = 6) {
+function grs($length = 6)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -43,8 +44,35 @@ function getRegionName($id)
     return $region->name;
 }
 
-function getProfession($id){
+function getAccountName($id)
+{
+    $account = \App\Models\Account::select('name', 'surname')
+        ->where('id', $id)
+        ->first();
 
+    return $account->name . " " . $account->surname;
+}
+
+function getCourseName($id)
+{
+    $course = \App\Models\Courses::select('name')
+        ->where('id', $id)
+        ->first();
+
+    return $course->name;
+}
+
+function getNotificationforCourses()
+{
+    $course = \App\Models\AccountCourse::select('name')
+        ->where('panding', 'unread')
+        ->count();
+
+    return $course;
+}
+
+function getProfession($id)
+{
     return DB::table('professions AS p')
         ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
         ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
@@ -53,5 +81,19 @@ function getProfession($id){
             's.name AS spec_name')
         ->where('p.account_id', '=', $id)
         ->first();
+}
+
+function getErrorMessage($code)
+{
+    $message = "";
+    switch ($code) {
+        case 23000:
+            $message = "duplicate_entry";
+            break;
+        case 4200:
+            $message = "syntax_error";
+            break;
+    }
+    return $message;
 }
 

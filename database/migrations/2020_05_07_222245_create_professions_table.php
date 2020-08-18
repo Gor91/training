@@ -20,6 +20,7 @@ class CreateProfessionsTable extends Migration
             $table->bigInteger('education_id')->unsigned();
             $table->enum('profession',['doctor', 'nurse', 'pharmacist','provider']);
             $table->tinyInteger('member_of_palace')->default(0);
+            $table->text('info')->nullable();
             $table->json('diplomas');
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();

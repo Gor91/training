@@ -1,6 +1,7 @@
 import Home from './components/Home.vue';
 import Register from './components/Register.vue';
 import Login from './components/Login.vue';
+import Verify from './components/Verify.vue';
 import Account from './components/Account.vue';
 import About from './components/About.vue';
 import Contact from './components/Contact.vue';
@@ -21,6 +22,11 @@ export const routes = [
         path: '/register',
         name: 'register',
         component: Register,
+    },
+    {
+        path: '/verify/:id/:key',
+        name: 'verify',
+        component: Verify,
     },
     {
         path: '/login',

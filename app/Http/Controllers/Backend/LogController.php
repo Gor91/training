@@ -3,26 +3,32 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Email;
-use App\Repositories\Repository;
+use App\Services\LogService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
+/**
+ * Class LogController
+ * @package App\Http\Controllers\Backend
+ */
 class LogController extends Controller
 {
-    // space that we can use the repository from
+
     /**
-     * @var Repository
+     * @var Log
      */
-    protected $model;
+    private $service;
+
 
     /**
      * LogController constructor.
-     * @param Email $email
+     * @param LogService $service
      */
-    public function __construct(Email $email)
+    public function __construct(LogService $service)
     {
         $this->middleware('auth:admin');
-        // set the model
-        $this->model = new Repository($email);
+        // set the service
+        $this->service = $service;
     }
 
     /**
@@ -33,18 +39,11 @@ class LogController extends Controller
     public function index()
     {
         try {
-            $logs = $this->model->with([
-                'admin' => function ($query) {
-                    $query->select(['name', 'id']);
-                },
-                'account' => function ($query) {
-                    $query->select(['id', 'name', 'surname', 'father_name']);
-                }])->get();
-//
-//            dd($logs);
+
+            $logs = $this->service->all();
             return view('backend.log.index',
                 compact('logs'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/log')->with('error', __('messages.wrong'));
@@ -60,19 +59,15 @@ class LogController extends Controller
      */
     public function show($id)
     {
-        $log = $this->model->with([
-            'admin' => function ($query) {
-                $query->select(['name', 'id']);
-            },
-            'account' => function ($query) {
-                $query->select(['id', 'name', 'surname', 'father_name']);
-            }])
-            ->where('id', $id)
-            ->first();
-//
-//            dd($logs);
-        return view('backend.log.show',
-            compact('log'));
+        try {
+            $log = $this->service->show($id);
+            return view('backend.log.show',
+                compact('log'));
+        } catch (ModelNotFoundException $exception) {
+
+            logger()->error($exception);
+            return redirect('backend/log')->with('error', __('messages.wrong'));
+        }
     }
 
 

@@ -62,7 +62,7 @@
     <!--          type="text/css"/>-->
 <!--    <link href="{{ asset('/assets/vendors/general/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css') }}" rel="stylesheet"-->
     <!--          type="text/css"/>-->
-<link href="{{ asset('/assets/vendors/general/select2/dist/css/select2.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('/assets/vendors/general/select2/dist/css/select2.css') }}" rel="stylesheet" type="text/css"/>
 <!--    <link href="{{ asset('/assets/vendors/general/ion-rangeslider/css/ion.rangeSlider.css') }}" rel="stylesheet" type="text/css"/>-->
 <!--    <link href="{{ asset('/assets/vendors/general/nouislider/distribute/nouislider.css') }}" rel="stylesheet" type="text/css"/>-->
 <!--    <link href="{{ asset('/assets/vendors/general/owl.carousel/dist/assets/owl.carousel.css') }}" rel="stylesheet" type="text/css"/>-->
@@ -83,6 +83,7 @@
           type="text/css"/>
     <link href="{{ asset('/fonts/flaticon/flaticon.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('/fonts/flaticon2/flaticon.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('/assets/vendors/general/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css"/>
 <!--    <link href="{{ asset('/assets/vendors/general/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet"-->
     <!--          type="text/css"/>-->
 

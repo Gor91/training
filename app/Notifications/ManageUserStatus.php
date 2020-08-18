@@ -73,6 +73,10 @@ class ManageUserStatus extends Notification
             ->line(__('messages.thank_you'));
         if ($this->action)
             $mail->action(__('messages.login'), url('/login'));
+        else {
+            $key = md5($this->user->email);
+            $mail->action(__('messages.verify'), url('/verify/' . $this->user->id . DIRECTORY_SEPARATOR . $key));
+        }
         return $mail;
 
     }

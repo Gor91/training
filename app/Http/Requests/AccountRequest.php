@@ -3,10 +3,19 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class AccountRequest extends FormRequest
 {
+    /**
+     * @param array $errors
+     * @return mixed
+     */
+    public function response(array $errors)
+    {
+        return Redirect::back()->withErrors($errors)->withInput();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -62,12 +71,10 @@ class AccountRequest extends FormRequest
             'bday' => 'required|date|date_format:d-m-Y|before:' . $year,
             'date_of_issue' => 'required|date|date_format:d-m-Y',
             'date_of_expiry' => 'required|date|date_format:d-m-Y|after:date_of_issue',
-            'h_region' => 'required|integer',
-            'w_region' => 'required|integer',
-            'h_city' => 'integer|nullable',
-            'w_city' => 'integer|nullable',
-            'w_village' => 'integer|nullable',
-            'h_village' => 'integer|nullable',
+            'h_region' => 'required|integer|min:1',
+            'w_region' => 'required|integer|min:1',
+            'w_territory' => 'required|integer|min:1',
+            'h_territory' => 'required|integer|min:1',
             'w_street' => 'required|min:2|max:127',
             'h_street' => 'required|min:2|max:127',
             'workplace_name' => 'required|min:2|max:127',
@@ -109,7 +116,12 @@ class AccountRequest extends FormRequest
             'date_of_issue.date_format' => __('messages.date_of_issue') . __('validation.date_format'),
             'date_of_expiry.required' => __('messages.date_of_expiry') . __('validation.required'),
             'date_of_expiry.date_format' => __('messages.date_of_expiry') . __('validation.date_format'),
-
+            'h_region.required' => __('messages.region') . __('validation.required'),
+            'w_region.required' => __('messages.region') . __('validation.required'),
+            'w_territory.required' => __('messages.territory') . __('validation.required'),
+            'h_territory.required' => __('messages.territory') . __('validation.required'),
+            'w_street.required' => __('messages.street') . __('validation.required'),
+            'h_street.required' => __('messages.street') . __('validation.required'),
         ];
     }
 
@@ -120,8 +132,4 @@ class AccountRequest extends FormRequest
         return $day['1'] . " " . $day['2'] . " " . $day['3'];
     }
 
-    public function withValidator(Validator $validator)
-    {
-//        dd($validator->fails());
-    }
 }

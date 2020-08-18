@@ -21,11 +21,7 @@
                                 <p>{{ \Session::get('success') }}</p>
                             </div><br/>
                         @endif
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>{{ \Session::get('error') }}</p>
-                            </div>
-                        @endif
+
                         @if (Session::has('delete'))
                             <div class="alert alert-info">
                                 <p>{{ Session::get('delete') }}</p>
@@ -42,7 +38,7 @@
                                        </span>
                                 </h3>
                                 <span class="kt-portlet__head-icon">
-											<i class="kt-font-brand flaticon2-information info">* {{Lang::get('messages.all_field_required')}}</i>
+											<i class="kt-font-brand flaticon2-information info">* {{__('messages.all_field_required')}}</i>
                                 </span>
                             </div>
                             <div class="kt-portlet__head-toolbar">
@@ -86,7 +82,7 @@
                                 </div>
                             </div>
                             <div class="kt-portlet__body">
-                                <form class="tab-content kt-form offset-lg-2 col-lg-8" id="kt_form" method="post"
+                                <form class="tab-content kt-form offset-lg-2 col-lg-8" id="kt_form" method="post" enctype="multipart/form-data"
                                       action="{{ action('Backend\AccountController@updateAccount', $account->id)}}">
                                     @csrf
                                     <div class="tab-pane active" id="kt_portlet_base_demo_1_tab_content"
@@ -343,33 +339,33 @@
                                                 <select id="prof" name="profession" class="form-control">
                                                     @if(!empty($prof))
                                                         @foreach($prof as $key=>$p)
-                                                            <option class="form-control" value="{{$key}}{{old('')}}"
-                                                            @if($p === $profession->type_name){{'selected'}} @endif>
-                                                                {{$p}}
+                                                            <option class="form-control"
+                                                                    value="{{$p->id}}{{old('profession')}}"
+                                                            @if($p->name === $profession->type_name){{'selected'}} @endif>
+                                                                {{$p->name}}
                                                             </option>
                                                         @endforeach
                                                     @endif
                                                 </select>
                                             </div>
                                         </div>
-                                        {{--                                                                                @php--}}
-                                        {{--                                                                                dd($profession);--}}
-                                        {{--                                                                                @endphp--}}
+                                        {{--@php--}}
+                                        {{--dd($edu);--}}
+                                        {{--@endphp--}}
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label"
                                                    for="edu">{{__('messages.education')}}</label>
                                             <div class="col-lg-10">
                                                 <select id="edu" name="education_id" class="form-control">
-                                                    @if(!empty($edu))
+                                                    @if(!empty($profession))
 
                                                         <option class="form-control"
-                                                                value="@if(!empty(old('education_id'))){{old('education_id')}}@else{{$profession->education_id}}@endif">
+                                                                value="@if(!empty(old('education_id'))){{old('education_id')}}@else{{$profession->parent_id}}@endif">
                                                             {{$profession->edu_name}}
                                                         </option>
 
                                                     @endif
                                                 </select>
-
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -381,7 +377,6 @@
                                                             value="@if(!empty(old('specialty_id'))){{old('specialty_id')}}@else{{$profession->specialty_id}}@endif">
                                                         {{$profession->spec_name}}
                                                     </option>
-
                                                 </select>
                                             </div>
                                         </div>
@@ -390,7 +385,7 @@
                                                    for="member_of_palace">{{__('messages.member_of_palace')}}</label>
                                             <div class="col-lg-4">
                                                 <input id="member_of_palace" type="checkbox" name="member_of_palace"
-                                                       @if($profession->member_of_palace == 1){{'checked'}}@endif   value="{{old('member_of_palace')}}">
+                                                       @if($profession->member_of_palace == 1){{'checked'}}@endif   value="@if(!empty(old('member_of_palace'))){{old('member_of_palace')}}@else {{1}}@endif">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -401,19 +396,36 @@
                                                        multiple="multiple">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            @if(!empty($profession->diplomas))
-                                                @php
-                                                    $diplomas = json_decode($account->prof->diplomas, true);
-                                                @endphp
-                                                @foreach($diplomas as $diploma)
-                                                    <a href="{{Config::get('constants.DIPLOMA').$diploma}}"
-                                                       target="_blank">
-                                                        <img src="{{Config::get('constants.DIPLOMA').$diploma}}"
-                                                             alt="diploma" class="col-lg-4 diploma">
-                                                    </a>
-                                                @endforeach
-                                            @endif
+                                        <div class="kt-pricing-1 kt-pricing-1--fixed">
+                                            <div class="kt-pricing-1__items row">
+
+                                                @if(!empty($account->prof->diplomas))
+                                                    @php
+                                                        $diplomas = json_decode($account->prof->diplomas);
+                                                    @endphp
+                                                    <input class="diplomas" type="hidden" name="diplomas" value="{{$account->prof->diplomas}}">
+                                                    @foreach($diplomas as $key => $diploma)
+
+                                                        <div class="kt-pricing-1__item col-lg-4">
+                                                            <i class="fa flaticon2-delete remove_diploma"></i>
+                                                            <div class="kt-pricing-1__visual">
+
+                                                                <div class="kt-pricing-1__hexagon1"></div>
+                                                                <div class="kt-pricing-1__hexagon2"></div>
+                                                                <span class="kt-pricing-1__icon kt-font-brand">
+
+                                                                    <a href="{{Config::get('constants.DIPLOMA').$diploma}}"
+                                                                       target="_blank">
+                                                                        <img src="{{Config::get('constants.DIPLOMA').$diploma}}"
+                                                                             alt="diploma"
+                                                                             class="col-lg-12 diploma">
+                                                                    </a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
                                         </div>
 
                                         <div class="kt-form__actions text-right float-lg-right">

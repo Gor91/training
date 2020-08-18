@@ -1,9 +1,10 @@
 <template>
     <div class="login row justify-content-center m-0">
         <div class="col-md-6">
-            <div v-if="registeredUser" class="text-success">Thank you {{registeredUser.name}}.You can now login</div>
+            <div v-if="registeredUser" class="text-success">{{texts.registred}}</div>
+            <div v-if="verifiedUser" class="text-success">{{texts.verified}}</div>
             <div class="register_form">
-                <h3>Մուտք</h3>
+                <h3>{{texts.enter}}</h3>
                 <form @submit.prevent="authenticate" class="form_area">
                     <div class="form-group row" v-if="authError">
                         <p class="error m-auto">
@@ -13,18 +14,18 @@
                     <div class="row">
                         <div class="col-lg-8 form_group m-auto">
                             <input id="email" type="email" class="form-control p-4" v-model="formLogin.email"
-                                   placeholder="էլ.հասցե">
+                                   :placeholder="texts.email">
                             <input id="password" type="password" class="form-control p-4" v-model="formLogin.password"
-                                   placeholder="Գաղտնաբառ">
+                                   :placeholder="texts.password">
 
                         </div>
 
                         <div class="col-lg-6 text-center m-auto">
                             <div  class="btn btn-link">
-                                <router-link to="/reset-password" class="yellow"> Մոռացել եք Ձեր գաղտնաբառը?</router-link>
+                                <router-link to="/reset-password" class="yellow"> {{texts.forgot}}</router-link>
                             </div>
 
-                            <input type="submit" value="Մուտք" class="btn primary-btn">
+                            <input type="submit" :value="texts.enter" class="btn primary-btn">
                         </div>
 
                     </div>
@@ -37,6 +38,7 @@
 
 <script>
     import {login, resetPassword} from '../partials/auth';
+    import registertexts from './json/registertexts.json';
 
     export default {
         data() {
@@ -45,7 +47,8 @@
                     email: '',
                     password: ''
                 },
-                error: null
+                error: null,
+                texts: registertexts,
             }
         },
         methods: {
@@ -76,6 +79,10 @@
             ,
             registeredUser() {
                 return this.$store.getters.registeredUser
+            },
+            verifiedUser() {
+                console.log('verifiedUser',this.$store.getters.verifiedUser);
+                return this.$store.getters.verifiedUser
             }
         }
     }

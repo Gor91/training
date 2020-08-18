@@ -9,10 +9,12 @@ export default {
         loading: false,
         auth_error: null,
         reg_error: null,
-        edit_error: null,
+        verify_error: null,
+        editError: null,
         registeredUser: null,
+        verifiedUser: null,
         editedUser: null,
-        get_content_error:null,
+        get_content_error: null,
     },
     getters: {
         isLoading(state) {
@@ -32,6 +34,9 @@ export default {
         },
         registeredUser(state) {
             return state.registeredUser;
+        },
+        verifiedUser(state) {
+            return state.verifiedUser;
         },
     },
     mutations: {
@@ -77,12 +82,19 @@ export default {
         registerFailed(state, payload) {
             state.reg_error = payload.error;
         },
+        verifySuccess(state, payload) {
+            state.verify_error = null;
+            state.verifiedUser = payload.success;
+        },
+        verifyFailed(state, payload) {
+            state.verify_error = payload.error;
+        },
         editSuccess(state, payload) {
-            state.edit_error = null;
+            state.editError = null;
             state.editedUser = payload.user;
         },
         editFailed(state, payload) {
-            state.edit_error = payload.error;
+            state.editError = payload.error;
         },
         getContentFailed(state, payload) {
             state.get_content_error = payload.error;

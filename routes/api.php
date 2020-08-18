@@ -17,6 +17,8 @@ Route::group(['prefix' => 'auth'],
     function ($router) {
         Route::post('register', 'Frontend\AuthController@register');
         Route::post('login', 'Frontend\AuthController@login');
+        Route::post('verify/{id}/{key}', 'Frontend\VerifyController@verify');
+
     });
 Route::group(['prefix' => 'auth',
     'middleware' => ['api', 'jwt.auth'],
@@ -35,14 +37,18 @@ Route::group(['prefix' => 'auth',
 
 
 Route::post('about', 'Frontend\PageController@about');
+
 Route::post('coursestitle', 'Frontend\PageController@coursestitle');
 Route::post('applicantcount', 'Frontend\PageController@applicantcount');
 Route::post('coursescount', 'Frontend\PageController@coursescount');
 Route::post('allcourses', 'Frontend\PageController@allcourses');
 Route::post('coursedetails/{id}', 'Frontend\PageController@coursedetails');
+Route::post('comment', 'Frontend\PageController@savecomment');
+
 
 Route::post('regions', 'Frontend\AddressController@index');
 Route::get('prof', 'Frontend\ExpertController@profession');
+//Route::get('verify/{id}/{key}', 'Frontend\VerifyController@indax');
 Route::post('edu/{id}', 'Frontend\ExpertController@education');
 Route::post('educate/', 'Frontend\ExpertController@educate');
 Route::post('spec/{id}', 'Frontend\ExpertController@specialty');

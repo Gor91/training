@@ -1,10 +1,11 @@
 import texts from '../components/json/registertexts.json';
+
 export function registerUser(credentials, files) {
     let formData = new FormData();
 
     for (let key in credentials) {
-        if(credentials.hasOwnProperty(key))
-        formData.append(key, credentials[key]);
+        if (credentials.hasOwnProperty(key))
+            formData.append(key, credentials[key]);
         // JSON.stringify(credentials));
     }
     for (let i = 0; i < files.length; i++) {
@@ -37,7 +38,7 @@ export function login(credentials) {
                 res(response.data);
             })
             .catch(err => {
-                rej('Wrong Email/Password combination.')
+                rej(texts.reject)
             })
     })
 }
@@ -50,7 +51,7 @@ export function resetPassword() {
                 res(response.data);
             })
             .catch(err => {
-                rej('Wrong Email/Password combination.')
+                rej(texts.reject)
             })
     })
 }
@@ -190,6 +191,18 @@ export function changePassword(id, credentials, token) {
             })
             .catch(err => {
                 rej(texts.error)
+            })
+    })
+}
+
+export function verify(id, key) {
+    return new Promise(function (res, rej) {
+        axios.post('/api/auth/verify/' + id + "/" + key)
+            .then(response => {
+                res(response.data);
+            })
+            .catch(err => {
+                rej('Wrong Email.')
             })
     })
 }

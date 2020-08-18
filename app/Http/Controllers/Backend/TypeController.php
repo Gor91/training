@@ -4,24 +4,25 @@ namespace App\Http\Controllers\Backend;
 
 use App\Exports\TypeExport;
 use App\Http\Controllers\Controller;
-use App\Models\Specialties;
-use App\Models\SpecialtiesType;
-use App\Repositories\Repository;
+use App\Services\GPDFService;
+use App\Services\TypeService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TypeController extends Controller
 {
-    // space that we can use the repository from
-    protected $model;
 
-    public function __construct(SpecialtiesType $type)
+    private $service;
+
+    /**
+     * TypeController constructor.
+     * @param TypeService $service
+     */
+    public function __construct(TypeService $service)
     {
-        // set the model
-        $this->model = new Repository($type);
+        // set the service
+        $this->service = $service;
         $this->middleware('auth:admin');
     }
 
@@ -33,10 +34,10 @@ class TypeController extends Controller
     public function index()
     {
         try {
-            $types = $this->model->all();
+            $types = $this->service->getSpecialties();
             return view('backend.type.index',
                 compact('types'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/type')->with('error', __('messages.wrong'));
@@ -53,7 +54,7 @@ class TypeController extends Controller
         try {
             return view('backend.type.create');
         } catch (\Exception $exception) {
-            dd($exception);
+//            dd($exception);
             logger()->error($exception);
             return redirect('backend/type')->with('error', __('messages.wrong'));
         }
@@ -62,17 +63,13 @@ class TypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         try {
-            $data = [];
-            $data['name'] = $request->name;
-            $data['icon'] = $request->icon;
-            $data['description'] = $request->description;
-            $this->model->create($data);
+            $this->service->store($request);
             return redirect('backend/type')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
             dd($exception);
@@ -84,17 +81,17 @@ class TypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         try {
-            $type = $this->model->show($id);
-//            dd($type);
+            $type = $this->service->show($id);
+
             return view('backend.type.show',
                 compact('type'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/dashboard')->with('error', __('messages.wrong'));
@@ -104,14 +101,13 @@ class TypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         try {
-            $type = $this->model->show($id);
-
+            $type = $this->service->show($id);
             return view('backend.type.edit', compact('type'));
         } catch (\Exception $exception) {
             dd($exception);
@@ -123,20 +119,16 @@ class TypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         try {
-            $data['name'] = $request->name;
-            $data['icon'] = $request->icon;
-            $data['description'] = $request->description;
-
-            $this->model->update($data, $id);
+            $this->service->update($request, $id);
             return redirect('backend/type')->with('success', __('messages.updated'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             dd($exception);
             logger()->error($exception);
             return redirect('backend/type')->with('error', __('messages.wrong'));
@@ -146,54 +138,68 @@ class TypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         try {
-            $this->model->delete($id);
+            $this->service->destroy($id);
+
             return redirect('backend/type')->with('delete', __('messages.deleted'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             logger()->error($exception);
             return redirect('backend/type')->with('error', __('messages.wrong'));
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function typeCheck(Request $request)
     {
-        $ug = Specialties::where('type_id', $request->id)->first();
+        $response = [];
+        try {
 
-        if (!empty($ug))
-            $response = [
-                'success' => true
-            ];
-        else
-            $response = [
-                'success' => false,
-                'error' => 'Do not save'
-            ];
+            if ($request->ajax()) {
+
+                $i_id = $this->service->typeCheck($request);
+                if ($i_id)
+                    $response ['success'] = true;
+            } else return redirect('backend/message')->with('error', __('messages.wrong'));
+        } catch (ModelNotFoundException $exception) {
+            logger()->error($exception);
+            $response['success'] = false;
+            $response['error'] = 'Do not save';
+
+        }
         return response()->json($response);
-
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function gdPDF()
     {
-        $data = $this->model->all();
+        try {
+            $data = $this->service->getSpecialties();
+            $path = 'types.pdf';
+            $load_page = 'backend.type.gd_pdf';
+            $const = 'constants.TYPE_PATH';
+            $pdf = GPDFService::gdPDF($path, $load_page, $const, $data);
 
-        $pdf = PDF::loadView('backend.type.gd_pdf', ['data' => $data])->setPaper('a4', 'landscape')->setWarnings(false);
-        // If you want to store the generated pdf to the server then you can use the store function
-        if (!Storage::exists(Config::get('constants.TYPE_PATH'))) {
-            Storage::makeDirectory(Config::get('constants.TYPE_PATH'), 0775, true);
+            return response()->download($pdf);
+        } catch (ModelNotFoundException $exception) {
+            logger()->error($exception);
+            return redirect('backend/type')->with('error', __('messages.wrong'));
         }
 
-        $pdf->save(storage_path() . Config::get('constants.APP') . Config::get('constants.TYPE_PATH') . 'types.pdf');
-
-        // Finally, you can download the file using download function
-        return response()->download(storage_path(Config::get('constants.APP') . Config::get('constants.TYPE_PATH') . 'types.pdf'));
-//        return $pdf->download($title.'.pdf');
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function gdExcel()
     {
         return Excel::download(new TypeExport(),

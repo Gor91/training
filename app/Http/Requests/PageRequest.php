@@ -3,9 +3,19 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class PageRequest extends FormRequest
 {
+    /**
+     * @param array $errors
+     * @return mixed
+     */
+    public function response(array $errors)
+    {
+        return Redirect::back()->withErrors($errors)->withInput();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -41,9 +51,9 @@ class PageRequest extends FormRequest
             'value.required' => __('messages.title') . __('validation.required'),
             'value.required' => __('messages.homedescription') . __('validation.required'),
             'value.required' => __('messages.description') . __('validation.required'),
-           /* 'value.max' => __('messages.value') . __('validation.max.string'),
-            'value.key' => __('messages.key') . __('validation.max.string'),
-            'value.name' => __('messages.name') . __('validation.max.string'),*/
+            /* 'value.max' => __('messages.value') . __('validation.max.string'),
+             'value.key' => __('messages.key') . __('validation.max.string'),
+             'value.name' => __('messages.name') . __('validation.max.string'),*/
         ];
     }
 

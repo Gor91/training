@@ -211,6 +211,20 @@
                     </a>
 
                 </li>
+                
+                <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
+                    data-ktmenu-submenu-toggle="hover">
+                    <a href="{{action('Backend\CommentController@index')}}" class="kt-menu__link kt-menu__toggle">
+                                <span class="kt-menu__link-icon kt-demo-icon__preview">
+                                   <i class="flaticon2-notification"></i>
+                                </span>
+                        <span class="kt-menu__link-text">{{__('messages.comments')}}</span>
+                        <span class="menu-label">
+							<span class="label label-danger label-inline"><?php echo getNotificationforCourses();?></span>
+						</span>
+                    </a>
+
+                </li>
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                     data-ktmenu-submenu-toggle="hover">
                     <a href="{{action('Backend\MessageController@index')}}" class="kt-menu__link kt-menu__toggle">

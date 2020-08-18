@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Backend;
 
 use App\Exports\AdminExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminEditRequest;
 use App\Http\Requests\AdminRequest;
+use App\Http\Requests\PasswordRequest;
 use App\Models\Admin;
 use App\Repositories\Repository;
+use App\Services\AdminService;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
@@ -62,21 +64,16 @@ class AdminController extends Controller
         }
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param AdminRequest $request
+     * @param AdminService $service
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(AdminRequest $request)
+    public function store(AdminRequest $request, AdminService $service)
     {
         try {
-            //ToDO validation confirm password
-            $data = [];
-            $data['name'] = $request->name;
-            $data['email'] = $request->email;
-            $data['password'] = bcrypt($request->password);
-            $this->model->create($data);
+            $service->make($request);
             return redirect('backend/admin')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
             dd($exception);
@@ -95,50 +92,29 @@ class AdminController extends Controller
     {
         try {
             $data = $this->model->show($id);
-//            dd($admin);
             return view('backend.admin.show',
                 compact('data'));
         } catch (\Exception $exception) {
-            dd($exception);
+//            dd($exception);
             logger()->error($exception);
             return redirect('backend/dashboard')->with('error', __('messages.wrong'));
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        dd($id);
-    }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param AdminEditRequest $request
+     * @param $id
+     * @param AdminService $service
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(AdminEditRequest $request, $id, AdminService $service)
     {
         try {
-            $v = Validator::make($request->all(), [
-                'name' => 'required|min:2|max:255',
-                'email' => 'required|email',
-            ]);
-            if (!$v->fails()) {
-                $admin = [];
-                $admin['name'] = $request->name;
-                $admin['email'] = $request->email;
-                $this->model->update($admin, $id);
+            $service->update($request, $id);
+            return redirect()->back()->with('success', __('messages.updated'));
 
-                return redirect()->back()->with('success', __('messages.updated'));
-            } else
-                return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $e) {
             logger()->error($e);
             return redirect()->back()
@@ -166,27 +142,20 @@ class AdminController extends Controller
         }
     }
 
-    public function changePassword(Request $request, $id)
+
+    public function changePassword(PasswordRequest $request, $id, AdminService $service)
     {
         try {
-        $v = Validator::make($request->all(), [
-            'old_password' => 'required',
-            'password' => 'required|min:8',
-            'confirm_password' => 'required|same:password'
-        ]);
-        if (!$v->fails()) {
+
             $admin = $this->model->show($id);
             if (!Hash::check($request->old_password, $admin->password)) {
                 return back()
-                    ->with('error', 'The specified password does not match the database password');
+                    ->with('error', __('messages.db_password'));
             } else {
-                $data = [];
-                $data['password'] = bcrypt($request->password);
-                $this->model->update($data, $id);
+                $service->updatePassword($request, $id);
                 return Redirect::to('backend/logout')->with('success', __('messages.updated'));
             }
-        } else
-            return redirect()->back()->withErrors($v->errors());
+
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('error', __('messages.wrong'));

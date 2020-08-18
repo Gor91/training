@@ -4,7 +4,7 @@
         {{__('messages.user_info')}}
     </h3>
 
-    <!--begin: Datatable -->
+
     <table>
         <tbody>
         <tr>
@@ -103,10 +103,10 @@
     <h4 class="dotted">
         {{__('messages.education')}}
     </h4>
+
     <table>
         <thead>
         <tr>
-{{--            <th>{{__('messages.edu')}}</th>--}}
             <th>{{__('messages.prof')}}</th>
             <th>{{__('messages.spec')}}</th>
         </tr>
@@ -115,8 +115,6 @@
         <tr>
             <td>{{$data->profession->edu_name}}</td>
             <td>{{$data->profession->spec_name}}</td>
-{{--            <td>{{$data->profession->type_name}}</td>--}}
-
         </tr>
         </tbody>
     </table>

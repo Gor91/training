@@ -1,7 +1,7 @@
 @extends('layouts.pdf')
 @section('content')
 
-    <table >
+    <table>
         <thead>
         <tr>
             <th>#</th>
@@ -9,9 +9,6 @@
             <th>{{__('messages.name')." ".__('messages.surname')." ".__('messages.father_name')}}</th>
             <th>{{__('messages.phone')}}</th>
             <th>{{__('messages.email')}}</th>
-{{--            <th>{{__('messages.spec')}}</th>--}}
-{{--            <th>{{__('messages.bday')}}</th>--}}
-{{--            <th>{{__('messages.passport')}}</th>--}}
             <th>{{__('messages.home_address')}}</th>
             <th>{{__('messages.workplace_name')}}</th>
             <th>{{__('messages.work_address')}}</th>
@@ -19,8 +16,8 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($datas as $key => $data)
-<!--           --><?php //dd($data->profession);?>
+        @foreach($data as $key => $d)
+
             <tr>
                 <td>{{$key +1}}</td>
                 <td>
@@ -28,9 +25,9 @@
                         $img = Config::get('constants.AVATAR_PATH_UPLOADED').'default.jpg';
 
                     @endphp
-                    @if(file_exists(Config::get('constants.AVATAR_PATH').$data->image_name));
+                    @if(file_exists(Config::get('constants.AVATAR_PATH').$d->image_name));
                     @php
-                        $img = Config::get('constants.AVATAR_PATH').$data->image_name;
+                        $img = Config::get('constants.AVATAR_PATH').$d->image_name;
 
                     @endphp
                     @endif
@@ -39,16 +36,20 @@
                          alt="image">
 
                 </td>
-                <td> {{$data->name." ".$data->surname." ".$data->father_name}}</td>
-                <td>{{$data->phone}}</td>
-                <td>{{$data->user->email}}</td>
-{{--                <td>{{$data->prof->profession}}</td>--}}
-{{--                <td>{{$data->bday}}</td>--}}
-{{--                <td>{{$data->passport}}</td>--}}
-                <td>{{$data->w_region." ". $data->w_territory. " ".$data->w_street}}</td>
-                <td>{{$data->workplace_name}}</td>
-                <td>{{$data->h_region." ".$data->h_territory." ".$data->h_street}}</td>
-                <td>{{$data->profession->edu_name." ".$data->profession->spec_name}}</td>
+                <td> @if(!empty($d->name) && !empty($d->surname) && !empty($d->father_name))
+                        {{$d->name." ".$d->surname." ".$d->father_name}}@endif</td>
+                <td>@if(!empty($d->phone))
+                        {{$d->phone}}@endif</td>
+                <td>@if(!empty($d->email))
+                        {{$d->user->email}}@endif</td>
+
+                <td>@if(!empty($d->w_region) && !empty($d->w_territory) && !empty($d->w_street))
+                        {{$d->w_region." ". $d->w_territory. " ".$d->w_street}}@endif</td>
+                <td>@if(!empty($d->workplace_name)){{$d->workplace_name}}@endif</td>
+                <td>@if(!empty($d->h_region) && !empty($d->h_territory) && !empty($d->h_street))
+                        {{$d->h_region." ".$d->h_territory." ".$d->h_street}}@endif</td>
+                <td>@if(!empty($d->profession->edu_name) && !empty($d->profession->spec_name))
+                    {{$d->profession->edu_name." ".$d->profession->spec_name}}@endif</td>
             </tr>
         @endforeach
         </tbody>

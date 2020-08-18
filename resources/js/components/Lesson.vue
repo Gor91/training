@@ -61,7 +61,7 @@
 
                                         </div>
                                         <div>
-                                            <span class="price">15000 AMD</span>
+                                            <span class="price">{{course.cost}} AMD</span>
                                         </div>
                                     </div>
                                 </div>

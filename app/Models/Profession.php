@@ -17,7 +17,8 @@ class Profession extends Model
         'education_id',
         'profession',
         'member_of_palace',
-        'diplomas'
+        'diplomas',
+        'info'
     ];
 
     /**

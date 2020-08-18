@@ -28,6 +28,7 @@ class PasswordRequest extends FormRequest
             'password' => 'required|min:6',
             're_password' => 'required|min:6|same:password',
 
+
         ];
     }
 
@@ -42,9 +43,9 @@ class PasswordRequest extends FormRequest
         return [
 
 
-            'old_password.required' => __('messages.password') . __('validation.required'),
+            'old_password.required' => __('messages.old_password') . __('validation.required'),
             'password.required' => __('messages.password') . __('validation.required'),
-            're_password.required' => __('messages.password') . __('validation.required'),
+            're_password.required' => __('messages.re_password') . __('validation.required'),
 
         ];
     }

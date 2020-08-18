@@ -28,7 +28,6 @@ trait Registration
                              $professionRequest,
                              $userRequest, $role, $status)
     {
-//        dd($professionRequest);
 
         DB::beginTransaction();
         try {
@@ -71,7 +70,6 @@ trait Registration
                 $prof->member_of_palace = (int)$professionRequest->member_of_palace;
             $prof->diplomas = json_encode($a_f, true);
             $prof->save();
-//todo unlink diplomas
 
             $user = new User();
             $user->account_id = $account->id;
@@ -91,8 +89,9 @@ trait Registration
         } catch (\Exception $exception) {
             DB::rollback();
 
-            return response()->json(['error' => true, 'message'=>$exception->getMessage()], 500);
+            return response()->json(['error' => true, 'message' => $exception->getMessage()], 500);
         }
     }
+
 
 }

@@ -7,25 +7,21 @@
                 <div class="kt-grid kt-wizard-v3 kt-wizard-v3--white" id="kt_wizard_v3"
                      data-ktwizard-state="step-first">
                     <div class="kt-grid__item">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                        {{--                        @if ($errors->any())--}}
+                        {{--                            <div class="alert alert-danger">--}}
+                        {{--                                <ul>--}}
+                        {{--                                    @foreach ($errors->all() as $error)--}}
+                        {{--                                        <li>{{ $error }}</li>--}}
+                        {{--                                    @endforeach--}}
+                        {{--                                </ul>--}}
+                        {{--                            </div>--}}
+                        {{--                        @endif--}}
                         @if (\Session::has('success'))
                             <div class="alert alert-success">
                                 <p>{{ \Session::get('success') }}</p>
                             </div><br/>
                         @endif
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>{{ \Session::get('error') }}</p>
-                            </div>
-                        @endif
+
                         @if (Session::has('delete'))
                             <div class="alert alert-info">
                                 <p>{{ Session::get('delete') }}</p>
@@ -72,40 +68,55 @@
 
                                     <div class="kt-form__section kt-form__section--first">
                                         <div class="kt-wizard-v3__form">
-                                            <div class="form-group row">
-                                                <label for="first_name" class="col-lg-2 col-form-label">{{__('messages.name')}}*</label>
+                                            <div class="form-group row validated">
+                                                <label for="first_name"
+                                                       class="col-lg-2 col-form-label">{{__('messages.name')}}*</label>
                                                 <div class="col-lg-10">
 
                                                     <input id="name" type="text" name="name"
-                                                           class="form-control" value="{{old('name')}}">
-
+                                                           class="form-control @if($errors->first('name')){{'is-invalid'}} @endif"
+                                                           value="{{old('name')}}">
+                                                    @error('name')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="email" class="col-lg-2 col-form-label">{{__('messages.email')}}*</label>
+                                            <div class="form-group row validated">
+                                                <label for="email"
+                                                       class="col-lg-2 col-form-label">{{__('messages.email')}}*</label>
                                                 <div class="col-lg-10">
                                                     <input id="email" type="email" name="email"
-                                                           class="form-control" value="{{old('email')}}">
-
+                                                           class="form-control @if($errors->first('email')){{'is-invalid'}} @endif"
+                                                           value="{{old('email')}}">
+                                                    @error('email')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="password" class="col-lg-2 col-form-label">{{__('messages.password')}}</label>
+                                            <div class="form-group row validated">
+                                                <label for="password"
+                                                       class="col-lg-2 col-form-label">{{__('messages.password')}}</label>
                                                 <div class="col-lg-10">
                                                     <input id="password" type="password" name="password"
-                                                           class="form-control">
-                                                    <span class="form-text text-muted">{{__('messages.complete_pass')}}
-                                                    </span>
+                                                           class="form-control @if($errors->first('password')){{'is-invalid'}} @endif">
+                                                    <span class="form-text text-muted">{{__('messages.complete_pass')}}</span>
+                                                    @error('password')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="c_password" class="col-lg-2 col-form-label">{{__('messages.confirm')}}</label>
+                                            <div class="form-group row validated">
+                                                <label for="c_password"
+                                                       class="col-lg-2 col-form-label">{{__('messages.confirm')}}</label>
                                                 <div class="col-lg-10">
                                                     <input id="c_password" type="password" name="password_confirmation"
-                                                           class="form-control">
+                                                           class="form-control @if($errors->first('password_confirmation')){{'is-invalid'}} @endif">
                                                     <span class="form-text text-muted">{{__('messages.complete_pass')}}</span>
+                                                    @error('password_confirmation')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
 
                                                 </div>
 

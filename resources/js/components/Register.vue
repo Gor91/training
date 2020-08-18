@@ -3,10 +3,10 @@
         <h3 class="mt-2">{{texts.register}}</h3>
         <p>{{texts.helptext}}</p>
         <form @submit.prevent="register" class="row" enctype="multipart/form-data">
-            <input type="radio" id="profile" value="1" name="tractor" checked='checked'>
-            <input type="radio" id="address" value="2" name="tractor">
-            <input type="radio" id="education" value="3" name="tractor">
-            <!--            <input type="radio" id="register" value="4" name="tractor">-->
+            <input autocomplete="off" type="radio" id="profile" value="1" name="tractor" checked='checked'>
+            <input autocomplete="off" type="radio" id="address" value="2" name="tractor">
+            <input autocomplete="off" type="radio" id="education" value="3" name="tractor">
+            <!--            <input autocomplete="off" type="radio" id="register" value="4" name="tractor">-->
             <nav class="reg_nav">
                 <label for="profile" class='fa fa-user-o nav_label col-lg-4'></label>
                 <label for="address" class='fa fa-address-card-o nav_label col-lg-4'></label>
@@ -21,8 +21,8 @@
                     </p>
                     <div class="form-group  col-lg-4">
                         <label for="name">{{texts.name}}</label>
-                        <input id="name" type="text" name="name" class="form-control" v-validate="'required'"
-                               :class="{'input': true, 'is-invalid': errors.has('name') }" autocomplete="off"
+                        <input autocomplete="off" id="name" type="text" name="name" class="form-control" v-validate="'required'"
+                               :class="{'input': true, 'is-invalid': errors.has('name') }"
                                v-model="formRegister.name" :data-vv-as="texts.name" v-on:blur="checkLang('name','hy')"
                                data-toggle="tooltip" ref="name" :placeholder="texts.enterarm">
 
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group col-lg-4 ">
                         <label for="surname">{{texts.surname}}</label>
-                        <input id="surname" type="text" name="surname" class="form-control "
+                        <input autocomplete="off" id="surname" type="text" name="surname" class="form-control "
                                :class="{'input': true, 'is-invalid': errors.has('surname') }"
                                v-on:blur="checkLang('surname','hy')" :placeholder="texts.enterarm"
                                v-validate="'required'" v-model="formRegister.surname" :data-vv-as="texts.surname">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="father_name">{{texts.fathername}}</label>
-                        <input id="father_name" type="text" name="father_name" class="form-control"
+                        <input autocomplete="off" id="father_name" type="text" name="father_name" class="form-control"
                                :class="{'input': true, 'is-invalid': errors.has('father_name') }"
                                v-on:blur="checkLang('father_name','hy')" :placeholder="texts.enterarm"
                                v-validate="'required'" :data-vv-as="texts.fathername"
@@ -49,9 +49,9 @@
 
                     <div class="form-group col-lg-6">
                         <label for="phone">{{texts.phone}}</label>
-                        <input id="phone" type="text" name="phone"
-                               class="form-control"
-                               v-validate="'required'" :data-vv-as="texts.phone"
+                        <input autocomplete="off" id="phone" type="tel" name="phone"
+                               class="form-control" :placeholder="texts.valid_phone"
+                               v-validate="{required: true, regex: /^([0-9]+)$/ }" :data-vv-as="texts.phone"
                                :class="{'input': true, 'is-invalid': errors.has('phone') }"
                                v-model="formRegister.phone">
                         <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
@@ -59,7 +59,7 @@
 
                     <div class="form-group col-lg-6">
                         <label for="passport">{{texts.serianumber}}</label>
-                        <input id="passport" type="text" name="passport"
+                        <input autocomplete="off" id="passport" type="text" name="passport"
                                class="form-control"
                                v-validate="'required'" :data-vv-as="texts.serianumber"
                                v-on:blur="checkLang('passport','en')"
@@ -68,36 +68,39 @@
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="issue">{{texts.dateofissue}}</label>
-                        <vuejs-datepicker value="state.date" v-validate="'required'" id="issue"
-                                          format="dd-MM-yyyy" :data-vv-as="texts.dateofissue"
-                                          :class="{'input': true, 'is-invalid': errors.has('date_of_issue') }"
-                                          name="date_of_issue" v-model="formRegister.date_of_issue"></vuejs-datepicker>
+                        <datepicker :language="hy" value="state.date" v-validate="'required'" id="issue"
+                                    format="dd-MM-yyyy" :data-vv-as="texts.dateofissue" :open-date="startDate"
+                                    :class="{'input': true, 'is-invalid': errors.has('date_of_issue') }"
+                                    name="date_of_issue" v-model="formRegister.date_of_issue"></datepicker>
 
                         <span v-show="errors.has('date_of_issue')" class="help is-danger">{{ errors.first('date_of_issue') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="expiry">{{texts.dateofexpire}}</label>
-                        <vuejs-datepicker value="state.date" v-validate="'required'" id="expiry" name="date_of_expiry"
-                                          format="dd-MM-yyyy" :data-vv-as="texts.dateofexpire"
-                                          :class="{'input': true, 'is-invalid': errors.has('date_of_expiry') }"
-                                          v-model="formRegister.date_of_expiry"></vuejs-datepicker>
+                        <datepicker :language="hy" value="state.date" v-validate="'required|after:date_of_issue'" id="expiry"
+                                    name="date_of_expiry"
+                                    format="dd-MM-yyyy" :data-vv-as="texts.dateofexpire" :open-date="startDate"
+                                    :disabled-dates="{from:endDate}"
+                                    :class="{'input': true, 'is-invalid': errors.has('date_of_expiry') }"
+                                    v-model="formRegister.date_of_expiry"></datepicker>
                         <span v-show="errors.has('date_of_expiry')" class="help is-danger">{{ errors.first('date_of_expiry') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="bday">{{texts.birthday}}</label>
-                        <vuejs-datepicker value="state.date" v-validate="'required'" id="bday"
-                                          format="dd-MM-yyyy" :open-date="openDate" :data-vv-as="texts.birthday"
-                                          :class="{'input': true, 'is-invalid': errors.has('bday') }"
-                                          name="bday" v-model="formRegister.bday"></vuejs-datepicker>
+                        <datepicker :language="hy" value="state.date" v-validate="'required'" id="bday"
+                                    format="dd-MM-yyyy" :open-date="openDate" :data-vv-as="texts.birthday"
+                                    :class="{'input': true, 'is-invalid': errors.has('bday') }"
+                                    name="bday" v-model="formRegister.bday"></datepicker>
                         <span v-show="errors.has('bday')" class="help is-danger">{{ errors.first('bdsy') }}</span>
                     </div>
                 </div>
+                <label for="address" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
             </article>
             <article class='info container '>
                 <div class="form-group row ">
                     <div class="form-group col-lg-12">
                         <label for="workplace_name">{{texts.workplace}}</label>
-                        <input id="workplace_name" type="text" name="workplace_name" class="form-control"
+                        <input autocomplete="off" id="workplace_name" type="text" name="workplace_name" class="form-control"
                                v-validate="'required'" :data-vv-as="texts.workplace" :placeholder="texts.enterarm"
                                :class="{'input': true, 'is-invalid': errors.has('workplace_name') }"
                                v-on:blur="checkLang('workplace_name', 'hy')"
@@ -115,7 +118,8 @@
                                         v-validate="'required'" @change="getTerritory(formRegister.w_region,'w')"
                                         v-model="formRegister.w_region">
                                     <option value="">{{texts.selectregion}}</option>
-                                    <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}</option>
+                                    <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}
+                                    </option>
                                 </select>
                                 <span v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
                             </div>
@@ -127,12 +131,12 @@
                                         :class="{'input': true, 'is-invalid': errors.has('w_territory') }"
                                         v-model="formRegister.w_territory" :data-vv-as="texts.territory">
                                     <option value="">{{texts.selectterritory}}</option>
-                                    <optgroup v-for="(group, name) in w_territories" :label="group.name+ 'ի համայնք'">
-                                        <option v-for="(option, key) in group.residence" v-if="group.residence"
+                                    <optgroup v-for="(group) in w_territories" :label="group.name+ 'ի համայնք'">
+                                        <option v-for="(option) in group.residence" v-if="group.residence"
                                                 :value="option.id">
                                             {{ option.name }}
                                         </option>
-                                        <option :value="group.id">
+                                        <option :value="group.id" v-else>
                                             {{ group.name }}
                                         </option>
                                     </optgroup>
@@ -143,7 +147,7 @@
 
                             <div class="form-group col-lg-4">
                                 <label for="w_street">{{texts.street}}</label>
-                                <input id="w_street" type="text" name="w_street" class="form-control"
+                                <input autocomplete="off" id="w_street" type="text" name="w_street" class="form-control"
                                        v-validate="'required'" v-on:blur="checkLang('w_street','hy')"
                                        :placeholder="texts.enterarm"
                                        :class="{'input': true, 'is-invalid': errors.has('w_street') }"
@@ -162,7 +166,8 @@
                                         :class="{'input': true, 'is-invalid': errors.has('h_region') }"
                                         v-model="formRegister.h_region" :data-vv-as="texts.region">
                                     <option value="">{{texts.selectregion}}</option>
-                                    <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}</option>
+                                    <option v-for="(region) in regions" v-bind:value="region.id">{{region.name}}
+                                    </option>
                                 </select>
                                 <span v-show="errors.has('h_region')" class="help is-danger">{{ errors.first('h_region') }}</span>
 
@@ -175,12 +180,12 @@
                                         :class="{'input': true, 'is-invalid': errors.has('h_territory') }"
                                         v-model="formRegister.h_territory" :data-vv-as="texts.territory">
                                     <option value="">{{texts.selectterritory}}</option>
-                                    <optgroup v-for="(group, name) in h_territories" :label="group.name+ 'ի համայնք'">
-                                        <option v-for="(option, key) in group.residence" v-if="group.residence"
+                                    <optgroup v-for="(group) in h_territories" :label="group.name+ 'ի համայնք'">
+                                        <option v-for="(option) in group.residence" v-if="group.residence"
                                                 :value="option.id">
                                             {{ option.name }}
                                         </option>
-                                        <option :value="group.id">
+                                        <option :value="group.id" >
                                             {{ group.name }}
                                         </option>
                                     </optgroup>
@@ -190,7 +195,7 @@
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="h_street">{{texts.street}}</label>
-                                <input id="h_street" type="text" name="h_street" class="form-control"
+                                <input autocomplete="off" id="h_street" type="text" name="h_street" class="form-control"
                                        v-validate="'required'" v-on:blur="checkLang('h_street', 'hy')"
                                        :placeholder="texts.enterarm"
                                        :class="{'input': true, 'is-invalid': errors.has('h_street') }"
@@ -201,6 +206,9 @@
                     </div>
                 </div>
             </article>
+              <label for="profile" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
+
+                <label for="education" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
             <article class='edu container'>
                 <div class="form-group row">
                     <div class="form-group  col-lg-4">
@@ -210,7 +218,7 @@
                                 :data-vv-as="texts.profession"
                                 v-model="formRegister.profession" @change="getSpecialties(formRegister.profession)">
                             <option value="">{{texts.selectaprofession}}</option>
-                            <option v-for="(prof, key) in professions" v-bind:value="key">{{prof}}</option>
+                            <option v-for="(prof) in professions" v-bind:value="prof.id">{{prof.name}}</option>
                         </select>
 
                         <span v-show="errors.has('profession')"
@@ -218,67 +226,68 @@
                     </div>
                     <div class="form-group  col-lg-4">
                         <label for="specialty_id">{{texts.specialty}}</label>
-                        <select id="specialty_id" name="specialty_id" class="form-control" v-validate="'required'"
+                        <select id="specialty_id" name="education" class="form-control" v-validate="'required'"
                                 :class="{'input': true, 'is-invalid': errors.has('specialty_id') }"
-                                v-model="formRegister.specialty_id" ref="spec" :data-vv-as="texts.specialty"
-                                @change="getEducations(formRegister.specialty_id)">
-                            <option v-for="(name, group) in specialties" :value="group">
-                                {{ name }}
+                                v-model="formRegister.education_id" ref="spec" :data-vv-as="texts.specialty"
+                                @change="getEducations(formRegister.education_id)">
+                            <option v-for="( group) in specialties" :value="group.id">
+                                {{ group.name }}
                             </option>
 
                         </select>
                         <span v-show="errors.has('specialty_id')"
-                              class="help is-danger">{{ errors.first('specialty_id') }}</span>
+                              class="help is-danger">{{ errors.first('education_id') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
                         <label for="edu">{{texts.education}}</label>
                         <select id="edu" name="education" class="form-control" v-validate="'required'"
-                                :class="{'input': true, 'is-invalid': errors.has('education_id') }" ref="edu"
-                                v-model="formRegister.education_id" :data-vv-as="texts.education">
-                            <option v-for="(edu, key) in educations" v-bind:value="key">{{edu}}</option>
+                                :class="{'input': true, 'is-invalid': errors.has('specialty_id') }" ref="edu"
+                                v-model="formRegister.specialty_id" :data-vv-as="texts.education">
+                            <option v-for="(edu) in educations" v-bind:value="edu.id">{{edu.name}}</option>
                         </select>
-                        <span v-show="errors.has('education_id')" class="help is-danger">{{ errors.first('education_id') }}</span>
+                        <span v-show="errors.has('specialty_id')" class="help is-danger">{{ errors.first('specialty_id') }}</span>
                     </div>
 
                     <div class="form-group  col-lg-5"><span>{{texts.member_of_palace}}</span></div>
                     <div class="form-group  col-lg-5">
                         <div class="confirm-switch">
-                            <input type="checkbox" id="confirm-switch"
+                            <input autocomplete="off" type="checkbox" id="confirm-switch"
                                    :class="{'input': true, 'is-invalid': errors.has('member_of_palace') }"
                                    checked="" name="member_of_palace" class="form-control"
                                    :data-vv-as="texts.member_of_palace " value="0"
-                                   v-validate="'required'" v-model="formRegister.member_of_palace">
+                                   v-validate="" v-model="formRegister.member_of_palace">
                             <label for="confirm-switch"></label>
                         </div>
                         <span v-show="errors.has('member_of_palace')" class="help is-danger">{{ errors.first('member_of_palace') }}</span>
                     </div>
                     <div class="form-group  col-lg-12 diploms_container">
                         <div class="large-12 medium-12 small-12 filezone">
-                            <input ref="files" v-on:change="handleFiles()"
+                            <input autocomplete="off" ref="files" v-on:change="handleFiles()"
                                    type="file" id="files" multiple
-                                   name="files" v-validate="'required'"
-                                   :data-vv-as="texts.files"
-                            >
+                                   name="files" v-validate="'required|length:2'"
+                                   :data-vv-as="texts.files">
                             <p>
                                 {{texts.uploadfiles}}
                             </p>
+                            <span v-show="errors.has('files')" class="help is-danger">{{ errors.first('files') }}</span>
                         </div>
 
-                        <div v-for="(file, key) in files" class="file-listing">
-                            <img class="preview" v-bind:ref="'preview'+parseInt(key)"/>
-                            {{ file.name }}
+                        <div v-for="(file, key) in files" class="file-listing col-lg-6 d-inline-flex">
+                            <img class="preview" v-bind:ref="'preview'+ parseInt(key)"/>
+
+                            <!--<p>{{file.name }}</p>-->
                             <div class="success-container" v-if="file.id > 0">
                                 Success
-                                <input type="hidden" :name="input_name" :value="file.id"/>
+                                <input autocomplete="off" type="hidden" :name="input_name" :value="file.id"/>
                             </div>
                             <div class="remove-container" v-else>
-                                <a class="remove" v-on:click="removeFile(key)">Remove</a>
+                                <a class="remove fa fa-remove" v-on:click="removeFile(key)"></a>
                             </div>
                         </div>
                     </div>
                     <div class="form-group  col-lg-4">
                         <label for="email">{{texts.email}}</label>
-                        <input id="email" type="email" name="email" v-validate="'required|email'"
+                        <input autocomplete="off" id="email" type="email" name="email" v-validate="'required|email'"
                                v-on:blur="checkLang('email','en')" :title="texts.name"
                                title="Մուտքագրեք անգլերեն"
                                :class="{'input': true, 'is-invalid': errors.has('email') }"
@@ -307,7 +316,8 @@
                     </div>
 
                     <footer class="form-group col-lg-4">
-                        <button type="submit" class="btn primary-btn">{{texts.register}}</button>
+                         <label for="address" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
+                        <button type="submit" class="btn primary-btn mt-3">{{texts.register}}</button>
                     </footer>
                 </div>
             </article>
@@ -317,15 +327,22 @@
 </template>
 
 <script>
+    function changeCalender(_date) {
+        const current_date = new Date();
+        return current_date.getFullYear() + (_date);
+    }
+
     import {registerUser} from '../partials/auth';
     import {education, profession, region, specialty, territory} from '../partials/help';
     import Datepicker from 'vuejs-datepicker';
-    import registertexts from './json/registertexts.json'
+    import registertexts from './json/registertexts.json';
+    import hy from './json/hy.json';
 
     export default {
         props: ['input_name'],
         data() {
             return {
+                hy: hy,
                 formRegister: {
                     name: '',
                     surname: '',
@@ -358,7 +375,9 @@
                 professions: [],
                 educations: [],
                 specialties: [],
-                openDate: new Date('January 31 1980'),
+                openDate: new Date('January 31 1930'),
+                startDate: new Date('January 31 ' + changeCalender(-10)),
+                endDate: new Date('January 31 ' + changeCalender(11)),
                 error:
                     null,
                 texts: registertexts,
@@ -494,7 +513,7 @@
             }
         },
         components: {
-            'vuejs-datepicker': Datepicker
+            Datepicker
         }
     }
 </script>

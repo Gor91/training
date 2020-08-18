@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminRequest;
+use App\Http\Requests\AuthRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +39,7 @@ class LoginController extends Controller
         return view("auth.login");
     }
 
-    public function doLogin(AdminRequest $request)
+    public function doLogin(AuthRequest $request)
     {
         try {   // create our user data for the authentication
             $userdata = array(
@@ -49,7 +49,6 @@ class LoginController extends Controller
             // attempt to do the login
 
             if (Auth::guard('admin')->attempt($userdata)) {
-
                 $user = Auth::guard('admin')->user();
                 $request->session()->put('u_id', $user->id);
                 return Redirect::to('backend/dashboard');

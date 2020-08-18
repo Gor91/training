@@ -21,11 +21,7 @@
                                 <p>{{ \Session::get('success') }}</p>
                             </div><br/>
                         @endif
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>{{ \Session::get('error') }}</p>
-                            </div>
-                        @endif
+
                         @if (Session::has('delete'))
                             <div class="alert alert-info">
                                 <p>{{ Session::get('delete') }}</p>
@@ -38,11 +34,11 @@
                                 <h3 class="kt-portlet__head-title ">
                                    <span class="kt-portlet__head-icon">
 											<i class="kt-font-brand flaticon-network"></i>
-                                    Խմբագրել&nbsp;&nbsp;<i>{{$user->first_name.' '.$user->last_name}}</i>
+                                    {{__('messages.edit')}}&nbsp;&nbsp;<i>{{$user->first_name.' '.$user->last_name}}</i>
                                        </span>
                                 </h3>
                                 <span class="kt-portlet__head-icon">
-											<i class="kt-font-brand flaticon2-information info">* {{Lang::get('messages.all_field_required')}}</i>
+											<i class="kt-font-brand flaticon2-information info">* {{__('messages.all_field_required')}}</i>
                                 </span>
                             </div>
                             <div class="kt-portlet__head-toolbar">
@@ -52,7 +48,7 @@
                                         <a href="{{action('Backend\UserController@index')}}"
                                            class="btn btn-warning btn-sm ">
                                             <i class="la la-undo"></i>
-                                            {{Lang::get('messages.back')}}
+                                            {{__('messages.back')}}
                                         </a>
                                     </div>
                                 </div>
@@ -130,16 +126,18 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-9">
-                                                        <div class="form-group row">
+                                                        <div class="form-group row validated">
                                                             <label for="first_name"
                                                                    class="col-lg-2 col-form-label">Անուն*</label>
                                                             <div class="col-lg-10">
                                                                 <input type="hidden" name="id" value="{{$user->id}}">
                                                                 <input id="first_name" type="text" name="first_name"
-                                                                       class="form-control m-input"
+                                                                       class="form-control m-input @if($errors->first('first_name')){{'is-invalid'}} @endif"
                                                                        placeholder="Enter First Name"
                                                                        value="{{  $user->first_name}}">
-
+                                                                @error('first_name')
+                                                                <div class="invalid-feedback">{{$message}}</div>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">

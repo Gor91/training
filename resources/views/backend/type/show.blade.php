@@ -43,6 +43,15 @@
                                     &nbsp;&nbsp; </h3>
                             </div>
                             <div class="kt-portlet__head-toolbar">
+                                <div class="kt-portlet__head-wrapper">
+                                    <div class="kt-portlet__head-actions"> &nbsp;
+                                        <a href="{{action('Backend\TypeController@index')}}"
+                                           class="btn btn-warning btn-sm ">
+                                            <i class="la la-undo"></i>
+                                            {{__('messages.back')}}
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

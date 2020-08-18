@@ -33,9 +33,7 @@ class Repository implements RepositoryInterface
     // update record in the database
     public function update(array $data, $id)
     {
-
         $record = $this->model->find($id);
-
         return $record->update($data);
     }
 
@@ -48,6 +46,8 @@ class Repository implements RepositoryInterface
     // show the record with the given id
     public function show($id)
     {
+
+
         try {
             return $this->model->findOrFail($id);
         } catch (\Exception $exception) {

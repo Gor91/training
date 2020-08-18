@@ -4,20 +4,19 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageRequest;
-use App\Models\Message;
-use App\Repositories\Repository;
-use Illuminate\Support\Facades\Lang;
+use App\Services\MessageService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MessageController extends Controller
 {
-    // space that we can use the repository from
-    protected $model;
 
-    public function __construct(Message $message)
+    private $service;
+
+    public function __construct(MessageService $service)
     {
+        // set the service
+        $this->service = $service;
         $this->middleware('auth:admin');
-        // set the model
-        $this->model = new Repository($message);
     }
 
     /**
@@ -28,12 +27,11 @@ class MessageController extends Controller
     public function index()
     {
         try {
-            $messages = $this->model->all();
+            $messages = $this->service->all();
 
             return view('backend.message.index',
                 compact('messages'));
-        } catch (\Exception $exception) {
-            dd($exception);
+        } catch (ModelNotFoundException $exception) {
             logger()->error($exception);
             return redirect('backend/message')->with('error', __('messages.wrong'));
         }
@@ -49,7 +47,6 @@ class MessageController extends Controller
         try {
             return view('backend.message.create');
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/message')->with('error', __('messages.wrong'));
         }
@@ -64,14 +61,9 @@ class MessageController extends Controller
     public function store(MessageRequest $request)
     {
         try {
-            $data = [];
-            $data['name'] = $request->name;
-            $data['key'] = $request->key;
-            $data['value'] = $request->value;
-            $this->model->create($data);
+            $this->service->store($request);
             return redirect('backend/message')->with('success', __('messages.success'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/message')->with('error', __('messages.wrong'));
         }
@@ -86,7 +78,7 @@ class MessageController extends Controller
     public function show($id)
     {
         try {
-            $data = $this->model->show($id);//
+            $data = $this->service->show($id);//
             return view('backend.message.show',
                 compact('data'));
         } catch (\Exception $exception) {
@@ -105,7 +97,7 @@ class MessageController extends Controller
     public function edit($id)
     {
         try {
-            $message = $this->model->show($id);
+            $message =  $this->service->show($id);
 
             return view('backend.message.edit', compact('message'));
         } catch (\Exception $exception) {
@@ -125,27 +117,16 @@ class MessageController extends Controller
     public function update(MessageRequest $request, $id)
     {
         try {
-            $data['name'] = $request->name;
-            $data['key'] = $request->key;
-            $data['value'] = $request->value;
 
-            $this->model->update($data, $id);
+            $this->service->update($request, $id);
+
             return redirect('backend/message')->with('success', __('messages.updated'));
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
 
             logger()->error($exception);
             return redirect('backend/message')->with('error', __('messages.wrong'));
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }

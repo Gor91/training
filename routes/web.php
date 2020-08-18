@@ -43,25 +43,28 @@ Route::get('/{any}', function () {
 
 Route::get('/edit{id}', 'Frontend\AccountController@edit')->name('edit');
 Route::get('/about', 'Frontend\PageController@get');
+Route::get('/verify/{key}', 'Frontend\VerifyController@indax');
 Route::get('/contact', 'Frontend\PageController@get');
 
 \Illuminate\Support\Facades\Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('verify/{key}', 'Frontend\AuthController@verify');
 
 
 //backend
 //Route::prefix('/backend')->
 //name('backend.')
 //    ->namespace('Auth')->group(function () {
+
 Route::get('/backend/password/request', 'Auth\ForgotPasswordController@showLinkRequestForm')
     ->name('password.request');
-//Route::get('/home', 'Frontend\HomeController@index')->name('home');
+
 Route::get('/backend', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('/backend/login/', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/backend/doLogin/', 'Auth\LoginController@doLogin')->name('doLogin');
 Route::get('/backend/logout/', 'Auth\LoginController@logout')->name('logout');
 Route::post('/backend/logout/', 'Auth\LoginController@logout')->name('logout');
+Route::get('/backend/verify/{key}', 'Auth\VerifyController@');
 //pages
 Route::get('/backend/dashboard/', 'Backend\DashboardController@index')->name('dashboard');
 Route::resource('/backend/admin', 'Backend\AdminController');
@@ -93,7 +96,8 @@ Route::get('/backend/account/{role}', 'Backend\AccountController@index', ['only'
 Route::get('/backend/account/create', 'Backend\AccountController@create');
 Route::post('/backend/account/{role}', 'Backend\AccountController@store')->name('account.store');
 Route::match(['put', 'patch'],'/backend/account/{id}', 'Backend\AccountController@update')->name('account.update');
-Route::match(['put', 'patch'],'/backend/updateAccount/{id}', 'Backend\AccountController@updateAccount');
+Route::match(['put', 'patch'],'/backend/updateAccount/{id}', 'Backend\AccountController@updateAccount')->name('account.edit');
+Route::get('/backend/account/{id}', 'Backend\AccountController@show')->name('account.show');
 Route::delete('/backend/account/{id}', 'Backend\AccountController@destroy')->name('account.destroy');
 Route::get('/backend/account/{id}/edit', 'Backend\AccountController@edit')->name('account.edit');
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
