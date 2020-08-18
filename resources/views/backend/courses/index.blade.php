@@ -67,8 +67,23 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$course->name}}</td>
                                 <td>{{$course->status == "active" ? __('messages.course_status_active') : __('messages.course_status_archive')}}</td>
-                                <td>{{$course->credit}}</td>
+                                <td>
+                                    @if($course->credit)
+                                        <?php $credits = (array)json_decode($course->credit);?>
+                                        @foreach($credits as $key => $credit)
+                                            @if($credit)
+                                                <span class="kt-widget1__title">
+                                                {{__(sprintf('messages.%s', $key))}}
+                                            </span>
+                                                <span class="kt-widget1__title">
+                                                {{$credit}}
+                                            </span><br/>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>{{$course->cost}}</td>
+                                <td>{{$course->start_date}}</td>
                                 <td>{{$course->duration_date}}</td>
                                 <td>
                                     <div class="row justify-content-end">
@@ -77,7 +92,8 @@
                                            data-toggle="m-tooltip" data-placement="top" data-original-title="Խմբագրել">
                                             <i class="la la-edit"></i>
                                         </a>
-                                        <a href="{{action('Backend\CoursesController@destroy',$course->id)}}" class="btn btn-danger kt-badge kt-badge--lg"
+                                        <a href="{{action('Backend\CoursesController@destroy',$course->id)}}"
+                                           class="btn btn-danger kt-badge kt-badge--lg"
                                            data-toggle="m-tooltip" data-placement="top" data-original-title="Ջնջել">
                                             <i class="la la-trash"></i>
                                         </a>

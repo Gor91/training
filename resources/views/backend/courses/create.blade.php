@@ -80,15 +80,18 @@
                                                     *</label>
                                                 <div class="col-lg-10">
                                                     <input id="name" type="text" name="name"
-                                                           class="form-control"
+                                                           class="form-control @error('name') is-invalid @enderror"
                                                            value="{{isset($course) ?  $course->name : old('name')}}">
+                                                    @error('name')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="special"
                                                        class="col-lg-2 col-form-label">{{__('messages.course_list')}}</label>
                                                 <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control" id="special"
+                                                    <select class="js-example-basic-multiple form-control @error('specialty_ids') is-invalid @enderror" id="special"
                                                             name="specialty_ids[]" multiple="multiple">
                                                         @if(isset($course))
                                                             @for ($i = 0; $i < count($course->specialities); $i++)
@@ -99,6 +102,9 @@
                                                             @endfor
                                                         @endif
                                                     </select>
+                                                    @error('specialty_ids')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -106,48 +112,89 @@
                                                        class="col-lg-2 col-form-label">{{__('messages.course_status')}}
                                                     *</label>
                                                 <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control" id="status"
+                                                    <select class="js-example-basic-multiple form-control @error('status') is-invalid @enderror" id="status"
                                                             name="status">
                                                         <option {{isset($course) && $course->status == "active" ?  'selected' : ''}}
                                                                 value="active">{{__('messages.course_status_active')}}</option>
                                                         <option {{isset($course) && $course->status == "archive" ?  'selected' : ''}}
                                                                 value="archive">{{__('messages.course_status_deactive')}}</option>
                                                     </select>
+                                                    @error('status')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="date"
-                                                       class="col-lg-2 col-form-label">{{__('messages.course_duration_date')}}
-                                                    *</label>
+                                                <label class="col-lg-2 col-form-label">{{__('messages.course_start_date')}}*</label>
                                                 <div class="col-lg-10">
-                                                    <input id="date" type="date" name="date"
-                                                           value="{{isset($course) ? $course->duration_date : ""}}"
-                                                           class="form-control">
+                                                    <div class="input-group date">
+                                                        <input id="kt_datepicker_3" type="text" readonly name="start_date"
+                                                               placeholder="{{__('messages.course_date_format')}}"
+                                                               value="{{isset($course) ? date('m/d/Y', strtotime($course->start_date)) : ""}}"
+                                                               class="form-control @error('start_date') is-invalid @enderror">
+                                                        <div class="input-group-append">
+														<span class="input-group-text">
+															<i class="la la-calendar"></i>
+														</span>
+                                                        </div>
+                                                        @error('start_date')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="credit"
+                                                <label class="col-lg-2 col-form-label">{{__('messages.course_duration_date')}}*</label>
+                                                <div class="col-lg-10">
+                                                    <div class="input-group date">
+                                                        <input id="kt_datepicker_3" type="text" name="date" readonly
+                                                               placeholder="{{__('messages.course_date_format')}}"
+                                                               value="{{isset($course) ? date('m/d/Y', strtotime($course->duration_date)) : ""}}"
+                                                               class="form-control @error('date') is-invalid @enderror">
+                                                        <div class="input-group-append">
+														<span class="input-group-text">
+															<i class="la la-calendar"></i>
+														</span>
+                                                        </div>
+                                                        @error('date')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="credit_theoretical"
                                                        class="col-lg-2 col-form-label">{{__('messages.course_credit')}}
                                                     *</label>
-                                                <div class="col-lg-10">
-                                                    <input id="credit" type="number" name="credit"
-                                                           value="{{isset($course) ? $course->credit : ""}}"
+                                                <div class="col-lg-5">
+                                                    <input id="credit_theoretical" type="number" name="credit[theoretical]"
+                                                           value="{{isset($course) && isset($course->credit['theoretical']) ? $course->credit['theoretical'] : ""}}"
+                                                           class="form-control @error('credit_theoretical') is-invalid @enderror">
+                                                    @error('credit[theoretical]')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <input readonly
+                                                           value="{{__('messages.theoretical')}}"
                                                            class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="credit_type"
-                                                       class="col-lg-2 col-form-label">{{__('messages.credit_type')}}
-                                                    *</label>
-                                                <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control"
-                                                            id="credit_type"
-                                                            name="credit_type">
-                                                        @foreach ($credit_types as $key=>$credit_type)
-                                                            <option {{isset($course) && $course->credit_type == $key ?  'selected' : ''}}
-                                                                    value="{{$key}}">{{__(sprintf('messages.%s', $key))}}</option>
-                                                        @endforeach
-                                                    </select>
+                                                <label for="credit_practical"
+                                                       class="col-lg-2 col-form-label">{{__('messages.course_credit')}}</label>
+                                                <div class="col-lg-5">
+                                                    <input id="credit_practical" type="number" name="credit[practical]"
+                                                           value="{{isset($course) && isset($course->credit['practical']) ? $course->credit['practical'] : ""}}"
+                                                           class="form-control @error('credit_practical') is-invalid @enderror">
+                                                    @error('credit[practical]')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <input readonly
+                                                           value="{{__('messages.practical')}}"
+                                                           class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -157,7 +204,10 @@
                                                 <div class="col-lg-10">
                                                     <input id="cost" type="number" name="cost"
                                                            value="{{isset($course) ? $course->cost : ""}}"
-                                                           class="form-control">
+                                                           class="form-control @error('cost') is-invalid @enderror">
+                                                    @error('cost')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -165,7 +215,7 @@
                                                 <label for="course_videos"
                                                        class="col-lg-2 col-form-label">{{__('messages.videos')}}</label>
                                                 <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control"
+                                                    <select class="js-example-basic-multiple form-control @error('videos') is-invalid @enderror"
                                                             id="course_videos" name="videos[]" multiple="multiple">
                                                         @if($videos)
                                                             @foreach ($videos as $video)
@@ -174,6 +224,9 @@
                                                             @endforeach
                                                         @endif
                                                     </select>
+                                                    @error('videos')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -182,15 +235,11 @@
                                                     *</label>
                                                 <div class="col-lg-10">
                                                     <textarea id="content_data" type="text" name="content_data"
-                                                              class="form-control summernote">{{isset($course) ? $course->content : ""}}</textarea>
+                                                              class="form-control summernote @error('content_data') is-invalid @enderror">{{isset($course) ? $course->content : ""}}</textarea>
+                                                    @error('content_data')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-lg-10">
-                                                    <input name="files" id="video" type="hidden"
-                                                           class="form-control">
-                                                </div>
-
                                             </div>
                                         </div>
                                     </div>
