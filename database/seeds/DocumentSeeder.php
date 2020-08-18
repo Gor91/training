@@ -24,7 +24,7 @@ class DocumentSeeder extends Seeder
         return [
             [
                 "id" => 1,
-                "type" => "orders_of_the_minister",
+                "type" => "orders_of_decrees_presidential",
                 "doc_path" => "naxararihramanner.pdf",
                 "page_id" => 1,
                 "created_at" => \Carbon\Carbon::now(),
