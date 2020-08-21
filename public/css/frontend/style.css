@@ -1,31 +1,9 @@
-/*----------------------------------------------------
-@File: Default Styles
-@Author: SPONDON IT
-Author E-mail: info@spondonit.com
-This file contains the styling for the actual theme, this
-is the file you need to edit to change the look of the
-theme.navbar
----------------------------------------------------- */
-/*=====================================================================
-@Template Name: Medicare Medical
-@Author: Naim LAsker
-@Developed By: Naim LAsker
 
 
-=====================================================================*/
-/*----------------------------------------------------*/
-/*font Variables*/
-/*Color Variables*/
-
-/*---------------------------------------------------- */
-/*----------------------------------------------------*/
 body {
     line-height: 25px;
     font-size: 16px;
-    font-family: "Roboto", serif;
-    /*font-weight: 600;*/
     color: #777777;
-
 }
 
 h1,
@@ -34,7 +12,6 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Montserrat", sans-serif;
     font-weight: 600;
     color: #222222;
 }
@@ -93,7 +70,8 @@ button:focus {
 .navbar {
     background-color: #761DD1;
 }
-.m_navbar{
+
+.m_navbar {
     flex-direction: row;
 }
 
@@ -110,14 +88,17 @@ button:focus {
 .text {
     color: #fff;
 }
-.lines{
+
+.lines {
     width: 100%;
     background: #F0D006;
     height: 8px;
 }
-.yellow{
-    color:#F0D006;
+
+.yellow {
+    color: #F0D006;
 }
+
 /*Custom CSS */
 
 
@@ -260,7 +241,7 @@ button:focus {
     background-size: 200% auto;
     padding: 0px 38px;
     color: #fff;
-    font-family: "Montserrat", sans-serif;
+    font-family: "ArianAMUBold", sans-serif;
     font-size: 13px;
     font-weight: 600;
     line-height: 50px;
@@ -283,7 +264,6 @@ button:focus {
 
 /* End Buttons Area css
 ============================================================================================ */
-
 
 
 /* Start Overlay css
@@ -325,7 +305,7 @@ button:focus {
 }
 
 .header_area .navbar .nav .nav-item .nav-link {
-    font: 600 12px/80px "Montserrat", sans-serif;
+    font: 600 14px/80px "ArianAMUBold", sans-serif;
     text-transform: uppercase;
     color: #222222;
     padding: 0px;
@@ -339,7 +319,8 @@ button:focus {
 .header_area .navbar .nav .nav-item:hover .nav-link, .header_area .navbar .nav .nav-item.active .nav-link {
     color: #761DD1;
 }
-.router-link-active{
+
+.router-link-active {
     color: #F0D006 !important;
 }
 
@@ -573,7 +554,7 @@ button:focus {
     line-height: 40px;
     font-size: 14px;
     font-weight: 600;
-    font-family: "Montserrat", sans-serif;
+    font-family: "ArianAMUBold", sans-serif;
     background: transparent;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
@@ -1059,7 +1040,7 @@ button:focus {
     font-size: 15px;
     color: #fff;
     font-weight: 600;
-    font-family: "Montserrat", sans-serif;
+    font-family: "ArianAMUBold", sans-serif;
     box-shadow: 0px 20px 50px rgba(0, 175, 224, 0.2);
 }
 
@@ -1738,7 +1719,7 @@ button:focus {
     left: 20px;
     right: 20px;
     bottom: 20px;
-   /* background: rgba(34, 34, 34, 0.3);*/
+    /* background: rgba(34, 34, 34, 0.3);*/
     color: #fff;
     transition: all 0.3s linear;
     display: flex;
@@ -1768,6 +1749,7 @@ button:focus {
     width: 100%;
     height: 1px;
 }
+
 .line:after {
     content: "";
     position: absolute;
@@ -1775,6 +1757,7 @@ button:focus {
     width: 30%;
     background: #761DD1;
 }
+
 .categories_post:hover .categories_details {
     background-color: transparent;
     opacity: .6;
@@ -3668,7 +3651,7 @@ h6 {
     height: 100%;
     background: transparent;
     border-radius: 8.5px;
-    border:1px solid #9048F6;
+    border: 1px solid #9048F6;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -o-transition: all 0.2s;
@@ -4574,7 +4557,7 @@ h6 {
     margin-left: -60px;
     font-size: 12px;
     text-transform: uppercase;
-    font-family: "Montserrat", sans-serif;
+    font-family: "ArianAMUBold", sans-serif;
     font-weight: 600;
     border: 0;
     -webkit-transition: all 0.3s ease 0s;
@@ -4650,182 +4633,3 @@ h6 {
 /*---------------------------------------------------- */
 
 /*# sourceMappingURL=style.css.map */
-
-/*for registration page*/
-[class="fa"]:before {
-    font-family: 'fontawesome', sans-serif;
-}
-
-.diploms_container{
-    height: 250px;
-    overflow: auto;
-}
-.login form {
-    position: relative;
-    height: 300px;
-
-}
-.register form{
-    position: relative;
-    /*height: 650px;*/
-    padding:0 0 55% 0;
-}
-.register .form{
-    position: relative;
-    height: 800px;
-}
-
-.bio, .info, .edu {
-    position: absolute;
-    left: 0;
-    top: 7rem;
-    right: 0;
-    bottom: 0;
-    /*padding: 1rem 2rem 0;*/
-    overflow: hidden;
-    transition: .7s;
-    transform: scale(0);
-    transform-origin: center center;
-    transition-delay: .1s;
-    background: #f8fafc;
-}
-
-#bday, #expiry, #issue {
-    display: block;
-    width: 100%;
-    height: calc(1.6em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 0.9rem;
-    font-weight: 400;
-    line-height: 1.6;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    background: #f8fafc;
-}
-#bday, #expiry, #issue{
-    display: block;
-    width: 100%;
-    height: calc(1.6em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 0.9rem;
-    font-weight: 400;
-    line-height: 1.6;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.bio:before, .info:before, .edu:before {
-    color: rgba(0, 0, 0, .2);
-    font-size: 4rem;
-    font-weight: 100;
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-}
-
-.reg_nav, .edit_nav {
-    background: #fff;
-    width: 100%;
-    height: 5rem;
-    box-shadow: 0 0 6px rgba(0, 0, 0, .4);
-}
-
-.reg_nav:after, .edit_nav:after {
-    content: '';
-    width: 33.3%;
-    height: 5rem;
-    background: #9048F6;
-    position: absolute;
-    transition: .5s;
-}
-
-input[name='tractor'] {
-    display: none;
-}
-
-.nav_label {
-    /*width: 25%;*/
-    float: left;
-    /* color: #e392d6;*/
-    color: #771FF3;
-    text-align: center;
-    cursor: pointer;
-    transition: .5s;
-    z-index: 2;
-}
-
-.nav_label:hover {
-    color: #B755FF;
-}
-
-.nav_label:before {
-    display: block;
-    font-size: 3rem;
-    line-height: 5rem;
-    z-index: 2;
-    position: relative;
-}
-
-#profile:checked ~ nav [for='profile'],
-#address:checked ~ nav [for='address'],
-#education:checked ~ nav [for='education'],
-#register:checked ~ nav [for='register'] {
-    color: #ffffff;
-
-}
-
-#address:checked ~ nav [for='address'] {
-}
-
-#profile:checked ~ nav [for='profile'] {
-}
-
-#profile:checked ~ nav:after {
-    left: 0;
-}
-
-#address:checked ~ nav:after {
-    left: 33.3%;
-    border-top: 0 none;
-}
-
-#education:checked ~ nav:after {
-    left: 66.6%;
-}
-
-#register:checked ~ nav:after {
-    left: 75%;
-}
-
-#profile:checked ~ .bio,
-#address:checked ~ .info,
-#education:checked ~ .edu,
-#register:checked ~ .reg {
-    display: block;
-    transform: scale(1);
-    transition-delay: .5s;
-}
-
-a {
-    color: rgba(255, 255, 255, 1)
-}
-
-a:hover {
-    color: rgba(255, 255, 255, 1)
-}
-.vdp-datepicker__calendar{
-    width: 100%!important;
-}
-
-textarea{
-   resize: none;
-    height: 110px!important;
-}

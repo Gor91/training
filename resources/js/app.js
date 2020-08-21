@@ -5,7 +5,7 @@ import Vuex from 'vuex';
 import VeeValidate, {Validator} from 'vee-validate';
 import hy from "vee-validate/dist/locale/hy";
 import {routes} from './routes.js';
-import storeData from './store.js';
+import storeData from './stores/store.js';
 import MainApp from './components/MainApp.vue';
 
 Validator.localize({hy: hy});

@@ -11,7 +11,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-    'site_name' => 'ազգային Բժշկական Պալատ',
+    'site_name' => 'Ազգային Բժշկական Պալատ',
     //account
     'user_info' => 'Անձնական տվյալներ',
     'name' => 'Անուն',
@@ -84,7 +84,7 @@ return [
     //page
     'all_field_required' => 'Բոլոր դաշտերը պարտադիր են',
     '*_field_required' => '-ով նշված դաշտերը պարտադիր են',
-    'back' => 'Հետ',
+    'back' => 'Վերադարձ',
     'add' => 'Ավելացնել',
     'save' => 'Պահպանել',
     'export' => 'Բեռնել',

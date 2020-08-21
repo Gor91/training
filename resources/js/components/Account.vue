@@ -7,7 +7,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="banner_content text-center">
-                                <div class="page_link"  v-for="b in $route.meta.breadCrumbs" :key="b.to">
+                                <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
                                     <router-link :to="{ name: 'home' }" class="nav-link">ԳԼԽԱՎՈՐ</router-link>
                                     <router-link to="" class="nav-link">{{b.text}}</router-link>
 
@@ -54,28 +54,92 @@
                                 </a>
                             </li>
                         </ul>
-                        <router-link :to="'/edit/'+currentUser.id" class="primary-btn text-uppercase enroll">Edit</router-link>
+                        <router-link :to="'/edit/'+currentUser.id" class="primary-btn text-uppercase enroll">Edit
+                        </router-link>
+                    </div>
                 </div>
             </div>
-            </div>
         </section>
+        <!--================ Start Popular Courses Area =================-->
+        <div class="popular_courses lite_bg">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="main_title">
+                            <h2>Popular Courses</h2>
+                            <p>There is a moment in the life of any aspiring astronomer that it is time to buy that
+                                first
+                                telescope. It’s
+                                exciting to think about setting up your own viewing station.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- single course -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single_course">
+                            <div class="course_head overlay">
+                                <img class="img-fluid w-100" src="img/courses/trainer1.jpg" alt="">
+                                <div class="authr_meta">
+                                    <img src="img/author1.png" alt="">
+                                    <span>Mart Taylor</span>
+                                </div>
+                            </div>
+                            <div class="course_content">
+                                <h4>
+                                    <a href="course-details.html">Learn React js beginners</a>
+                                </h4>
+                                <p>When television was young, there was a huge popular show based on the still popular
+                                    fictional character of
+                                    Superman.</p>
+                                <div class="course_meta d-flex justify-content-between">
+                                    <div>
+                                    <span class="meta_info">
+                                        <a href="#"><i class="lnr lnr-user"></i>355</a>
+                                    </span>
+                                        <span class="meta_info">
+                                        <a href="#">
+                                            <i class="lnr lnr-bubble"></i>35
+                                        </a>
+                                    </span>
+                                    </div>
+                                    <div>
+                                        <span class="price">$150</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--================ End Popular Courses Area =================-->
+
     </div>
 </template>
 
 <script>
     import {uploadAvatar} from '../partials/auth';
+    import {getCoursesById} from '../partials/courses';
     import registertexts from './json/registertexts.json'
+
     export default {
         props: ['input_name'],
         data() {
             return {
                 avatar: [],
                 url: null,
-                texts:registertexts
+                texts: registertexts
             }
+        },
+        mounted() {
+
+            this.getCourses(this.$store.getters.currentUser.id);
         },
         computed: {
             currentUser: function () {
+                console.log(this.$store.getters.currentUser);
                 if (!this.$store.getters.currentUser)
                     return JSON.parse(localStorage.getItem('user'));
                 return this.$store.getters.currentUser
@@ -92,7 +156,6 @@
             },
         },
         methods: {
-
             upload(file) {
                 // let file = this.$refs.avatar.files[0];
                 uploadAvatar(file, this.currentUser.id, this.currentUser.token)
@@ -110,13 +173,19 @@
                         this.$store.commit("uploadFailed", {error});
                     });
             },
-
             onFileChange(e) {
                 const file = e.target.files[0];
                 // this.url = URL.createObjectURL(file);
                 // console.log(file)
                 // console.log(this.url)
                 this.upload(file);
+            },
+            getCourses(id) {
+                getCoursesById(id)
+                    .then(res => {
+                    })
+                    .catch(err => {
+                    })
             }
 
         }

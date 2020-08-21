@@ -8,12 +8,11 @@
             <input autocomplete="off" type="radio" id="education" value="3" name="tractor">
             <!--            <input autocomplete="off" type="radio" id="register" value="4" name="tractor">-->
             <nav class="reg_nav">
-                <label for="profile" class='fa fa-user-o nav_label col-lg-4'></label>
-                <label for="address" class='fa fa-address-card-o nav_label col-lg-4'></label>
-                <label for="education" class='fa fa-graduation-cap nav_label col-lg-4'></label>
+                <label for="profile" class='fa fa-user-o nav_label col-lg-4 col-4'></label>
+                <label for="address" class='fa fa-address-card-o nav_label col-lg-4 col-4'></label>
+                <label for="education" class='fa fa-graduation-cap nav_label col-lg-4 col-4'></label>
                 <!--                <label for="register" class='fa fa-list-alt nav_label'></label>-->
             </nav>
-
             <article class='bio container'>
                 <div class="form-group row">
                     <p class="error col-12" v-if="regError">
@@ -21,7 +20,8 @@
                     </p>
                     <div class="form-group  col-lg-4">
                         <label for="name">{{texts.name}}</label>
-                        <input autocomplete="off" id="name" type="text" name="name" class="form-control" v-validate="'required'"
+                        <input autocomplete="off" id="name" type="text" name="name" class="form-control"
+                               v-validate="'required'"
                                :class="{'input': true, 'is-invalid': errors.has('name') }"
                                v-model="formRegister.name" :data-vv-as="texts.name" v-on:blur="checkLang('name','hy')"
                                data-toggle="tooltip" ref="name" :placeholder="texts.enterarm">
@@ -77,7 +77,8 @@
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="expiry">{{texts.dateofexpire}}</label>
-                        <datepicker :language="hy" value="state.date" v-validate="'required|after:date_of_issue'" id="expiry"
+                        <datepicker :language="hy" value="state.date" v-validate="'required|after:date_of_issue'"
+                                    id="expiry"
                                     name="date_of_expiry"
                                     format="dd-MM-yyyy" :data-vv-as="texts.dateofexpire" :open-date="startDate"
                                     :disabled-dates="{from:endDate}"
@@ -93,14 +94,18 @@
                                     name="bday" v-model="formRegister.bday"></datepicker>
                         <span v-show="errors.has('bday')" class="help is-danger">{{ errors.first('bdsy') }}</span>
                     </div>
+                    <footer class="form-group col-lg-12">
+                        <label for="address" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
+                    </footer>
                 </div>
-                <label for="address" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
+
             </article>
             <article class='info container '>
                 <div class="form-group row ">
                     <div class="form-group col-lg-12">
                         <label for="workplace_name">{{texts.workplace}}</label>
-                        <input autocomplete="off" id="workplace_name" type="text" name="workplace_name" class="form-control"
+                        <input autocomplete="off" id="workplace_name" type="text" name="workplace_name"
+                               class="form-control"
                                v-validate="'required'" :data-vv-as="texts.workplace" :placeholder="texts.enterarm"
                                :class="{'input': true, 'is-invalid': errors.has('workplace_name') }"
                                v-on:blur="checkLang('workplace_name', 'hy')"
@@ -136,7 +141,7 @@
                                                 :value="option.id">
                                             {{ option.name }}
                                         </option>
-                                        <option :value="group.id" v-else>
+                                        <option :value="group.id" v-if="group.residence.length === 0">
                                             {{ group.name }}
                                         </option>
                                     </optgroup>
@@ -185,7 +190,7 @@
                                                 :value="option.id">
                                             {{ option.name }}
                                         </option>
-                                        <option :value="group.id" >
+                                        <option :value="group.id" v-if="group.residence.length === 0">
                                             {{ group.name }}
                                         </option>
                                     </optgroup>
@@ -204,11 +209,13 @@
                             </div>
                         </div>
                     </div>
+                    <footer class="form-group col-lg-12">
+                        <label for="education" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
+                        <label for="profile" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
+                    </footer>
                 </div>
-            </article>
-              <label for="profile" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
 
-                <label for="education" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
+            </article>
             <article class='edu container'>
                 <div class="form-group row">
                     <div class="form-group  col-lg-4">
@@ -314,10 +321,9 @@
                                :data-vv-as="texts.confirmpassword">
                         <span v-show="errors.has('re_password')" class="help is-danger">{{ errors.first('re_password') }}</span>
                     </div>
-
-                    <footer class="form-group col-lg-4">
-                         <label for="address" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
-                        <button type="submit" class="btn primary-btn mt-3">{{texts.register}}</button>
+                    <footer class="form-group col-lg-12">
+                        <label for="address" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
+                        <button type="submit" class="btn primary-btn mt-3 float-right">{{texts.register}}</button>
                     </footer>
                 </div>
             </article>
@@ -392,7 +398,6 @@
             getEducations(id) {
                 education(id)
                     .then(res => {
-
                         this.$refs.edu.style.border = '1px solid #9f12ad';
                         this.$refs.spec.style.border = '1px solid #ced4da';
                         this.educations = res.edu;

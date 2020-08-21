@@ -11,7 +11,6 @@ export function getCoursesTitle(credentials) {
             })
     })
 }
-
 export function getAllCourses(credentials) {
     return new Promise((res, rej) => {
         axios.post('/api/allcourses', credentials)
@@ -29,7 +28,17 @@ export function getCourseDetails(credentials,id) {
         axios.get('/api/coursedetails/', credentials)
             .then(response => {
                 res(response.data);
-
+            })
+            .catch(err => {
+                rej(texts.error);
+            })
+    })
+}
+export function getCoursesById(id) {
+    return new Promise((res, rej) => {
+        axios.post('/api/getcoursebyspec/'+id )
+            .then(response => {
+                res(response.data);
             })
             .catch(err => {
                 rej(texts.error);

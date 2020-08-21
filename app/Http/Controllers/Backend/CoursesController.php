@@ -174,15 +174,32 @@ class CoursesController extends Controller
      */
     public function getSpecialities(Request $request)
     {
+
+
         $data = DB::table('specialties')
-            ->join('specialties_types', 'specialties.type_id', '=', 'specialties_types.id')
-            ->select('specialties_types.name as  special_type_name', 'specialties.id',
-                'specialties.name')->get();
+
+            ->join('specialties AS sp', 'sp.id', '=', 'specialties.parent_id')
+            ->join('specialties_types AS st', 'st.id', '=', 'specialties.type_id')
+//            ->select('specialties_types.name as  special_type_name',
+//                'specialties.id',
+//                'specialties.name')->get();
+            ->select(
+                'st.name AS type_name',
+                'sp.name as edu_name',
+                'specialties.name AS spec_name',
+                'specialties.id AS spec_id',
+                'specialties.parent_id AS parent_id'
+                )
+            ->get();
+
         $tmp = [];
         for ($i = 0; $i < count($data); $i++) {
-            $tmp[$data[$i]->special_type_name][] = ['text' => $data[$i]->name, 'id' => $data[$i]->id];
+            $tmp[$data[$i]->type_name][]= ['text' => $data[$i]->edu_name,
+                'id' => $data[$i]->parent_id];
+            $tmp[$data[$i]->type_name][] = ['text' => $data[$i]->spec_name,
+                'id' => $data[$i]->spec_id];
         }
-
+        dd($tmp);
         return json_encode($tmp);
     }
 

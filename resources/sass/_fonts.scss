@@ -1,0 +1,26 @@
+$font-path: "../fonts/amu";
+
+@font-face {
+  font-family: 'ArianAMUBold';
+  font-style: normal;
+  font-weight: 400;
+  src: url('#{$font-path}/ArianAMUBold.eot');
+  src: local("ArianAMUBold"),
+  url('#{$font-path}/ArianAMUBold.eot?#iefix') format("embedded-opentype"),
+  url('#{$font-path}/ArianAMUBold.woff2') format("woff2"),
+  url('#{$font-path}/ArianAMUBold.woff') format("woff"),
+  url('#{$font-path}/ArianAMUBold.ttf') format("truetype"),
+  url('#{$font-path}/ArianAMUBold.svg#Quicksand') format("svg");
+}
+@font-face {
+  font-family: 'ArialAMU';
+  font-style: normal;
+  font-weight: 400;
+  src: url('#{$font-path}/ArialAMU.eot');
+  src: local("ArialAMU"),
+  url('#{$font-path}/ArialAMU.eot?#iefix') format("embedded-opentype"),
+  url('#{$font-path}/ArialAMU.woff2') format("woff2"),
+  url('#{$font-path}/ArialAMU.woff') format("woff"),
+  url('#{$font-path}/ArialAMU.ttf') format("truetype"),
+  url('#{$font-path}/ArialAMU.svg#Quicksand') format("svg");
+}

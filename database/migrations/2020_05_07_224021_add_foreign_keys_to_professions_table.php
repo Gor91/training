@@ -16,7 +16,7 @@ class AddForeignKeysToProfessionsTable extends Migration
         Schema::table('professions', function (Blueprint $table) {
             $table->foreign('account_id', 'FK_P_ACCOUNT')->references('id')->on('accounts')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('specialty_id', 'FK_P_SPECIALTY')->references('id')->on('specialties')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('education_id', 'FK_EDUCATION')->references('id')->on('educations')->onUpdate('CASCADE')->onDelete('CASCADE');
+
         });
     }
 
@@ -30,7 +30,7 @@ class AddForeignKeysToProfessionsTable extends Migration
         Schema::table('professions', function (Blueprint $table) {
             $table->dropForeign('FK_P_ACCOUNT');
             $table->dropForeign('FK_P_SPECIALTY');
-            $table->dropForeign('FK_EDUCATION');
+
         });
     }
 }

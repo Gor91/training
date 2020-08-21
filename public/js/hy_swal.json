@@ -1,0 +1,24 @@
+{
+  "ready": {
+    "title": "Դուք համոզվա՞ծ եք:",
+    "text": "Դուք չեք կարողանա վերականգնել այն հետագայում:",
+    "type": "error",
+    "showCancelButton": true,
+    "buttonsStyling": false,
+    "confirmButtonClass": "btn m-btn--pill m-btn--air btn-danger m-btn--bolder",
+    "confirmButtonText": "<i class='la la-trash'></i> Այո, հեռացնել",
+    "cancelButtonClass": "btn m-btn--pill m-btn--air btn-secondary",
+    "cancelButtonText": "Չեղարկել"
+  },
+  "delete": {
+    "title": "Հեռացվող տարրը միացած է մեկ այլ գործառույթի: Դուք համոզվա՞ծ եք:",
+    "text": "Դուք չեք կարողանա վերականգնել այն հետագայում:",
+    "type": "error",
+    "showCancelButton": true,
+    "buttonsStyling": false,
+    "confirmButtonClass": "btn m-btn--pill m-btn--air btn-danger m-btn--bolder",
+    "confirmButtonText": "<i class='la la-trash'></i> Այո, հեռացնել",
+    "cancelButtonClass": "btn m-btn--pill m-btn--air btn-secondary",
+    "cancelButtonText": "Չեղարկել"
+  }
+}

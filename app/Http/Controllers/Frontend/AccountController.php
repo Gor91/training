@@ -12,7 +12,6 @@ use App\Http\Requests\ProfessionEditRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Models\Account;
 use App\Models\User;
-use App\Repositories\Repository;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,17 +19,20 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
+
 class AccountController extends Controller
 {
+
     /**
-     * @var Repository
+     * @var AccountService
      */
     protected $service;
 
+
     /**
      * Create a new AccountController instance.
-     *
-     * @return void
+     * AccountController constructor.
+     * @param AccountService $service
      */
     public function __construct(AccountService $service)
     {
@@ -101,12 +103,12 @@ class AccountController extends Controller
                                   UserEditRequest $userRequest, $id)
     {
         $code = $this->service->updateFProfile($accountRequest, $professionRequest, $userRequest, $id);
-dd($code);
-//        if (is_numeric($code))
-//            return response()->json(['error' => true, 'message' => getErrorMessage($code)], 500);
-//        else {
-//            return response()->json(['success' => true, 'user' => $id, 200]);
-//        }
+
+        if (is_numeric($code))
+            return response()->json(['error' => true, 'message' => getErrorMessage($code)], 500);
+        else {
+            return response()->json(['success' => true, 'user' => $id, 200]);
+        }
     }
 
     /**

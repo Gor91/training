@@ -1,29 +1,10 @@
 $(document).ready(function () {
-    var CSRF_TOKEN = $('[name="csrf-token"]').attr('content');
 
-    var lang = {
-        "sEmptyTable": "Տվյալները բացակայում են",
-        "sProcessing": "Կատարվում է...",
-        "sInfoThousands": ",",
-        "sLengthMenu": "Ցուցադրել _MENU_ արդյունքներ մեկ էջում",
-        "sLoadingRecords": "Բեռնվում է ...",
-        "sZeroRecords": "Հարցմանը համապատասխանող արդյունքներ չկան",
-        "sInfo": "Ցուցադրված են _START_-ից _END_ արդյունքները ընդհանուր _TOTAL_-ից",
-        "sInfoEmpty": "Արդյունքներ գտնված չեն",
-        "sInfoFiltered": "(ֆիլտրվել է ընդհանուր _MAX_ արդյունքներից)",
-        "sInfoPostFix": "",
-        "sSearch": "Փնտրել",
-        "oPaginate": {
-            "sFirst": "Առաջին էջ",
-            "sPrevious": "Նախորդ էջ",
-            "sNext": "Հաջորդ էջ",
-            "sLast": "Վերջին էջ"
-        },
-        "oAria": {
-            "sSortAscending": ": ակտիվացրեք աճման կարգով դասավորելու համար",
-            "sSortDescending": ": ակտիվացրեք նվազման կարգով դասավորելու համար"
-        }
-    };
+    var CSRF_TOKEN = $('[name="csrf-token"]').attr('content');
+    var url = '/js/hy_table.json';
+
+    var lang = getJSONData(url);
+
     var t = $('#kt_table_1').dataTable({
         "ordering": true,
         "initComplete": function () {
@@ -87,17 +68,9 @@ $(document).ready(function () {
         });
     }).draw();
     $(document).on("click", ".delete", function (e) {
-        swal.fire({
-            title: "Դուք համոզվա՞ծ եք:",
-            text: "Դուք չեք կարողանա վերականգնել այն հետագայում:",
-            type: "error",
-            showCancelButton: true,
-            buttonsStyling: false,
-            confirmButtonClass: "btn m-btn--pill m-btn--air btn-danger m-btn--bolder",
-            confirmButtonText: "<i class='la la-trash'></i> Այո, հեռացնել",
-            cancelButtonClass: "btn m-btn--pill m-btn--air btn-secondary",
-            cancelButtonText: "Չեղարկել"
-        }).then((result) => {
+        var url_swal = '/js/hy_swal.json';
+        var _swal = getJSONData(url_swal);
+        swal.fire(_swal.ready).then((result) => {
             if (result.value) {
                 $title = $(this).attr('data-title');
                 $url = $(this).parent().attr('action');
@@ -112,17 +85,7 @@ $(document).ready(function () {
                         dataType: 'JSON',
                         success: function (data) {
                             if (data.success) {
-                                swal.fire({
-                                    title: "Հեռացվող տարրը միացած է մեկ այլ գործառույթի: Դուք համոզվա՞ծ եք:",
-                                    // text: "Դուք չեք կարողանա վերականգնել այն հետագայում:",
-                                    type: "error",
-                                    showCancelButton: true,
-                                    buttonsStyling: false,
-                                    confirmButtonClass: "btn m-btn--pill m-btn--air btn-danger m-btn--bolder",
-                                    confirmButtonText: "<i class='la la-trash'></i> Այո, հեռացնել",
-                                    cancelButtonClass: "btn m-btn--pill m-btn--air btn-secondary",
-                                    cancelButtonText: "Չեղարկել"
-                                }).then((result) => {
+                                swal.fire(_swal.delete).then((result) => {
                                     if (result.value) {
                                         this.element.parent().submit();
                                     }
@@ -267,11 +230,11 @@ $(document).ready(function () {
 
     $('#fileuploader-image').on('change', function () {
         let fileReader = new FileReader();
-        let view_image= $('#view_image');
+        let view_image = $('#view_image');
 
-        if($(this).prop('files').length==0){
+        if ($(this).prop('files').length == 0) {
             view_image.attr('src', '');
-            view_image.attr('hidden','hidden');
+            view_image.attr('hidden', 'hidden');
             return;
         }
 
@@ -289,7 +252,7 @@ $(document).ready(function () {
         new FroalaEditor('textarea.froala-editor', {
             imageUploadToS3: {
                 bucket: 'natmedpalace',
-                uploadURL:'https://natmedpalace.s3.amazonaws.com',
+                uploadURL: 'https://natmedpalace.s3.amazonaws.com',
                 region: 'us-west-2',
                 keyStart: 'uploads/test/images',
                 params: {
@@ -304,7 +267,7 @@ $(document).ready(function () {
     }
 
     FroalaEditor.DefineIcon('imageInfo', {NAME: 'info', SVG_KEY: 'help'});
-        FroalaEditor.RegisterCommand('imageInfo', {
+    FroalaEditor.RegisterCommand('imageInfo', {
         title: 'Info',
         focus: false,
         undo: false,
@@ -461,7 +424,19 @@ $(document).ready(function () {
         });
 
     })
+    function getJSONData(data_url) {
+        var result;
+        $.ajax({
+            async: false,
+            url: data_url,
+            dataType: 'json',
+            success: function (r) {
+                result = r;
+            }
+        });
 
+        return result;
+    }
 })
 ;
 

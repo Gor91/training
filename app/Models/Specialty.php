@@ -21,6 +21,10 @@ class Specialty extends Model
     {
         return $this->hasOne('App\Models\Profession');
     }
+    public function course()
+    {
+        return $this->hasOne('App\Models\Courses');
+    }
 
     //tdo stugel ogg e
     public function parent()

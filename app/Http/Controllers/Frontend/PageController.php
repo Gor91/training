@@ -64,7 +64,6 @@ class PageController extends Controller
     {
 
         $courses = Courses::where("id",'=',$id)->get();
-
         $coursespeciality = $courses[0]->specialty_ids;
         if (isset($courses)) {
             if ($courses[0]->specialty_ids) {

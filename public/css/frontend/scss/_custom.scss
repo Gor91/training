@@ -1,0 +1,175 @@
+/* Custom Area css
+============================================================================================ */
+body{
+  background-color: rebeccapurple;
+}
+
+/*for registration page*/
+[class="fa"] {
+  &:before {
+    font-family: 'fontawesome', sans-serif;
+  }
+}
+
+.diploms_container {
+  height: 250px;
+  overflow: auto;
+}
+
+.login form {
+  position: relative;
+  height: 300px;
+
+}
+
+.register form {
+  position: relative;
+  /*height: 650px;*/
+  padding: 0 0 55% 0;
+
+  .form {
+    position: relative;
+    height: 800px;
+  }
+}
+
+
+.bio, .info, .edu {
+  position: absolute;
+  left: 0;
+  top: 7rem;
+  right: 0;
+  bottom: 0;
+  /*padding: 1rem 2rem 0;*/
+  overflow: hidden;
+  transition: .7s;
+  transform: scale(0);
+  transform-origin: center center;
+  transition-delay: .1s;
+  background: #f8fafc;
+
+  &:before {
+    color: rgba(0, 0, 0, .2);
+    font-size: 4rem;
+    font-weight: 100;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+#bday, #expiry, #issue {
+  display: block;
+  width: 100%;
+  height: calc(1.6em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #495057;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background: #f8fafc;
+}
+
+
+.reg_nav, .edit_nav {
+  background: #fff;
+  width: 100%;
+  height: 5rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .4);
+
+  &:after {
+    content: '';
+    width: 33.3%;
+    height: 5rem;
+    background: #9048F6;
+    position: absolute;
+    transition: .5s;
+  }
+
+}
+
+
+input[name='tractor'] {
+  display: none;
+}
+
+.nav_label {
+  /*width: 25%;*/
+  float: left;
+  /* color: #e392d6;*/
+  color: #771FF3;
+  text-align: center;
+  cursor: pointer;
+  transition: .5s;
+  z-index: 2;
+
+  &:hover {
+    color: #B755FF;
+  }
+
+  &:before {
+    display: block;
+    font-size: 3rem;
+    line-height: 5rem;
+    z-index: 2;
+    position: relative;
+  }
+}
+
+#profile:checked ~ nav [for='profile'],
+#address:checked ~ nav [for='address'],
+#education:checked ~ nav [for='education'],
+#register:checked ~ nav [for='register'] {
+  color: #ffffff;
+
+}
+
+#profile:checked ~ nav:after {
+  left: 0;
+}
+
+#address:checked ~ nav:after {
+  left: 33.3%;
+  border-top: 0 none;
+}
+
+#education:checked ~ nav:after {
+  left: 66.6%;
+}
+
+#register:checked ~ nav:after {
+  left: 75%;
+}
+
+#profile:checked ~ .bio,
+#address:checked ~ .info,
+#education:checked ~ .edu,
+#register:checked ~ .reg {
+  display: block;
+  transform: scale(1);
+  transition-delay: .5s;
+}
+
+a {
+  color: rgba(255, 255, 255, 1);
+
+  &:hover {
+    color: rgba(255, 255, 255, 1)
+  }
+}
+
+.vdp-datepicker__calendar {
+  width: 100% !important;
+}
+
+textarea {
+  resize: none;
+  height: 110px !important;
+}
+
+/* Custom Area css
+============================================================================================ */

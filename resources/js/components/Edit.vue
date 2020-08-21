@@ -80,10 +80,10 @@
 
                         <div class="form-group col-lg-12">
                             <label for="info">{{texts.info}}</label>
-                            <textarea autocomplete="off" id="info"  name="info"
-                                   class="form-control"
-                                   v-validate="'max:1024'"
-                                   :class="{'input': true, 'is-invalid': errors.has('info') }"
+                            <textarea autocomplete="off" id="info" name="info"
+                                      class="form-control"
+                                      v-validate="'max:1024'"
+                                      :class="{'input': true, 'is-invalid': errors.has('info') }"
                                       v-model="formEdit.info"></textarea>
                             <span v-show="errors.has('info')"
                                   class="help is-danger">{{ errors.first('info') }}</span>
@@ -193,10 +193,12 @@
                                 </div>
                             </div>
                         </div>
+                        <footer class="form-group col-lg-12">
+                            <label for="address" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
+                            <button type="submit" class="btn primary-btn mt-3">{{texts.edit}}</button>
+                        </footer>
                     </div>
-                    <div class="form-group col-lg-4">
-                        <button type="submit" class="btn primary-btn mt-3">{{texts.edit}}</button>
-                    </div>
+
                 </form>
             </article>
             <article class='info container '>
@@ -304,9 +306,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-lg-4">
+                        <footer class="form-group col-lg-12">
+                            <label for="education" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
                             <button type="submit" class="btn primary-btn mt-3">{{texts.edit}}</button>
-                        </div>
+                        </footer>
                     </div>
                 </form>
             </article>
@@ -341,9 +344,11 @@
                                    v-validate="'required|min:8'" v-model="passEdit.re_password">
                             <span v-show="errors.has('re_password')" class="help is-danger">{{ errors.first('re_password') }}</span>
                         </div>
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <button type="submit" class="btn primary-btn mt-3">{{texts.edit}}</button>
+
+                        <footer class="form-group col-lg-12">
+                            <label for="address" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
+                            <button type="submit" class="btn primary-btn mt-3 float-right">{{texts.edit}}</button>
+                        </footer>
                     </div>
                 </form>
             </article>
@@ -382,7 +387,7 @@
                     profession: '',
                     specialty_id: '',
                     education_id: '',
-                    info:'',
+                    info: '',
                 },
                 appEdit: {
                     name: '',

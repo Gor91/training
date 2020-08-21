@@ -35,8 +35,8 @@
                             <div class="kt-portlet__head-label title__head">
                                 <h3 class="kt-portlet__head-title ">
                                    <span class="kt-portlet__head-icon">
-											<i class="kt-font-brand flaticon-user-add"></i>
-                                   {{__('messages.add')}} {{__('messages.new_user')}}&nbsp;
+											<i class="kt-font-brand flaticon-notes"></i>
+                                    {{__('messages.new_course')}}&nbsp;
                                        </span>
                                 </h3>
                                 <span class="kt-portlet__head-icon">

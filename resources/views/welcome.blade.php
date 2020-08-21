@@ -6,12 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Symon Kibaru">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Ազգային Բժշկական Պալատ</title>
+    <title>{{__('messages.site_name')}}</title>
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
     <!-- Templates css -->
     <link rel="stylesheet" href="{{ asset('css/frontend/style.css') }}" type="text/css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+
    </head>
 <body>
     <div id="app">

@@ -17,8 +17,6 @@ class CreateProfessionsTable extends Migration
             $table->id();
             $table->bigInteger('account_id')->unsigned();
             $table->bigInteger('specialty_id')->unsigned();
-            $table->bigInteger('education_id')->unsigned();
-            $table->enum('profession',['doctor', 'nurse', 'pharmacist','provider']);
             $table->tinyInteger('member_of_palace')->default(0);
             $table->text('info')->nullable();
             $table->json('diplomas');

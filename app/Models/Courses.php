@@ -39,4 +39,21 @@ class Courses extends Model
             'archive' => __('messages.course_status_archive')
         ];
     }
+
+    /**
+     * Get the user that owns the account.
+     */
+    public function account()
+    {
+        return $this->belongsTo('App\Models\Account');
+    }
+
+    /**
+     * Get the spec that owns the specialties.
+     */
+    public function spec()
+    {
+        return $this->belongsTo(Specialty::class, 'specialty_id');
+    }
+
 }

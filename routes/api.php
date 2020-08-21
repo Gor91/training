@@ -43,6 +43,11 @@ Route::post('applicantcount', 'Frontend\PageController@applicantcount');
 Route::post('coursescount', 'Frontend\PageController@coursescount');
 Route::post('allcourses', 'Frontend\PageController@allcourses');
 Route::post('coursedetails/{id}', 'Frontend\PageController@coursedetails');
+
+//get courses
+Route::post('getcoursebyspec/{id}', 'Frontend\CourseController@getCourseBySpec');
+
+
 Route::post('comment', 'Frontend\PageController@savecomment');
 
 
