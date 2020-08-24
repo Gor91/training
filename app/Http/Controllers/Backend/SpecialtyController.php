@@ -32,7 +32,7 @@ class SpecialtyController extends Controller
             return view('backend.specialty.index',
                 compact('specs'));
         } catch (ModelNotFoundException $exception) {
-            dd($exception);
+
             logger()->error($exception);
             return redirect('backend/specialty')->with('error', __('specialtys.wrong'));
         }
@@ -51,7 +51,7 @@ class SpecialtyController extends Controller
 
             return view('backend.specialty.create', compact('types'));
         } catch (ModelNotFoundException  $exception) {
-            dd($exception);
+
             logger()->error($exception);
             return redirect('backend/specialty')->with('error', __('messages.wrong'));
         }
@@ -70,7 +70,7 @@ class SpecialtyController extends Controller
             $this->service->store($request);
             return redirect('backend/specialty')->with('success', __('messages.success'));
         } catch (ModelNotFoundException $exception) {
-            dd($exception);
+
             logger()->error($exception);
             return redirect('backend/specialty')->with('error', __('messages.wrong'));
         }
@@ -90,7 +90,7 @@ class SpecialtyController extends Controller
             return view('backend.specialty.list',
                 compact('specs'));
         } catch (ModelNotFoundException $exception) {
-            //dd($exception);
+            //
             logger()->error($exception);
             return redirect('backend/message')->with('error', __('messages.wrong'));
         }

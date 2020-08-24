@@ -73,7 +73,7 @@ export default {
             };
         },methods:{
         appcount: function() {
-            applicantcount("hhh")
+            applicantcount()
                 .then(res => {
                     this.count = res.data;
 
@@ -84,7 +84,7 @@ export default {
                 })
         },
         ccount: function() {
-            coursescount("hhh")
+            coursescount()
                 .then(res => {
                     this.coursecount = res.data;
                 })

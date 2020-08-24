@@ -60,68 +60,12 @@
                 </div>
             </div>
         </section>
-        <!--================ Start Popular Courses Area =================-->
-        <div class="popular_courses lite_bg">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="main_title">
-                            <h2>Popular Courses</h2>
-                            <p>There is a moment in the life of any aspiring astronomer that it is time to buy that
-                                first
-                                telescope. It’s
-                                exciting to think about setting up your own viewing station.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- single course -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single_course">
-                            <div class="course_head overlay">
-                                <img class="img-fluid w-100" src="img/courses/trainer1.jpg" alt="">
-                                <div class="authr_meta">
-                                    <img src="img/author1.png" alt="">
-                                    <span>Mart Taylor</span>
-                                </div>
-                            </div>
-                            <div class="course_content">
-                                <h4>
-                                    <a href="course-details.html">Learn React js beginners</a>
-                                </h4>
-                                <p>When television was young, there was a huge popular show based on the still popular
-                                    fictional character of
-                                    Superman.</p>
-                                <div class="course_meta d-flex justify-content-between">
-                                    <div>
-                                    <span class="meta_info">
-                                        <a href="#"><i class="lnr lnr-user"></i>355</a>
-                                    </span>
-                                        <span class="meta_info">
-                                        <a href="#">
-                                            <i class="lnr lnr-bubble"></i>35
-                                        </a>
-                                    </span>
-                                    </div>
-                                    <div>
-                                        <span class="price">$150</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!--================ End Popular Courses Area =================-->
 
     </div>
 </template>
 
 <script>
     import {uploadAvatar} from '../partials/auth';
-    import {getCoursesById} from '../partials/courses';
     import registertexts from './json/registertexts.json'
 
     export default {
@@ -133,10 +77,7 @@
                 texts: registertexts
             }
         },
-        mounted() {
 
-            this.getCourses(this.$store.getters.currentUser.id);
-        },
         computed: {
             currentUser: function () {
                 console.log(this.$store.getters.currentUser);
@@ -180,51 +121,8 @@
                 // console.log(this.url)
                 this.upload(file);
             },
-            getCourses(id) {
-                getCoursesById(id)
-                    .then(res => {
-                    })
-                    .catch(err => {
-                    })
-            }
-
         }
     }
 </script>
 
-<style scoped>
-    #preview {
-        display: flex;
-        position: relative;
-        width: 120px;
-    }
 
-    .avatar {
-        width: 100%;
-        border-radius: 50%;
-        border: 2px solid #202095;
-        padding: 6px;
-        position: relative;
-        z-index: 0;
-    }
-
-    input[type="file"], .icon {
-        opacity: 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 0;
-        width: 100%;
-    }
-
-    .icon {
-        /*z-index: 3;*/
-        right: 0;
-        opacity: 1;
-        cursor: pointer;
-        border-radius: 50%;
-        width: 36px;
-        background-color: #8638FC;
-        padding: 5px;
-    }
-
-</style>

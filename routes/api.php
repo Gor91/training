@@ -41,8 +41,8 @@ Route::post('about', 'Frontend\PageController@about');
 Route::post('coursestitle', 'Frontend\PageController@coursestitle');
 Route::post('applicantcount', 'Frontend\PageController@applicantcount');
 Route::post('coursescount', 'Frontend\PageController@coursescount');
-Route::post('allcourses', 'Frontend\PageController@allcourses');
-Route::post('coursedetails/{id}', 'Frontend\PageController@coursedetails');
+Route::post('allcourses', 'Frontend\CourseController@allcourses');
+Route::post('coursedetails/{id}', 'Frontend\CourseController@coursedetails');
 
 //get courses
 Route::post('getcoursebyspec/{id}', 'Frontend\CourseController@getCourseBySpec');

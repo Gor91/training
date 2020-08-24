@@ -7,7 +7,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="banner_content text-center">
-                                <div class="page_link"  v-for="b in $route.meta.breadCrumbs" :key="b.to">
+                                <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
                                     <router-link :to="{ name: 'home' }" class="nav-link">ԳԼԽԱՎՈՐ</router-link>
                                     <router-link to="" class="nav-link">{{b.text}}</router-link>
 
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </section>
-     <!--================Blog Categorie Area =================-->
+        <!--================Blog Categorie Area =================-->
         <section class="blog_categorie_area">
             <div class="container">
                 <div class="row">
@@ -28,50 +28,49 @@
                             <div class="categories_details">
                                 <div class="categories_text">
                                     <template v-if="!currentUser">
-                                         <p>{{course.name}}</p>
+                                        <p>{{course.name}}</p>
                                     </template>
                                     <template v-else>
-                                        <router-link :to="'/coursedetails/'+course.id" class="nav-link"><p>{{course.name}}</p> </router-link>
+                                        <router-link :to="'/coursedetails/'+course.id" class="nav-link"><p>
+                                            {{course.name}}</p></router-link>
 
                                     </template>
 
                                     <div class="border_line yellow" v-if="!currentUser"></div>
                                     <span class="fa fa-lock yellow" v-if="!currentUser"></span>
-                                    <div class='d-flex justify-content-center' v-if="!currentUser" >
-                                        <router-link to="/login" class="nav-link">Մտնել </router-link>
-                                        <p  class="nav-link">կամ</p>
+                                    <div class='d-flex justify-content-center' v-if="!currentUser">
+                                        <router-link to="/login" class="nav-link">Մտնել</router-link>
+                                        <p class="nav-link">կամ</p>
 
-                                        <router-link to="/register" class="nav-link white"> գրանցվել</router-link></div>
+                                        <router-link to="/register" class="nav-link white"> գրանցվել</router-link>
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
                         <!-- single course -->
                         <div class="row" v-if="currentUser">
-                        <div class="col-lg-12 col-md-12" >
-                            <div class="single_course">
-                                <div class="course_content">
-                                    <div class="course_meta d-flex justify-content-between">
-                                        <div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="single_course">
+                                    <div class="course_content">
+                                        <div class="course_meta d-flex justify-content-between">
+                                            <div>
                                     <span class="meta_info">
                                         <a href="#">
-                                            <i class="fa fa-user-o yellow" ></i>355
+                                            <i class="fa fa-user-o yellow"></i>355
                                         </a>
                                     </span>
 
-                                        </div>
-                                        <div>
-                                            <span class="price">{{course.cost}} AMD</span>
+                                            </div>
+                                            <div>
+                                                <span class="price">{{course.cost}} AMD</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-
-
-
 
 
                 </div>
@@ -82,7 +81,8 @@
 </template>
 
 <script>
-    import {getAllCourses} from '../partials/courses';
+    import {getAllCourses,getCoursesById} from '../partials/courses';
+
     export default {
         name: 'app-header',
         methods: {
@@ -90,8 +90,8 @@
                 this.$store.commit('logout');
                 this.$router.push('/login');
             },
-            allcourses: function() {
-                getAllCourses("hhh")
+            allcourses: function () {
+                getAllCourses()
                     .then(res => {
                         this.courses = res.data;
                     })
@@ -99,7 +99,16 @@
                         console.log('errorsss');
                         // this.$store.commit("registerFailed", {error});
                     })
+            },
+            getCourses(id) {
+                getCoursesById(id)
+                    .then(res => {
+                        this.courses = res.courses;
+                    })
+                    .catch(err => {
+                    })
             }
+
         },
         computed: {
             currentUser() {
@@ -112,8 +121,11 @@
                 image_src: '/css/frontend/img/background.png',
             }
         },
-        beforeMount(){
+        beforeMount() {
+            if(!this.$store.getters.currentUser)
             this.allcourses();
+            else
+                this.getCourses(this.$store.getters.currentUser.id);
         },
 
     }

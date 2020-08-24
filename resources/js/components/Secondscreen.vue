@@ -80,7 +80,7 @@ export default {
         },
     methods:{
         aboutpage: function() {
-            getPagesData("hhh")
+            getPagesData()
                 .then(res => {
                     this.datas = res.data;
                     //this.docs = res.document;

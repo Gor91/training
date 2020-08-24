@@ -8,11 +8,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{__('messages.site_name')}}</title>
     <!-- Styles -->
-    <!-- Templates css -->
-    <link rel="stylesheet" href="{{ asset('css/frontend/style.css') }}" type="text/css">
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-
+    <!-- Templates css -->
+    <link rel="stylesheet" href="{{ asset('css/frontend/style.css') }}" type="text/css">
    </head>
 <body>
     <div id="app">

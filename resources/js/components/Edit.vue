@@ -201,7 +201,7 @@
 
                 </form>
             </article>
-            <article class='info container '>
+            <article class='information container '>
                 <form @submit.prevent="updateApp" enctype="multipart/form-data">
                     <div class="form-group row ">
                         <div class="form-group col-lg-4">
@@ -644,83 +644,3 @@
     }
 </script>
 
-<style scoped>
-    .error {
-        text-align: center;
-        color: red;
-    }
-
-    .is-danger, .fa-warning {
-        color: red;
-    }
-
-    input[type="file"] {
-        opacity: 0;
-        width: 100%;
-        height: 200px;
-        position: absolute;
-        cursor: pointer;
-    }
-
-    .filezone {
-        outline: 2px dashed grey;
-        outline-offset: -10px;
-        background: #ccc;
-        color: dimgray;
-        padding: 10px 10px;
-        min-height: 200px;
-        position: relative;
-        cursor: pointer;
-    }
-
-    .filezone:hover {
-        background: #c0c0c0;
-    }
-
-    .filezone p {
-        font-size: 1.2em;
-        text-align: center;
-        padding: 50px 50px 50px 50px;
-    }
-
-    div.file-listing img {
-        max-width: 90%;
-    }
-
-    div.file-listing {
-        margin: auto;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    div.file-listing img {
-        height: 100px;
-    }
-
-    div.success-container {
-        text-align: center;
-        color: green;
-    }
-
-    div.remove-container {
-        text-align: center;
-    }
-
-    div.remove-container a {
-        color: red;
-        cursor: pointer;
-    }
-
-    a.submit-button {
-        display: block;
-        margin: auto;
-        text-align: center;
-        width: 200px;
-        padding: 10px;
-        text-transform: uppercase;
-        background-color: #CCC;
-        color: white;
-        font-weight: bold;
-        margin-top: 20px;
-    }
-</style>

@@ -54,7 +54,7 @@
         },
         methods:{
             coursestitle: function() {
-                getCoursesTitle("hhh")
+                getCoursesTitle()
                     .then(res => {
                         this.coursestitles = res.data;
 

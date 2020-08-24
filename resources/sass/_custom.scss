@@ -1,7 +1,7 @@
 /* Custom Area css
 ============================================================================================ */
 body{
-  font-family: "ArialAMU", sans-serif;
+  font-family: "ArialAMU", sans-serif!important;
 }
 
 h1,
@@ -10,7 +10,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "ArianAMBold", sans-serif;
+  font-family: "ArianAMBold", sans-serif!important;
   font-weight: 600!important;
 }
 .portlet__custom {
@@ -140,7 +140,7 @@ h6 {
 }
 
 
-.bio, .info, .edu {
+.bio, .information, .edu {
   position: absolute;
   left: 0;
   top: 7rem;
@@ -207,7 +207,7 @@ input[name='tractor'] {
   /*width: 25%;*/
   float: left;
   /* color: #e392d6;*/
-  color: #771FF3;
+  color: #771FF3!important;
   text-align: center;
   cursor: pointer;
   transition: .5s;
@@ -230,7 +230,7 @@ input[name='tractor'] {
 #address:checked ~ nav [for='address'],
 #education:checked ~ nav [for='education'],
 #register:checked ~ nav [for='register'] {
-  color: #ffffff;
+  color: #ffffff!important;
 
 }
 
@@ -252,7 +252,7 @@ input[name='tractor'] {
 }
 
 #profile:checked ~ .bio,
-#address:checked ~ .info,
+#address:checked ~ .information,
 #education:checked ~ .edu,
 #register:checked ~ .reg {
   display: block;
@@ -261,10 +261,10 @@ input[name='tractor'] {
 }
 
 a {
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 1)!important;
 
   &:hover {
-    color: rgba(255, 255, 255, 1)
+    color: rgba(255, 255, 255, 1)!important
   }
 }
 
@@ -276,6 +276,122 @@ textarea {
   resize: none;
   height: 110px !important;
 }
+.small{
+  font-size: 16px;
+}
+//Registration and edit form
 
+.error {
+  text-align: center;
+  color: red;
+}
+
+.is-danger, .fa-warning {
+  color: red;
+}
+
+input[type="file"] {
+  opacity: 0;
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.filezone {
+  outline: 2px dashed grey;
+  outline-offset: -10px;
+  background: #ccc;
+  color: dimgray;
+  padding: 10px 10px;
+  min-height: 200px;
+  position: relative;
+  cursor: pointer;
+}
+
+.filezone:hover {
+  background: #c0c0c0;
+}
+
+.filezone p {
+  font-size: 1.2em;
+  text-align: center;
+  padding: 50px 50px 50px 50px;
+}
+
+div.file-listing img {
+  max-width: 90%;
+}
+
+div.file-listing {
+  margin: auto;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+div.file-listing img {
+  height: 100px;
+}
+
+div.success-container {
+  text-align: center;
+  color: green;
+}
+
+div.remove-container {
+  text-align: center;
+}
+
+div.remove-container a {
+  color: red;
+  cursor: pointer;
+}
+
+a.submit-button {
+  display: block;
+  margin: auto;
+  text-align: center;
+  width: 200px;
+  padding: 10px;
+  text-transform: uppercase;
+  background-color: #CCC;
+  color: white;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+#preview {
+  display: flex;
+  position: relative;
+  width: 120px;
+}
+
+.avatar {
+  width: 100%;
+  border-radius: 50%;
+  border: 2px solid #202095;
+  padding: 6px;
+  position: relative;
+  z-index: 0;
+}
+
+input[type="file"], .icon {
+  opacity: 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  width: 100%;
+}
+
+.icon {
+  /*z-index: 3;*/
+  right: 0;
+  opacity: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 36px;
+  background-color: #8638FC;
+  padding: 5px;
+}
 /* Custom Area css
 ============================================================================================ */
