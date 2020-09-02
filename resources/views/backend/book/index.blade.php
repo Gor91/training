@@ -34,13 +34,13 @@
 											<i class="kt-font-brand flaticon-admins-1"></i>
 										</span>
                     <h3 class="kt-portlet__head-title">
-                        {{__('messages.videos')}}
+                        {{__('messages.books')}}
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-wrapper">
                         <div class="kt-portlet__head-actions">
-                            <a href="{{action('Backend\VideoController@create')}}"
+                            <a href="{{action('Backend\BookController@create')}}"
                                class="btn btn-brand btn-elevate btn-icon-sm">
                                 <i class="la la-plus"></i>
                                 {{__('messages.add')}}
@@ -57,42 +57,40 @@
                     <tr>
                         <th>#</th>
                         <th>{{__('messages.name')}}</th>
-                        <th>{{__('messages.lecture')}}</th>
-                        <th>{{__('messages.duration')}}</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if(!$videos->isEmpty())
-                        @foreach($videos as $key => $video)
+                    @if(!$books->isEmpty())
+                        @foreach($books as $key => $book)
 
                             <tr>
                                 <td></td>
-                                <td>{{$video->title}}</td>
-                                <td>{{sprintf('%s %s', $video->lectures->name, $video->lectures->surname)}}</td>
-                                <td>{{gmdate("H:i:s", $video->duration)}}</td>
+                                <td><a target="_blank" class="text text-info"
+                                       href="{{sprintf('%s/%s',env('AWS_URL_ACL'),$book->path)}}">{{$book->title}}</a>
+                                </td>
                                 <td>
                                     <div class="row justify-content-end">
-                                        <a href="{{action('Backend\VideoController@edit', $video->id)}}"
+                                        <a href="{{action('Backend\BookController@edit', $book->id)}}"
                                            class="btn btn-info kt-badge kt-badge--lg"
-                                           data-toggle="m-tooltip" data-placement="top" data-original-title="{{__('messages.edit')}}">
+                                           data-toggle="m-tooltip" data-placement="top"
+                                           data-original-title="{{__('messages.edit')}}">
                                             <i class="la la-edit"></i>
                                         </a>
-                                        @if($video->id !== \Illuminate\Support\Facades\Session::get('u_id'))
-                                            <form action="{{action('Backend\VideoController@destroy', $video->id)}}"
-                                                  id="_form" method="post">
-                                                @csrf
-                                                <input name="_method" type="hidden" value="DELETE">
-                                                <input name="_id" type="hidden" value="{{$video->id}}">
-                                                <button data-ref="" type="button"
-                                                        {{--                                                    data-title="admin"--}}
-                                                        class="delete btn btn-danger kt-badge--lg kt-badge  "
-                                                        data-original-title="{{__('messages.delete')}}">
-                                                    <i class="la la-trash"></i>
+                                        {{--<form action="{{action('Backend\BookController@destroy', $book->id)}}"--}}
+                                        {{--id="_form" method="post">--}}
+                                        {{--@csrf--}}
+                                        {{--<input name="_method" type="hidden" value="DELETE">--}}
+                                        {{--<input name="_id" type="hidden" value="{{$book->id}}">--}}
+                                        {{--<button data-ref="" type="button"--}}
+                                        {{--                                                    data-title="admin"--}}
+                                        {{--class="delete btn btn-danger kt-badge--lg kt-badge  "--}}
+                                        {{--data-original-title="{{__('messages.delete')}}">--}}
+                                        {{--<i class="la la-trash"></i>--}}
 
-                                                </button>
-                                                {{--                                                <button  data-title="admin"type="button" class="btn sweetalert"> Show me</button>--}}
-                                            </form>
-                                        @endif
+                                        {{--</button>--}}
+                                        {{--                                                <button  data-title="admin"type="button" class="btn sweetalert"> Show me</button>--}}
+                                        {{--</form>--}}
                                     </div>
                                 </td>
                             </tr>

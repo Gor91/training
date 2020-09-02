@@ -13,9 +13,9 @@ class AddForeignKeysToCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::table('courses', function (Blueprint $table) {
+        Schema::table('accounts_courses', function (Blueprint $table) {
             $table->foreign('account_id', 'FK_C_ACCOUNT')->references('id')->on('accounts')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('specialty_id', 'FK_C_SPECIALTY')->references('id')->on('specialties')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('course_id', 'FK_C_COURSE')->references('id')->on('courses')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -26,10 +26,9 @@ class AddForeignKeysToCoursesTable extends Migration
      */
     public function down()
     {
-        Schema::table('courses', function (Blueprint $table) {
-
+        Schema::table('accounts_courses', function (Blueprint $table) {
             $table->dropForeign('FK_C_ACCOUNT');
-            $table->dropForeign('FK_C_SPECIALTY');
+            $table->dropForeign('FK_C_COURSE');
         });
     }
 }

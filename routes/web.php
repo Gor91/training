@@ -81,13 +81,14 @@ Route::post( '/backend/videos/{id}', 'Backend\VideoController@update');
 Route::resource('/backend/image', 'Backend\ImageController');
 Route::post( '/delete-image', 'Backend\ImageController@removeImage');
 
+//books
+Route::resource('/backend/book', 'Backend\BookController');
+Route::post( '/delete-book', 'Backend\BookController@removeBook');
+Route::post('/backend/book/{id}', 'Backend\BookController@update');
+
 //courses
-Route::resource('/backend/courses/', 'Backend\CoursesController');
-Route::get( '/backend/getCourse/{id}', 'Backend\CoursesController@getCourse');
-Route::get( '/backend/editCourse/{id}', 'Backend\CoursesController@editCourse');
-Route::get('/backend/deleteCourse/{id}','Backend\CoursesController@destroy');
-Route::post('upload', "Backend\CoursesController@fileUpload");
-Route::get('backend/courses/getSpecialities/', "Backend\CoursesController@getSpecialities");
+Route::resource('/backend/course', 'Backend\CoursesController');
+Route::post('/backend/course/{id}', 'Backend\CoursesController@update');
 
 //accounts
 Route::get('/backend/account/{role}', 'Backend\AccountController@index', ['only' => [
@@ -107,6 +108,8 @@ Route::resource('/backend/type', 'Backend\TypeController');
 //generate pdf
 Route::get('/backend/admin_gdPDF', 'Backend\AdminController@gdPDF');
 Route::get('/backend/admin_gdExcel', 'Backend\AdminController@gdExcel');
+Route::get('/backend/course_gdPDF', 'Backend\CoursesController@gdPDF');
+Route::get('/backend/course_gdExcel', 'Backend\CoursesController@gdExcel');
 Route::get('/backend/type_gdPDF', 'Backend\TypeController@gdPDF');
 Route::get('/backend/type_gdExcel', 'Backend\TypeController@gdExcel');
 Route::get('/backend/account_gdPDF', 'Backend\AccountController@gdPDFRole');
@@ -139,9 +142,10 @@ Route::post('/backend/specialtyCheck', 'Backend\SpecialtyController@checkSpecial
 Route::post('/backend/ajaxImageUpload', 'Backend\BaseController@ajaxImageUpload');
 Route::delete('/backend/ajaxRemoveImage', 'Backend\BaseController@ajaxRemoveImage');
 
-//check
+//check specialty
 Route::post('/backend/typeCheck', 'Backend\TypeController@typeCheck');
 
+Route::get('/backend/specialty/list', "Backend\SpecialtyController@list");
 Route::resource('/backend/specialty', 'Backend\SpecialtyController');
 
 Route::resource('/backend/pages', 'Backend\PageController');
