@@ -393,5 +393,14 @@ input[type="file"], .icon {
   background-color: #8638FC;
   padding: 5px;
 }
+
+.second-toolbar #logo{
+  display: none;
+}
+
+.entry:not(:first-of-type) {
+  margin-top: 10px;
+}
+
 /* Custom Area css
 ============================================================================================ */

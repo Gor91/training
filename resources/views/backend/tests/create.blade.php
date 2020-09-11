@@ -2,17 +2,6 @@
 @section('content')
     <!-- begin:: Content -->
     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css"/>
-        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"
-              id="bootstrap-css">
-        <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.2.0/css/froala_editor.pkgd.min.css' rel='stylesheet'
-              type='text/css'/>
-
-        <style>
-            .entry:not(:first-of-type) {
-                margin-top: 10px;
-            }
-        </style>
         <div class="kt-portlet portlet__custom">
             <div class="kt-portlet__body kt-portlet__body--fit">
                 <div class="kt-grid kt-wizard-v3 kt-wizard-v3--white" id="kt_wizard_v3"
@@ -44,7 +33,7 @@
                             </div>
                         </div>
 
-                        <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v3__wrapper">
+                        <div class="kt-content">
                             <!--begin: Form Wizard Form-->
                             <form class="kt-form" id="kt_form1" method="{{isset($test) ? "get" : "post"}}"
                                   enctype="multipart/form-data"
@@ -59,8 +48,9 @@
                                             <div class="form-group row">
                                                 <label for="courses"
                                                        class="col-lg-2 col-form-label">{{__('messages.course_list')}}</label>
-                                                <div class="col-lg-10">
-                                                    <select class="js-data-example-ajax form-control" id="courses" data-placeholder="{{__('messages.choose_profession')}}"
+                                                <div class="col-sm-10">
+                                                    <select class="js-data-example-ajax form-control" id="courses"
+                                                            data-placeholder="{{__('messages.choose_profession')}}"
                                                             name="courses">
                                                         @if(isset($test))
                                                             <option selected value="{{$test->courses_id}}">
@@ -100,15 +90,15 @@
                                                             @foreach (json_decode($test->answers) as $key=>$value)
                                                                 <div class="entry input-group custom_counter_g">
                                                                     <textarea class="form-control froala-editor"
-                                                                           name="fields[{{$i}}][inp]"
-                                                                           type="text"
-                                                                           placeholder="{{__('messages.answer')}}">{{$value->inp}}</textarea>
+                                                                              name="fields[{{$i}}][inp]"
+                                                                              type="text"
+                                                                              placeholder="{{__('messages.answer')}}">{{$value->inp}}</textarea>
                                                                     <span class="input-group-btn">
                                                                         <button class="btn {{$i+1 == count((array)json_decode($test->answers)) ?
                                                                                     "btn-success btn-add" : "btn-danger btn-remove"}}"
                                                                                 type="button">
-                                                                                <span class="glyphicon {{$i+1 == count((array)json_decode($test->answers)) ?
-                                                                                    "glyphicon-plus" : "glyphicon-minus"}}"></span>
+                                                                                <span class="fa {{$i+1 == count((array)json_decode($test->answers)) ?
+                                                                                    "fa-plus" : "fa-minus"}}"></span>
                                                                         </button>
                                                                 </span>
                                                                     <input type="checkbox" name="fields[{{$i}}][check]"
@@ -133,8 +123,7 @@
                                                                     <span class="input-group-btn">
                                                                         <button class="btn btn-success btn-add"
                                                                                 type="button">
-                                                                                <span
-                                                                                        class="glyphicon glyphicon-plus"></span>
+                                                                                <span class="fa fa-plus"></span>
                                                                         </button>
                                                                 </span>
                                                                 </div>

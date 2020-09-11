@@ -7,30 +7,6 @@
                 <div class="kt-grid kt-wizard-v3 kt-wizard-v3--white" id="kt_wizard_v3"
                      data-ktwizard-state="step-first">
                     <div class="kt-grid__item">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                <p>{{ \Session::get('success') }}</p>
-                            </div><br/>
-                        @endif
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>{{ \Session::get('error') }}</p>
-                            </div>
-                        @endif
-                        @if (Session::has('delete'))
-                            <div class="alert alert-info">
-                                <p>{{ Session::get('delete') }}</p>
-                            </div>
-                        @endif
                         <div class="kt-portlet__head kt-portlet__head--lg">
                             <div class="kt-portlet__head-label title__head">
                                 <h3 class="kt-portlet__head-title ">
@@ -59,13 +35,10 @@
                         </div>
 
                         <div class="kt-grid__item kt-grid__item--fluid kt-wizard-v3__wrapper">
-
                             <!--begin: Form Wizard Form-->
                             {{--                            {{Form::}}--}}
-                            <form class="kt-form" id="kt_form" method="{{isset($course) ? "get" : "post"}}"
-                                  enctype="multipart/form-data"
-
-                                  action="{{isset($course) ? action('Backend\CoursesController@editCourse',$course->id) : action('Backend\CoursesController@store')}}">
+                            <form class="kt-form" id="kt_form" method="post" enctype="multipart/form-data"
+                                  action="{{isset($course) ? action('Backend\CoursesController@update',$course->id) : action('Backend\CoursesController@store')}}">
                             @csrf
                             <!--begin: Form Wizard Step 1-->
                                 <div id="kt-wizard_general" class="kt-wizard-v3__content"
@@ -89,9 +62,11 @@
                                             </div>
                                             <div class="form-group row">
                                                 <label for="special"
-                                                       class="col-lg-2 col-form-label">{{__('messages.course_list')}}</label>
+                                                       class="col-lg-2 col-form-label">{{__('messages.course_list')}}
+                                                    *</label>
                                                 <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control @error('specialty_ids') is-invalid @enderror" id="special"
+                                                    <select class="js-example-basic-multiple form-control @error('specialty_ids') is-invalid @enderror"
+                                                            id="special"
                                                             name="specialty_ids[]" multiple="multiple">
                                                         @if(isset($course))
                                                             @for ($i = 0; $i < count($course->specialities); $i++)
@@ -100,6 +75,14 @@
                                                                     {{$course->specialities[$i]["name"]}}
                                                                 </option>
                                                             @endfor
+                                                        @endif
+                                                        @if(!empty(old('specialty_ids')))
+                                                            @foreach (old('specialty_ids') as $s_id)
+                                                                <option selected
+                                                                        value="{{$s_id}}">
+                                                                    {{$speciality->getNameById($s_id)}}
+                                                                </option>
+                                                            @endforeach
                                                         @endif
                                                     </select>
                                                     @error('specialty_ids')
@@ -112,11 +95,12 @@
                                                        class="col-lg-2 col-form-label">{{__('messages.course_status')}}
                                                     *</label>
                                                 <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control @error('status') is-invalid @enderror" id="status"
+                                                    <select class="js-example-basic-multiple form-control @error('status') is-invalid @enderror"
+                                                            id="status"
                                                             name="status">
-                                                        <option {{isset($course) && $course->status == "active" ?  'selected' : ''}}
+                                                        <option {{isset($course) && $course->status == "active" || old('status')=="active" ?  'selected' : ''}}
                                                                 value="active">{{__('messages.course_status_active')}}</option>
-                                                        <option {{isset($course) && $course->status == "archive" ?  'selected' : ''}}
+                                                        <option {{isset($course) && $course->status == "archive" || old('status')=="archive" ?  'selected' : ''}}
                                                                 value="archive">{{__('messages.course_status_deactive')}}</option>
                                                     </select>
                                                     @error('status')
@@ -125,12 +109,14 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-lg-2 col-form-label">{{__('messages.course_start_date')}}*</label>
+                                                <label class="col-lg-2 col-form-label">{{__('messages.course_start_date')}}
+                                                    *</label>
                                                 <div class="col-lg-10">
                                                     <div class="input-group date">
-                                                        <input id="kt_datepicker_3" type="text" readonly name="start_date"
+                                                        <input id="kt_datepicker_3" type="text" readonly
+                                                               name="start_date"
                                                                placeholder="{{__('messages.course_date_format')}}"
-                                                               value="{{isset($course) ? date('m/d/Y', strtotime($course->start_date)) : ""}}"
+                                                               value="{{isset($course) ? date('m/d/Y', strtotime($course->start_date)) : old('start_date')}}"
                                                                class="form-control @error('start_date') is-invalid @enderror">
                                                         <div class="input-group-append">
 														<span class="input-group-text">
@@ -144,66 +130,72 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-lg-2 col-form-label">{{__('messages.course_duration_date')}}*</label>
+                                                <label class="col-lg-2 col-form-label">{{__('messages.course_end_date')}}
+                                                    *</label>
                                                 <div class="col-lg-10">
                                                     <div class="input-group date">
-                                                        <input id="kt_datepicker_3" type="text" name="date" readonly
+                                                        <input id="kt_datepicker_3" type="text" name="end_date"
+                                                               readonly
                                                                placeholder="{{__('messages.course_date_format')}}"
-                                                               value="{{isset($course) ? date('m/d/Y', strtotime($course->duration_date)) : ""}}"
-                                                               class="form-control @error('date') is-invalid @enderror">
+                                                               value="{{isset($course) ? date('m/d/Y', strtotime($course->end_date)) : old('end_date')}}"
+                                                               class="form-control @error('end_date') is-invalid @enderror">
                                                         <div class="input-group-append">
 														<span class="input-group-text">
 															<i class="la la-calendar"></i>
 														</span>
                                                         </div>
-                                                        @error('date')
+                                                        @error('end_date')
                                                         <div class="invalid-feedback">{{$message}}</div>
                                                         @enderror
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="credit_theoretical"
-                                                       class="col-lg-2 col-form-label">{{__('messages.course_credit')}}
+                                                <label for="duration"
+                                                       class="col-lg-2 col-form-label">{{__('messages.duration')}}
                                                     *</label>
-                                                <div class="col-lg-5">
-                                                    <input id="credit_theoretical" type="number" name="credit[theoretical]"
-                                                           value="{{isset($course) && isset($course->credit['theoretical']) ? $course->credit['theoretical'] : ""}}"
-                                                           class="form-control @error('credit_theoretical') is-invalid @enderror">
-                                                    @error('credit[theoretical]')
+                                                <div class="col-lg-10">
+                                                    <input id="duration" type="number" name="duration"
+                                                           value="{{isset($course) ? $course->duration : old('duration')}}"
+                                                           class="form-control @error('duration') is-invalid @enderror">
+                                                    @error('duration')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-lg-5">
-                                                    <input readonly
-                                                           value="{{__('messages.theoretical')}}"
-                                                           class="form-control">
-                                                </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="credit_practical"
-                                                       class="col-lg-2 col-form-label">{{__('messages.course_credit')}}</label>
-                                                <div class="col-lg-5">
-                                                    <input id="credit_practical" type="number" name="credit[practical]"
-                                                           value="{{isset($course) && isset($course->credit['practical']) ? $course->credit['practical'] : ""}}"
-                                                           class="form-control @error('credit_practical') is-invalid @enderror">
-                                                    @error('credit[practical]')
-                                                    <div class="invalid-feedback">{{$message}}</div>
-                                                    @enderror
+                                            @foreach($credit_types as $c_key => $credit_type)
+                                                <div class="form-group row">
+                                                    <label for="credit_theoretical"
+                                                           class="col-lg-2 col-form-label">{{__('messages.course_credit')}}
+                                                        {{$credit_type['key'] == 'theoretical'? '*':''}}</label>
+                                                    <div class="col-lg-5">
+                                                        <input id="{{sprintf('credit_%s', $credit_type['key'])}}"
+                                                               type="number"
+                                                               name="{{sprintf('credit[%d][credit]', $c_key)}}"
+                                                               value="{{isset($course) ? $course->creditByKey($credit_type['key']) : (old('credit')?old('credit')[$c_key]['credit']:'')}}"
+                                                               class="form-control @error(sprintf('credit.%d.credit', $c_key)) is-invalid @enderror">
+                                                        <input type="hidden"
+                                                               name="{{sprintf('credit[%d][name]', $c_key)}}"
+                                                               value="{{$credit_type['key']}}">
+                                                        @error(sprintf('credit.%d.credit', $c_key))
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <input readonly
+                                                               value="{{__(sprintf('messages.%s',$credit_type['key']))}}"
+                                                               class="form-control">
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-5">
-                                                    <input readonly
-                                                           value="{{__('messages.practical')}}"
-                                                           class="form-control">
-                                                </div>
-                                            </div>
+                                            @endforeach
+
                                             <div class="form-group row">
                                                 <label for="cost"
                                                        class="col-lg-2 col-form-label">{{__('messages.cost')}}
                                                     *</label>
                                                 <div class="col-lg-10">
                                                     <input id="cost" type="number" name="cost"
-                                                           value="{{isset($course) ? $course->cost : ""}}"
+                                                           value="{{isset($course) ? $course->cost : old('cost')}}"
                                                            class="form-control @error('cost') is-invalid @enderror">
                                                     @error('cost')
                                                     <div class="invalid-feedback">{{$message}}</div>
@@ -219,12 +211,35 @@
                                                             id="course_videos" name="videos[]" multiple="multiple">
                                                         @if($videos)
                                                             @foreach ($videos as $video)
-                                                                <option {{isset($course) && !empty($course->videos) && in_array($video->id, json_decode($course->videos)) ?  'selected' : ''}}
+                                                                <option {{isset($course) && !empty($course->videos) &&
+                                                                 in_array($video->id, json_decode($course->videos)?:[]) ||
+                                                                 in_array($video->id, old('videos',[])) ?  'selected' : ''}}
                                                                         value="{{$video->id}}">{{$video->title}}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>
                                                     @error('videos')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="course_books"
+                                                       class="col-lg-2 col-form-label">{{__('messages.books')}}</label>
+                                                <div class="col-lg-10">
+                                                    <select class="js-example-basic-multiple form-control @error('books') is-invalid @enderror"
+                                                            id="course_books" name="books[]" multiple="multiple">
+                                                        @if($books)
+                                                            @foreach ($books as $book)
+                                                                <option {{isset($course) && !empty($course->books) &&
+                                                                 in_array($book->id, json_decode($course->books)?:[]) ||
+                                                                 in_array($book->id, old('books',[])) ?  'selected' : ''}}
+                                                                        value="{{$book->id}}">{{$book->title}}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                    @error('books')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                     @enderror
                                                 </div>
@@ -235,7 +250,7 @@
                                                     *</label>
                                                 <div class="col-lg-10">
                                                     <textarea id="content_data" type="text" name="content_data"
-                                                              class="form-control summernote @error('content_data') is-invalid @enderror">{{isset($course) ? $course->content : ""}}</textarea>
+                                                              class="form-control froala-editor @error('content_data') is-invalid @enderror">{{isset($course) ? $course->content : old('content_data')}}</textarea>
                                                     @error('content_data')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                     @enderror

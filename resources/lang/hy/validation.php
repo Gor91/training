@@ -44,7 +44,7 @@ return [
     'file' => 'The :attribute must be a file.',
     'filled' => 'The :attribute field must have a value.',
     'gt' => [
-        'numeric' => 'The :attribute must be greater than :value.',
+        'numeric' => 'Դաշտը պետք է մեծ լինի :value-ից։',
         'file' => 'The :attribute must be greater than :value kilobytes.',
         'string' => 'The :attribute must be greater than :value characters.',
         'array' => 'The :attribute must have more than :value items.',
@@ -76,7 +76,7 @@ return [
         'array' => 'The :attribute must not have more than :value items.',
     ],
     'max' => [
-        'numeric' => ' չի կարող գերազանցել :max նիշը',
+        'numeric' => 'Դաշտը չի կարող գերազանցել :max-ը',
         'file' => 'The :attribute may not be greater than :max kilobytes.',
         'string' => 'The :attribute may not be greater than :max characters.',
         'array' => 'The :attribute may not have more than :max items.',
@@ -84,7 +84,7 @@ return [
     'mimes' => 'պետք է լինի հետևյալ տիպերի ֆայլ: :values:',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
-        'numeric' => ' պետք է լինի առնվազն :min նիշից ավել։',
+        'numeric' => 'Դաշտը պետք է լինի առնվազն :min-ից ավել։',
         'file' => 'The :attribute must be at least :min kilobytes.',
         'string' => ' պետք է լինի առնվազն :min տառից ավել։',
         'array' => 'The :attribute must have at least :min items.',
@@ -94,7 +94,7 @@ return [
     'numeric' => ' դաշտը պետք է լինի թիվ:',
     'present' => 'The :attribute field must be present.',
     'regex' => 'The :attribute format is invalid.',
-    'required' => ' դաշտը պարտադիր է։',
+    'required' => 'Դաշտը պարտադիր է։',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',

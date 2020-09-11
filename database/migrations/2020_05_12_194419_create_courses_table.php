@@ -19,8 +19,10 @@ class CreateCoursesTable extends Migration
             $table->json("specialty_ids");
             $table->enum("status", array_keys(\App\Models\Courses::getStatus()));
             $table->date("start_date");
-            $table->date("duration_date")->nullable();
+            $table->date("end_date")->nullable();
+            $table->integer("duration")->unsigned();
             $table->json("credit");
+            $table->json("books")->nullable();
             $table->json("videos")->nullable();
             $table->float("cost")->nullable();
             $table->text("content")->nullable();

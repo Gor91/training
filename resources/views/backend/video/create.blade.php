@@ -83,7 +83,7 @@
                                                         @endif
                                                     </select>
                                                     @error('lectures_id')
-                                                        <div class="alert alert-danger">{{$message}}</div>
+                                                    <div class="alert alert-danger">{{$message}}</div>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -116,7 +116,8 @@
                                                                hidden>{{__('messages.cancel')}}</label>
                                                         <label id="remove" class="btn btn-danger"
                                                                hidden>{{__('messages.remove')}}</label>
-                                                        @error('video')
+                                                        <span id="file_uploaded"></span>
+                                                        @error('path')
                                                         <div class="alert alert-danger">{{$message}}</div>
                                                         @enderror
                                                     </div>
@@ -161,8 +162,8 @@
     $DEFAULT_REGION = env('AWS_DEFAULT_REGION');
     $BUCKET = env('AWS_BUCKET');
     $BUCKET_URL = env('AWS_URL_ACL');
-    $confirm_message = __(('messages.confirm_message'));
-    $invalid_format = __(('messages.invalid_format'));
+    $confirm_message = __('messages.confirm_message');
+    $invalid_format = __('messages.invalid_format');
     ?>
     <script>
         var file_name = '';
@@ -175,14 +176,18 @@
             }
 
             if (file.type !== 'video/mp4') {
-                alert('{{$invalid_format}}');
+                alert('{{$invalid_format}}'.replace(':format', 'mp4'));
                 return false
             }
+            let name_video = $("#name_video");
 
+            if (name_video.val() !== '') {
+                removeBook();
+            }
             $(".alert-danger").hide();
             $("video.view-video").hide();
             $("video").attr("src", "");
-            $("#name_video").val('');
+            name_video.val('');
             $("#progress-bar").text('0');
             $('.progress-bar-striped').css('width', 0);
             $(".progress").removeAttr('hidden');
@@ -191,6 +196,7 @@
             $(".progress-extended").show();
             $("#cancel").removeAttr('hidden');
             $("#cancel").removeAttr('style');
+            $("#file_uploaded").text('');
 
             AWS.config.update({
                 accessKeyId: '{{$ACCESS_KEY_ID}}',
@@ -223,6 +229,7 @@
                     $("#remove").removeAttr('hidden');
                     $("#remove").show();
                     $("#cancel").hide();
+                    $("#file_uploaded").text(file_name_first);
 
                     setTimeout(function () {
                         $("video").attr("src", '{{$BUCKET_URL}}' + '/' + progress.key);
@@ -243,18 +250,19 @@
 
                 $(".progress-extended").hide();
                 $(".fileupload-progress").hide();
+                $("#file_uploaded").text('');
                 $(this).hide();
             }
         });
 
         $(document).on('click', '#remove', function () {
-            removeVideo('pose', file_name);
+            removeVideo();
         });
 
         function removeVideo() {
-            var name_video = $("#name_video").val();
+            let name_video = $("#name_video").val();
 
-            if ($("#name_video").val() && confirm('{{$confirm_message}}')) {
+            if ($("#name_video").val() && confirm("{{$confirm_message}}".replace(':name', $("#file_uploaded").text()))) {
                 $("video.view-video").hide();
                 $("video").attr("src", "");
                 $("#name_video").val('');

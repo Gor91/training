@@ -199,28 +199,37 @@ $(document).ready(function () {
         });
 
     });
-    $("#course_videos").select2();
+
+    $("#course_videos,#course_books").select2();
     $("#special").select2({
         placeholder: "Ընտրեք մասնագիտություն",
         tags: true,
         ajax: {
             dataType: "json",
             method: 'GET',
-            url: "courses/getSpecialities",
+            url: "/backend/specialty/list",
             processResults: function (data) {
-                var select_result = [];
-                var final_data = {};
+                let select_result = [];
+                let final_data = [];
                 if (data) {
                     $.each(data, function (key, value) {
-                        final_data["id"] = key;
-                        final_data["text"] = key;
+                        final_data["id"] = value['id'];
+                        final_data["text"] = value['name'];
                         final_data["children"] = [];
-                        for (var i = 0; i < value.length; i++) {
-                            final_data["children"].push(value[i])
-                        }
-                        select_result.push(final_data)
-                        final_data = {};
 
+                        if (value['children'] && value['children'].length) {
+                            let children_value = value['children'];
+
+                            for (let i in children_value) {
+                                let children = [];
+
+                                children["id"] = children_value[i]['id'];
+                                children["text"] = children_value[i]['name'];
+                                final_data["children"].push(children)
+                            }
+                        }
+                        select_result.push(final_data);
+                        final_data = [];
                     })
                 }
                 return {results: select_result}
@@ -321,7 +330,7 @@ $(document).ready(function () {
                         <div class="col-sm-1">\
                         <span class="input-group-btn">\
                         <button class="btn btn-success btn-add" type="button">\
-                        <span class="glyphicon glyphicon-plus"></span>\
+                        <span class="fa fa-plus"></span>\
                         </button>\
                         </span>\
                         </div>\
@@ -337,7 +346,7 @@ $(document).ready(function () {
             dynaForm.find('.entry:not(:last) .btn-add')
                 .removeClass('btn-add').addClass('btn-remove')
                 .removeClass('btn-success').addClass('btn-danger')
-                .html('<span class="glyphicon glyphicon-minus"></span>');
+                .html('<span class="fa fa-minus"></span>');
             t++;
             init_editor();
         }).on('click', '.btn-remove', function (e) {
@@ -345,6 +354,12 @@ $(document).ready(function () {
             e.preventDefault();
             return false;
         });
+    });
+
+    $('input, select, textarea').on('change', function () {
+        if ($(this).hasClass('is-invalid')) {
+            $(this).removeClass('is-invalid')
+        }
     });
 
     $(document).on('click', '.edit', function () {
@@ -424,6 +439,7 @@ $(document).ready(function () {
         });
 
     })
+
     function getJSONData(data_url) {
         var result;
         $.ajax({
