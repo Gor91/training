@@ -102,6 +102,7 @@ class CoursesController extends Controller
             $this->model->update($cours, $id);
             return redirect('backend/courses')->with('success', Lang::get('messages.success'));
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             return redirect('backend/courses')->with('error', Lang::get('messages.wrong'));
         }
     }

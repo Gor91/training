@@ -1,41 +1,24 @@
 <template>
     <div class="container-fluid m-0 p-0">
-        <div class="row navbar navbar-expand-md navbar-light navbar-laravel m-0">
+        <div ref="topbar" class="row navbar navbar-expand-md navbar-light navbar-laravel m-0">
             <!--            <router-link class="navbar-brand" to="/">Authentication  Laravel 5.6/Vue SPA</router-link>-->
             <div class="col-lg-6 col-sm-6 col-6 header-top-left">
-                <a href="tel:+37443007107" class="small">
-                    <span class="fa fa-phone"></span>
-                    <span class="text">
-						<span class="text pl-3">(+374) 43-007-107</span>
-                  </span>
-                </a>
-
-                <a href="mailto:support@colorlib.com" class="small">
-                    <span class="fa fa-envelope pl-3"></span>
-                    <span class="text">
-								<span class="text pl-2">
-national.med.palace@gmail.com</span>
-							</span>
-                </a>
+                <h2>{{text.title}}</h2>
             </div>
 
-            <!--button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon "></span>
-            </button-->
-
-            <div class="navbar-collapse col-lg-6 col-sm-6 col-6" id="navbarSupportedContent">
+            <div class="navbar-collapse col-lg-6 col-sm-6 col-6" id="navbarContent">
                 <div class="navbar-nav ml-auto m_navbar">
                     <template v-if="!currentUser">
                         <li>
-                            <router-link to="/login" class="nav-link">Մուտք</router-link>
+                            <router-link to="/login" class="nav-link"><img :src = "ekg" />{{text.login}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/register" class="nav-link"> Գրանցվել</router-link>
+                            <router-link to="/register" class="nav-link"> <img :src = "ekg" />{{text.register}}</router-link>
                         </li>
                     </template>
                     <template v-else>
                         <li>
-                            <router-link to="/account" class="nav-link">Օգտատեր</router-link>
+                            <router-link to="/account" class="nav-link">{{text.user}}</router-link>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
@@ -44,7 +27,7 @@ national.med.palace@gmail.com</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a href="#!" @click.prevent="logout" class="dropdown-item">Ելք</a>
+                                <a href="#!" @click.prevent="logout" class="dropdown-item">{{text.logout}}</a>
                             </div>
                         </li>
                     </template>
@@ -52,15 +35,17 @@ national.med.palace@gmail.com</span>
             </div>
 
         </div>
-        <div class="lines"></div>
+
         <!--================ Start Header Menu Area =================-->
 
-        <header class="header_area navbar_fixed">
+        <header ref="navbar" class="header_area" :class="{'navbar_fixed': scrolled}" v-on:scroll="handleScroll">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <router-link :to="{ name: 'home' }" class="navbar-brand logo_h">
-                        <img :src="image_src" alt=""></router-link>
+                        <!--img :src="image_src" alt=""-->
+                        <span class="shmz">ՇՄԶ</span>
+                    </router-link>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,16 +57,16 @@ national.med.palace@gmail.com</span>
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item">
-                                <router-link :to="{ name: 'home' }" class="nav-link">Գլխավոր</router-link>
+                                <router-link :to="{ name: 'home' }" class="nav-link">{{text.main}}</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{ name: 'about' }" class="nav-link">Մեր մասին</router-link>
+                                <router-link :to="{ name: 'about' }" class="nav-link">{{text.aboutus}}</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{ name: 'lesson' }" class="nav-link">Դասընթացներ</router-link>
+                                <router-link :to="{ name: 'lesson' }" class="nav-link">{{text.lessons}}</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{ name: 'contact' }" class="nav-link">Հետադարձ կապ</router-link>
+                                <router-link :to="{ name: 'contact' }" class="nav-link">{{text.contact}}</router-link>
                             </li>
                         </ul>
                     </div>
@@ -94,13 +79,41 @@ national.med.palace@gmail.com</span>
 </template>
 
 <script>
+    import pagestext from './json/pages.json';
     export default {
         name: 'app-header',
+
         methods: {
+            handleScroll() {
+
+                if (this.$refs.navbar.clientHeight + this.$refs.topbar.clientHeight < window.scrollY) {
+                    this.scrolled = true;
+                    this.$refs.navbar.style.position = "fixed";
+                    this.$refs.navbar.style.top = 0;
+                    this.$refs.navbar.style.background = '#f8fafc';
+                }
+
+               else {
+                    this.scrolled = false;
+                    this.$refs.navbar.style.position = "relative";
+
+                }
+
+                this.lastPosition = window.scrollY;
+                // this.scrolled = window.scrollY > 50;
+            },
             logout() {
                 this.$store.commit('logout');
                 this.$router.push('/login');
-            }
+            },
+
+        },
+        created() {
+            window.addEventListener("scroll", this.handleScroll);
+        },
+        destroyed() {
+            window.removeEventListener("scroll", this.handleScroll);
+
         },
         computed: {
             currentUser() {
@@ -110,6 +123,11 @@ national.med.palace@gmail.com</span>
         data() {
             return {
                 image_src: '/css/frontend/img/logo.png',
+                ekg: '/css/frontend/img/ekg.png',
+                limitPosition: 2000,
+                scrolled: false,
+                lastPosition: 0,
+                text:pagestext
             };
         },
     }

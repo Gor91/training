@@ -8,7 +8,7 @@
                         <div class="col-lg-12">
                             <div class="banner_content text-center">
                                 <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
-                                    <router-link :to="{ name: 'home' }" class="nav-link">ԳԼԽԱՎՈՐ</router-link>
+                                    <router-link :to="{ name: 'home' }" class="nav-link">{{text.main}}</router-link>
                                     <router-link to="" class="nav-link">{{b.text}}</router-link>
 
                                 </div>
@@ -39,10 +39,10 @@
                                     <div class="border_line yellow" v-if="!currentUser"></div>
                                     <span class="fa fa-lock yellow" v-if="!currentUser"></span>
                                     <div class='d-flex justify-content-center' v-if="!currentUser">
-                                        <router-link to="/login" class="nav-link">Մտնել</router-link>
+                                        <router-link to="/login" class="nav-link">{{text.login}}</router-link>
                                         <p class="nav-link">կամ</p>
 
-                                        <router-link to="/register" class="nav-link white"> գրանցվել</router-link>
+                                        <router-link to="/register" class="nav-link white"> {{text.register}}</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
 
 <script>
     import {getAllCourses,getCoursesById} from '../partials/courses';
-
+    import pagetexts from './json/pages.json'
     export default {
         name: 'app-header',
         methods: {
@@ -119,6 +119,7 @@
             return {
                 courses: [],
                 image_src: '/css/frontend/img/background.png',
+                text:pagetexts,
             }
         },
         beforeMount() {

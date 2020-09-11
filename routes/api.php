@@ -29,6 +29,7 @@ Route::group(['prefix' => 'auth',
     Route::match(['put', 'patch'], 'update/{id}', 'Frontend\AccountController@update');
     Route::match(['put', 'patch'], 'approve/{id}', 'Frontend\AccountController@editApprove');
     Route::post('me', 'Frontend\AuthController@me');
+    Route::post('videoinfo', 'Frontend\AccountVideoController@getVideoById');
     Route::get('edit/{id}', 'Frontend\AccountController@editProfile');
     Route::match(['put', 'patch'], 'edit/{id}', 'Frontend\AccountController@updateProfile');
     Route::match(['put', 'patch'], 'changePass/{id}', 'Frontend\AccountController@changePassword');

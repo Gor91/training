@@ -1,5 +1,6 @@
 /* Custom Area css
 ============================================================================================ */
+
 body{
   font-family: "ArialAMU", sans-serif!important;
 }
@@ -191,7 +192,7 @@ h6 {
     content: '';
     width: 33.3%;
     height: 5rem;
-    background: #9048F6;
+    background: rgb(99, 30, 216);
     position: absolute;
     transition: .5s;
   }
@@ -203,36 +204,36 @@ input[name='tractor'] {
   display: none;
 }
 
-.nav_label {
-  /*width: 25%;*/
-  float: left;
-  /* color: #e392d6;*/
-  color: #771FF3!important;
-  text-align: center;
-  cursor: pointer;
-  transition: .5s;
-  z-index: 2;
-
-  &:hover {
-    color: #B755FF;
-  }
-
-  &:before {
-    display: block;
-    font-size: 3rem;
-    line-height: 5rem;
-    z-index: 2;
-    position: relative;
-  }
-}
-
-#profile:checked ~ nav [for='profile'],
-#address:checked ~ nav [for='address'],
-#education:checked ~ nav [for='education'],
-#register:checked ~ nav [for='register'] {
-  color: #ffffff!important;
-
-}
+//.nav_label {
+//  /*width: 25%;*/
+//  float: left;
+//  /* color: #e392d6;*/
+//  color: #771FF3!important;
+//  text-align: center;
+//  cursor: pointer;
+//  transition: .5s;
+//  z-index: 2;
+//
+//  &:hover {
+//    color: #B755FF;
+//  }
+//
+//  &:before {
+//    display: block;
+//    font-size: 3rem;
+//    line-height: 5rem;
+//    z-index: 2;
+//    position: relative;
+//  }
+//}
+//
+//#profile:checked ~ nav [for='profile'],
+//#address:checked ~ nav [for='address'],
+//#education:checked ~ nav [for='education'],
+//#register:checked ~ nav [for='register'] {
+//  color: #ffffff!important;
+//
+//}
 
 #profile:checked ~ nav:after {
   left: 0;
@@ -260,13 +261,13 @@ input[name='tractor'] {
   transition-delay: .5s;
 }
 
-a {
-  color: rgba(255, 255, 255, 1)!important;
-
-  &:hover {
-    color: rgba(255, 255, 255, 1)!important
-  }
-}
+//a {
+//  color: rgba(255, 255, 255, 1)!important;
+//
+//  &:hover {
+//    color: rgba(255, 255, 255, 1)!important
+//  }
+//}
 
 .vdp-datepicker__calendar {
   width: 100% !important;
@@ -393,5 +394,13 @@ input[type="file"], .icon {
   background-color: #8638FC;
   padding: 5px;
 }
+.department_area{
+  border-top: 3px solid #fff800;
+}
+.clock_sec h1{
+  font-size: 40px;
+  color: #e9a401;
+}
+
 /* Custom Area css
 ============================================================================================ */

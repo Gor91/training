@@ -8,7 +8,7 @@
                         <div class="col-lg-12">
                             <div class="banner_content text-center">
                                 <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
-                                    <router-link :to="{ name: 'home' }" class="nav-link">ԳԼԽԱՎՈՐ</router-link>
+                                    <router-link :to="{ name: 'home' }" class="nav-link">{{texts.main}}</router-link>
                                     <router-link to="" class="nav-link">{{b.text}}</router-link>
 
                                 </div>
@@ -54,7 +54,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <router-link :to="'/edit/'+currentUser.id" class="primary-btn text-uppercase enroll">Edit
+                        <router-link :to="'/edit/'+currentUser.id" class="primary-btn text-uppercase enroll">{{texts.edit}}
                         </router-link>
                     </div>
                 </div>

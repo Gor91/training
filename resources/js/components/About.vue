@@ -8,7 +8,7 @@
                          <div class="col-lg-12">
                              <div class="banner_content text-center">
                                  <div class="page_link"  v-for="b in $route.meta.breadCrumbs" :key="b.to">
-                                     <router-link :to="{ name: 'home' }" class="nav-link">ԳԼԽԱՎՈՐ</router-link>
+                                     <router-link :to="{ name: 'home' }" class="nav-link">{{text.main}}</router-link>
                                      <router-link to="" class="nav-link">{{b.text}}</router-link>
 
                                  </div>
@@ -26,25 +26,25 @@
                          <img class="img-fluid" :src="aboutimg" alt="">
                      </div>
 
-                     <div class="offset-lg-1 col-lg-5">
+                     <div class="col-lg-6">
                          <div class="dpmt_right" v-for="data in datas" :key="data.id">
                              <h1>{{ data.title }}</h1>
                              <p> {{ data.description }}</p>
                              <router-link :to="{ name: 'lesson' }" class="primary-btn text-uppercase">
-                                 Դասընթացներ</router-link>
+                                 {{ text.lessons }}</router-link>
                          </div>
                      </div>
                  </div>
              </div>
          </div>
          <div class="container">
-         <h4 class="title">Փաստաթղթեր</h4>
+         <h4 class="title">{{ text.documents }}</h4>
          <hr class="line">
          <div class="content">
              <ul class="course_list" v-for="doc in docs" :key="doc.id">
                  <li class="justify-content-between d-flex">
                      <p>{{ doc.doc_path }}</p>
-                     <a class="primary-btn text-uppercase" href="#">Ներբեռնել</a>
+                     <a class="primary-btn text-uppercase" href="#">{{ text.downloads }}</a>
                  </li>
              </ul>
          </div>
@@ -57,12 +57,14 @@
 
 <script>
     import {getPagesData} from '../partials/auth';
+    import pagestext from './json/pages.json';
     export default {
         data() {
             return {
                 datas: [],
                 aboutimg:'/css/frontend/img/about-img.png',
                 docs: [],
+                text:pagestext,
             };
         },
         methods:{

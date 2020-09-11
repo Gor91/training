@@ -19,106 +19,68 @@
                 </div>
             </div>
         </section>
-        <!--================Blog Categorie Area =================-->
-        <section class="blog_categorie_area m-0 p-0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="categories_post">
-                            <img :src="videoimg" alt="post">
-                            <div class="categories_details">
-                                <div class="categories_text">
-                                    <a href="blog-details.html">
-                                        <h5>Video 1</h5>
-                                    </a>
-                                    <div class="border_line"></div>
-                                    <p>Enjoy your social life together</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="categories_post">
-                            <img :src="videoimg" alt="post">
-                            <div class="categories_details">
-                                <div class="categories_text">
-                                    <a href="blog-details.html">
-                                        <h5>Video 2</h5>
-                                    </a>
-                                    <div class="border_line"></div>
-                                    <p>Be a part of politics</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="categories_post">
-                            <img :src="videoimg" alt="post">
-                            <div class="categories_details">
-                                <div class="categories_text">
-                                    <a href="blog-details.html">
-                                        <h5>Video 3</h5>
-                                    </a>
-                                    <div class="border_line"></div>
-                                    <p>Let the food be finished</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--================Blog Categorie Area =================-->
 
         <!--================ Start Course Details Area =================-->
         <section class="course_details_area section_gap">
-            <div class="container" v-for="course in datas" :key="course.id">
-                <div class="col-lg-12 m-0 pb-5"><h2 class="or"> {{course.name}}</h2></div>
+            <div class="container" :key="datas.id">
+                <div class="col-lg-12 m-0 pb-5"><h2 class="or"> {{datas.name}}</h2></div>
                 <div class="row">
                     <div class="col-lg-8 course_details_left">
                         <div class="main_image">
-                            <video ref="lessonVideo" :src="video" id="video" class="view-video col-lg-10" controls >
-                            </video>
+                            <hooper :itemsToShow="1">
+                                <slide v-for="(info,index) in video_info" :key="index" :index="index">
+
+                                    <video ref="video" class="view-video col-lg-12" controls
+                                           v-on:loadeddata="manageEvents(info.id)">
+                                        <source :src="info.path">
+                                    </video>
+                                    <div class="col-lg-12">
+                                        <h5 class="title">{{info.title}}</h5>
+                                        <h5>{{`${info.lectures.name} ${info.lectures.surname}
+                                            ${info.lectures.father_name}`}}</h5>
+                                    </div>
+                                </slide>
+                                <hooper-pagination slot="hooper-addons"></hooper-pagination>
+                            </hooper>
+
                         </div>
                         <div class="content_wrapper">
                             <h4 class="title">{{coursetexts.content}}</h4>
-                            <div v-html="course.content" class="content">
-                                {{course.content}}
+                            <div v-html="datas.content" class="content">
+                                {{datas.content}}
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-4 right-contents">
                         <ul>
-                            <li v-if="course.status ==='active'">
+                            <li v-if="datas.status ==='active'">
                                 <a class="justify-content-between d-flex" href="#">
                                     <p>{{coursetexts.status}} </p>
                                     <span class="or"> {{coursetexts.status_active}}</span>
                                 </a>
                             </li>
+
                             <li>
                                 <a class="justify-content-between d-flex" href="#">
                                     <p>{{coursetexts.credit}}</p>
-                                    <span>{{course.credit}}</span>
+                                </a>
+                                <a class="justify-content-between d-flex" href="#"
+                                   v-for="c in datas.credit">
+                                    <span>{{c.name}}</span>
+                                    <span>{{c.credit}}</span>
                                 </a>
                             </li>
                             <li>
                                 <a class="justify-content-between d-flex" href="#">
                                     <p>{{coursetexts.duration}} </p>
-                                    <span>{{course.duration_date}}</span>
+                                    <span>{{datas.duration_date}}</span>
                                 </a>
                             </li>
                             <li>
                                 <a class="justify-content-between d-flex" href="#">
                                     <p>{{coursetexts.coursecost}} </p>
-                                    <span>{{course.cost}} AMD</span>
-                                </a>
-                            </li>
-                            <li v-for="speciality in specialites" :key="speciality.id">
-                                <a class="justify-content-between d-flex flex-wrap" href="#">
-                                    <p>{{coursetexts.specialities}} </p>
-
-                                    <p>{{speciality.name}}<br/></p>
+                                    <span>{{datas.cost}} AMD</span>
                                 </a>
                             </li>
                         </ul>
@@ -162,13 +124,18 @@
 </template>
 
 <script>
+    import {getVideoDetails} from '../partials/video';
     import {getCourseDetails} from '../partials/courses';
-    import coursetexts from './json/course.json'
+    import coursetexts from './json/course.json';
+    import {Hooper, Pagination as HooperPagination, Slide} from 'hooper';
+    import 'hooper/dist/hooper.css';
 
     export default {
         data() {
             return {
-                video:'http://iandevlin.github.io/mdn/video-player/video/tears-of-steel-battle-clip-medium.mp4',
+
+                video_info: [],
+                video: 'http://iandevlin.github.io/mdn/video-player/video/tears-of-steel-battle-clip-medium.mp4',
                 feedback: '',
                 datas: [],
                 specialites: [],
@@ -190,13 +157,71 @@
 
             };
         },
+        components: {
+            Hooper,
+            Slide, HooperPagination
+        },
         methods: {
+            manageEvents(id) {
+                alert(id);
+                this.$nextTick(() => {
+                    getVideoDetails(id).
+                    then(res => {
+                        console.log(res)
+
+                    })
+                        .catch(error => {
+                            this.$store.commit("getContentFailed", {error});
+                        });
+                    let _this = this;
+                    // if (_this.$refs.video) {
+                    //     let supposedCurrentTime = 0, backTime = 0;
+                    //     let video = _this.$refs.video;
+                    //
+                    //     video.addEventListener('timeupdate', function () {
+                    //         if (!video.seeking) {
+                    //
+                    //             supposedCurrentTime = video.currentTime;
+                    //         } else
+                    //             backTime = video.currentTime;
+                    //     });
+                    //
+                    //     video.addEventListener('seeking', function () {
+                    //
+                    //
+                    //         let back = backTime - supposedCurrentTime;
+                    //
+                    //         if (back < 0) {
+                    //             video.currentTime = backTime;
+                    //             supposedCurrentTime = backTime;
+                    //             console.log(supposedCurrentTime);
+                    //         } else {
+                    //             let delta = video.currentTime - supposedCurrentTime;
+                    //             if (Math.abs(delta) > 0.01) {
+                    //                 console.log("Seeking is disabled");
+                    //                 video.currentTime = supposedCurrentTime;
+                    //             }
+                    //         }
+                    //     });
+                    //     video.addEventListener('pause', function () {
+                    //         video.currentTime = supposedCurrentTime;
+                    //     });
+                    //     video.addEventListener('ended', function () {
+                    //
+                    //         supposedCurrentTime = 0;
+                    //     });
+                    // }
+                    console.log(_this.$refs.video)
+                });
+            },
             coursedetails: function () {
                 getCourseDetails(this.$route.params.id)
                     .then(res => {
                         this.datas = res.data;
+                        this.datas.credit = JSON.parse(res.data.credit);
+                        this.video_info = JSON.parse(res.data.videos);
                         this.specialites = res.specialities;
-                        console.log(res.specialities);
+                        // this.manageEvents();
 
                     })
                     .catch(error => {
@@ -256,11 +281,8 @@
         },
         beforeMount() {
             this.coursedetails();
-
         },
-        mounted() {
-            this.videoStatistic();
-        }
+
     }
 
 </script>
@@ -268,5 +290,14 @@
     .home_banner_area {
         min-height: 234px;
     }
+
+    .hooper {
+        height: 600px;
+    }
+
+    .hooper-pagination {
+        top: 0
+    }
+
 </style>
 

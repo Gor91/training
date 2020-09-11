@@ -43,6 +43,7 @@ class CourseService
 
         $courses = Courses::whereRaw('JSON_CONTAINS(`specialty_ids`,  \'["' . $spec->specialty_id . '"]\')')
             ->where('status', "=", "active")->get();
+
         $result = (!empty($courses)) ? $courses : __('messages.noting');
         if (!$courses)
             throw new ModelNotFoundException('User not found by ID ');

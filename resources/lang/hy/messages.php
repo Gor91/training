@@ -11,7 +11,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-    'site_name' => 'Ազգային Բժշկական Պալատ',
+    'site_name' => 'ԲՈՒԺԱՇԽԱՏՈՂՆԵՐԻ ՇԱՐՈՒՆԱԿԱԿԱՆ ՄԱՍՆԱԳԻՏԱԿԱՆ ԶԱՐԳԱՑՄԱՆ ԿԵՆՏՐՈՆ',
     //account
     'user_info' => 'Անձնական տվյալներ',
     'name' => 'Անուն',

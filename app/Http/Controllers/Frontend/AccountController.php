@@ -19,7 +19,6 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
-
 class AccountController extends Controller
 {
 
@@ -41,36 +40,18 @@ class AccountController extends Controller
 //        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        try {
-            dd($_GET);
-        } catch (\Exception $exception) {
-            dd($exception);
-            logger()->error($exception);
-//            return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
-        }
-    }
-
 
     /**
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function editProfile(Request $request, $id)
+    public function getVideoById(Request $request, $id)
     {
-        $profile = $this->service->getFAccountById($id);
-        $approve = $this->service->getFAccount($id);
+        $video = $this->service->getVideoById($id);
         return response()->json([
             'access_token' => $request->token,
-            'user' => $profile,
-            'app' => $approve,
+            'video' => $video,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);

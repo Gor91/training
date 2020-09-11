@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Models\Account;
+use App\Models\AccountVideo;
 use App\Models\Message;
 use App\Models\Profession;
 use App\Models\User;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\DB;
  * Class AccountService
  * @package App\Services
  */
-class AccountService
+class AccountVideoService
 {
     /**
      * @var Repository
@@ -33,11 +34,11 @@ class AccountService
 
     /**
      * AccountService constructor.
-     * @param Account $account
+     * @param AccountVideo $av
      */
-    public function __construct(Account $account)
+    public function __construct(AccountVideo $av)
     {
-        $this->model = new Repository($account);
+        $this->model = new Repository($av);
     }
 
 
@@ -91,21 +92,13 @@ class AccountService
      * @param $id
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
      */
-    public function getFAccountById($id)
+    public function getVideoById($id)
     {
-        $account = DB::table('accounts as a')
-            ->join('professions as p', 'a.id', '=', 'p.account_id')
-            ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
-            ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
-            ->join('users AS u', 'u.account_id', '=', 'a.id')
-            ->select('a.id', 'a.name', 'a.surname', 'a.father_name',
-                'a.bday', 'u.email', 'a.phone', 'a.home_address', 'a.work_address', 'a.workplace_name',
-                'p.specialty_id as specialty_id', 'sp.id as education_id', 's.type_id as profession')
-            ->where('a.id', '=', $id)
-            ->first();
-        if (!$account)
+        $video = $this->model->where([['video_id', '=', $id]]);
+          dd($video);
+        if (!$video)
             throw new ModelNotFoundException('User not found by ID ');
-        return $account;
+        return $video;
 
     }
 
@@ -295,10 +288,10 @@ class AccountService
         }
     }
 
-
     /**
+     * updating a new resource/admin
+     * @param $request
      * @param $id
-     * @return int
      */
     public function updateApproved($id)
     {
@@ -310,9 +303,9 @@ class AccountService
             ->where('account_id', $id)
             ->update(['status' => "approved"]);
         $user->notify(new ManageUserStatus($user, $account, $message, true));
-        if (!$inserted)
+        if (!$inserted->id)
             throw new ModelNotFoundException('insert chi eghel ');
-        return $inserted;
+        return $inserted->id;
     }
 
     /**
@@ -340,9 +333,9 @@ class AccountService
         $data = [];
         $data['password'] = bcrypt($request->password);
         $inserted = $this->model->update($data, $id);
-        if (!$inserted)
+        if (!$inserted->id)
             throw new ModelNotFoundException('insert chi eghel ');
-        return $inserted;
+        return $inserted->id;
     }
 
 
@@ -408,12 +401,9 @@ class AccountService
         return $inserted->id;
     }
 
-
     /**
      * @param $userRequest
      * @param $id
-     * @param $param
-     * @return mixed
      */
     public function updateUserByParam($userRequest, $id, $param)
     {
