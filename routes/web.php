@@ -127,10 +127,9 @@ Route::resource('backend/logs', 'Backend\LogController')->only([
 //ajax
 
 //tests
-Route::resource('/backend/tests/', 'Backend\TestsController');
-Route::get('backend/tests/getCourses/', "Backend\TestsController@getCourses");
-Route::get( '/backend/editTests/{id}', 'Backend\TestsController@editTests');
-Route::get('/backend/deleteTest/{id}','Backend\TestsController@destroy');
+Route::resource('/backend/test', 'Backend\TestsController');
+Route::post('/backend/test/{id}', 'Backend\TestsController@update');
+Route::get('backend/test/getCourses/', "Backend\TestsController@getCourses");
 
 Route::post('/territory', 'Backend\AccountController@getTerritory');
 //todo compare with SpecialtyController

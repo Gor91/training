@@ -167,6 +167,15 @@ class Courses extends Model
     }
 
     /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null
+     */
+    public function getByID($id)
+    {
+        return $this::query()->where(['id' => $id])->first();
+    }
+
+    /**
      * @param Courses $model
      * @return array
      */

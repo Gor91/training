@@ -9,6 +9,7 @@ use App\Models\Tests;
 use App\Repositories\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Validator;
 
 class TestsController extends Controller
 {
@@ -24,6 +25,9 @@ class TestsController extends Controller
         $this->middleware('auth:admin');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function index()
     {
         try {
@@ -32,7 +36,7 @@ class TestsController extends Controller
             return view('backend.tests.index', compact('tests'));
         } catch (\Exception $exception) {
 
-            return redirect('backend/tests')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/test')->with('error', Lang::get('messages.wrong'));
         }
     }
 
@@ -42,7 +46,8 @@ class TestsController extends Controller
     public function create()
     {
         try {
-            return view('backend.tests.create');
+            $courses = new Courses();
+            return view('backend.tests.create', compact('courses'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
@@ -55,21 +60,55 @@ class TestsController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'question' => 'required',
-            'courses' => 'required'
-        ]);
+        $input = $request->all();
+        $answer_check = $validation_message = [];
+
+        if (!empty($input['fields'])) {
+            $is_valid = false;
+
+            foreach ($input['fields'] as $question) {
+                if (array_key_exists('check', $question)) {
+                    $is_valid = true;
+                    break;
+                };
+            }
+
+            if (!$is_valid) {
+                $answer_check = [
+                    'fields.0.check' => 'required'
+                ];
+
+                $validation_message = [
+                    'fields.0.check.required' => __('validation.answers.check')
+                ];
+            }
+        }
+
+        $validator = Validator::make($input, array_merge([
+            'course_id' => 'required|exists:courses,id',
+            'question' => 'required|string|min:2|max:190',
+            'fields' => 'required|array|min:2',
+            'fields.*.inp' => 'required|distinct'
+        ], $answer_check), array_merge([
+            'fields.min' => __('validation.answers.min'),
+        ], $validation_message));
+
+        if ($validator->fails()) {
+            return redirect('backend/test/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         try {
             $data = [];
-            $data['courses_id'] = $request->courses;
+            $data['courses_id'] = $request->course_id;
             $data['question'] = $request->question;
             $data['answers'] = json_encode($request->fields);
             $this->model->create($data);
-            return redirect('backend/tests')->with('success', Lang::get('messages.success'));
+            return redirect('backend/test')->with('success', Lang::get('messages.success'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            dd($exception);
-            return redirect('backend/tests')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/test')->with('error', Lang::get('messages.wrong'));
         }
     }
 
@@ -77,56 +116,84 @@ class TestsController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    function destroy($id)
+   public function destroy($id)
     {
         try {
             $this->model->delete($id);
-            return redirect('backend/tests')->with('success', Lang::get('messages.course_detete'));
+            return redirect('backend/test')->with('success', Lang::get('messages.course_detete'));
         } catch (\Exception $exception) {
             logger()->error($exception);
 
-            return redirect('backend/tests')->with('error', Lang::get('messages.wrong'));
+            return redirect('backend/test')->with('error', Lang::get('messages.wrong'));
         }
+    }
+
+    /**
+     * @param Tests $test
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(Tests $test)
+    {
+        $courses = new Courses();
+        return view('backend.tests.create', compact('test', 'courses'));
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
-    public function editTests(Request $request)
+    public function update(Request $request, $id)
     {
-        if (isset($request->courses)) {
-            $validate = $request->validate([
-                'question' => 'required',
-                'courses' => 'required'
-            ]);
-            $data = [];
-            $data['courses_id'] = $request->courses;
-            $data['question'] = $request->question;
-            $data['answers'] = json_encode($request->fields);
-            try {
-                $this->model->update($data, $request->id);
+        $input = $request->all();
+        $answer_check = $validation_message = [];
 
-                return redirect('backend/tests')->with('success', Lang::get('messages.success'));
-            } catch (\Exception $exception) {
-                logger()->error($exception);
+        if (!empty($input['fields'])) {
+            $is_valid = false;
 
-                return redirect('backend/tests')->with('error', Lang::get('messages.wrong'));
+            foreach ($input['fields'] as $question) {
+                if (array_key_exists('check', $question)) {
+                    $is_valid = true;
+                    break;
+                };
             }
-        } else {
-            try {
-                $test = Tests::query()->where(["id" => $request->id])->with('courses')->first();
-                if (isset($test)) {
 
-                    return view('backend.tests.create', compact('test'));
-                }
-            } catch (\Exception $exception) {
-                logger()->error($exception);
+            if (!$is_valid) {
+                $answer_check = [
+                    'fields.0.check' => 'required'
+                ];
 
-                return redirect('backend/tests')->with('error', Lang::get('messages.wrong'));
+                $validation_message = [
+                    'fields.0.check.required' => __('validation.answers.check')
+                ];
             }
         }
 
+        $validator = Validator::make($input, array_merge([
+            'course_id' => 'required|exists:courses,id',
+            'question' => 'required|string|min:2|max:190',
+            'fields' => 'required|array|min:2',
+            'fields.*.inp' => 'required|distinct'
+        ], $answer_check), array_merge([
+            'fields.min' => __('validation.answers.min'),
+        ], $validation_message));
+
+        if ($validator->fails()) {
+            return redirect(sprintf('backend/test/%d/edit', $id))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $data = [];
+            $data['courses_id'] = $request->course_id;
+            $data['question'] = $request->question;
+            $data['answers'] = json_encode($request->fields);
+            $this->model->update($data, $id);
+            return redirect('backend/test')->with('success', Lang::get('messages.success'));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('backend/test')->with('error', Lang::get('messages.wrong'));
+        }
     }
 
     /**

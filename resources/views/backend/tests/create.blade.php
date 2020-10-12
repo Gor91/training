@@ -35,9 +35,9 @@
 
                         <div class="kt-content">
                             <!--begin: Form Wizard Form-->
-                            <form class="kt-form" id="kt_form1" method="{{isset($test) ? "get" : "post"}}"
+                            <form class="kt-form" id="kt_form1" method="post"
                                   enctype="multipart/form-data"
-                                  action="{{isset($test) ? action('Backend\TestsController@editTests',$test->id) : action('Backend\TestsController@store')}}">
+                                  action="{{isset($test) ? action('Backend\TestsController@update',$test->id) : action('Backend\TestsController@store')}}">
                                 @csrf
                                 {{--                            <!--begin: Form Wizard Step 1-->--}}
                                 <div id="kt-wizard_general" class="kt-wizard-v3__content"
@@ -49,19 +49,25 @@
                                                 <label for="courses"
                                                        class="col-lg-2 col-form-label">{{__('messages.course_list')}}</label>
                                                 <div class="col-sm-10">
-                                                    <select class="js-data-example-ajax form-control" id="courses"
+                                                    <select class="js-data-example-ajax form-control @error('course_id') is-invalid @enderror"
+                                                            id="courses"
                                                             data-placeholder="{{__('messages.choose_profession')}}"
-                                                            name="courses">
+                                                            name="course_id">
+                                                        @if(old('course_id'))
+                                                            @if($course = $courses->getByID(old('course_id')))
+                                                                <option selected value="{{old('course_id')}}">
+                                                                    {{ $course->name }}
+                                                                </option>
+                                                            @endif
+                                                        @endif
                                                         @if(isset($test))
                                                             <option selected value="{{$test->courses_id}}">
                                                                 {{$test->courses["name"]}}
                                                             </option>
                                                         @endif
                                                     </select>
-                                                    @error('courses')
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{$message}}
-                                                    </div>
+                                                    @error('course_id')
+                                                    <div class="invalid-feedback">{{$message}}</div>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -72,11 +78,9 @@
 
                                                     <input id="test_name" type="text" name="question"
                                                            value="{{isset($test) ? $test->question : ""}}"
-                                                           class="form-control">
+                                                           class="form-control @error('question') is-invalid @enderror">
                                                     @error('question')
-                                                    <div class="alert alert-danger" role="alert">
-                                                        {{$message}}
-                                                    </div>
+                                                    <div class="invalid-feedback">{{$message}}</div>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -85,39 +89,110 @@
                                                        class="col-lg-2 col-form-label">{{__('messages.test_answer')}}</label>
                                                 <div class="col-sm-10">
                                                     <div class="dynamic-wrap">
-                                                        @if(isset($test))
+                                                        @if($old = old('fields'))
+                                                            @foreach($old as $j => $item)
+                                                                @error(sprintf('fields.%d.check', $j))
+                                                                <div class="alert alert-danger" role="alert">{{$message}}</div>
+                                                                @enderror
+                                                                <div class="entry input-group custom_counter_g">
+                                                                    <div class="col-sm-10">
+                                                                    <textarea
+                                                                            class="form-control froala-editor @error('fields') is-invalid @enderror @error(sprintf('fields.%d.inp', $j)) is-invalid @enderror"
+                                                                            name="fields[{{$j}}][inp]"
+                                                                            type="text"
+                                                                            placeholder="{{__('messages.answer')}}">{{$item['inp']}}</textarea>
+
+                                                                        @error(sprintf('fields.%d.inp', $j))
+                                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                                        @enderror
+                                                                        @if($j == 0)
+                                                                            @error('fields')
+                                                                            <div class="invalid-feedback">{{$message}}</div>
+                                                                            @enderror
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="col-sm-1">
+                                                                    <span class="input-group-btn">
+                                                                        @if($j == 0)
+                                                                            <button class="btn btn-success btn-add"
+                                                                                    type="button">
+                                                                                <span class="fa fa-plus"></span>
+                                                                        </button>
+                                                                        @else
+                                                                            <button class="btn btn-danger btn-remove"
+                                                                                    type="button">
+                                                                                <span class="fa fa-minus"></span>
+                                                                            </button>
+                                                                        @endif
+                                                                </span>
+                                                                    </div>
+                                                                    <div class="col-sm-1">
+                                                                        <input type="checkbox"
+                                                                               name="fields[{{$j}}][check]"
+                                                                               {{isset($item['check'])?'checked':''}}
+                                                                               id="check_{{$j}}"
+                                                                               value="1"
+                                                                               class="form-check-input @error(sprintf('fields.%d.check', $j)) is-invalid @enderror">
+                                                                        <label class="form-check-label" title="{{__('messages.check_true')}}"
+                                                                               for="check_{{$j}}"></label>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            @endforeach
+                                                        @elseif(isset($test))
                                                             <?php $i = 0;?>
                                                             @foreach (json_decode($test->answers) as $key=>$value)
                                                                 <div class="entry input-group custom_counter_g">
-                                                                    <textarea class="form-control froala-editor"
-                                                                              name="fields[{{$i}}][inp]"
-                                                                              type="text"
-                                                                              placeholder="{{__('messages.answer')}}">{{$value->inp}}</textarea>
+                                                                    <div class="col-sm-10">
+                                                                    <textarea
+                                                                            class="form-control froala-editor @error(sprintf('fields.%d.inp', $i)) is-invalid @enderror"
+                                                                            name="fields[{{$i}}][inp]"
+                                                                            type="text"
+                                                                            placeholder="{{__('messages.answer')}}">{{$value->inp}}</textarea>
+                                                                    @error(sprintf('fields.%d.inp', $i))
+                                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                                    @enderror
+                                                                    @if($i == 0)
+                                                                        @error('fields')
+                                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                                        @enderror
+                                                                    @endif
+                                                                    </div>
                                                                     <span class="input-group-btn">
-                                                                        <button class="btn {{$i+1 == count((array)json_decode($test->answers)) ?
-                                                                                    "btn-success btn-add" : "btn-danger btn-remove"}}"
-                                                                                type="button">
-                                                                                <span class="fa {{$i+1 == count((array)json_decode($test->answers)) ?
-                                                                                    "fa-plus" : "fa-minus"}}"></span>
+                                                                         @if($i == 0)
+                                                                            <button class="btn btn-success btn-add"
+                                                                                    type="button">
+                                                                                <span class="fa fa-plus"></span>
                                                                         </button>
+                                                                        @else
+                                                                            <button class="btn btn-danger btn-remove"
+                                                                                    type="button">
+                                                                                <span class="fa fa-minus"></span>
+                                                                            </button>
+                                                                        @endif
                                                                 </span>
                                                                     <input type="checkbox" name="fields[{{$i}}][check]"
-                                                                           id="{{$i}}"
+                                                                           id="check_{{$i}}"
                                                                            {{array_key_exists("check",(array)$value) ? "checked" : ""}}
-                                                                           class="form-check-input">
-                                                                    <label class="form-check-label"
-                                                                           for="{{$i}}"></label>
+                                                                           value="1"
+                                                                           class="form-check-input @error(sprintf('fields.%d.check', $i)) is-invalid @enderror">
+                                                                    @error(sprintf('fields.%d.check', $i))
+                                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                                    @enderror
+                                                                    <label class="form-check-label" title="{{__('messages.check_true')}}"
+                                                                           for="check_{{$i}}"></label>
                                                                 </div>
                                                                 <?php $i++?>
                                                             @endforeach
-                                                        @endif
-                                                        @if(!isset($test))
+                                                        @elseif(!isset($test))
                                                             <div class="entry input-group custom_counter_g">
                                                                 <div class="col-sm-10">
-                                                                    <textarea class="form-control froala-editor"
-                                                                              name="fields[0][inp]"
-                                                                              type="text"
-                                                                              placeholder="{{__('messages.answer')}}"></textarea>
+                                                                    <textarea
+                                                                            class="form-control froala-editor"
+                                                                            name="fields[0][inp]"
+                                                                            type="text"
+                                                                            placeholder="{{__('messages.answer')}}"></textarea>
                                                                 </div>
                                                                 <div class="col-sm-1">
                                                                     <span class="input-group-btn">
@@ -132,7 +207,7 @@
                                                                            id="0"
                                                                            value="1"
                                                                            class="form-check-input">
-                                                                    <label class="form-check-label" for="0"></label>
+                                                                    <label class="form-check-label" title="{{__('messages.check_true')}}" for="0"></label>
                                                                 </div>
                                                             </div>
                                                         @endif
