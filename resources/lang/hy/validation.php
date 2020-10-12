@@ -89,6 +89,10 @@ return [
         'string' => ' պետք է լինի առնվազն :min տառից ավել։',
         'array' => 'The :attribute must have at least :min items.',
     ],
+    'answers' =>[
+        'min' =>'Հարցը պետք է ունենա ամենաքիչը 2 պատասխան։',
+        'check' =>'Հարցը պետք է ունենա առնվազն 1 ճիշտ պատասխան։'
+    ],
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => ' դաշտը պետք է լինի թիվ:',

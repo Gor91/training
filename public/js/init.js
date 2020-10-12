@@ -326,28 +326,23 @@ $(document).ready(function () {
             var template = '<div class="entry input-group custom_counter_g"><div class="col-sm-10">\
                         <textarea class="form-control froala-editor"\
                     name="fields[' + t + '][inp]"\
+                    placeholder="Պատասխան"\
                     type="text"></textarea></div>\
                         <div class="col-sm-1">\
                         <span class="input-group-btn">\
-                        <button class="btn btn-success btn-add" type="button">\
-                        <span class="fa fa-plus"></span>\
+                        <button class="btn btn-danger btn-remove" type="button">\
+                        <span class="fa fa-minus"></span>\
                         </button>\
                         </span>\
                         </div>\
                         <div class="col-sm-1">\
                         <input type="checkbox" name="fields[' + t + '][check]" id="check_' + t + '" value="1" class="form-check-input">\
-                        <label class="form-check-label" for="check_' + t + '"></label>\
+                        <label class="form-check-label" title="Նշել որպես ճիշտ" for="check_' + t + '"></label>\
                         </div>\
                         </div>\
                         </div>';
             var dynaForm = $('.dynamic-wrap:first');
             $($.parseHTML(template)).appendTo(dynaForm);
-
-            dynaForm.find('.entry:not(:last) .btn-add')
-                .removeClass('btn-add').addClass('btn-remove')
-                .removeClass('btn-success').addClass('btn-danger')
-                .html('<span class="fa fa-minus"></span>');
-            t++;
             init_editor();
         }).on('click', '.btn-remove', function (e) {
             $(this).parents('.entry:first').remove();
