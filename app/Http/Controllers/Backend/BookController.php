@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Account;
-use App\Models\Videos;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class VideoController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +19,9 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos = Videos::query()->with('lectures')->get();
+        $books = Book::query()->get();
 
-        return view('backend.video.index', compact('videos'));
+        return view('backend.book.index', compact('books'));
     }
 
     /**
@@ -33,9 +32,7 @@ class VideoController extends Controller
     public function create()
     {
         try {
-            $lectures = Account::query()->where(['role' => 'lecture'])->get()->toArray();
-
-            return view('backend.video.create', compact('lectures'));
+            return view('backend.book.create');
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('backend/dashboard')->with('error', Lang::get('messages.wrong'));
@@ -52,29 +49,27 @@ class VideoController extends Controller
     {
         $input = $request->all();
 
-        $validator = Validator::make($input, Videos::rules());
+        $validator = Validator::make($input, Book::rules());
 
         if ($validator->fails()) {
-            return redirect('backend/videos/create')
+            return redirect('backend/book/create')
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $model = new Videos();
+        $model = new Book();
         $model->title = $input['title'];
         $model->path = $input['path'];
-        $model->duration = isset($input['duration']) ? $input['duration'] : null;
-        $model->lectures_id = $input['lecture'];
 
         try {
             if ($model->save()) {
-                return redirect('backend/videos/create')->with('success', Lang::get('messages.success'));
+                return redirect('backend/book/create')->with('success', Lang::get('messages.success'));
             }
         } catch (\Exception $e) {
             logger()->error($e);
         }
 
-        return redirect('backend/videos/create')->with('error', Lang::get('messages.wrong'));
+        return redirect('backend/book/create')->with('error', Lang::get('messages.wrong'));
     }
 
     /**
@@ -97,12 +92,11 @@ class VideoController extends Controller
     public function edit($id)
     {
         try {
-            $lectures = Account::query()->where(['role' => 'lecture'])->get()->toArray();
-            $model = Videos::query()->where(['id' => $id]);
+            $model = Book::query()->where(['id' => $id]);
 
             if ($model->exists()) {
-                $video = $model->first();
-                return view('backend.video.edit', compact('lectures', 'video'));
+                $book = $model->first();
+                return view('backend.book.edit', compact('book'));
             }
         } catch (\Exception $exception) {
             logger()->error($exception);
@@ -120,10 +114,10 @@ class VideoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $video = Videos::query()->where(['id' => $id]);
+        $book = Book::query()->where(['id' => $id]);
 
-        if ($video->exists()) {
-            $model = $video->first();
+        if ($book->exists()) {
+            $model = $book->first();
         } else {
             throw new NotFoundHttpException();
         }
@@ -131,18 +125,15 @@ class VideoController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'title' => 'required|string|min:2|max:190|unique:videos,title,' . $id,
-            'path' => 'sometimes|nullable|string|min:2|max:190|unique:videos,path,' . $id,
-            'video' => 'sometimes|mimes:mp4',
-            'duration' => 'sometimes|nullable|numeric',
-            'lecture' => 'required|exists:accounts,id',
+            'title' => 'required|string|min:2|max:190|unique:books,title,' . $id,
+            'path' => 'sometimes|nullable|string|min:2|max:190|unique:books,path,' . $id,
         ], [
             'title.unique' => __('messages.title_unique'),
             'path.unique' => __('messages.path_unique')
         ]);
 
         if ($validator->fails()) {
-            return redirect(sprintf('backend/videos/%s/edit', $id))
+            return redirect(sprintf('backend/book/%s/edit', $id))
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -157,8 +148,6 @@ class VideoController extends Controller
         }
 
         $model->title = $input['title'];
-        $model->duration = isset($input['duration']) ? $input['duration'] : null;
-        $model->lectures_id = $input['lecture'];
 
         try {
             if ($model->save()) {
@@ -166,16 +155,19 @@ class VideoController extends Controller
                     Storage::disk('s3')->delete($old_path);
                 }
 
-                return redirect('backend/videos')->with('success', Lang::get('messages.updated'));
+                return redirect('backend/book')->with('success', Lang::get('messages.updated'));
             }
         } catch (\Exception $e) {
             logger()->error($e);
         }
 
-        return redirect('backend/videos')->with('error', Lang::get('messages.wrong'));
+        return redirect('backend/book')->with('error', Lang::get('messages.wrong'));
     }
 
-    public function removeVideo(Request $request)
+    /**
+     * @param Request $request
+     */
+    public function removeBook(Request $request)
     {
         $name = $request->post('name');
 
@@ -190,8 +182,22 @@ class VideoController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        //
+        try {
+            $name = $book->path;
+
+            if ($name && Storage::disk('s3')->exists($name)) {
+                Storage::disk('s3')->delete($name);
+            }
+
+            if ($book->delete()) {
+                return redirect('backend/book')->with('success', Lang::get('messages.deleted'));
+            };
+        } catch (\Exception $e) {
+            logger()->error($e);
+        }
+
+        return redirect('backend/book')->with('error', Lang::get('messages.wrong'));
     }
 }

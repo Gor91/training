@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gtech-pc
- * Date: 06.08.2020
- * Time: 15:19
- */
 
 namespace App\Services;
 
 
-use App\Models\Specialties;
 use App\Models\SpecialtiesType;
+use App\Models\Specialty;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -90,7 +84,7 @@ class TypeService
 
     public function typeCheck($request)
     {
-        $specialties = Specialties::where('type_id', $request->id)->first();
+        $specialties = Specialty::where('type_id', $request->id)->first();
         if (!$specialties)
             throw new ModelNotFoundException('
             remove chi eghel ');

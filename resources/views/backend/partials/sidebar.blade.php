@@ -134,6 +134,7 @@
                             <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">{{__('messages.media')}}</span></span></li>
                             <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{action('Backend\VideoController@index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet flaticon2-arrow"><span></span></i><span class="kt-menu__link-text">{{__('messages.videos')}}</span></a></li>
                             <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{action('Backend\ImageController@index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet flaticon2-image-file"></i><span class="kt-menu__link-text">{{__('messages.images')}}</span></a></li>
+                            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{action('Backend\BookController@index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet flaticon2-open-text-book"></i><span class="kt-menu__link-text">{{__('messages.books')}}</span></a></li>
                         </ul>
                     </div>
                 </li>

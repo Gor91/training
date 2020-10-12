@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Specialty;
 use App\Services\SpecialtyService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -36,6 +37,29 @@ class SpecialtyController extends Controller
             logger()->error($exception);
             return redirect('backend/specialty')->with('error', __('specialtys.wrong'));
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return false|string
+     */
+    public function list(Request $request)
+    {
+        $data = Specialty::query()->get()->toArray();
+        $tmp = [];
+
+        if (!empty($data)) {
+            foreach ($data as $datum) {
+
+                if ($datum['parent_id']) {
+                    $tmp[$datum['parent_id']]['children'][] = $datum;
+                } else {
+                    $tmp[$datum['id']] = $datum;
+                }
+            }
+        }
+
+        return json_encode($tmp);
     }
 
     /**
@@ -148,6 +172,4 @@ class SpecialtyController extends Controller
     {
         //
     }
-
-
 }

@@ -17,7 +17,7 @@
                                 <h3 class="kt-portlet__head-title ">
                                    <span class="kt-portlet__head-icon">
 											<i class="kt-font-brand flaticon-user-add"></i>
-                                   {{__('messages.add')}} {{__('messages.new_video')}}&nbsp;
+                                   {{__('messages.add')}} {{__('messages.new_book')}}&nbsp;
                                        </span>
                                 </h3>
                                 <span class="kt-portlet__head-icon">
@@ -29,7 +29,7 @@
                                 <div class="kt-portlet__head-wrapper">
                                     <div class="kt-portlet__head-actions">
                                         &nbsp;
-                                        <a href="{{action('Backend\VideoController@index')}}"
+                                        <a href="{{action('Backend\BookController@index')}}"
                                            class="btn btn-warning btn-sm ">
                                             <i class="la la-undo"></i>
                                             {{__('messages.back')}}
@@ -43,7 +43,7 @@
 
                             <!--begin: Form Wizard Form-->
                             <form class="kt-form" id="kt_form" method="post" enctype="multipart/form-data"
-                                  action="{{ action('Backend\VideoController@update', $video->id)}}">
+                                  action="{{ action('Backend\BookController@store')}}">
                             @csrf
                             <!--begin: Form Wizard Step 1-->
                                 <div id="kt-wizard_general" class="kt-wizard-v3__content"
@@ -59,39 +59,16 @@
 
                                                     <input id="name" type="text" name="title"
                                                            class="form-control @error('title') is-invalid @enderror"
-                                                           value="{{$video->title}}">
+                                                           value="{{old('name')}}">
                                                     @error('title')
                                                     <div class="alert alert-danger">{{$message}}</div>
                                                     @enderror
                                                 </div>
                                             </div>
 
-
                                             <div class="form-group row">
-                                                <label for="first_name"
-                                                       class="col-lg-2 col-form-label">{{__('messages.lecture')}}
-                                                    *</label>
-                                                <div class="col-lg-10">
-                                                    <select class="js-example-basic-multiple form-control @error('lecture') is-invalid @enderror"
-                                                            name="lecture">
-                                                        @if(isset($lectures))
-                                                            @foreach($lectures as $lecture)
-                                                                <option @if ($video->lectures_id == $lecture['id']) selected @endif value="{{$lecture['id']}}">
-                                                                    {{$lecture['name']}}
-                                                                </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    @error('lectures_id')
-                                                    <div class="alert alert-danger">{{$message}}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="email"
-                                                       class="col-lg-2 col-form-label">{{__('messages.video')}}
-                                                    *</label>
+                                                <label class="col-lg-2 col-form-label">{{__('messages.book')}}
+                                                    (.pdf)*</label>
                                                 <div class="col-lg-10">
                                                     <div class="kt-section kt-section--last">
                                                         <div class="kt-section__content">
@@ -109,7 +86,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="btn btn-success" for="fileuploader-video">
+                                                        <label class="btn btn-success" for="fileuploader-book">
                                                             {{__('messages.upload')}}
                                                         </label>
                                                         <label id="cancel" class="btn btn-warning"
@@ -122,17 +99,10 @@
                                                         @enderror
                                                     </div>
                                                     <input type="hidden"
-                                                           id="name_video"
+                                                           id="name_book"
                                                            name="path">
                                                     <input type="hidden"
-                                                           id="duration"
-                                                           name="duration">
-
-                                                    <video id="video" class="view-video col-lg-10" controls>
-                                                        <source src="{{sprintf("%s/%s",env('AWS_URL_ACL'),$video->path)}}"
-                                                                type="video/mp4">
-                                                        {{__('messages.not_support_html5_video')}}
-                                                    </video>
+                                                           id="src_book">
                                                 </div>
                                             </div>
                                         </div>
@@ -146,9 +116,9 @@
                                 <!--end: Form Actions -->
                             </form>
                             <input type="file" hidden
-                                   id="fileuploader-video"
-                                   name="video"
-                                   accept="video/*">
+                                   id="fileuploader-book"
+                                   name="book"
+                                   accept="application/pdf">
                             <!--end: Form Wizard Form-->
                         </div>
                     </div>
@@ -171,21 +141,25 @@
         var file_name = '';
         var up = null;
 
-        $("#fileuploader-video").on('change', function () {
+        $("#fileuploader-book").on('change', function () {
             var file = $(this)[0].files[0];
             if (!file) {
                 return false
             }
 
-            if (file.type !== 'video/mp4') {
-                alert('{{$invalid_format}}'.replace(':format', 'mp4'));
+            if (file.type !== 'application/pdf') {
+                alert('{{$invalid_format}}'.replace(':format', 'pdf'));
                 return false
             }
 
+            let name_book = $("#name_book");
+
+            if (name_book.val() !== '') {
+                removeBook();
+            }
+
             $(".alert-danger").hide();
-            $("video.view-video").hide();
-            $("video").attr("src", "");
-            $("#name_video").val('');
+            name_book.val('');
             $("#progress-bar").text('0');
             $('.progress-bar-striped').css('width', 0);
             $(".progress").removeAttr('hidden');
@@ -194,6 +168,7 @@
             $(".progress-extended").show();
             $("#cancel").removeAttr('hidden');
             $("#cancel").removeAttr('style');
+            $("#file_uploaded").text('');
 
             AWS.config.update({
                 accessKeyId: '{{$ACCESS_KEY_ID}}',
@@ -206,7 +181,7 @@
             var file_name_first = file.name;
             file_name = "{{$uniqueId}}" + "_" + file_name_first;
 
-            var file_key = "videos/" + file_name;
+            var file_key = "books/" + file_name;
             var params = {Key: file_key, ContentType: file.type, Body: file};
 
             up = s3bucket.upload(params, function (err, data) {
@@ -222,16 +197,12 @@
                 if (prog_percent === 100) {
                     $(".progress").hide();
                     $(".progress-extended").hide();
-                    $("#name_video").val(file_key);
+                    $("#name_book").val(file_key);
                     $("#remove").removeAttr('hidden');
                     $("#remove").show();
                     $("#cancel").hide();
-
-                    setTimeout(function () {
-                        $("video").attr("src", '{{$BUCKET_URL}}' + '/' + progress.key);
-                        $("video.view-video").removeAttr('hidden');
-                        $("video.view-video").css('display', 'block');
-                    }, 3000)
+                    $("#file_uploaded").text(file_name_first);
+                    $("#src_book").val('{{$BUCKET_URL}}' + '/' + progress.key);
                 }
             });
             up.send();
@@ -246,29 +217,29 @@
 
                 $(".progress-extended").hide();
                 $(".fileupload-progress").hide();
+                $("#file_uploaded").text('');
                 $(this).hide();
             }
         });
 
         $(document).on('click', '#remove', function () {
-            removeVideo();
+            removeBook();
         });
 
-        function removeVideo() {
-            var name_video = $("#name_video").val();
+        function removeBook() {
+            let name_book = $("#name_book").val();
 
-            if ($("#name_video").val() && confirm("{{$confirm_message}}".replace(':name', $("#file_uploaded").text()))) {
-                $("video.view-video").hide();
-                $("video").attr("src", "");
-                $("#name_video").val('');
+            if ($("#name_book").val() && confirm("{{$confirm_message}}".replace(':name', $("#file_uploaded").text()))) {
+                $("#name_book").val('');
                 $(".fileupload-progress").hide();
                 $("#remove").hide();
+                $("#file_uploaded").text('');
                 $(this).hide();
 
                 $.ajax({
                     method: 'POST',
-                    url: '/delete-video',
-                    data: {'name': name_video, '_token': $('input[name=_token]').val()},
+                    url: '/delete-book',
+                    data: {'name': name_book, '_token': $('input[name=_token]').val()},
                     success: function (data) {
                     },
                     error: function (err) {
@@ -277,9 +248,5 @@
                 })
             }
         }
-
-        $("#kt_form").submit(function () {
-            $('#duration').val(document.getElementById('video').duration);
-        });
     </script>
 @endsection

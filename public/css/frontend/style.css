@@ -106,7 +106,7 @@ button:focus {
 
 .fa {
 
-    color: #fff;
+    color: #a5a3a7;
     font-size: 25px;
 }
 
@@ -123,6 +123,9 @@ button:focus {
 
 .yellow {
     color: #fff800;
+}
+.or{
+    color:rgb(99, 30, 216);
 }
 
 /*Custom CSS */
@@ -629,8 +632,8 @@ button:focus {
 }
 
 .home_banner_area .banner_inner .banner_content h2 {
-    margin-top: 0px;
-    font-size: 40px;
+    /*margin-top: 0px;*/
+    /*font-size: 40px;*/
     font-weight: 700;
    /* color: #30013e;*/
     color: #771FF3;
@@ -659,7 +662,7 @@ button:focus {
 }
 
 .clock_sec h1 {
-    font-size: 40px;
+
     color: #fded45;
 }
 .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
@@ -1149,6 +1152,7 @@ button:focus {
     position: relative;
     padding-bottom: 10px;
     margin-bottom: 22px;
+    color: #631ed8;
 }
 
 .course_details_area .title:after {
@@ -1163,6 +1167,9 @@ button:focus {
 
 .course_details_left .course_list {
     margin-bottom: 0;
+}
+.vid_content{
+    color:#2f3031;
 }
 
 @media (max-width: 575px) {
@@ -1494,12 +1501,48 @@ button:focus {
     border-radius: 5px;
     margin-top: 65px;
 }
+.home_banner_area {
+    min-height: 234px;
+}
+
+.hooper {
+    height: 600px;
+}
+
+.hooper-pagination {
+    top: 0
+}
+.purple{
+color:rgb(99 30 216);
+}
+.purple:hover{
+    color:rgb(99 30 216);
+}
 
 @media (max-width: 767px) {
+    .d-flex {
+        display: block !important;
+        list-style-type: none;
+    }
+    .categories_post .d-flex{
+
+        display: flex !important;
+    }
+    .register form{
+        height: 1200px;
+    }
+    .clock_sec{
+        flex-direction: column;
+        margin-left: 0;
+        margin-right: 0;
+    }
     .clock_sec .clockinner {
-        margin: 0 15px;
+        /*margin: 0 15px;*/
         padding: 10px;
         margin-top: 30px;
+    }
+    .hooper {
+        height: 230px !important;
     }
 }
 
@@ -1776,6 +1819,9 @@ button:focus {
     position: relative;
     text-align: center;
     cursor: pointer;
+    border: 4px double #631ed8;
+    padding:10px 20px;
+    height:250px;
 }
 
 .categories_post img {
@@ -1783,13 +1829,13 @@ button:focus {
 }
 
 .categories_post .categories_details {
-    position: absolute;
+    /*position: absolute;
     top: 20px;
     left: 20px;
     right: 20px;
-    bottom: 20px;
+    bottom: 20px;*/
     /* background: rgba(34, 34, 34, 0.3);*/
-    color: #fff;
+    color: #631ed8;
     transition: all 0.3s linear;
     display: flex;
     align-items: center;
@@ -1803,6 +1849,9 @@ button:focus {
     text-transform: uppercase;
     color: #fff;
     position: relative;
+}
+.categories_post a{
+    color: #631ed8;
 }
 
 .categories_post .categories_details p {
@@ -1830,6 +1879,8 @@ button:focus {
 .categories_post:hover .categories_details {
     background-color: transparent;
     opacity: .6;
+    color:#FFF;
+    height: 220px;
 }
 
 /*============ blog_left_sidebar css ==============*/
@@ -2309,6 +2360,9 @@ button:focus {
 @media (max-width: 767px) {
     .single-post-area .navigation-area .nav-left {
         margin-bottom: 30px;
+    }
+    .navbar{
+        flex-direction: column;
     }
 }
 
@@ -3002,11 +3056,13 @@ b, sup, sub, u, del {
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 20px;
+    font-style: oblique;
+    text-align: center;
 }
 
 h2 {
-    font-size: 30px;
+    font-size: 25px;
 }
 
 h3 {
@@ -4446,8 +4502,8 @@ h6 {
     /* Home Banner Area css
   ============================================================================================ */
     .home_banner_area .banner_inner .banner_content h2 {
-        font-size: 40px;
-        line-height: 44px;
+        font-size: 20px;
+        line-height: 25px;
     }
 
     .home_banner_area {
@@ -4560,8 +4616,9 @@ h6 {
 .footer-area > .bg {
     background-image: url(../../images/bg.png);
     padding-bottom: 0;
-    background-size: 100% 100%;
-    background-position: left center;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 @media (max-width: 991px) {
@@ -4597,7 +4654,7 @@ h6 {
     list-style: none;
 }
 
-.footer-area .single-footer-widget ul li a {
+.footer-area .single-footer-widget ul li a, .help {
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
@@ -4725,6 +4782,9 @@ h6 {
     }
 }
 
+#logo{
+    display: none;
+}
 /*---------------------------------------------------- */
 
 /*# sourceMappingURL=style.css.map */
@@ -4920,4 +4980,10 @@ textarea {
 
 button {
     border: 0;
+}
+
+.help{
+    color: #30013e;
+    font-style: italic;
+    font-weight: bolder;
 }

@@ -97,7 +97,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"/>
     <!--begin::Global Theme Styles(used by all pages) -->
     <link href="{{ asset('/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
-
+    <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.2.0/css/froala_editor.pkgd.min.css' rel='stylesheet'
+          type='text/css'/>
     <!--end::Global Theme Styles -->
 @yield('stylesheets')
 <!--end::Layout Skins -->

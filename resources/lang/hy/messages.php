@@ -167,10 +167,14 @@ return [
     'select_territory' => 'Ընտրել բնակավայր',
     'street' => 'Հասցե',
 
-//  videos
+//  Media
     'media' => 'Մեդիա',
     'images' => 'Նկարներ',
     'videos' => 'Տեսանյութեր',
+    'books' => 'Գրքեր',
+    'book' => 'Գիրք',
+    'new_book' => 'Նոր գիրք',
+    'edit_book' => 'Փոխել գիրքը՝',
     'new_video' => 'նոր տեսանյութ',
     'video' => 'Տեսանյութ',
     'lecture' => 'Դասախոս',
@@ -182,12 +186,13 @@ return [
     'video_bytes' => ' բայթից',
     'duration' => 'Տևողություն',
     'not_support_html5_video' => 'Ձեր զննարկիչը չի ապահովում HTML5 տեսանյութը:',
-    'confirm_message' => 'Դու՞ք վստահ եք որ ցանկանում եք անվերադարձ հեռացնել տեսանյութը։',
-    'invalid_format' => 'Խնդրում ենք ընտրել «mp4» տիպի տեսանյութ',
+    'confirm_message' => 'Դու՞ք վստահ եք որ ցանկանում եք անվերադարձ հեռացնել :name-ը։',
+    'invalid_format' => 'Խնդրում ենք ընտրել «:format» տիպի տեսանյութ',
     'title_unique' => 'Նման անուն գոյություն ունի',
     'path_unique' => 'Նման ֆայլի հասցե գոյություն ունի',
 
 //  courses
+    'course' => 'Դասընթաց',
     'courses' => 'Դասընթացներ',
     'course_name' => 'Դասընթացի անվանում',
     'course_list' => 'Դասընթացների ցուցակ',
@@ -198,7 +203,7 @@ return [
     'course_status_archive' => 'Արխիվ',
     'course_date_format' => 'ԱՄ/ՕՐ/ՏԱՐԻ',
     'course_start_date' => 'Մեկնարկի ամսաթիվ',
-    'course_duration_date' => 'Վաղեմ․ Ժամկետ',
+    'course_end_date' => 'Վաղեմ․ Ժամկետ',
     'course_credit' => 'Կրեդիտ',
     'course_paragraph' => 'Դասընթաց',
     'video_version' => 'Դասընթաց վիդեո տարբերակով',
@@ -211,6 +216,8 @@ return [
     'credit_type' => 'Կրեդիտի տեսակ',
     'theoretical' => 'Տեսական',
     'practical' => 'Գործնական',
+    'selfeducation' => 'Ինքնակրթություն',
+    'course_name_unique' => 'Նաման անունով դասընթաց արդեն գոյություն ունի։',
     'unknown' => 'Անորոշ',
 
 // tests
