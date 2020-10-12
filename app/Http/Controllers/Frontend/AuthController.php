@@ -14,6 +14,7 @@ class AuthController extends Controller
 {
 
     use Registration;
+
     /**
      * Create a new AuthController instance.
      *
@@ -21,6 +22,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
@@ -44,14 +46,21 @@ class AuthController extends Controller
      */
     public function login()
     {
+        $unverified = request(['email', 'password']);
         $credentials = request(['email', 'password']);
         $credentials['status'] = 'approved';
-
-        if (!$token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        try {
+//          dd(JWTAuth::attempt($credentials));
+            if (!$token = auth('api')->attempt($unverified)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            if (!$token = auth('api')->attempt($credentials)) {
+                return response()->json(['error' => 'Unverified'], 401);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unauthorized'], 500);
         }
-
-        return $this->respondWithToken($token);
+        return $this->respondWithTokenById($token);
     }
 
     /**
@@ -83,7 +92,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth('api')->refresh());
+        return $this->respondWithTokenById(auth('api')->refresh());
     }
 
     /**
@@ -103,7 +112,7 @@ class AuthController extends Controller
                     $query->select(['account_id', 'email']);
                 },
                 'prof' => function ($query) {
-                    $query->select(['account_id',  'member_of_palace']);
+                    $query->select(['account_id', 'member_of_palace']);
                 }
             ])->where('id', $user->account_id)
             ->first();
@@ -113,6 +122,22 @@ class AuthController extends Controller
             'user' => $account,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
+    }
+
+    protected function respondWithTokenById($token)
+    {
+        $user = $this->guard()->user();
+
+
+        $account = Account::select('id')->where('id', $user->id)
+            ->first();
+
+        return response()->json([
+            'access_token' => $token,
+            'user' => $account,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 6000
         ]);
     }
 

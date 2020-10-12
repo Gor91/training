@@ -20,6 +20,7 @@
         </section>
         <!--================ Start Course Details Area =================-->
         <section class="course_details_area section_gap">
+            {{this.getAccountById}}
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 course_details_left">
@@ -34,27 +35,28 @@
                         </div>
                     </div>
                     <div class="col-lg-6 right-contents">
-                        <ul>
+                        <ul >
                             <li>
-                                <a class="justify-content-between d-flex" href="#">
+                                <div class="justify-content-between d-flex" >
                                     <p>{{texts.profilename}}</p>
-                                    <span class="or">{{currentUser.name}} {{currentUser.surname}} {{currentUser.father_name}}</span>
-                                </a>
+                                    <span class="or text-capitalize">{{account.name}} {{account.surname}} {{account.father_name}}</span>
+                                </div>
                             </li>
                             <li>
-                                <a class="justify-content-between d-flex" href="#">
+                                <div class="justify-content-between d-flex" >
                                     <p>{{texts.profession}} </p>
-                                    <span>{{currentUser.prof.profession}}</span>
-                                </a>
+                                    <span class="or text-capitalize">{{account.profession}}</span>
+                                </div>
                             </li>
                             <li>
-                                <a class="justify-content-between d-flex" href="#">
+                                <div class="justify-content-between d-flex" >
                                     <p>{{texts.email}}</p>
-                                    <span>{{currentUser.user.email}}</span>
-                                </a>
+                                    <span >{{account.email}}</span>
+                                </div>
                             </li>
                         </ul>
-                        <router-link :to="'/edit/'+currentUser.id" class="primary-btn text-uppercase enroll">{{texts.edit}}
+                        <router-link :to="'/edit/'+account.id" class="primary-btn text-uppercase enroll">
+                            {{texts.edit}}
                         </router-link>
                     </div>
                 </div>
@@ -66,28 +68,47 @@
 
 <script>
     import {uploadAvatar} from '../partials/auth';
-    import registertexts from './json/registertexts.json'
+    import registertexts from './json/registertexts.json';
+    import {specialty} from '../partials/help';
 
     export default {
-        props: ['input_name'],
+
         data() {
             return {
                 avatar: [],
                 url: null,
-                texts: registertexts
+                texts: registertexts,
+                account: ''
             }
         },
 
         computed: {
+
             currentUser: function () {
                 console.log(this.$store.getters.currentUser);
                 if (!this.$store.getters.currentUser)
                     return JSON.parse(localStorage.getItem('user'));
                 return this.$store.getters.currentUser
             },
+            getAccountById: function () {
+
+                let credentials = {
+                    id: this.currentUser.id,
+                    token: this.currentUser.token
+                };
+                axios.post('/api/auth/getaccountbyid', credentials)
+                    .then(response => {
+                        this.account = response.data.account;
+                        this.getSpecialties(this.account.profession);
+                        console.log(this.account);
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
             imgName: function () {
                 let src = "";
-                let img_name = this.$store.getters.currentUser.image_name;
+                let img_name = this.account.image_name;
                 let pattern = /\d+/ig;
                 if (pattern.exec(img_name))
                     src = "/uploads/images/avatars/" + img_name;
@@ -95,8 +116,20 @@
                     src = "/images/avatars/" + img_name;
                 return src;
             },
+
         },
         methods: {
+            getSpecialties(id) {
+               let credential = {id: id};
+                specialty(credential)
+                    .then(res => {
+
+                        this.account.profession = res.spec[0].name;
+                    })
+                    .catch(error => {
+                        this.$store.commit("getContentFailed", {error});
+                    });
+            },
             upload(file) {
                 // let file = this.$refs.avatar.files[0];
                 uploadAvatar(file, this.currentUser.id, this.currentUser.token)

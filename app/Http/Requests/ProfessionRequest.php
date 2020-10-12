@@ -38,7 +38,7 @@ class ProfessionRequest extends FormRequest
             'education_id' => 'required|integer',
             'profession' => 'required|integer',
             'member_of_palace' => 'boolean',
-            'diploma_1' => 'required|image',
+            'diploma_1' => 'image',
         ];
     }
 

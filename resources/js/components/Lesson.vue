@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-lg-4" v-for="course in courses" :key="course.id">
                         <div class="categories_post">
-                            <img :src="image_src" alt="post">
+                            <!--<img :src="image_src" alt="post">-->
                             <div class="categories_details">
                                 <div class="categories_text">
                                     <template v-if="!currentUser">
@@ -42,7 +42,8 @@
                                         <router-link to="/login" class="nav-link">{{text.login}}</router-link>
                                         <p class="nav-link">կամ</p>
 
-                                        <router-link to="/register" class="nav-link white"> {{text.register}}</router-link>
+                                        <router-link to="/register" class="nav-link"> {{text.register}}
+                                        </router-link>
                                     </div>
                                 </div>
                             </div>
@@ -81,8 +82,9 @@
 </template>
 
 <script>
-    import {getAllCourses,getCoursesById} from '../partials/courses';
+    import {getAllCourses, getCoursesById} from '../partials/courses';
     import pagetexts from './json/pages.json'
+
     export default {
         name: 'app-header',
         methods: {
@@ -101,7 +103,11 @@
                     })
             },
             getCourses(id) {
-                getCoursesById(id)
+                let credentials = {
+                    id: id,
+                    token: this.currentUser.token
+                };
+                getCoursesById(credentials)
                     .then(res => {
                         this.courses = res.courses;
                     })
@@ -111,7 +117,10 @@
 
         },
         computed: {
-            currentUser() {
+            currentUser: function () {
+                console.log(this.$store.getters.currentUser);
+                if (!this.$store.getters.currentUser)
+                    return JSON.parse(localStorage.getItem('user'));
                 return this.$store.getters.currentUser
             }
         },
@@ -119,12 +128,12 @@
             return {
                 courses: [],
                 image_src: '/css/frontend/img/background.png',
-                text:pagetexts,
+                text: pagetexts,
             }
         },
         beforeMount() {
-            if(!this.$store.getters.currentUser)
-            this.allcourses();
+            if (!this.$store.getters.currentUser)
+                this.allcourses();
             else
                 this.getCourses(this.$store.getters.currentUser.id);
         },

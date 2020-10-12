@@ -1,103 +1,96 @@
-<template>
-    <!--================ Start footer Area  =================-->
-    <footer class="footer-area ">
+<!--<template>-->
 
-        <div class="col-12 bg section_gap">
-            <div class="container">
-                <div class="row justify-content-around">
-                    <!--<div class="col-lg-4 col-md-6 single-footer-widget">-->
+<!--    <div class="container" ref="container"></div>-->
 
-                    <div class="col-lg-4 col-md-6 single-footer-widget text-center">
-                        <h4 class=" ">Արագ հղումներ</h4>
-                        <ul class="text-left">
-                            <li><a href="http://www.moh.am/" target="_blank">ՀՀ առողջապահության նախարարություն</a></li>
-                            <li><a href="https://ncdc.am/coronavirus/" target="_blank">Կորոնավիրուսային հիվանդություն
-                                (COVID-19)</a></li>
+<!--</template>-->
 
-                        </ul>
-                    </div>
+<!--<script>-->
+<!--    // window.PDFJS_LOCALE = {-->
+<!--    //     pdfJsWorker: 'flip-book/js/pdf.worker.js'-->
+<!--    // };-->
+<!--    // require('flip-book');-->
+<!--    // import Html2Canvas from 'flip-book/js/html2canvas.min';-->
+<!--    // import PDF from 'flip-book/js/pdf.min';-->
+<!--    // import  Three from 'flip-book/js/three.min';-->
+<!--    // import * as FlipBook from 'flip-book/dist/flip-book';-->
+<!--    // import {getBookById} from '../partials/courses';-->
 
-                    <div class="col-lg-4 col-md-6 single-footer-widget text-center ">
-                        <h4>Իրավական ակտեր</h4>
-                        <ul class="text-center">
-                            <li>
-                                <a href=" http://www.moh.am/#1/900002" target="_blank">Օրենքներ և Հրամաններ</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4 col-md-6 single-footer-widget text-center">
-                        <h4 class="col-lg-12 ">Միացեք մեզ</h4>
-                        <div class="footer-social">
-                            <a href="tel:+37443007107" class="small">
-                                <span class="fa fa-phone"></span>
-                                <span class="text">
-					        	<span class="text pl-3">(+374) 43-007-107</span>
-                                </span>
-                            </a>
 
-                        </div>
-                        <div class="footer-social">
-                            <a href="mailto:support@colorlib.com" class="small">
-                                <span class="fa fa-envelope-open-o pl-3"></span>
-                                <span class="text">
-								<span class="text pl-2">ccpdmw@mail.ru</span>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="footer-social d-inline-flex">
-                            <a href="https://www.facebook.com/pg/national.medical.palace.armenia/"
-                               target="_blank"><i class="fa fa-facebook"></i></a>
+<!--    export default {-->
+<!--        data() {-->
+<!--            return {-->
+<!--                path: '',-->
+<!--                title: ''-->
+<!--            }-->
+<!--        },-->
+<!--        components: {-->
+<!--            // Html2Canvas, Three, PDF-->
+<!--            // FlipBook-->
+<!--        },-->
+<!--        computed: {-->
+<!--            currentUser: function () {-->
+<!--                if (!this.$store.getters.currentUser)-->
+<!--                    return JSON.parse(localStorage.getItem('user'));-->
+<!--                return this.$store.getters.currentUser-->
+<!--            }-->
+<!--        },-->
+<!--        methods: {-->
+<!--            getBook: function () {-->
+<!--                let credentials = {-->
+<!--                    id: this.$route.params.id,-->
+<!--                    token: this.currentUser.token-->
+<!--                };-->
+<!--                getBookById(credentials)-->
+<!--                    .then(res => {-->
+<!--                        this.path = res.book.path;-->
+<!--                        this.title = res.book.title;-->
 
-                        </div>
-                        <div class="footer-social d-inline-flex">
-                            <a href="mailto:name@email.com"> <i class="fa fa-envelope"></i></a>
-                        </div>
+<!--                    })-->
+<!--                    .catch(error => {-->
+<!--                        console.log('error');-->
+<!--                        // this.$store.commit("registerFailed", {error});-->
+<!--                    })-->
+<!--            },-->
+<!--        },-->
+<!--        beforeMount() {-->
+<!--            this.getBook();-->
 
-                    </div>
-                </div>
+<!--        },-->
+<!--        mounted() {-->
+<!--            // this.$refs.container.FlipBook({-->
+<!--            //     pdf: 'books/pdf/FoxitPdfSdk.pdf',-->
+<!--            //     template: {-->
+<!--            //         html: 'node_modules/flip-book/templates/default-book-view.html',-->
+<!--            //         links: [-->
+<!--            //             {-->
+<!--            //                 rel: 'stylesheet',-->
+<!--            //                 href: 'node_modules/flip-book/css/font-awesome.min.css'-->
+<!--            //             }-->
+<!--            //         ],-->
+<!--            //         styles: [-->
+<!--            //             'node_modules/flip-book/css/short-black-book-view.css'-->
+<!--            //         ],-->
+<!--            //         links: [{-->
+<!--            //             rel: 'stylesheet',-->
+<!--            //             href: 'node_modules/flip-book/css/font-awesome.min.css'-->
+<!--            //         }],-->
+<!--            //         script: 'node_modules/flip-book/js/default-book-view.js'-->
+<!--            //     }-->
+<!--            // });-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!--<style type="text/css">-->
 
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row footer-bottom  d-flex justify-content-center">
-                <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">Copyright © 2020 All rights reserved |
-                    Նախագծված և իրականացված է <i class="fa fa-heart-o" aria-hidden="true"></i> <a href="#">GTECH LLC</a>
-                    կողմից</p>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
-</template>
+<!--    .book-container {-->
+<!--        height: 95vh;-->
+<!--        width: 95%;-->
+<!--        margin: 20px auto;-->
+<!--        border: 2px solid red;-->
+<!--        box-shadow: 0 0 5px red;-->
+<!--    }-->
 
-<script>
-    import {getCoursesTitle} from '../partials/courses';
-
-    export default {
-        data() {
-            return {
-                coursestitles: [],
-                nurse: '/css/template/img/nurse.svg',
-                doctor: '/css/template/img/doctor.png',
-                pharmacy: '/css/template/img/pharmacy-symbol.svg',
-                phar: '/css/template/img/pharmacy.png'
-            };
-        },
-        methods: {
-            coursestitle: function () {
-                getCoursesTitle()
-                    .then(res => {
-                        this.coursestitles = res.data;
-
-                    })
-                    .catch(error => {
-                        console.log('errorsss');
-                        // this.$store.commit("registerFailed", {error});
-                    })
-            }
-        },
-        beforeMount() {
-            this.coursestitle()
-        },
-
-    }
-</script>
-
+<!--    .fullscreen {-->
+<!--        background-color: #333;-->
+<!--    }-->
+<!--</style>-->

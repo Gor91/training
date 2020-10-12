@@ -36,8 +36,7 @@ class UserRequest extends FormRequest
         return [
             'email' => 'required|email|unique:users,id',
             'password' => 'required|min:6',
-            're_password' => 'required|min:6|same:password',
-
+//            're_password' => 'required|min:6|same:password',
         ];
     }
 
@@ -56,7 +55,7 @@ class UserRequest extends FormRequest
 
             'email.required' => $email . __('validation.required'),
             'password.required' => __('messages.password') . __('validation.required'),
-            're_password.required' => __('messages.password') . __('validation.required'),
+//            're_password.required' => __('messages.password') . __('validation.required'),
             'email.email' => $email . __('validation.email'),
             'email.unique' => __('validation.unique'),
 //            'phone.required' => $phone . __('validation.required'),

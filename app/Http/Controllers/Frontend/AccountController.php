@@ -11,12 +11,13 @@ use App\Http\Requests\ProfessionApproveRequest;
 use App\Http\Requests\ProfessionEditRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Models\Account;
+use App\Models\Message;
 use App\Models\User;
+use App\Notifications\ManageUserStatus;
 use App\Services\AccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AccountController extends Controller
@@ -36,10 +37,21 @@ class AccountController extends Controller
     public function __construct(AccountService $service)
     {
         $this->service = $service;
-        $this->user = JWTAuth::parseToken()->authenticate();
+//        $this->user = JWTAuth::parseToken()->authenticate();
 //        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
+
+    public function getAccountById()
+    {
+        $account = $this->service->getFAccountById(request('id'));
+        return response()->json([
+            'access_token' => request('token'),
+            'account' => $account,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * (int)__('messages.expires_in')
+        ]);
+    }
 
     /**
      * @param Request $request
@@ -53,7 +65,7 @@ class AccountController extends Controller
             'access_token' => $request->token,
             'video' => $video,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * (int)__('messages.expires_in')
         ]);
     }
 
@@ -65,6 +77,7 @@ class AccountController extends Controller
     public function avatar(AvatarRequest $request)
     {
 //todo test
+
         $result = $this->service->updateFAvatar($request);
         if ($result)
             return $this->respondWithToken($request->token);
@@ -141,7 +154,7 @@ class AccountController extends Controller
             'access_token' => $token,
             'user' => $account,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60 * 3
+            'expires_in' => auth('api')->factory()->getTTL() * (int)__('messages.expires_in')
         ]);
     }
 
@@ -168,6 +181,24 @@ class AccountController extends Controller
             logger()->error($exception);
             return response()->json(['success' => false, 'user' => $id], 500);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editProfile(Request $request, $id)
+    {
+        $profile = $this->service->getFAccountById($id);
+        $approve = $this->service->getFAccount($id);
+        return response()->json([
+            'access_token' => $request->token,
+            'user' => $profile,
+            'app' => $approve,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * (int)__('messages.expires_in')
+        ]);
     }
 
     /**

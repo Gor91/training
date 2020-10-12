@@ -10,6 +10,8 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPasswordForm from './pages/ResetPasswordForm';
 import Lesson from './components/Lesson.vue';
 import Coursedetails from './components/Coursedetails.vue';
+import Books from './components/Books.vue';
+import Payment from './components/Payment.vue';
 
 
 export const routes = [
@@ -98,6 +100,17 @@ export const routes = [
         },
     },
     {
+        path: '/books/:id',
+        name: 'books',
+        component: Books,
+        meta: {
+            breadCrumbs: [{
+                to: '/books', // hyperlink
+                text: 'ԴԱՍԸՆԹԱՑՆԵՐ' // crumb text
+            }]
+        },
+    },
+    {
         path: '/reset-password',
         name: 'reset-password',
         component: ForgotPassword,
@@ -113,5 +126,17 @@ export const routes = [
         meta: {
             auth: false
         }
-    }
+    },
+    {
+        path: '/payment',
+        name: 'payment',
+        component: Payment,
+        meta: {
+            requiresAuth: true,
+            breadCrumbs: [{
+                to: '/payment', // hyperlink
+                text: 'Վճարում' // crumb text
+            }]
+        },
+    },
 ];

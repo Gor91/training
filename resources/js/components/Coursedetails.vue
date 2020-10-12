@@ -26,23 +26,29 @@
                 <div class="col-lg-12 m-0 pb-5"><h2 class="or"> {{datas.name}}</h2></div>
                 <div class="row">
                     <div class="col-lg-8 course_details_left">
-                        <div class="main_image">
-                            <hooper :itemsToShow="1">
-                                <slide v-for="(info,index) in video_info" :key="index" :index="index">
-
+                        <div class="main_image" v-if="video_info">
+                            <hooper :itemsToShow="1" >
+                                <slide v-for="(info, index) in video_info" :key="index" :index="index">
                                     <video ref="video" class="view-video col-lg-12" controls
-                                           v-on:loadeddata="manageEvents(info.id)">
+                                           v-on:loadeddata="manageEvents(info.id, index)">
                                         <source :src="info.path">
                                     </video>
                                     <div class="col-lg-12">
                                         <h5 class="title">{{info.title}}</h5>
-                                        <h5>{{`${info.lectures.name} ${info.lectures.surname}
+                                        <h5 class="vid_content">{{`${info.lectures.name} ${info.lectures.surname}
                                             ${info.lectures.father_name}`}}</h5>
                                     </div>
                                 </slide>
                                 <hooper-pagination slot="hooper-addons"></hooper-pagination>
                             </hooper>
 
+                        </div>
+                        <div class="attachment-mark">
+                            <h4 class="title">{{coursetexts.books}}</h4>
+                            <template v-if="books" v-for="book in books">
+                                <i class="fa fa-book text"></i> <router-link to="/books/1" class="text" target="_blank">{{book.title}}</router-link>
+
+                            </template>
                         </div>
                         <div class="content_wrapper">
                             <h4 class="title">{{coursetexts.content}}</h4>
@@ -84,8 +90,10 @@
                                 </a>
                             </li>
                         </ul>
-                        <a href="#" class="primary-btn text-uppercase enroll">{{coursetexts.paid}}</a>
-
+                        <a href="#" class="primary-btn text-uppercase enroll"  v-bind:class="{ 'isDisabled': !isFinished }" >{{coursetexts.test}}</a>
+                        <!--<a href="#" class="primary-btn text-uppercase enroll">{{coursetexts.paid}}</a>-->
+                        <router-link :to="{ name: 'payment' }" class="primary-btn text-uppercase enroll nav-link">{{coursetexts.paid}}
+                        </router-link>
 
                         <div class="content">
                             <div class="review-top row pt-40">
@@ -124,8 +132,8 @@
 </template>
 
 <script>
-    import {getVideoDetails} from '../partials/video';
-    import {getCourseDetails} from '../partials/courses';
+    import {addPoints, getVideoDetails} from '../partials/video';
+    import {checkFinishedVideo, getCourseDetails} from '../partials/courses';
     import coursetexts from './json/course.json';
     import {Hooper, Pagination as HooperPagination, Slide} from 'hooper';
     import 'hooper/dist/hooper.css';
@@ -133,9 +141,9 @@
     export default {
         data() {
             return {
-
+                book: '/css/frontend/img/ekg.png',
                 video_info: [],
-                video: 'http://iandevlin.github.io/mdn/video-player/video/tears-of-steel-battle-clip-medium.mp4',
+                books:[],
                 feedback: '',
                 datas: [],
                 specialites: [],
@@ -153,73 +161,123 @@
                     {id: 5}
 
                 ],
-
-
+                isFinished: false
             };
+        },
+        computed: {
+            currentUser: function () {
+                if (!this.$store.getters.currentUser)
+                    return JSON.parse(localStorage.getItem('user'));
+                return this.$store.getters.currentUser
+            }
         },
         components: {
             Hooper,
             Slide, HooperPagination
         },
         methods: {
-            manageEvents(id) {
-                alert(id);
-                this.$nextTick(() => {
-                    getVideoDetails(id).
-                    then(res => {
-                        console.log(res)
+            manageEvents(id, index) {
 
-                    })
+                this.$nextTick(() => {
+                    let credentials = {
+                        id: id,
+                        token: this.currentUser.token
+                    };
+                    getVideoDetails(credentials)
+                        .then(res => {
+                            if (res.video.status === "progress" || !res.video) {
+                                let _this = this;
+                                if (_this.$refs.video) {
+                                    let supposedCurrentTime = 0, backTime = 0;
+                                    let video = _this.$refs.video[index], isPlay = true;
+
+                                    video.addEventListener('play', function () {
+                                        if (isPlay) {
+                                            video.currentTime = res.video.point;
+                                            supposedCurrentTime = res.video.point;
+                                            isPlay = false;
+                                        }
+                                    });
+
+                                    video.addEventListener('timeupdate', function () {
+                                        if (!video.seeking) {
+                                            supposedCurrentTime = video.currentTime;
+                                        } else
+                                            backTime = video.currentTime;
+                                    });
+
+                                    video.addEventListener('seeking', function () {
+                                        console.log('seeking', video.currentTime);
+                                        let back = backTime - supposedCurrentTime;
+                                        if (back < 0) {
+                                            supposedCurrentTime = backTime;
+                                        } else {
+                                            let delta = video.currentTime - supposedCurrentTime;
+                                            if (Math.abs(delta) > 0.01) {
+                                                console.log("Seeking is disabled");
+                                                video.currentTime = supposedCurrentTime;
+                                            }
+                                        }
+                                    });
+
+                                    video.addEventListener('pause', () => {
+                                        // video.currentTime = supposedCurrentTime;
+                                        _this.addPoint(id, video.currentTime);
+                                    });
+
+                                    video.addEventListener('ended', function () {
+                                        _this.addPoint(id, video.currentTime);
+                                    });
+                                }
+                            }
+                        })
                         .catch(error => {
                             this.$store.commit("getContentFailed", {error});
                         });
-                    let _this = this;
-                    // if (_this.$refs.video) {
-                    //     let supposedCurrentTime = 0, backTime = 0;
-                    //     let video = _this.$refs.video;
-                    //
-                    //     video.addEventListener('timeupdate', function () {
-                    //         if (!video.seeking) {
-                    //
-                    //             supposedCurrentTime = video.currentTime;
-                    //         } else
-                    //             backTime = video.currentTime;
-                    //     });
-                    //
-                    //     video.addEventListener('seeking', function () {
-                    //
-                    //
-                    //         let back = backTime - supposedCurrentTime;
-                    //
-                    //         if (back < 0) {
-                    //             video.currentTime = backTime;
-                    //             supposedCurrentTime = backTime;
-                    //             console.log(supposedCurrentTime);
-                    //         } else {
-                    //             let delta = video.currentTime - supposedCurrentTime;
-                    //             if (Math.abs(delta) > 0.01) {
-                    //                 console.log("Seeking is disabled");
-                    //                 video.currentTime = supposedCurrentTime;
-                    //             }
-                    //         }
-                    //     });
-                    //     video.addEventListener('pause', function () {
-                    //         video.currentTime = supposedCurrentTime;
-                    //     });
-                    //     video.addEventListener('ended', function () {
-                    //
-                    //         supposedCurrentTime = 0;
-                    //     });
-                    // }
-                    console.log(_this.$refs.video)
                 });
             },
-            coursedetails: function () {
-                getCourseDetails(this.$route.params.id)
+            addPoint(id, point) {
+                let credentials = {
+                    id: id,
+                    user_id: this.currentUser.id,
+                    token: this.currentUser.token,
+                    point: point
+                };
+                addPoints(credentials)
                     .then(res => {
+                    })
+                    .catch(error => {
+                        console.log('error');
+                        // this.$store.commit("registerFailed", {error});
+                    })
+            },
+            finishedVideo() {
+                let credentials = {
+                    id: this.$route.params.id,
+                    user_id: this.currentUser.id,
+                    token: this.currentUser.token
+                };
+                checkFinishedVideo(credentials)
+                    .then(res => {
+                        this.isFinished = res;
+                    })
+                    .catch(error => {
+                        console.log('error');
+                        // this.$store.commit("registerFailed", {error});
+                    })
+            },
+            coursedetails: function () {
+                let credentials = {
+                    id: this.$route.params.id,
+                    token: this.currentUser.token
+                };
+                getCourseDetails(credentials)
+                    .then(res => {
+                        console.log(res.data)
                         this.datas = res.data;
                         this.datas.credit = JSON.parse(res.data.credit);
                         this.video_info = JSON.parse(res.data.videos);
+                        this.books = JSON.parse(res.data.books);
                         this.specialites = res.specialities;
                         // this.manageEvents();
 
@@ -277,12 +335,11 @@
                      alert('Fill all fields.');
                  }*/
             }
-
         },
         beforeMount() {
             this.coursedetails();
+            this.finishedVideo();
         },
-
     }
 
 </script>
@@ -298,6 +355,10 @@
     .hooper-pagination {
         top: 0
     }
-
+    .isDisabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+    }
 </style>
 

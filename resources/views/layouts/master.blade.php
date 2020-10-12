@@ -48,7 +48,7 @@ $user = isAdmin();
                             <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
 
                                 <!--begin: Head -->
-                                <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x"
+                                <div class="kt-user-card kt-user-card--skin-light kt-notification-item-padding-x"
                                      style="background-image: url({{asset('assets/media/misc/bg-1.jpg')}})">
                                     <div class="kt-user-card__avatar">
 

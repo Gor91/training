@@ -98,9 +98,9 @@ class AccountService
             ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
             ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
             ->join('users AS u', 'u.account_id', '=', 'a.id')
-            ->select('a.id', 'a.name', 'a.surname', 'a.father_name',
+            ->select('a.id', 'a.name', 'a.surname', 'a.father_name', 'a.image_name',
                 'a.bday', 'u.email', 'a.phone', 'a.home_address', 'a.work_address', 'a.workplace_name',
-                'p.specialty_id as specialty_id', 'sp.id as education_id', 's.type_id as profession')
+                'p.specialty_id as specialty_id', 'sp.id as education_id', 's.type_id as profession', 'p.info')
             ->where('a.id', '=', $id)
             ->first();
         if (!$account)
@@ -133,6 +133,7 @@ class AccountService
     {
 
         $home_address = json_decode($account->home_address, true);
+
         if (!empty($home_address['h_region']))
             $account->h_region = getRegionName($home_address['h_region']);
         if (!empty($home_address['h_street']))
@@ -141,7 +142,9 @@ class AccountService
             $account->h_territory = getRegionName($home_address['h_territory']);
 
         $work_address = json_decode($account->work_address, true);
+
         if (!empty($work_address['w_region']))
+
             $account->w_region = getRegionName($work_address['w_region']);
         if (!empty($work_address['w_street']))
             $account->w_street = $work_address['w_street'];
@@ -161,6 +164,7 @@ class AccountService
         foreach ($accounts as $index => $account) {
 
             $home_address = json_decode($account->home_address, true);
+
             $accounts[$index]->h_region = getRegionName($home_address['h_region']);
             $accounts[$index]->h_street = $home_address['h_street'];
             $accounts[$index]->h_territory = getRegionName($home_address['h_territory']);
@@ -250,8 +254,15 @@ class AccountService
 
             $this->updateProfession($profRequest, $id);
             $this->updateUserByParam('pending', $id, 'status');
+
+            $message = Message::where('key', 'registered_user')->first();
+            $account = Account::where('id', $id)->first();
+            $user = User::select('email')->where('account_id', $id)->first();
+
+            $user->notify(new ManageUserStatus($user, $account, $message));
             DB::commit();
         } catch (\Exception $exception) {
+            dd($exception);
             DB::rollback();
             logger()->error($exception);
         }
@@ -278,14 +289,13 @@ class AccountService
             $account['work_address'] = $this->addressToJson($accountRequest->w_region, $accountRequest->w_territory, $accountRequest->w_street, 'w');
 
             $this->model->update($account, $id);
-
             Profession::where('account_id', $id)
                 ->update([
                     'specialty_id' => $professionRequest->specialty_id,
                     'info' => $professionRequest->info
                 ]);
 
-            $uu =$this->updateUserByParam($userRequest->email, $id, 'email');
+            $uu = $this->updateUserByParam($userRequest->email, $id, 'email');
 
 //            DB::commit();
             return true;
@@ -357,7 +367,6 @@ class AccountService
         $allFiles = $professionRequest->allFiles();
 
         $a_f = [];
-
         if (strlen($professionRequest->diplomas) > 0) {
             $diplomas = json_decode($professionRequest->diplomas);
             $n_d = $this->getItem($id, 'diplomas');
@@ -403,9 +412,10 @@ class AccountService
                 'diplomas' => json_encode($a_f, true),
 
             ]);
-        if (!$inserted->id)
+
+        if (!$inserted)
             throw new ModelNotFoundException('insert chi eghel ');
-        return $inserted->id;
+        return $inserted;
     }
 
 
@@ -417,7 +427,6 @@ class AccountService
      */
     public function updateUserByParam($userRequest, $id, $param)
     {
-
         $updated = User::where('account_id', $id)->update([
             $param => $userRequest
         ]);

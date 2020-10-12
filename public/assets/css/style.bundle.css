@@ -42091,11 +42091,11 @@ and (max-width: 1024px) {
 }
 
 .kt-svg-icon g [fill] {
-    fill: #5d78ff;
+    fill: #fded45;
 }
 
 .kt-svg-icon.kt-svg-icon--brand g [fill] {
-    fill: #5d78ff !important;
+    fill: #fded45 !important;
 }
 
 .kt-svg-icon.kt-svg-icon--light g [fill] {

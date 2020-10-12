@@ -2,15 +2,15 @@
     <div class="container-fluid m-0 p-0">
         <div ref="topbar" class="row navbar navbar-expand-md navbar-light navbar-laravel m-0">
             <!--            <router-link class="navbar-brand" to="/">Authentication  Laravel 5.6/Vue SPA</router-link>-->
-            <div class="col-lg-6 col-sm-6 col-6 header-top-left">
-                <h2>{{text.title}}</h2>
+            <div class=" col-lg-8 col-sm-8 col-8 header-top-left">
+                <h1>{{text.title}}</h1>
             </div>
 
-            <div class="navbar-collapse col-lg-6 col-sm-6 col-6" id="navbarContent">
+            <div class="navbar-collapse col-lg-4 col-sm-4 col-4" id="navbarContent">
                 <div class="navbar-nav ml-auto m_navbar">
                     <template v-if="!currentUser">
                         <li>
-                            <router-link to="/login" class="nav-link"><img :src = "ekg" />{{text.login}}</router-link>
+                            <router-link to="/login" class="nav-link"><img :src = "stethoscope" style="height: 24px;" />{{text.login}}</router-link>
                         </li>
                         <li>
                             <router-link to="/register" class="nav-link"> <img :src = "ekg" />{{text.register}}</router-link>
@@ -40,7 +40,7 @@
 
         <header ref="navbar" class="header_area" :class="{'navbar_fixed': scrolled}" v-on:scroll="handleScroll">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container">
+                <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <router-link :to="{ name: 'home' }" class="navbar-brand logo_h">
                         <!--img :src="image_src" alt=""-->
@@ -124,6 +124,7 @@
             return {
                 image_src: '/css/frontend/img/logo.png',
                 ekg: '/css/frontend/img/ekg.png',
+                stethoscope: '/css/frontend/img/stethoscope.png',
                 limitPosition: 2000,
                 scrolled: false,
                 lastPosition: 0,

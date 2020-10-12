@@ -132,7 +132,6 @@ class PageController extends Controller
             $data['description'] = $request->description;
             $this->model->update($data, $id);
 
-
             $rules = $request->file('rules');
             $orders = $request->file('orders_of_decrees_presidential');
             $gov_dec = $request->file('government_decisions');
@@ -141,35 +140,45 @@ class PageController extends Controller
             $destinationPath = public_path('documents');
 
             // TODO grel insertnery kam updatenery
+            /*
+              $s3 = Storage::disk('s3');
+            $filePath = sprintf('/images/%s', sprintf('%s_%s', uniqid(), $image->getClientOriginalName()));
+            $s3->put($filePath, file_get_contents($image), ['ACL' => 'public-read']);
 
+             * */
 
-          if(!empty($rules)){
-                for($i = 0;$i <= count($rules)-1; $i++){
-                    $rules[$i]->move($destinationPath,$rules[$i]->getClientOriginalName());
-                }
-            }
-            if(!empty($orders)){
-                for($i = 0;$i <= count($orders)-1; $i++){
-                    $orders[$i]->move($destinationPath,$orders[$i]->getClientOriginalName());
-                }
-            }
-            if(!empty($gov_dec)){
-                for($i = 0;$i <= count($gov_dec)-1; $i++){
-                    $gov_dec[$i]->move($destinationPath,$gov_dec[$i]->getClientOriginalName());
-                }
-            }
-            if(!empty($health_orders)){
-                for($i = 0;$i <= count($health_orders)-1; $i++){
-                    $health_orders[$i]->move($destinationPath,$health_orders[$i]->getClientOriginalName());
-                }
-            }
-            if(!empty($norms)){
-                for($i = 0;$i <= count($norms)-1; $i++){
-                    $norms[$i]->move($destinationPath,$norms[$i]->getClientOriginalName());
-                }
-            }
+                if(!empty($rules)){
+                    for($i = 0;$i <= count($rules)-1; $i++){
+                        $rules[$i]->move($destinationPath,$rules[$i]->getClientOriginalName());
+                        $s3 = Storage::disk('s3');
+                        $filePath = sprintf('/documents/%s', sprintf('%s_%s', uniqid(), $rules[$i]->getClientOriginalName()));
+                        $s3->put($filePath, file_get_contents($rules[$i]), ['ACL' => 'public-read']);
 
-            return redirect('backend/pages')->with('success', Lang::get('messages.success'));
+                    }
+                }
+                if(!empty($orders)){
+                    for($i = 0;$i <= count($orders)-1; $i++){
+                        $orders[$i]->move($destinationPath,$orders[$i]->getClientOriginalName());
+                    }
+                }
+                if(!empty($gov_dec)){
+                    for($i = 0;$i <= count($gov_dec)-1; $i++){
+                        $gov_dec[$i]->move($destinationPath,$gov_dec[$i]->getClientOriginalName());
+                    }
+                }
+                if(!empty($health_orders)){
+                    for($i = 0;$i <= count($health_orders)-1; $i++){
+                        $health_orders[$i]->move($destinationPath,$health_orders[$i]->getClientOriginalName());
+                    }
+                }
+                if(!empty($norms)){
+                    for($i = 0;$i <= count($norms)-1; $i++){
+                        $norms[$i]->move($destinationPath,$norms[$i]->getClientOriginalName());
+                    }
+                }
+
+                return redirect('backend/pages')->with('success', Lang::get('messages.success'));
+
         } catch (\Exception $exception) {
 
             logger()->error($exception);

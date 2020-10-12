@@ -21,7 +21,7 @@ class RegionSeeder extends Seeder
     public function setData($data, $status, $i = null)
     {
         $regions = [
-            1=>['yerevan' => 'Երևան'],
+            1 => ['yerevan' => 'Երևան'],
             2 => [
                 'ashtarak' => 'Աշտարակ',
                 'aparan' => 'Ապարան',
@@ -107,7 +107,7 @@ class RegionSeeder extends Seeder
         foreach ($data as $index) {
             $this->setTerritory($index, $i, $status);
         }
-        for ($id = 1; $id < 11; $id++) {
+        for ($id = 1; $id < count($data); $id++) {
             $key = $keys[$id];
 
             $city_path = storage_path() . Config::get('constants.APP') . Config::get('constants.REGIONS') . Config::get('constants.CITY') . DIRECTORY_SEPARATOR . $key . Config::get('constants.FILE_EX');
@@ -148,8 +148,8 @@ class RegionSeeder extends Seeder
             $contents = file($path);
             if (!empty($contents))
                 foreach ($contents as $index => $content) {
-                    if(!empty($content))
-                    $this->setTerritory(trim($content), $id, $status);
+                    if (!empty($content))
+                        $this->setTerritory(trim($content), $id, $status);
                 }
         }
     }

@@ -14,13 +14,15 @@ class ExpertController extends Controller
         return $this->getEducate();
     }
 
-    public function education($id)
+    public function education()
     {
+        $id =request('id');
         return $this->getEducation($id);
     }
 
-    public function specialty($id)
+    public function specialty()
     {
+        $id =request('id');
         return $this->getSpecialty($id);
     }
 

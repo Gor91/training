@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
-class CourseController extends Controller
+class CourseAppController extends Controller
 {
 
     protected $service;
@@ -22,8 +22,8 @@ class CourseController extends Controller
     public function __construct(CourseService $service)
     {
         $this->service = $service;
-        $this->user = JWTAuth::parseToken()->authenticate();
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+//        $this->user = JWTAuth::parseToken()->authenticate();
+//        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     function getCourseBySpec()
@@ -35,8 +35,26 @@ class CourseController extends Controller
             return response()->json([
                 'access_token' => request('token'),
                 'courses' => $courses,
-//                'token_type' => 'bearer',
-//                'expires_in' => auth('api')->factory()->getTTL() * 60
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
+            ]);
+        } catch (MethodNotAllowedHttpException$exception) {
+
+            logger()->error($exception);
+            return response()->json(['error' => true], 500);
+        }
+    }
+    function getCourseInfo()
+    {
+        try {
+
+            $courses = $this->service->getCoursesInfo(request('id'));
+
+            return response()->json([
+                'access_token' => request('token'),
+                'courses' => $courses,
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
             ]);
         } catch (MethodNotAllowedHttpException$exception) {
 
@@ -45,11 +63,16 @@ class CourseController extends Controller
         }
     }
 
-    public function allCourses()
+    function getBookById()
     {
         try {
-            $courses = $this->service->all();
-            return response()->json(['data' => $courses]);
+            $book = $this->service->getBookById(request('id'));
+            return response()->json([
+                'access_token' => request('token'),
+                'book' => $book,
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
+            ]);
         } catch (MethodNotAllowedHttpException$exception) {
 
             logger()->error($exception);
@@ -57,11 +80,11 @@ class CourseController extends Controller
         }
     }
 
+
     public function coursedetails()
     {
         $courses = Courses::where("id", '=', request('id'))->first();
 
-        $coursespeciality = $courses->specialty_ids;
         if (isset($courses)) {
             if ($courses->books) {
                 $books = json_decode($courses->books);
@@ -69,10 +92,10 @@ class CourseController extends Controller
                 $s3_books = [];
 //                if (!$videos->isEmpty()) {
                 foreach ($books as $index => $book) {
-                    $b = Book::select('id','title')->where('id', $book)->first();
+                    $b = Book::select('id', 'title')->where('id', $book)->first();
 
                     $s3_books[$index] = $b;
-                    $s3_books[$index]['path'] = sprintf("%s/%s", env('AWS_URL_ACL'), $b->path);
+//                    $s3_books[$index]['path'] = sprintf("%s/%s", env('AWS_URL_ACL'), $b->path);
                 }
                 $courses->books = json_encode($s3_books, true);
             }

@@ -1,4 +1,5 @@
 import texts from '../components/json/registertexts.json';
+
 export function educate() {
     return new Promise((res, rej) => {
         axios.post('/api/educate/')
@@ -11,9 +12,9 @@ export function educate() {
     })
 }
 
-export function education(id) {
+export function education(credentials) {
     return new Promise((res, rej) => {
-        axios.post('/api/edu/' + id)
+        axios.post('/api/edu', credentials)
             .then(response => {
                 res(response.data);
             })
@@ -23,10 +24,10 @@ export function education(id) {
     })
 }
 
-export function specialty(id) {
+export function specialty(credentials) {
 
     return new Promise((res, rej) => {
-        axios.post('/api/spec/' + id)
+        axios.post('/api/spec', credentials)
             .then(response => {
                 res(response.data);
             })

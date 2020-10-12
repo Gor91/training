@@ -13,16 +13,25 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-8 form_group m-auto">
-                            <input id="email" type="email" class="form-control p-4" v-model="formLogin.email"
-                                   :placeholder="texts.email">
-                            <input id="password" type="password" class="form-control p-4" v-model="formLogin.password"
-                                   :placeholder="texts.password">
+                            <input autocomplete="off" id="email" type="email" name="email"
+                                   v-validate="'required|email'" :placeholder="texts.email"
+                                   :class="{'input': true, 'is-invalid': errors.has('email') }"
+                                   class="form-control p-4" v-model="formLogin.email" :data-vv-as="texts.email">
+                            <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+
+                            <input autocomplete="off" id="password" type="password" name="password"
+                                   class="form-control p-4"
+                                   v-validate="'required|min:8'" v-model="formLogin.password"
+                                   :class="{'input': true, 'is-invalid': errors.has('password') }"
+                                   :data-vv-as="texts.password" :placeholder="texts.password">
+                            <span v-show="errors.has('password')"
+                                  class="help is-danger">{{ errors.first('password') }}</span>
 
                         </div>
 
                         <div class="col-lg-6 text-center m-auto">
-                            <div  class="btn btn-link">
-                                <router-link to="/reset-password" class="yellow"> {{texts.forgot}}</router-link>
+                            <div class="btn btn-link">
+                                <router-link to="/reset-password" class="purple"> {{texts.forgot}}</router-link>
                             </div>
 
                             <input type="submit" :value="texts.enter" class="btn primary-btn">
@@ -81,7 +90,7 @@
                 return this.$store.getters.registeredUser
             },
             verifiedUser() {
-                console.log('verifiedUser',this.$store.getters.verifiedUser);
+                console.log('verifiedUser', this.$store.getters.verifiedUser);
                 return this.$store.getters.verifiedUser
             }
         }

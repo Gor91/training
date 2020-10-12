@@ -15,5 +15,6 @@ return [
     'invalid' => 'Email and/or password invalid.',
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'expires_in' => 60*6000,
 
 ];

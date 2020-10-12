@@ -39,7 +39,7 @@
                             <a href="mailto:support@colorlib.com" class="small">
                                 <span class="fa fa-envelope-open-o pl-3"></span>
                                 <span class="text">
-								<span class="text pl-2">ccpdmw@mail.ru</span>
+								<span class="text pl-2">ccpdmw@gmail.com</span>
                                 </span>
                             </a>
                         </div>

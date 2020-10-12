@@ -26,14 +26,22 @@ Route::group(['prefix' => 'auth',
     Route::post('logout', 'Frontend\AuthController@logout');
     Route::post('refresh', 'Frontend\AuthController@refresh');
     Route::match(['put', 'patch'], 'avatar/{id}', 'Frontend\AccountController@avatar');
-    Route::match(['put', 'patch'], 'update/{id}', 'Frontend\AccountController@update');
+    Route::match(['put', 'patch'],'update/{id}', 'Frontend\AccountController@update');
     Route::match(['put', 'patch'], 'approve/{id}', 'Frontend\AccountController@editApprove');
     Route::post('me', 'Frontend\AuthController@me');
-    Route::post('videoinfo', 'Frontend\AccountVideoController@getVideoById');
+
+    Route::post('getaccountbyid', 'Frontend\AccountController@getAccountById');
     Route::get('edit/{id}', 'Frontend\AccountController@editProfile');
     Route::match(['put', 'patch'], 'edit/{id}', 'Frontend\AccountController@updateProfile');
     Route::match(['put', 'patch'], 'changePass/{id}', 'Frontend\AccountController@changePassword');
+    Route::post('coursedetails', 'Frontend\CourseAppController@coursedetails');
+    Route::post('getcoursebyspec', 'Frontend\CourseAppController@getCourseBySpec');
+    Route::post('getcoursesinfo', 'Frontend\CourseAppController@getCourseInfo');
+    Route::post('getbook', 'Frontend\CourseAppController@getBookById');
+    Route::post('finishedvideo', 'Frontend\CourseController@finishedCount');
 
+    Route::post('videoinfo', 'Frontend\AccountVideoController@getVideoById');
+    Route::post('addpoint', 'Frontend\AccountVideoController@addPointById');
 });
 
 
@@ -43,11 +51,9 @@ Route::post('coursestitle', 'Frontend\PageController@coursestitle');
 Route::post('applicantcount', 'Frontend\PageController@applicantcount');
 Route::post('coursescount', 'Frontend\PageController@coursescount');
 Route::post('allcourses', 'Frontend\CourseController@allcourses');
-Route::post('coursedetails/{id}', 'Frontend\CourseController@coursedetails');
+
 
 //get courses
-Route::post('getcoursebyspec/{id}', 'Frontend\CourseController@getCourseBySpec');
-
 
 Route::post('comment', 'Frontend\PageController@savecomment');
 
@@ -55,9 +61,9 @@ Route::post('comment', 'Frontend\PageController@savecomment');
 Route::post('regions', 'Frontend\AddressController@index');
 Route::get('prof', 'Frontend\ExpertController@profession');
 //Route::get('verify/{id}/{key}', 'Frontend\VerifyController@indax');
-Route::post('edu/{id}', 'Frontend\ExpertController@education');
+Route::post('edu', 'Frontend\ExpertController@education');
 Route::post('educate/', 'Frontend\ExpertController@educate');
-Route::post('spec/{id}', 'Frontend\ExpertController@specialty');
+Route::post('spec', 'Frontend\ExpertController@specialty');
 Route::post('territory/{id}', 'Frontend\AddressController@territories');
 //        Route::get('reset-password', 'AuthController@sendPasswordResetLink');
 Route::post('reset-password', 'Frontend\PasswordResetController@sendPasswordResetLink');

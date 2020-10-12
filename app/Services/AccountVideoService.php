@@ -14,6 +14,7 @@ use App\Models\AccountVideo;
 use App\Models\Message;
 use App\Models\Profession;
 use App\Models\User;
+use App\Models\Videos;
 use App\Notifications\ManageUserStatus;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -41,53 +42,6 @@ class AccountVideoService
         $this->model = new Repository($av);
     }
 
-
-    /**
-     * get list of accounts by role
-     * @param $role
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function getAccountList($role)
-    {
-        $accounts = $this->model->with([
-            'user' => function ($query) {
-                $query->select(['email', 'account_id', 'status']);
-            },
-            'prof' => function ($query) {
-                $query->select(['account_id', 'specialty_id']);
-            },
-            'prof.spec.type' => function ($query) {
-                $query->select(['id', 'name']);
-            }])->select('id', 'name', 'surname', 'image_name', 'phone')
-            ->where('role', $role)->get();
-
-        if (!$accounts)
-            throw new ModelNotFoundException('User not found by ID ');
-        return $accounts;
-    }
-
-    /**
-     * get account by id
-     * @param $role
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function getAccount()
-    {
-        $account = $this->model->with([
-            'user' => function ($query) {
-                $query->select(['email', 'account_id', 'status']);
-            },
-            'prof' => function ($query) {
-                $query->select(['account_id', 'specialty_id', 'diplomas']);
-            },
-            'prof.spec.type' => function ($query) {
-                $query->select(['id', 'name']);
-            }]);
-        if (!$account)
-            throw new ModelNotFoundException('User not found by ID ');
-        return $account;
-    }
-
     /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
@@ -95,125 +49,34 @@ class AccountVideoService
     public function getVideoById($id)
     {
         $video = $this->model->where([['video_id', '=', $id]]);
-          dd($video);
+//          dd($video);
         if (!$video)
             throw new ModelNotFoundException('User not found by ID ');
         return $video;
 
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getFAccount($id)
-    {
-        $account = Account::select('id', 'name', 'surname', 'father_name', 'date_of_expiry', 'passport', 'date_of_issue')->where('id', $id)
-            ->with(['prof' => function ($query) {
-                $query->select(['specialty_id', 'member_of_palace', 'diplomas', 'account_id']);
-            }])->first();
-        if (!$account)
-            throw new ModelNotFoundException('User not found by ID ');
-        return $account;
-    }
 
-
-    /**
-     * @param $account
-     * @return mixed
-     */
-    public function addresses($account)
+    public function addPointById($request)
     {
 
-        $home_address = json_decode($account->home_address, true);
-        if (!empty($home_address['h_region']))
-            $account->h_region = getRegionName($home_address['h_region']);
-        if (!empty($home_address['h_street']))
-            $account->h_street = $home_address['h_street'];
-        if (!empty($home_address['h_territory']))
-            $account->h_territory = getRegionName($home_address['h_territory']);
-
-        $work_address = json_decode($account->work_address, true);
-        if (!empty($work_address['w_region']))
-            $account->w_region = getRegionName($work_address['w_region']);
-        if (!empty($work_address['w_street']))
-            $account->w_street = $work_address['w_street'];
-        if (!empty($work_address['w_territory']))
-            $account->w_territory = getRegionName($work_address['w_territory']);
-        return $account;
-
-    }
-
-    /**
-     * @param $accounts
-     * @return mixed
-     */
-    public function getAddresses($accounts)
-    {
-
-        foreach ($accounts as $index => $account) {
-
-            $home_address = json_decode($account->home_address, true);
-            $accounts[$index]->h_region = getRegionName($home_address['h_region']);
-            $accounts[$index]->h_street = $home_address['h_street'];
-            $accounts[$index]->h_territory = getRegionName($home_address['h_territory']);
-
-            $work_address = json_decode($account->work_address, true);
-            $accounts[$index]->w_region = getRegionName($work_address['w_region']);
-            $accounts[$index]->w_street = $work_address['w_street'];
-            $accounts[$index]->w_territory = getRegionName($work_address['w_territory']);
-
-            $profession = $this->getProfessions($account->id);
-            $accounts[$index]->profession = $profession;
-        }
-        return $accounts;
-    }
-
-
-    /**
-     * @param $id
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
-     */
-    public function getProfessions($id)
-    {
-        $profession = DB::table('professions AS p')
-            ->join('specialties AS s', 's.id', '=', 'p.specialty_id')
-            ->join('specialties AS sp', 'sp.id', '=', 's.parent_id')
-            ->join('specialties_types AS st', 'st.id', '=', 's.type_id')
-            ->select('s.icon', 'sp.name as edu_name',
-                's.name AS spec_name', 'st.name AS type_name', 'p.specialty_id', 'p.member_of_palace', 's.parent_id')
-            ->where('p.account_id', '=', $id)
-            ->first();
-        if (!$profession)
-            throw new ModelNotFoundException('User not found by ID ');
-        return $profession;
-    }
-
-    /**
-     * @param $accountRequest
-     * @param $profRequest
-     * @param $userRequest
-     * @param $id
-     */
-    public function updateAccount($accountRequest, $profRequest, $userRequest, $id)
-    {
         DB::beginTransaction();
         try {
-            $account = [];
-            $account['name'] = $accountRequest->name;
-            $account['surname'] = $accountRequest->surname;
-            $account['father_name'] = $accountRequest->father_name;
-            $account['phone'] = $accountRequest->phone;
-            $account['passport'] = $accountRequest->passport;
-            $account['bday'] = date("Y-m-d", strtotime($accountRequest->bday));
-            $account['date_of_issue'] = date("Y-m-d", strtotime($accountRequest->date_of_issue));
-            $account['date_of_expiry'] = date("Y-m-d", strtotime($accountRequest->date_of_expiry));
-            $account['workplace_name'] = $accountRequest->workplace_name;
-            $account['home_address'] = $this->addressToJson($accountRequest->h_region, $accountRequest->h_territory, $accountRequest->h_street, 'h');
-            $account['work_address'] = $this->addressToJson($accountRequest->w_region, $accountRequest->w_territory, $accountRequest->w_street, 'w');
-            $this->model->update($account, $id);
-            $this->updateProfession($profRequest, $id);
-            $this->updateUserByParam($userRequest->email, $id, 'email');
+            $video = [];
+            $video['video_id'] = $request->id;
+            $video['account_id'] = $request->user_id;
+            $video['point'] = $request->point;
+            $duration = Videos::select('duration')->where('id', $request->id)->first();
+
+            (ceil($request->point) < ceil($duration->duration)) ?
+                $video['status'] = "progress" :
+                $video['status'] = "finished";
+            $getId = AccountVideo::select('id')->where([["video_id", $request->id], ['account_id', $request->user_id]])->first();
+            (empty($getId ))?
+                $this->model->create($video)
+                :
+                $this->model->update($video, $getId->id);
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
@@ -278,7 +141,7 @@ class AccountVideoService
                     'info' => $professionRequest->info
                 ]);
 
-            $uu =$this->updateUserByParam($userRequest->email, $id, 'email');
+            $uu = $this->updateUserByParam($userRequest->email, $id, 'email');
 
 //            DB::commit();
             return true;

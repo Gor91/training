@@ -12,6 +12,7 @@ trait Expert
 
     static function getEducation($id)
     {
+
         try {
             $edu = Specialty::select('id', 'name')->where('parent_id', $id)
                 ->get();

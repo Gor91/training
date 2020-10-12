@@ -66,7 +66,7 @@ class AccountRequest extends FormRequest
             'name' => 'required|min:2|max:127',
             'surname' => 'required|min:2|max:127',
             'father_name' => 'required|min:2|max:127',
-            'phone' => 'required|min:8|max:11',
+            'phone' => 'min:8|max:11',
             'passport' => 'required|min:2|max:127',
             'bday' => 'required|date|date_format:d-m-Y|before:' . $year,
             'date_of_issue' => 'required|date|date_format:d-m-Y',

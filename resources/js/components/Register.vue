@@ -1,7 +1,7 @@
 <template>
     <div class="register  justify-content-center container">
         <h3 class="mt-2">{{texts.register}}</h3>
-        <p>{{texts.helptext}}</p>
+        <p class="_help">{{texts.helptext}}</p>
         <form @submit.prevent="register" class="row" enctype="multipart/form-data">
             <input autocomplete="off" type="radio" id="profile" value="1" name="tractor" checked='checked'>
             <input autocomplete="off" type="radio" id="address" value="2" name="tractor">
@@ -23,7 +23,8 @@
                         <input autocomplete="off" id="name" type="text" name="name" class="form-control"
                                v-validate="'required'"
                                :class="{'input': true, 'is-invalid': errors.has('name') }"
-                               v-model="formRegister.name" :data-vv-as="texts.name" v-on:blur="checkLang('name','hy')"
+                               v-model="formRegister.name" :data-vv-as="texts.name"
+                               v-on:blur="checkLang('name','hy')"
                                data-toggle="tooltip" ref="name" :placeholder="texts.enterarm">
 
                         <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
@@ -77,7 +78,7 @@
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="expiry">{{texts.dateofexpire}}</label>
-                        <datepicker :language="hy" value="state.date" v-validate="'required|after:date_of_issue'"
+                        <datepicker :language="hy" value="state.date" v-validate="'required'"
                                     id="expiry"
                                     name="date_of_expiry"
                                     format="dd-MM-yyyy" :data-vv-as="texts.dateofexpire" :open-date="startDate"
@@ -217,6 +218,7 @@
 
             </article>
             <article class='edu container'>
+                <p class="_help">{{texts.subjecthelp}}</p>
                 <div class="form-group row">
                     <div class="form-group  col-lg-4">
                         <label for="profession">{{texts.profession}}</label>
@@ -295,7 +297,7 @@
                     <div class="form-group  col-lg-4">
                         <label for="email">{{texts.email}}</label>
                         <input autocomplete="off" id="email" type="email" name="email" v-validate="'required|email'"
-                               v-on:blur="checkLang('email','en')" :title="texts.name"
+                               v-on:blur="checkLang('email','en')" :title="texts.email"
                                title="Մուտքագրեք անգլերեն"
                                :class="{'input': true, 'is-invalid': errors.has('email') }"
                                class="form-control" v-model="formRegister.email" :data-vv-as="texts.email">
@@ -339,6 +341,7 @@
     }
 
     import {registerUser} from '../partials/auth';
+    import {langs} from '../partials/main';
     import {education, profession, region, specialty, territory} from '../partials/help';
     import Datepicker from 'vuejs-datepicker';
     import registertexts from './json/registertexts.json';
@@ -408,7 +411,10 @@
                     });
             },
             getSpecialties(id) {
-                specialty(id)
+                let credentials = {
+                    id: id
+                };
+                specialty(credentials)
                     .then(res => {
                         this.$refs.spec.style.border = '1px solid #9f12ad';
                         this.specialties = res.spec;
@@ -498,16 +504,13 @@
                     }
                 }
             },
-            checkLang(val, lng) {
-                let el = this.$data.formRegister[val];
-                let pattern;
-                if (lng === 'hy')
-                    pattern = /^[\u0530-\u058FF|\u0020-\u0040]*$/;
-                else
-                    pattern = /^[\u0000-\u009F]*$/;
-                if (!pattern.test(el)) {
-                    this.$data.formRegister[val] = "";
-                    console.log(this.$data.formRegister)
+            checkLang(val, lng, model = false) {
+                if (!model) {
+                    let el = this.$data.formRegister[val];
+                    let isArm = langs(el, lng);
+                    if (!isArm) {
+                        this.$data.formRegister[val] = "";
+                    }
                 }
             }
         },

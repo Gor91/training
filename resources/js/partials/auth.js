@@ -108,12 +108,6 @@ export function editUser(id, credentials, files, token) {
         if (credentials.hasOwnProperty(key))
             formData.append(key, credentials[key]);
     }
-    // for (let i = 0; i < files.length; i++) {
-    //     if (files[i].id) {
-    //         continue;
-    //     }
-    //     formData.append(`diploma_${i + 1}`, files[i]);
-    // }
     formData.append('_method', 'PUT');
     formData.append('token', token);
     return new Promise(function (res, rej) {
@@ -135,7 +129,7 @@ export function editUser(id, credentials, files, token) {
     })
 }
 
-export function approveUser(id, credentials, files, token) {
+export function approveUser(credentials, files, token) {
     let formData = new FormData();
 
     for (let key in credentials) {
@@ -150,9 +144,10 @@ export function approveUser(id, credentials, files, token) {
     }
     formData.append('_method', 'PUT');
     formData.append('token', token);
+    console.log('credentials',formData);
     return new Promise(function (res, rej) {
-        // console.log('id',token)
-        axios.post('/api/auth/approve/' + id,
+
+        axios.post('/api/auth/approve/' + credentials.id,
             formData,
             {
                 headers: {
