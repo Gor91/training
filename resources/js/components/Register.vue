@@ -236,7 +236,7 @@
                     <div class="form-group  col-lg-4">
                         <label for="specialty_id">{{texts.specialty}}</label>
                         <select id="specialty_id" name="education" class="form-control" v-validate="'required'"
-                                :class="{'input': true, 'is-invalid': errors.has('specialty_id') }"
+                                :class="{'input': true, 'is-invalid': errors.has('education_id') }"
                                 v-model="formRegister.education_id" ref="spec" :data-vv-as="texts.specialty"
                                 @change="getEducations(formRegister.education_id)">
                             <option v-for="( group) in specialties" :value="group.id">
@@ -399,7 +399,10 @@
         },
         methods: {
             getEducations(id) {
-                education(id)
+                let credentials = {
+                    id: id
+                };
+                education(credentials)
                     .then(res => {
                         this.$refs.edu.style.border = '1px solid #9f12ad';
                         this.$refs.spec.style.border = '1px solid #ced4da';
