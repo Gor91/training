@@ -38,8 +38,5 @@ class Tests extends Migration
     public function down()
     {
         Schema::dropIfExists('tests');
-        Schema::table('tests', function (Blueprint $table) {
-            $table->dropForeign('fk_courses');
-        });
     }
 }
