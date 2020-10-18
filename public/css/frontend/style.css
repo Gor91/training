@@ -4987,3 +4987,10 @@ button {
     font-style: italic;
     font-weight: bolder;
 }
+._help{
+    color: #631fd8;
+}
+.register h3{
+    color: #631fd8;
+    font-weight: bold;
+}

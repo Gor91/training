@@ -507,7 +507,9 @@
             checkLang(val, lng, model = false) {
                 if (!model) {
                     let el = this.$data.formRegister[val];
+
                     let isArm = langs(el, lng);
+
                     if (!isArm) {
                         this.$data.formRegister[val] = "";
                     }

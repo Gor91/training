@@ -229,7 +229,6 @@ return [
     'choose_profession' => 'Ընտրեք մասնագիտություն',
     'new_test' => 'Ավելացնել նոր թեստ',
     'edit_test' => 'Փոփոխել թեստը',
-    'check_true' => 'Նշել որպես ճիշտ',
 
 //about us
     'aboutus' => 'Մեր Մասին',
