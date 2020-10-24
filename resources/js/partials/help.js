@@ -2,7 +2,7 @@ import texts from '../components/json/registertexts.json';
 
 export function educate() {
     return new Promise((res, rej) => {
-        axios.post('/api/educate/')
+        axios.post('/api/educate')
             .then(response => {
                 res(response.data);
             })
@@ -64,7 +64,7 @@ export function territory(id) {
 
 export function profession() {
     return new Promise((res, rej) => {
-        axios.get('/api/prof/')
+        axios.get('/api/prof')
             .then(response => {
                 res(response.data);
             })
@@ -77,7 +77,7 @@ export function profession() {
 
 export function applicantcount() {
     return new Promise((res, rej) => {
-        axios.post('/api/applicantcount/')
+        axios.post('/api/applicantcount')
             .then(response => {
                 res(response.data);
             })
@@ -89,7 +89,7 @@ export function applicantcount() {
 
 export function coursescount() {
     return new Promise((res, rej) => {
-        axios.post('/api/coursescount/')
+        axios.post('/api/coursescount')
             .then(response => {
                 res(response.data);
             })

@@ -90,8 +90,9 @@
                                 </a>
                             </li>
                         </ul>
-                        <a href="#" class="primary-btn text-uppercase enroll"  v-bind:class="{ 'isDisabled': !isFinished }" >{{coursetexts.test}}</a>
-                        <!--<a href="#" class="primary-btn text-uppercase enroll">{{coursetexts.paid}}</a>-->
+
+                        <router-link :to="{ name: 'test',params: {id: this.id} }" class="primary-btn text-uppercase enroll " v-bind:class="{ 'isDisabled': !isFinished }">{{coursetexts.test}}
+                        </router-link>
                         <router-link :to="{ name: 'payment' }" class="primary-btn text-uppercase enroll nav-link">{{coursetexts.paid}}
                         </router-link>
 
@@ -141,6 +142,7 @@
     export default {
         data() {
             return {
+                id:'',
                 book: '/css/frontend/img/ekg.png',
                 video_info: [],
                 books:[],
@@ -273,12 +275,13 @@
                 };
                 getCourseDetails(credentials)
                     .then(res => {
-                        console.log(res.data)
+
                         this.datas = res.data;
                         this.datas.credit = JSON.parse(res.data.credit);
                         this.video_info = JSON.parse(res.data.videos);
                         this.books = JSON.parse(res.data.books);
                         this.specialites = res.specialities;
+                        this.id = res.data.id;
                         // this.manageEvents();
 
                     })

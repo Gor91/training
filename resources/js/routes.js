@@ -12,6 +12,7 @@ import Lesson from './components/Lesson.vue';
 import Coursedetails from './components/Coursedetails.vue';
 import Books from './components/Books.vue';
 import Payment from './components/Payment.vue';
+import Test from './components/Test.vue';
 
 
 export const routes = [
@@ -107,6 +108,18 @@ export const routes = [
             breadCrumbs: [{
                 to: '/books', // hyperlink
                 text: 'ԴԱՍԸՆԹԱՑՆԵՐ' // crumb text
+            }]
+        },
+    },
+    {
+        path: '/test/:id',
+        name: 'test',
+        component: Test,
+        meta: {
+            requiresAuth: true,
+            breadCrumbs: [{
+                to: '/test', // hyperlink
+                text: 'ԴԱՍԸՆԹԱՑԻ ՍՏՈՒԳՈՒՄ' // crumb text
             }]
         },
     },
