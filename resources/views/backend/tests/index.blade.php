@@ -29,33 +29,41 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Կուրսի անուն</th>
-                        <th>Թեստի հարց</th>
+                        <th>{{__('messages.course_name')}}</th>
+                        <th>{{__('messages.test_name')}}</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <pre>
                     @if(!$tests->isEmpty())
-                            @foreach($tests as $key => $test)
-                                <tr>
+                        @foreach($tests as $key => $test)
+                            <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$test->courses->name}}</td>
                                 <td>{{$test->question}}</td>
                                 <td>
                                     <div class="row justify-content-end">
-                                        <a href="{{action('Backend\TestsController@editTests',$test->id)}}"
+                                        <a href="{{action('Backend\TestsController@edit',$test->id)}}"
                                            class="btn btn-info kt-badge kt-badge--lg"
-                                           data-toggle="m-tooltip" data-placement="top" data-original-title="Խմբագրել">
+                                           data-toggle="m-tooltip" data-placement="top"
+                                           data-original-title="{{__('messages.edit')}}">
                                             <i class="la la-edit"></i>
                                         </a>
-                                        <a href="{{action('Backend\TestsController@destroy',$test->id)}}" class="btn btn-danger kt-badge kt-badge--lg"
-                                           data-toggle="m-tooltip" data-placement="top" data-original-title="Ջնջել">
-                                            <i class="la la-trash"></i>
-                                        </a>
+                                        <form action="{{action('Backend\TestsController@destroy', $test->id)}}"
+                                              id="_form" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button data-ref="" type="button"
+                                                    data-title="type"
+                                                    class="delete btn btn-danger kt-badge--lg kt-badge"
+                                                    data-original-title="{{__('messages.delete')}}">
+                                                <i class="la la-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
-                    @endforeach
+                        @endforeach
                     @endif
                     </tbody>
                 </table>

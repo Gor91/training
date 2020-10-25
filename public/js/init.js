@@ -295,7 +295,7 @@ $(document).ready(function () {
         ajax: {
             dataType: "json",
             method: 'GET',
-            url: "tests/getCourses",
+            url: "test/getCourses",
             processResults: function (data) {
                 var select_result = [];
                 var final_data = {};
