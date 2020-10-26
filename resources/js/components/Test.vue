@@ -32,10 +32,16 @@
                             </router-link>
                         </h2>
                         <div v-for="(info, index) in tests">
-                            <p>{{info.question}}</p>
+                            <p>{{index+1}}. {{info.question}}</p>
 
-                            <ul v-for="answer in JSON.parse(info.answers)">
-                                <li>{{answer.inp}}</li>
+                            <ul :name="index">
+                                <li v-for="(answer, i) in JSON.parse(info.answers)"  :value="i">
+                                   <span v-html="answer.inp">{{answer.inp}}</span>
+                                    <label >
+                                        <input :type="info.type" :value="i">
+                                    </label>
+
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -65,8 +71,18 @@
                 };
                 getTestById(credentials)
                     .then(res => {
-                        this.tests = res.tests;
-                    })
+                            let counter = 0;
+                            for (let i of res.tests) {
+                                for (let answer of JSON.parse(i.answers)) {
+                                    if (answer.check == 1)
+                                        counter++;
+                                }
+                                i.type = (counter > 1) ? 'checkbox' : "radio";
+                                console.log(res.tests);
+                                this.tests = res.tests;
+                            }
+                        }
+                    )
                     .catch(err => {
                         console.log('errr')
                     })

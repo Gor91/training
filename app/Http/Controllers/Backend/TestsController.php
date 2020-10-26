@@ -66,17 +66,6 @@ class TestsController extends Controller
         if (!empty($input['fields'])) {
             $is_valid = false;
 
-            foreach ($input['fields'] as $key=>$question) {
-                $input['fields'][$key]['ans'] = strip_tags($question['inp']);
-//                $pattern = '/(<[^>]+) style=".*?"/i';
-//                $input['fields'][$key]['ans'] = preg_replace($pattern,"", $question['inp']);
-
-                if (array_key_exists('check', $question)) {
-                    $input['fields'][$key]['check'] = 1;
-                };
-            }
-
-            dd( $input['fields']);
             foreach ($input['fields'] as $question) {
                 if (array_key_exists('check', $question)) {
                     $is_valid = true;
@@ -118,7 +107,6 @@ class TestsController extends Controller
             $this->model->create($data);
             return redirect('backend/test')->with('success', Lang::get('messages.success'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
             return redirect('backend/test')->with('error', Lang::get('messages.wrong'));
         }
