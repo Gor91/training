@@ -61,7 +61,6 @@ export function territory(id) {
     })
 }
 
-
 export function profession() {
     return new Promise((res, rej) => {
         axios.get('/api/prof')
@@ -73,7 +72,6 @@ export function profession() {
             })
     })
 }
-
 
 export function applicantcount() {
     return new Promise((res, rej) => {

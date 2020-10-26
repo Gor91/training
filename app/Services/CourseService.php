@@ -12,6 +12,7 @@ namespace App\Services;
 use App\Models\Book;
 use App\Models\Courses;
 use App\Models\Profession;
+use App\Models\Tests;
 use App\Repositories\Repository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -89,6 +90,16 @@ class CourseService
             ->first();
         $result = (!empty($book)) ? $book : __('messages.noting');
         if (!$book)
+            throw new ModelNotFoundException('User not found by ID ');
+        return $result;
+    }
+
+    public function getTestsById($id)
+    {
+        $tests = Tests::where('courses_id', $id)
+            ->get();
+        $result = (!empty($tests)) ? $tests : __('messages.noting');
+        if (!$tests)
             throw new ModelNotFoundException('User not found by ID ');
         return $result;
     }

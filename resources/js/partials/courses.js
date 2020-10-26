@@ -66,10 +66,41 @@ export function getCoursesById(credentials) {
             })
     })
 }
+
 export function getBookById(credentials) {
 
     return new Promise((res, rej) => {
         axios.post('/api/auth/getbook', credentials,
+        )
+            .then(response => {
+                console.log(response)
+                res(response.data);
+            })
+            .catch(err => {
+                rej(texts.error);
+            })
+    })
+}
+
+export function getTestById(credentials) {
+
+    return new Promise((res, rej) => {
+        axios.post('/api/auth/gettests', credentials,
+        )
+            .then(response => {
+                console.log(response)
+                res(response.data);
+            })
+            .catch(err => {
+                rej(texts.error);
+            })
+    })
+}
+
+export function getResult(credentials) {
+
+    return new Promise((res, rej) => {
+        axios.post('/api/auth/getresult', credentials,
         )
             .then(response => {
                 console.log(response)

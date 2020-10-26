@@ -13,7 +13,6 @@ export function getVideoDetails(credentials) {
 }
 
 export function addPoints(credentials) {
-    console.log(credentials)
     return new Promise((res, rej) => {
         axios.post('/api/auth/addpoint' ,credentials)
             .then(response => {

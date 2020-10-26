@@ -10,7 +10,8 @@
 
                                 <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
                                     <router-link :to="{ name: 'home' }" class="nav-link">{{text.home}}</router-link>
-                                    <router-link :to="{ name: 'coursedetails'}" class="nav-link" >{{text.lessons}}</router-link>
+                                    <router-link :to="{ name: 'coursedetails'}" class="nav-link">{{text.lessons}}
+                                    </router-link>
                                     <router-link to="" class="nav-link">{{b.text}}</router-link>
                                 </div>
                             </div>
@@ -25,7 +26,6 @@
                 <div class="row">
 
 
-
                 </div>
             </div>
         </section>
@@ -34,9 +34,8 @@
 </template>
 
 <script>
-    import {getAllCourses, getCoursesById} from '../partials/courses';
+    import {getTestById, getResult} from '../partials/courses';
     import coursetexts from './json/course.json';
-
     export default {
         name: 'app-header',
         methods: {
@@ -44,33 +43,37 @@
                 this.$store.commit('logout');
                 this.$router.push('/login');
             },
-            allcourses: function () {
-                getAllCourses()
-                    .then(res => {
-                        this.courses = res.data;
-                    })
-                    .catch(error => {
-                        console.log('errorsss');
-                        // this.$store.commit("registerFailed", {error});
-                    })
-            },
-            getCourses(id) {
+            getTests(id) {
                 let credentials = {
-                    id: id,
+                    id: this.id,
                     token: this.currentUser.token
                 };
-                getCoursesById(credentials)
+                getTestById(credentials)
                     .then(res => {
-                        this.courses = res.courses;
+                        this.tests = res.tests;
                     })
                     .catch(err => {
+                        console.log('errr')
+                    })
+            },
+            getResult(id) {
+                let credentials = {
+                    id: this.id,
+                    user_id: this.currentUser.id,
+                    token: this.currentUser.token
+                };
+                getResult(credentials)
+                    .then(res => {
+                        this.tests = res.tests;
+                    })
+                    .catch(err => {
+                        console.log('errr')
                     })
             }
 
         },
         computed: {
             currentUser: function () {
-
                 if (!this.$store.getters.currentUser)
                     return JSON.parse(localStorage.getItem('user'));
                 return this.$store.getters.currentUser
@@ -79,16 +82,15 @@
         data() {
             return {
                 id: '',
-                courses: [],
-                image_src: '/css/frontend/img/background.png',
+                tests: [],
                 text: coursetexts,
             }
         },
         beforeMount() {
-            if (!this.$store.getters.currentUser)
-                this.allcourses();
-            else
-                this.getCourses(this.$store.getters.currentUser.id);
+            // if (!this.$store.getters.currentUser)
+            //     this.allcourses();
+            // else
+            //     this.getCourses(this.$store.getters.currentUser.id);
             this.id = this.$route.params.id;
         },
     }
