@@ -111,3 +111,17 @@ export function getResult(credentials) {
             })
     })
 }
+export function getCourseTitleById(credentials) {
+
+    return new Promise((res, rej) => {
+        axios.post('/api/auth/gettitle', credentials,
+        )
+            .then(response => {
+                console.log(response)
+                res(response.data);
+            })
+            .catch(err => {
+                rej(texts.error);
+            })
+    })
+}

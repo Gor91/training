@@ -23,7 +23,7 @@
         <!--================ Start Course Details Area =================-->
         <section class="course_details_area section_gap">
             <div class="container" :key="datas.id">
-                <div class="col-lg-12 m-0 pb-5"><h2 class="or"> {{datas.name}}</h2></div>
+                <div class="col-lg-12 m-0 pb-5"><h2 class="or text-center"> {{datas.name}}</h2></div>
                 <div class="row">
                     <div class="col-lg-8 course_details_left">
                         <div class="main_image" v-if="video_info">

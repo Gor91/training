@@ -52,7 +52,7 @@ class CourseService
         return $result;
     }
 
-  /**
+    /**
      * @param $id
      * @return mixed
      */
@@ -60,11 +60,21 @@ class CourseService
     {
         $spec = Profession::select('specialty_id')->where('account_id', $id)->first();
 
-        $courses = Courses::select('id','name', 'credit')->whereRaw('JSON_CONTAINS(`specialty_ids`,  \'["' . $spec->specialty_id . '"]\')')
+        $courses = Courses::select('id', 'name', 'credit')->whereRaw('JSON_CONTAINS(`specialty_ids`,  \'["' . $spec->specialty_id . '"]\')')
             ->where('status', "=", "active")->get();
 
         $result = (!empty($courses)) ? $courses : __('messages.noting');
         if (!$courses)
+            throw new ModelNotFoundException('User not found by ID ');
+        return $result;
+    }
+
+    public function getCourseTitleById($id)
+    {
+        $title = $this->model->selected('name')->where('id', $id)->first();
+
+        $result = (!empty($title)) ? $title : __('messages.noting');
+        if (!$title)
             throw new ModelNotFoundException('User not found by ID ');
         return $result;
     }

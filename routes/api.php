@@ -40,6 +40,7 @@ Route::group(['prefix' => 'auth',
     Route::post('getbook', 'Frontend\CourseAppController@getBookById');
     Route::post('gettests', 'Frontend\CourseAppController@getTestsById');
     Route::post('getresult', 'Frontend\CourseAppController@getResult');
+    Route::post('gettitle', 'Frontend\CourseAppController@getCourseTitleById');
     Route::post('finishedvideo', 'Frontend\CourseController@finishedCount');
 
     Route::post('videoinfo', 'Frontend\AccountVideoController@getVideoById');

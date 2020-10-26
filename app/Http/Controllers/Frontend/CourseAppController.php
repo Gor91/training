@@ -42,6 +42,25 @@ class CourseAppController extends Controller
             return response()->json(['error' => true], 500);
         }
     }
+    function getCourseTitleById()
+    {
+        try {
+
+            $title = $this->service->getCourseTitleById(request('id'));
+
+            return response()->json([
+                'access_token' => request('token'),
+                'title' => $title,
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
+            ]);
+        } catch (MethodNotAllowedHttpException$exception) {
+
+            logger()->error($exception);
+            return response()->json(['error' => true], 500);
+        }
+    }
+
     function getCourseInfo()
     {
         try {

@@ -23,10 +23,24 @@
         <!--================Blog Test Area =================-->
         <section class="blog_categorie_area">
             <div class="container">
-                <div class="row">
+                <div class="row align-items-center">
 
+                    <div class="col-lg-12 m-0 pb-5">
+                        <h2 class="text-center">
+                            <router-link :to="{ name: 'coursedetails', params:{id:this.id}}" class="nav-link or">
+                                {{this.title}}
+                            </router-link>
+                        </h2>
+                        <div v-for="(info, index) in tests">
+                            <p>{{info.question}}</p>
 
+                            <ul v-for="answer in JSON.parse(info.answers)">
+                                <li>{{answer.inp}}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </section>
         <!--================Blog Categorie Area =================-->
@@ -34,8 +48,9 @@
 </template>
 
 <script>
-    import {getTestById, getResult} from '../partials/courses';
+    import {getCourseTitleById, getResult, getTestById} from '../partials/courses';
     import coursetexts from './json/course.json';
+
     export default {
         name: 'app-header',
         methods: {
@@ -69,6 +84,19 @@
                     .catch(err => {
                         console.log('errr')
                     })
+            },
+            getCourseTitle(id) {
+                let credentials = {
+                    id: this.id,
+                    token: this.currentUser.token
+                };
+                getCourseTitleById(credentials)
+                    .then(res => {
+                        this.title = res.title.name;
+                    })
+                    .catch(err => {
+                        console.log('errr')
+                    })
             }
 
         },
@@ -84,6 +112,7 @@
                 id: '',
                 tests: [],
                 text: coursetexts,
+                title: ""
             }
         },
         beforeMount() {
@@ -92,6 +121,8 @@
             // else
             //     this.getCourses(this.$store.getters.currentUser.id);
             this.id = this.$route.params.id;
+            this.getTests(this.id);
+            this.getCourseTitle(this.id);
         },
     }
 </script>
