@@ -39,7 +39,9 @@ Route::group(['prefix' => 'auth',
     Route::post('getcoursesinfo', 'Frontend\CourseAppController@getCourseInfo');
     Route::post('getbook', 'Frontend\CourseAppController@getBookById');
     Route::post('gettests', 'Frontend\CourseAppController@getTestsById');
-    Route::post('getresult', 'Frontend\CourseAppController@getResult');
+    Route::post('gettestsbyaid', 'Frontend\AccountCourseController@getTestsResult');
+    Route::post('getresult', 'Frontend\AccountCourseController@getResult');
+    Route::post('getcpcourse', 'Frontend\AccountCourseController@getCPCourse');
     Route::post('gettitle', 'Frontend\CourseAppController@getCourseTitleById');
     Route::post('finishedvideo', 'Frontend\CourseController@finishedCount');
 
@@ -62,12 +64,12 @@ Route::post('comment', 'Frontend\PageController@savecomment');
 
 
 Route::post('regions', 'Frontend\AddressController@index');
-Route::get('prof', 'Frontend\ExpertController@profession');
+Route::post('prof', 'Frontend\ExpertController@profession');
 //Route::get('verify/{id}/{key}', 'Frontend\VerifyController@indax');
 Route::post('edu', 'Frontend\ExpertController@education');
 Route::post('educate/', 'Frontend\ExpertController@educate');
 Route::post('spec', 'Frontend\ExpertController@specialty');
-Route::post('territory/{id}', 'Frontend\AddressController@territories');
+Route::post('territory', 'Frontend\AddressController@territories');
 //        Route::get('reset-password', 'AuthController@sendPasswordResetLink');
 Route::post('reset-password', 'Frontend\PasswordResetController@sendPasswordResetLink');
 Route::post('reset/password', 'Frontend\PasswordResetController@callResetPassword');

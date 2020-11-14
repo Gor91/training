@@ -301,7 +301,7 @@
                                title="Մուտքագրեք անգլերեն"
                                :class="{'input': true, 'is-invalid': errors.has('email') }"
                                class="form-control" v-model="formRegister.email" :data-vv-as="texts.email">
-                        <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+                        <span ref="email" v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
                         <label for="password">{{texts.password}}</label>
@@ -341,8 +341,7 @@
     }
 
     import {registerUser} from '../partials/auth';
-    import {langs} from '../partials/main';
-    import {education, profession, region, specialty, territory} from '../partials/help';
+    import {getPromiseResult, territory, langs} from '../partials/help';
     import Datepicker from 'vuejs-datepicker';
     import registertexts from './json/registertexts.json';
     import hy from './json/hy.json';
@@ -400,9 +399,11 @@
         methods: {
             getEducations(id) {
                 let credentials = {
-                    id: id
+                    id: id,
+                    url:'edu',
+                    auth: false
                 };
-                education(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                         this.$refs.edu.style.border = '1px solid #9f12ad';
                         this.$refs.spec.style.border = '1px solid #ced4da';
@@ -415,9 +416,11 @@
             },
             getSpecialties(id) {
                 let credentials = {
-                    id: id
+                    id: id,
+                    auth:false,
+                    url:'spec'
                 };
-                specialty(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                         this.$refs.spec.style.border = '1px solid #9f12ad';
                         this.specialties = res.spec;
@@ -427,7 +430,11 @@
                     });
             },
             getRegions() {
-                region()
+                let credentials = {
+                    auth: false,
+                    url:'regions'
+                };
+                getPromiseResult(credentials)
                     .then(res => {
                         this.regions = res.regions;
                     })
@@ -436,7 +443,11 @@
                     });
             },
             getProfessions() {
-                profession()
+                let credentials = {
+                    auth: false,
+                    url:'prof'
+                };
+                getPromiseResult(credentials)
                     .then(res => {
                         this.professions = res.prof;
                     })
@@ -445,7 +456,12 @@
                     });
             },
             getTerritory(id, prefix) {
-                territory(id)
+                let credentials = {
+                    id:id,
+                    auth: false,
+                    url: 'territory'
+                };
+                getPromiseResult(credentials)
                     .then(res => {
                         if (prefix === 'w') {
                             this.$refs.w_territory.style.border = '1px solid #9f12ad';
@@ -477,6 +493,10 @@
                         }
                     })
                     .catch(error => {
+                        if(error.message === '23000') {
+                            this.$refs.email.style.display = 'block';
+                            this.$refs.email.innerText = registertexts.duplicate;
+                        }
                         this.$store.commit("registerFailed", {error});
                     });
             },

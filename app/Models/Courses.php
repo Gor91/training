@@ -246,4 +246,13 @@ class Courses extends Model implements JWTSubject
     {
         return [];
     }
+
+    public function account_course()
+    {
+        return $this->hasOne('App\Models\AccountCourse');
+    }
+    public function test()
+    {
+        return $this->hasMany('App\Models\Tests');
+    }
 }

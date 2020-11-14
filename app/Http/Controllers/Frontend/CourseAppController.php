@@ -100,7 +100,8 @@ class CourseAppController extends Controller
     function getTestsById()
     {
         try {
-            $tests = $this->service->getTestsById(request('id'));
+            $tests = $this->service->getTestsById(request('id'), request('account_id'));
+
             return response()->json([
                 'access_token' => request('token'),
                 'tests' => $tests,
@@ -114,22 +115,7 @@ class CourseAppController extends Controller
         }
     }
 
-    function getResult()
-    {
-        try {
-            $tests = $this->service->getTestsById(request('id'));
-            return response()->json([
-                'access_token' => request('token'),
-                'tests' => $tests,
-                'token_type' => 'bearer',
-                'expires_in' => auth('api')->factory()->getTTL() * 60
-            ]);
-        } catch (MethodNotAllowedHttpException$exception) {
 
-            logger()->error($exception);
-            return response()->json(['error' => true], 500);
-        }
-    }
 
     public function coursedetails()
     {

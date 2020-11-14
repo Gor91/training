@@ -22,8 +22,7 @@ class RegionSeeder extends Seeder
     {
         $regions = [
             1 => ['yerevan' => 'Երևան'],
-            2 => [
-                'ashtarak' => 'Աշտարակ',
+            2 => ['ashtarak' => 'Աշտարակ',
                 'aparan' => 'Ապարան',
                 'alagyaz' => 'Ալագյազ',
                 'avan' => 'Ավան',
@@ -32,13 +31,11 @@ class RegionSeeder extends Seeder
                 'tsaghkahovit' => 'Ծաղկահովիտ',
                 'mastara' => 'Մաստարա',
             ],
-            3 => [
-                'urtsadzor' => 'Ուրցաձոր',
+            3 => ['urtsadzor' => 'Ուրցաձոր',
             ],
             4 => ['parakar' => 'Փարաքար',
             ],
-            5 => [
-                'tchambarak' => 'Ճամբարակ',
+            5 => ['tchambarak' => 'Ճամբարակ',
                 'g_akunk' => 'Ակունք',
                 'vardenis' => 'Վարդենիս',
                 'geghamasar' => 'Գեղամասար',
@@ -46,8 +43,7 @@ class RegionSeeder extends Seeder
                 'shoghakat' => 'Շողակաթ',
                 'sevan' => 'Սևան',
             ],
-            6 => [
-                'byureghavan' => 'Բյուրեղավան',
+            6 => ['byureghavan' => 'Բյուրեղավան',
                 'yeghvard' => 'Եղվարդ',
                 'charentsavan' => 'Չարենցավան',
                 'akunk' => 'Ակունք',
@@ -67,8 +63,7 @@ class RegionSeeder extends Seeder
                 'metsavan' => 'Մեծավան',
                 'halavar' => 'Հալավար'
             ],
-            8 => [
-                'arpi' => 'Արփի',
+            8 => ['arpi' => 'Արփի',
                 'akhuryan' => 'Ախուրյան',
                 'ani' => 'Անի',
                 'amasia' => 'Ամասիա',
@@ -77,8 +72,7 @@ class RegionSeeder extends Seeder
                 'marmashen' => 'Մարմաշեն',
                 'sarapat' => 'Սարապատ',
             ],
-            9 => [
-                'kapan' => 'Կապան',
+            9 => ['kapan' => 'Կապան',
                 'goris' => 'Գորիս',
                 'sisian' => 'Սիսիան',
                 'meghri' => 'Մեղրի',
@@ -93,8 +87,7 @@ class RegionSeeder extends Seeder
                 'noyemberyan' => 'Նոյեմբերյան',
                 'koghb' => 'Կողբ',
             ],
-            11 => [
-                'areni' => 'Արենի',
+            11 => ['areni' => 'Արենի',
                 'vayk' => 'Վայք',
                 'gladzor' => 'Գլաձոր',
                 'yeghegis' => 'Եղեգիս',
@@ -107,7 +100,7 @@ class RegionSeeder extends Seeder
         foreach ($data as $index) {
             $this->setTerritory($index, $i, $status);
         }
-        for ($id = 1; $id < count($data); $id++) {
+        for ($id = 0; $id < count($data); $id++) {
             $key = $keys[$id];
 
             $city_path = storage_path() . Config::get('constants.APP') . Config::get('constants.REGIONS') . Config::get('constants.CITY') . DIRECTORY_SEPARATOR . $key . Config::get('constants.FILE_EX');

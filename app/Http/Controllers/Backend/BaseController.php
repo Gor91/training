@@ -16,6 +16,7 @@ class BaseController extends Controller
 {
     public function sendEmail(Request $request)
     {
+
         $v = Validator::make($request->all(), [
             'subject' => 'required|max:255',
             'message' => 'required|max:2048',
@@ -33,8 +34,15 @@ class BaseController extends Controller
             if ($email->save()) {
                 $sender['subject'] = $request->subject;
                 $sender['name'] = $request->name;
-                $sender['message'] = $request->message;
+                $message = $request->message;
+                if ($request->test) {
+                    $path = Config::get('constants.APP') . Config::get('constants.ACCOUNT_PATH') . 'account-test-' . $request->id;
+                    $message .=
+                        "<a href='" . $path . "'>" . __('messages.see') . "</a>";
+                }
+                $sender['message'] = $message;
                 $sender['email'] = $request->email;
+
                 $this->createEmail($sender);
             }
 
@@ -53,8 +61,6 @@ class BaseController extends Controller
         ]);
 
         if (!$v->fails()) {
-
-
             $ids = explode(',', $request->ids);
 
             foreach ($ids as $index => $id) {

@@ -55,6 +55,9 @@ class AccountService
             'prof' => function ($query) {
                 $query->select(['account_id', 'specialty_id']);
             },
+            'account_course'=>function($query){
+                $query->select(['account_id', 'course_id']);
+            },
             'prof.spec.type' => function ($query) {
                 $query->select(['id', 'name']);
             }])->select('id', 'name', 'surname', 'image_name', 'phone')
@@ -103,6 +106,7 @@ class AccountService
                 'p.specialty_id as specialty_id', 'sp.id as education_id', 's.type_id as profession', 'p.info')
             ->where('a.id', '=', $id)
             ->first();
+
         if (!$account)
             throw new ModelNotFoundException('User not found by ID ');
         return $account;
@@ -224,7 +228,7 @@ class AccountService
             $account['work_address'] = $this->addressToJson($accountRequest->w_region, $accountRequest->w_territory, $accountRequest->w_street, 'w');
             $this->model->update($account, $id);
             $this->updateProfession($profRequest, $id);
-            $this->updateUserByParam($userRequest->email, $id, 'email');
+            self::updateUserByParam($userRequest->email, $id, 'email');
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
@@ -253,7 +257,7 @@ class AccountService
             $this->model->update($account, $id);
 
             $this->updateProfession($profRequest, $id);
-            $this->updateUserByParam('pending', $id, 'status');
+            self::updateUserByParam('pending', $id, 'status');
 
             $message = Message::where('key', 'registered_user')->first();
             $account = Account::where('id', $id)->first();
@@ -295,7 +299,7 @@ class AccountService
                     'info' => $professionRequest->info
                 ]);
 
-            $uu = $this->updateUserByParam($userRequest->email, $id, 'email');
+            $uu = self::updateUserByParam($userRequest->email, $id, 'email');
 
 //            DB::commit();
             return true;
@@ -425,7 +429,7 @@ class AccountService
      * @param $param
      * @return mixed
      */
-    public function updateUserByParam($userRequest, $id, $param)
+    static function updateUserByParam($userRequest, $id, $param)
     {
         $updated = User::where('account_id', $id)->update([
             $param => $userRequest

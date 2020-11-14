@@ -60,6 +60,15 @@ label {
     background-color: #918b85
 }
 
+.table-danger  {
+    background-color: #fec8da;
+}
+.success{
+    color: #0abb87;
+}
+.danger{
+    color: #fd397a;
+}
 .asian {
     width: 30%;
     float: left;

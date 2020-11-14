@@ -18,5 +18,18 @@
   "phar": "ԴԵՂԱԳՈՐԾ",
   "registernow": "Գրանցվեք հիմա",
   "participants": "Մասնակիցներ",
-  "certificates": "Վկայականներ"
+  "certificates": "Վկայականներ",
+
+  "fastlinks" : "Արագ հղումներ",
+  "moh": "ՀՀ առողջապահության նախարարություն",
+  "ncdc": "ՀՀ ԱՆ հիվանդությունների վերահսկման և կանխարգելման ազգային կենտրոն",
+  "nih":"Առողջապահության Ազգային Կենտրոն",
+  "acts": "Իրավական ակտեր",
+  "rules": "Օրենքներ և Հրամաններ",
+  "joinus": "Միացեք մեզ",
+  "phone": "(+374) 43-007-107",
+  "email": "ccpdmw@gmail.com",
+  "copyright": "Copyright © 2020 All rights reserved |\n Նախագծված և իրականացված է <i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i> <a href=\"#\">GTECH LLC</a>\n                    կողմից",
+  "page": "էջից"
+
 }

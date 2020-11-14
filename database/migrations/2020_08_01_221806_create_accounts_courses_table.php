@@ -20,6 +20,8 @@ class CreateAccountsCoursesTable extends Migration
             $table->bigInteger('count')->unsigned();
             $table->enum('status',['success', 'unsuccess']);
             $table->float('percent')->nullable();
+            $table->json('random_test')->nullable();
+            $table->json('test')->nullable();
             $table->integer('raiting')->nullable();
             $table->string('comment')->nullable();
             $table->string('panding')->default('unread');

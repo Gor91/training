@@ -16453,7 +16453,7 @@ body {
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    color: #646c9a;
+    color: #6c7293;
 }
 
 router-outlet {
@@ -42225,12 +42225,10 @@ and (max-width: 1024px) {
 .kt-widget2 .kt-widget2__item:before {
     position: absolute;
     display: block;
-    width: 0.3rem;
-    border-radius: 4px;
     width: 4px;
     border-radius: 4px;
     height: 100%;
-    left: 0.8rem;
+    left: -1.8rem;
     content: "";
 }
 
@@ -50162,4 +50160,7 @@ td .cancel {
     font-weight: bolder;
     margin-left: 50%;
     cursor: pointer;
+}
+li{
+    list-style: decimal;
 }

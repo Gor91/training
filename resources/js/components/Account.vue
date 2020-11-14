@@ -20,7 +20,7 @@
         </section>
         <!--================ Start Course Details Area =================-->
         <section class="course_details_area section_gap">
-            {{this.getAccountById}}
+
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 course_details_left">
@@ -35,23 +35,23 @@
                         </div>
                     </div>
                     <div class="col-lg-6 right-contents">
-                        <ul >
+                        <ul>
                             <li>
-                                <div class="justify-content-between d-flex" >
+                                <div class="justify-content-between d-flex">
                                     <p>{{texts.profilename}}</p>
                                     <span class="or text-capitalize">{{account.name}} {{account.surname}} {{account.father_name}}</span>
                                 </div>
                             </li>
                             <li>
-                                <div class="justify-content-between d-flex" >
+                                <div class="justify-content-between d-flex">
                                     <p>{{texts.profession}} </p>
                                     <span class="or text-capitalize">{{account.profession}}</span>
                                 </div>
                             </li>
                             <li>
-                                <div class="justify-content-between d-flex" >
+                                <div class="justify-content-between d-flex">
                                     <p>{{texts.email}}</p>
-                                    <span >{{account.email}}</span>
+                                    <span>{{account.email}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -62,50 +62,61 @@
                 </div>
             </div>
         </section>
+        <section class="course_details_area section_gap d-flex flex-column" v-if="tests">
 
+            <h2 class="col-12 or">{{texts.testsresult}}</h2>
+
+            <ul>
+                <li v-for="(info, i) in this.tests" class="d-flex flex-column test-actual">
+                    <div class="row media post_item">
+                        <img class="col-2" v-bind:src="certificateName">
+                        <div class="col-10 media-body">
+                            <p class="router-link-active">{{info.course.name}}</p>
+                            <div class="row">
+                                <div class="col-6">
+                        <span v-for="c in JSON.parse(info.course.credit)">
+                            <i>{{c.name}} - </i>
+                            <span>{{c.credit}}</span>
+                            <br>
+                        </span>
+                                </div>
+                                <ul class="col-6">
+                                    <li><i>{{texts.result}} - {{info.percent}}%</i></li>
+                                    <li><span>{{info.updated_at.substr(0, 10)}}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </section>
     </div>
 </template>
 
 <script>
     import {uploadAvatar} from '../partials/auth';
     import registertexts from './json/registertexts.json';
-    import {specialty} from '../partials/help';
+    import {getPromiseResult} from '../partials/help';
 
     export default {
-
         data() {
             return {
                 avatar: [],
                 url: null,
                 texts: registertexts,
-                account: ''
+                account: '',
+                tests: []
             }
         },
 
         computed: {
-
             currentUser: function () {
-                console.log(this.$store.getters.currentUser);
                 if (!this.$store.getters.currentUser)
                     return JSON.parse(localStorage.getItem('user'));
                 return this.$store.getters.currentUser
             },
-            getAccountById: function () {
 
-                let credentials = {
-                    id: this.currentUser.id,
-                    token: this.currentUser.token
-                };
-                axios.post('/api/auth/getaccountbyid', credentials)
-                    .then(response => {
-                        this.account = response.data.account;
-                        this.getSpecialties(this.account.profession);
-                        console.log(this.account);
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-            },
             imgName: function () {
                 let src = "";
                 let img_name = this.account.image_name;
@@ -114,16 +125,41 @@
                     src = "/uploads/images/avatars/" + img_name;
                 else
                     src = "/images/avatars/" + img_name;
+                console.log(this.account);
                 return src;
             },
-
+            certificateName: function () {
+                return "/images/logos/logo_new_sm.jpg";
+            }
+        },
+        beforeMount() {
+            this.getTestsResultById(this.currentUser.id);
+            this.getAccountById();
         },
         methods: {
+            getAccountById: function () {
+                let credentials = {
+                    id: this.currentUser.id,
+                    token: this.currentUser.token
+                };
+                axios.post('/api/auth/getaccountbyid',
+                    credentials)
+                    .then(response => {
+                        this.account = response.data.account;
+                        this.getSpecialties(this.account.profession);
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
             getSpecialties(id) {
-               let credential = {id: id};
-                specialty(credential)
+                let credential = {
+                    id: id,
+                    url: 'spec',
+                    auth: false
+                };
+                getPromiseResult(credential)
                     .then(res => {
-
                         this.account.profession = res.spec[0].name;
                     })
                     .catch(error => {
@@ -139,7 +175,6 @@
                             let ls = JSON.parse(localStorage.getItem('user'));
                             ls.image_name = res.user.image_name;
                             localStorage.setItem('user', JSON.stringify(ls))
-                            // console.log('str',localStorage.getItem('user'))
                         })
                         // this.$router.push({path: '/dashboard'});
                     })
@@ -150,10 +185,24 @@
             onFileChange(e) {
                 const file = e.target.files[0];
                 // this.url = URL.createObjectURL(file);
-                // console.log(file)
-                // console.log(this.url)
+
                 this.upload(file);
             },
+            getTestsResultById(id) {
+                let credentials = {
+                    id: id,
+                    token: this.currentUser.token,
+                    url: 'gettestsbyaid',
+                    auth: true
+                };
+                getPromiseResult(credentials)
+                    .then(res => {
+                        this.tests = res.tests;
+                    })
+                    .catch(error => {
+                        this.$store.commit("getContentFailed", {error});
+                    });
+            }
         }
     }
 </script>

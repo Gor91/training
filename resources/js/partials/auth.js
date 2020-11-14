@@ -38,7 +38,7 @@ export function login(credentials) {
                 res(response.data);
             })
             .catch(err => {
-                rej(texts.reject)
+                rej(err)
             })
     })
 }
@@ -84,19 +84,6 @@ export function uploadAvatar(file, id, token) {
         })
             .catch(err => {
                 rej('Wrong uploaded a avatar.')
-            })
-    })
-}
-
-export function getPagesData(credentials) {
-    return new Promise((res, rej) => {
-        axios.post('/api/about', credentials)
-            .then(response => {
-                res(response.data);
-
-            })
-            .catch(err => {
-                rej(texts.error)
             })
     })
 }

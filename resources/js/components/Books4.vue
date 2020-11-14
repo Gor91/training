@@ -5,7 +5,7 @@
 
 <script>
     import pdf from 'vue-pdf';
-    import {getBookById} from '../partials/courses';
+    import {getPromiseResult} from '../partials/help';
 
     export default {
         data() {
@@ -30,9 +30,11 @@
             getBook: function () {
                 let credentials = {
                     id: this.$route.params.id,
-                    token: this.currentUser.token
+                    token: this.currentUser.token,
+                    url:'getbook',
+                    auth:true
                 };
-                getBookById(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                         this.path = res.book.path;
                         this.title = res.book.title;

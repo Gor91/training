@@ -55,7 +55,7 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
             if (!$token = auth('api')->attempt($credentials)) {
-                return response()->json(['error' => 'Unverified'], 401);
+                return response()->json(['error' => 'Unverified'], 400);
             }
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unauthorized'], 500);

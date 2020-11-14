@@ -1,98 +1,31 @@
 import texts from '../components/json/registertexts.json';
 
-export function educate() {
+export function getPromiseResult(credentials) {
+    let url = credentials.url;
+    delete credentials.url;
+    let auth = "";
+    if (credentials.auth)
+        auth = "auth/";
+    delete credentials.auth;
+
     return new Promise((res, rej) => {
-        axios.post('/api/educate')
+        axios.post('/api/' + auth + url, credentials,
+        )
             .then(response => {
                 res(response.data);
             })
             .catch(err => {
-                rej(texts.error)
+                rej(texts.error);
             })
     })
 }
 
-export function education(credentials) {
-    return new Promise((res, rej) => {
-        axios.post('/api/edu', credentials)
-            .then(response => {
-                res(response.data);
-            })
-            .catch(err => {
-                rej(texts.error)
-            })
-    })
-}
+export function langs(el, lng) {
 
-export function specialty(credentials) {
-
-    return new Promise((res, rej) => {
-        axios.post('/api/spec', credentials)
-            .then(response => {
-                res(response.data);
-            })
-            .catch(err => {
-                rej(texts.error)
-            })
-    })
-}
-
-export function region() {
-    return new Promise((res, rej) => {
-        axios.post('/api/regions')
-            .then(response => {
-                res(response.data);
-            })
-            .catch(err => {
-                rej(texts.error)
-            })
-    })
-}
-
-export function territory(id) {
-    return new Promise((res, rej) => {
-        axios.post('/api/territory/' + id)
-            .then(response => {
-                res(response.data);
-            })
-            .catch(err => {
-                rej(texts.error)
-            })
-    })
-}
-
-export function profession() {
-    return new Promise((res, rej) => {
-        axios.get('/api/prof')
-            .then(response => {
-                res(response.data);
-            })
-            .catch(err => {
-                rej(texts.error)
-            })
-    })
-}
-
-export function applicantcount() {
-    return new Promise((res, rej) => {
-        axios.post('/api/applicantcount')
-            .then(response => {
-                res(response.data);
-            })
-            .catch(err => {
-                rej(texts.error)
-            })
-    })
-}
-
-export function coursescount() {
-    return new Promise((res, rej) => {
-        axios.post('/api/coursescount')
-            .then(response => {
-                res(response.data);
-            })
-            .catch(err => {
-                rej(texts.error)
-            })
-    })
+    let pattern;
+    if (lng === 'hy')
+        pattern = /^[\u0530-\u058FF|\u0020-\u0040]*$/;
+    else
+        pattern = /^[\u0000-\u009F]*$/;
+    return (!pattern.test(el))? false: true;
 }

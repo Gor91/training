@@ -4,10 +4,7 @@ namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountVideo;
-use App\Models\Book;
 use App\Models\Courses;
-use App\Models\Specialty;
-use App\Models\Videos;
 use App\Services\CourseService;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
@@ -39,9 +36,9 @@ class CourseController extends Controller
 
     public function finishedCount()
     {
-        $isFinished = true;
+        $isFinished = 1;
         $videos = Courses::select('videos')->where('id', request('id'))->first();
-        if (!empty($videos->vidos)) {
+        if (!empty($videos->videos)) {
 
             $videos = json_decode($videos->videos);
             foreach ($videos as $index => $video) {
@@ -49,8 +46,10 @@ class CourseController extends Controller
                     ->where([["video_id", $video], ['account_id', request('user_id')]])
                     ->first();
 
-                if ((!empty($status) && $status->status != "finished") || empty($status)) {
-                    $isFinished = false;
+                if ((!empty($status) && $status->status != "finished")
+                    || empty($status)) {
+
+                    $isFinished = 0;
                     break;
                 }
             }

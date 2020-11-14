@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Models\AccountCourse;
 use App\Models\Book;
 use App\Models\Courses;
 use App\Models\Profession;
@@ -104,13 +105,21 @@ class CourseService
         return $result;
     }
 
-    public function getTestsById($id)
+    public function getTestsById($id, $a_id)
     {
         $tests = Tests::where('courses_id', $id)
-            ->get();
-        $result = (!empty($tests)) ? $tests : __('messages.noting');
+            ->get()->random(5);
+        if (!empty($tests)) {
+            $random_test = [];
+            foreach ($tests as $index => $test) {
+                $random_test[] = $test->id;
+            }
+            AccountCourse::where(['account_id' => $a_id, 'course_id' => $id])
+                ->update(['random_test' => json_encode($random_test, true)]);
+
+        }
         if (!$tests)
             throw new ModelNotFoundException('User not found by ID ');
-        return $result;
+        return $tests;
     }
 }

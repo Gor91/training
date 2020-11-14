@@ -99,9 +99,12 @@ Route::post('/backend/account/{role}', 'Backend\AccountController@store')->name(
 Route::match(['put', 'patch'],'/backend/account/{id}', 'Backend\AccountController@update')->name('account.update');
 Route::match(['put', 'patch'],'/backend/updateAccount/{id}', 'Backend\AccountController@updateAccount')->name('account.edit');
 Route::get('/backend/account/{id}', 'Backend\AccountController@show')->name('account.show');
+Route::get('/backend/account_tests/{id}', 'Backend\AccountTestController@index')->name('test.tests');
+Route::get('/backend/account_test/{a_id}/{id}', 'Backend\AccountTestController@show')->name('test.show');
 Route::delete('/backend/account/{id}', 'Backend\AccountController@destroy')->name('account.destroy');
 Route::get('/backend/account/{id}/edit', 'Backend\AccountController@edit')->name('account.edit');
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
+Route::post('/backend/sendAttachment', 'Backend\AccountTestController@sendAttachment');
 
 //specialty
 Route::resource('/backend/type', 'Backend\TypeController');
@@ -114,6 +117,8 @@ Route::get('/backend/type_gdPDF', 'Backend\TypeController@gdPDF');
 Route::get('/backend/type_gdExcel', 'Backend\TypeController@gdExcel');
 Route::get('/backend/account_gdPDF', 'Backend\AccountController@gdPDFRole');
 Route::get('/backend/account_gdExcel', 'Backend\AccountController@gdExcel');
+Route::get('/backend/tests_gdPDF/{id}', 'Backend\AccountTestController@gdPDF');
+Route::get('/backend/test_gdPDF/{a_id}/{id}', 'Backend\AccountTestController@gdPDFTest');
 
 //settings
 Route::resource('/backend/message', 'Backend\MessageController')->except(['destroy']);

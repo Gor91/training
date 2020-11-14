@@ -6,7 +6,18 @@
             <div class="register_form">
                 <h3>{{texts.enter}}</h3>
                 <form @submit.prevent="authenticate" class="form_area">
-                    <div class="form-group row" v-if="authError">
+
+                    <div class="form-group row" v-if="unverifiedError">
+                        <p class="error m-auto">
+                            {{unverifiedError}}
+                        </p>
+                    </div>
+                    <div class="form-group row" v-else-if="unauthorizedError">
+                        <p class="error m-auto">
+                            {{unauthorizedError}}
+                        </p>
+                    </div>
+                    <div class="form-group row" v-else="authError">
                         <p class="error m-auto">
                             {{authError}}
                         </p>
@@ -62,15 +73,38 @@
         },
         methods: {
             authenticate() {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        login(this.$data.formLogin)
+                            .then(res => {
+                                this.$store.commit("loginSuccess", res);
+                                this.$router.push({path: '/account'});
+                            })
+                            .catch(error => {
+                                let msg = "", pattern = /\d+/,
+                                    e = pattern.exec(error);
+                                switch (e[0]) {
+                                    case '400':
+                                        error = this.texts.unverified;
+                                        msg = 'unverified';
+                                        break;
+                                    case '401':
+                                        error = this.texts.unauthorized;
+                                        msg = 'unauthorized';
+                                        break;
+                                    default:
+                                        error = this.texts.reject;
+                                        msg = 'loginFailed';
+                                }
+
+                                this.$store.commit(msg, {error});
+                            });
+                        return;
+                    }
+                    console.log('Correct them errors!');
+                });
                 this.$store.dispatch('login');
-                login(this.$data.formLogin)
-                    .then(res => {
-                        this.$store.commit("loginSuccess", res);
-                        this.$router.push({path: '/account'});
-                    })
-                    .catch(error => {
-                        this.$store.commit("loginFailed", {error});
-                    })
+
             },
             reset() {
                 resetPassword().then(res => {
@@ -84,6 +118,12 @@
         computed: {
             authError() {
                 return this.$store.getters.authError
+            },
+            unauthorizedError() {
+                return this.$store.getters.unauthorizedError
+            },
+            unverifiedError() {
+                return this.$store.getters.unverifiedError
             }
             ,
             registeredUser() {

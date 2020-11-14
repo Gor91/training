@@ -88,8 +88,11 @@ trait Registration
             return response()->json(['success' => true, 'user' => $account->id]);
         } catch (\Exception $exception) {
             DB::rollback();
+            $message = $exception->getMessage();
 
-            return response()->json(['error' => true, 'message' => $exception->getMessage()], 500);
+            if ($exception->getCode() == 23000)
+                $message = __('auth.duplicate');
+            return response()->json(['error' => true, 'message' => $message], 500);
         }
     }
 

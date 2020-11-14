@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-lg-8 course_details_left">
                         <div class="main_image" v-if="video_info">
-                            <hooper :itemsToShow="1" >
+                            <hooper :itemsToShow="1">
                                 <slide v-for="(info, index) in video_info" :key="index" :index="index">
                                     <video ref="video" class="view-video col-lg-12" controls
                                            v-on:loadeddata="manageEvents(info.id, index)">
@@ -43,10 +43,11 @@
                             </hooper>
 
                         </div>
-                        <div class="attachment-mark">
+                        <div class="attachment-mark" v-if="books">
                             <h4 class="title">{{coursetexts.books}}</h4>
-                            <template v-if="books" v-for="book in books">
-                                <i class="fa fa-book text"></i> <router-link to="/books/1" class="text" target="_blank">{{book.title}}</router-link>
+                            <template  v-for="book in books">
+                                <i class="fa fa-book text"></i>
+                                <router-link to="/books/1" class="text" target="_blank">{{book.title}}</router-link>
 
                             </template>
                         </div>
@@ -91,9 +92,12 @@
                             </li>
                         </ul>
 
-                        <router-link :to="{ name: 'test',params: {id: this.id} }" class="primary-btn text-uppercase enroll " v-bind:class="{ 'isDisabled': !isFinished }">{{coursetexts.test}}
+                        <router-link :to="{ name: 'test',params: {id: this.id} }"
+                                     class="primary-btn text-uppercase enroll "
+                                     v-bind:class="{ 'isDisabled': !isFinished }">{{coursetexts.test}}
                         </router-link>
-                        <router-link :to="{ name: 'payment' }" class="primary-btn text-uppercase enroll nav-link">{{coursetexts.paid}}
+                        <router-link :to="{ name: 'payment' }" class="primary-btn text-uppercase enroll nav-link">
+                            {{coursetexts.paid}}
                         </router-link>
 
                         <div class="content">
@@ -133,8 +137,7 @@
 </template>
 
 <script>
-    import {addPoints, getVideoDetails} from '../partials/video';
-    import {checkFinishedVideo, getCourseDetails} from '../partials/courses';
+    import {getPromiseResult} from '../partials/help';
     import coursetexts from './json/course.json';
     import {Hooper, Pagination as HooperPagination, Slide} from 'hooper';
     import 'hooper/dist/hooper.css';
@@ -142,10 +145,10 @@
     export default {
         data() {
             return {
-                id:'',
-                book: '/css/frontend/img/ekg.png',
+                id: '',
+                // book: '/css/frontend/img/ekg.png',
                 video_info: [],
-                books:[],
+                books: [],
                 feedback: '',
                 datas: [],
                 specialites: [],
@@ -163,7 +166,7 @@
                     {id: 5}
 
                 ],
-                isFinished: false
+                isFinished: 0
             };
         },
         computed: {
@@ -183,9 +186,11 @@
                 this.$nextTick(() => {
                     let credentials = {
                         id: id,
-                        token: this.currentUser.token
+                        token: this.currentUser.token,
+                        url: 'videoinfo',
+                        auth: true
                     };
-                    getVideoDetails(credentials)
+                    getPromiseResult(credentials)
                         .then(res => {
                             if (res.video.status === "progress" || !res.video) {
                                 let _this = this;
@@ -228,6 +233,7 @@
                                     });
 
                                     video.addEventListener('ended', function () {
+                                        console.log('ended', id);
                                         _this.addPoint(id, video.currentTime);
                                     });
                                 }
@@ -243,9 +249,11 @@
                     id: id,
                     user_id: this.currentUser.id,
                     token: this.currentUser.token,
-                    point: point
+                    point: point,
+                    url: "addpoint",
+                    auth: true
                 };
-                addPoints(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                     })
                     .catch(error => {
@@ -257,23 +265,28 @@
                 let credentials = {
                     id: this.$route.params.id,
                     user_id: this.currentUser.id,
-                    token: this.currentUser.token
+                    token: this.currentUser.token,
+                    url: 'finishedvideo',
+                    auth: true
                 };
-                checkFinishedVideo(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                         this.isFinished = res;
+
                     })
                     .catch(error => {
-                        console.log('error');
+                        console.log('error', error);
                         // this.$store.commit("registerFailed", {error});
                     })
             },
             coursedetails: function () {
                 let credentials = {
                     id: this.$route.params.id,
-                    token: this.currentUser.token
+                    token: this.currentUser.token,
+                    url: 'coursedetails',
+                    auth: true
                 };
-                getCourseDetails(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
 
                         this.datas = res.data;
@@ -358,10 +371,13 @@
     .hooper-pagination {
         top: 0
     }
+
     .isDisabled {
         cursor: not-allowed;
         opacity: 0.5;
         text-decoration: none;
+        pointer-events: none;
     }
+
 </style>
 

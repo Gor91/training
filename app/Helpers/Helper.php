@@ -97,3 +97,28 @@ function getErrorMessage($code)
     return $message;
 }
 
+function creditNameByKey($credit)
+{
+    $test = "";
+    if (!empty($credit)) {
+        $credit = json_decode($credit, true);
+        $test .= "<ul>";
+        foreach ($credit as $index => $item) {
+            switch ($item['name']) {
+                case 'practical':
+                    $test .="<li>". __('messages.practical').": ".$item['credit']."</li>" ;
+                    break;
+                case 'theoretical':
+                    $test .= "<li>".__('messages.theoretical').": ".$item['credit']."</li>";
+                    break;
+                case 'selfeducation':
+                    $test .= "<li>".__('messages.selfeducation').": ".$item['credit']."</li>";
+                    break;
+            }
+        }
+        $test .= "</ul>";
+    }
+    return  $test;
+}
+
+

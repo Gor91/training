@@ -8,6 +8,8 @@ export default {
         isUploadedIn: !!user,
         loading: false,
         auth_error: null,
+        unauthorized_error: null,
+        unverified_error: null,
         reg_error: null,
         verify_error: null,
         editError: null,
@@ -28,6 +30,12 @@ export default {
         },
         authError(state) {
             return state.auth_error;
+        },
+        unauthorizedError(state) {
+            return state.unauthorized_error;
+        },
+        unverifiedError(state) {
+            return state.unverified_error;
         },
         regError(state) {
             return state.reg_error;
@@ -54,6 +62,14 @@ export default {
         loginFailed(state, payload) {
             state.loading = false;
             state.auth_error = payload.error;
+        },
+        unauthorized(state, payload) {
+            state.loading = false;
+            state.unauthorized_error = payload.error;
+        },
+        unverified(state, payload) {
+            state.loading = false;
+            state.unverified_error = payload.error;
         },
         uploadAvatar(state) {
             state.loading = true;

@@ -7,9 +7,9 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="banner_content text-center">
-                                <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
+                                <div :key="b.to" class="page_link" v-for="b in $route.meta.breadCrumbs">
                                     <router-link :to="{ name: 'home' }" class="nav-link">{{text.main}}</router-link>
-                                    <router-link to="" class="nav-link">{{b.text}}</router-link>
+                                    <router-link class="nav-link" to="">{{b.text}}</router-link>
 
                                 </div>
                             </div>
@@ -22,7 +22,7 @@
         <section class="blog_categorie_area">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4" v-for="course in courses" :key="course.id">
+                    <div :key="course.id" class="col-lg-4" v-for="course in courses">
                         <div class="categories_post">
                             <!--<img :src="image_src" alt="post">-->
                             <div class="categories_details">
@@ -39,10 +39,10 @@
                                     <div class="border_line yellow" v-if="!currentUser"></div>
                                     <span class="fa fa-lock yellow" v-if="!currentUser"></span>
                                     <div class='d-flex justify-content-center' v-if="!currentUser">
-                                        <router-link to="/login" class="nav-link">{{text.login}}</router-link>
+                                        <router-link class="nav-link" to="/login">{{text.login}}</router-link>
                                         <p class="nav-link">կամ</p>
 
-                                        <router-link to="/register" class="nav-link"> {{text.register}}
+                                        <router-link class="nav-link" to="/register"> {{text.register}}
                                         </router-link>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-    import {getAllCourses, getCoursesById} from '../partials/courses';
+    import {getPromiseResult} from '../partials/help';
     import pagetexts from './json/pages.json'
 
     export default {
@@ -93,7 +93,11 @@
                 this.$router.push('/login');
             },
             allcourses: function () {
-                getAllCourses()
+                let credentials = {
+                    url: 'getAllCourses',
+                    auth: false
+                };
+                getPromiseResult(credentials)
                     .then(res => {
                         this.courses = res.data;
                     })
@@ -105,9 +109,11 @@
             getCourses(id) {
                 let credentials = {
                     id: id,
-                    token: this.currentUser.token
+                    token: this.currentUser.token,
+                    url: 'getcoursebyspec',
+                    auth: true
                 };
-                getCoursesById(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                         this.courses = res.courses;
                     })

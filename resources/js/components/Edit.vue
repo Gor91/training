@@ -48,7 +48,8 @@
                         <div class="form-group col-lg-4">
                             <label for="profession">{{texts.profession}}</label>
                             <select id="profession" name="profession" class="form-control" v-validate="'required'"
-                                    :class="{'input': true, 'is-invalid': errors.has('profession') }" :data-vv-as="texts.profession"
+                                    :class="{'input': true, 'is-invalid': errors.has('profession') }"
+                                    :data-vv-as="texts.profession"
                                     v-model="formEdit.profession" @change="getSpecialties(formEdit.profession)">
                                 <option value="">{{texts.selectaprofession}}</option>
                                 <option v-for="(prof) in professions" v-bind:value="prof.id">{{prof.name}}</option>
@@ -59,7 +60,8 @@
                         <div class="form-group col-lg-4">
                             <label for="specialty_id">{{texts.specialty}}</label>
                             <select id="specialty_id" name="education_id" class="form-control" v-validate="'required'"
-                                    :class="{'input': true, 'is-invalid': errors.has('education_id') }" ref="spec" :data-vv-as="texts.specialty"
+                                    :class="{'input': true, 'is-invalid': errors.has('education_id') }" ref="spec"
+                                    :data-vv-as="texts.specialty"
                                     v-model="formEdit.education_id" @change="getEducations(formEdit.education_id)">
                                 <option v-for="(group) in specialties" :value="group.id">
                                     {{ group.name }}
@@ -326,7 +328,7 @@
                             <div class="row">
                                 <label for="old_password">{{texts.oldpassword}}</label>
                                 <input autocomplete="off" id="old_password" type="password" name="old_password"
-                                       class="form-control"  :data-vv-as="texts.oldpassword"
+                                       class="form-control" :data-vv-as="texts.oldpassword"
                                        v-validate="'required|min:8'" v-model="passEdit.old_password"
                                        :class="{'input': true, 'is-invalid': errors.has('old_password') }">
                                 <span v-show="errors.has('old_password')"
@@ -336,7 +338,8 @@
                         <div class="form-group  col-lg-4">
                             <label for="password">{{texts.newpassword}}</label>
                             <input autocomplete="off" id="password" type="password" name="password" class="form-control"
-                                   v-validate="'required|min:8'" v-model="passEdit.password" :data-vv-as="texts.password"
+                                   v-validate="'required|min:8'" v-model="passEdit.password"
+                                   :data-vv-as="texts.password"
                                    :class="{'input': true, 'is-invalid': errors.has('password') }"
                                    v-on:blur="checkLang('password','en', 'passEdit')">
                             <span v-show="errors.has('password')"
@@ -347,7 +350,8 @@
                             <input autocomplete="off" id="re_password" type="password" name="re_password"
                                    class="form-control" v-on:blur="checkLang('re_password','en', 'passEdit')"
                                    :class="{'input': true, 'is-invalid': errors.has('re_password') }"
-                                   v-validate="'required|min:8'" v-model="passEdit.re_password" :data-vv-as="texts.confirmpassword">
+                                   v-validate="'required|min:8'" v-model="passEdit.re_password"
+                                   :data-vv-as="texts.confirmpassword">
                             <span v-show="errors.has('re_password')" class="help is-danger">{{ errors.first('re_password') }}</span>
                         </div>
 
@@ -369,8 +373,7 @@
     }
 
     import {approveUser, changePassword, editUser} from '../partials/auth';
-    import {langs} from '../partials/main';
-    import {education, profession, region, specialty, territory} from '../partials/help';
+    import {getPromiseResult, langs, territory} from '../partials/help';
     import Datepicker from 'vuejs-datepicker';
     import registertexts from './json/registertexts.json'
     import hy from './json/hy.json';
@@ -442,9 +445,11 @@
             },
             getEducations(id) {
                 let credentials = {
-                    id: id
+                    id: id,
+                    auth: false,
+                    url: 'edu'
                 };
-                education(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                         this.$refs.edu.style.border = '1px solid #9f12ad';
                         this.$refs.spec.style.border = '1px solid #ced4da';
@@ -456,9 +461,11 @@
             },
             getSpecialties(id) {
                 let credentials = {
-                    id: id
+                    id: id,
+                    auth: false,
+                    url: 'spec'
                 };
-                specialty(credentials)
+                getPromiseResult(credentials)
                     .then(res => {
                         this.$refs.spec.style.border = '1px solid #9f12ad';
                         this.specialties = res.spec;
@@ -468,7 +475,11 @@
                     });
             },
             getRegions() {
-                region()
+                let credentials = {
+                    auth: false,
+                    url: 'regions'
+                };
+                getPromiseResult(credentials)
                     .then(res => {
                         this.regions = res.regions;
                     })
@@ -478,9 +489,12 @@
 
             },
             getProfessions() {
-                profession()
+                let credentials = {
+                    auth: false,
+                    url: 'prof'
+                };
+                getPromiseResult(credentials)
                     .then(res => {
-                        console.log(res);
                         this.professions = res.prof;
                     })
                     .catch(error => {
@@ -489,8 +503,12 @@
 
             },
             getTerritory(id, prefix) {
-                territory(id)
-
+                let credentials = {
+                    id:id,
+                    auth: false,
+                    url: 'territory'
+                };
+                getPromiseResult(credentials)
                     .then(res => {
                         if (prefix === 'w') {
                             this.w_territories = res.territories;

@@ -42,7 +42,11 @@ class Account extends Model implements JWTSubject
 
     public function course()
     {
-        return $this->hasOne('App\Models\Courses');
+        return $this->hasMany('App\Models\Courses');
+    }
+    public function account_course()
+    {
+        return $this->hasMany('App\Models\AccountCourse');
     }
 
     public function email()

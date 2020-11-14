@@ -18,62 +18,68 @@
                 </div>
             </div>
         </section>
-        <VCreditCard :trans="translations"/>
+
+            <VCreditCard :trans="translations" @change="creditInfoChanged" v-model="paymentForm"/>
+
     </div>
-    <!--@change="creditInfoChanged-->
+
 </template>
 
 
 <script>
-    import pagestext from './json/pages.json';
+    import text from './json/registertexts.json';
     import VCreditCard from 'v-credit-card';
     import 'v-credit-card/dist/VCreditCard.css';
+
     const translations = {
         name: {
-            label: 'Nombre',
-            placeholder: 'Nombre completo'
+            label: text.fullname,
+            placeholder: `${text.name} ${text.fathername}`,
         },
         card: {
-            label: 'Número de tarjeta',
-            placeholder: 'Número de tarjeta'
+            label: text.cardnumber,
+            placeholder: text.cardnumber
         },
         expiration: {
-            label: 'Expiration'
+            label: text.date_of_expire
         },
         security: {
-            label: 'Código de seguridad',
-            placeholder: 'Código'
+            label: text.securitycode,
+            placeholder: text.security
         }
     };
     export default {
         name: "paymentForm",
-        props:['direction'],
+        props: ['direction'],
         data: function () {
             return {
-                // name: '',
-                // cardNumber: '',
-                // expiration: '',
-                // security: '',
+                name: '',
+                cardNumber: '',
+                expiration: '',
+                security: '',
                 translations,
-                text: pagestext,
+                text: text,
+                paymentForm: ""
             };
         },
         components: {
             VCreditCard
         },
-        watch: {
-
-        },
+        watch: {},
 
         mounted: function () {
 
         },
         methods: {
             creditInfoChanged(values) {
-                console.log('Credit card fields', values);
+
                 for (let key in values) {
-                    this[key] = values[key];
+                    if (values.hasOwnProperty(key)) {
+                        this[key] = values[key];
+                        console.log('Credit card fields', values);
+                    }
                 }
+
             }
         },
         computed: {

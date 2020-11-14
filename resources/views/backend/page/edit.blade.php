@@ -105,63 +105,63 @@
                                             </div>
 
 
-                                            <div class="form-group row">
-                                                <p for="value"
-                                                       class="col-lg-12 col-form-label font-weight-bold">{{__('messages.legalacts')}}
-                                                    *</p>
-                                                </div>
-                                            <div class="form-group row">
-                                                <label for="value"
-                                                       class="col-lg-6 col-form-label">{{__('messages.rules')}}
-                                                    *</label>
-                                                <div class="col-lg-6">
-                                                    <input  type="file" name="rules"
-                                                           value="{{old('rules')}}" multiple="multiple">
+{{--                                            <div class="form-group row">--}}
+{{--                                                <p for="value"--}}
+{{--                                                       class="col-lg-12 col-form-label font-weight-bold">{{__('messages.legalacts')}}--}}
+{{--                                                    *</p>--}}
+{{--                                                </div>--}}
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label for="value"--}}
+{{--                                                       class="col-lg-6 col-form-label">{{__('messages.rules')}}--}}
+{{--                                                    *</label>--}}
+{{--                                                <div class="col-lg-6">--}}
+{{--                                                    <input  type="file" name="rules"--}}
+{{--                                                           value="{{old('rules')}}" multiple="multiple">--}}
 
-                                                </div>
-                                            </div>
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
-                                            <div class="form-group row">
-                                                <label for="value"
-                                                       class="col-lg-6 col-form-label">{{__('messages.orders_of_decrees_presidential')}}
-                                                    *</label>
-                                                <div class="col-lg-6">
-                                                    <input  type="file" name="orders_of_decrees_presidential"
-                                                           value="{{old('orders_of_decrees_presidential')}}" multiple="multiple">
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label for="value"--}}
+{{--                                                       class="col-lg-6 col-form-label">{{__('messages.orders_of_decrees_presidential')}}--}}
+{{--                                                    *</label>--}}
+{{--                                                <div class="col-lg-6">--}}
+{{--                                                    <input  type="file" name="orders_of_decrees_presidential"--}}
+{{--                                                           value="{{old('orders_of_decrees_presidential')}}" multiple="multiple">--}}
 
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="value"
-                                                       class="col-lg-6 col-form-label">{{__('messages.government_decisions')}}
-                                                    *</label>
-                                                <div class="col-lg-6">
-                                                    <input  type="file" name="government_decisions"
-                                                           value="{{old('government_decisions')}}" multiple="multiple">
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label for="value"--}}
+{{--                                                       class="col-lg-6 col-form-label">{{__('messages.government_decisions')}}--}}
+{{--                                                    *</label>--}}
+{{--                                                <div class="col-lg-6">--}}
+{{--                                                    <input  type="file" name="government_decisions"--}}
+{{--                                                           value="{{old('government_decisions')}}" multiple="multiple">--}}
 
-                                                </div>
-                                            </div>
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
-                                            <div class="form-group row">
-                                                <label for="value"
-                                                       class="col-lg-6 col-form-label">{{__('messages.health_care_orders')}}
-                                                    *</label>
-                                                <div class="col-lg-6">
-                                                    <input  type="file" name="health_care_orders"
-                                                           value="{{old('health_care_orders')}}" multiple="multiple">
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label for="value"--}}
+{{--                                                       class="col-lg-6 col-form-label">{{__('messages.health_care_orders')}}--}}
+{{--                                                    *</label>--}}
+{{--                                                <div class="col-lg-6">--}}
+{{--                                                    <input  type="file" name="health_care_orders"--}}
+{{--                                                           value="{{old('health_care_orders')}}" multiple="multiple">--}}
 
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="value"
-                                                       class="col-lg-6 col-form-label">{{__('messages.sanitary_rules_and_norms')}}
-                                                    *</label>
-                                                <div class="col-lg-6">
-                                                    <input  type="file" name="sanitary_rules_and_norms"
-                                                           value="{{old('sanitary_rules_and_norms')}}" multiple="multiple">
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label for="value"--}}
+{{--                                                       class="col-lg-6 col-form-label">{{__('messages.sanitary_rules_and_norms')}}--}}
+{{--                                                    *</label>--}}
+{{--                                                <div class="col-lg-6">--}}
+{{--                                                    <input  type="file" name="sanitary_rules_and_norms"--}}
+{{--                                                           value="{{old('sanitary_rules_and_norms')}}" multiple="multiple">--}}
 
-                                                </div>
-                                            </div>
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
                                         </div>
                                     </div>

@@ -87,7 +87,8 @@
                                         <span class="kt-nav__link">
                                             <i class="kt-nav__link-icon flaticon2-send"></i>
                                             <span class="kt-nav__link-text" data-toggle="modal"
-                                                  data-target="#kt_modal_6">{{__('messages.send_email')}}</span>
+                                                  data-target="#kt_modal_6">{{__('messages.send_email')}}
+                                            </span>
                                         </span>
                                     </li>
                                     <li class="kt-nav__item">

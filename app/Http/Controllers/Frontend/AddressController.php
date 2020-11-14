@@ -29,8 +29,9 @@ class AddressController extends Controller
         return $this->getRegions();
     }
 
-    public function territories($id)
+    public function territories()
     {
+        $id = request('id');
         return $this->getTerritories($id);
     }
 

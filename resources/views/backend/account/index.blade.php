@@ -155,6 +155,15 @@
                                                data-original-title="{{__('messages.edit')}}">
                                                 <i class="la la-edit"></i>
                                             </a>
+                                        @else
+                                            @if(count($account->account_course) >0 )
+                                                <a href="{{action('Backend\AccountTestController@index', $account->id)}}"
+                                                   class="btn btn-success kt-badge kt-badge--lg"
+                                                   data-toggle="m-tooltip" data-placement="top"
+                                                   data-original-title="{{__('messages.test')}}">
+                                                    <i class="la la-newspaper-o"></i>
+                                                </a>
+                                            @endif
                                         @endif
 
                                         <form action="{{action('Backend\AccountController@destroy', $account->id)}}"
@@ -171,6 +180,7 @@
                                             </button>
                                             {{--                                                <button  data-title="admin"type="button" class="btn sweetalert"> Show me</button>--}}
                                         </form>
+
 
                                     </div>
                                 </td>
@@ -200,7 +210,8 @@
                         <input type="hidden" name="ids" id="ids">
                         <div class="form-group row">
                             <label for="subject"
-                                   class=" col-lg-3 col-form-label text-capitalize">{{__('messages.topic')."*"}}:</label>
+                                   class=" col-lg-3 col-form-label text-capitalize">{{__('messages.topic')."*"}}
+                                :</label>
                             <div class="col-lg-12">
                                 <input id="subject" type="text"
                                        name="subject" class="form-control ">
