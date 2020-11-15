@@ -19,6 +19,6 @@ class Tests extends Model
 
     public function courses()
     {
-        return $this->belongsToMany('App\Models\Courses','courses_id');
+        return $this->belongsTo('App\Models\Courses','courses_id');
     }
 }
