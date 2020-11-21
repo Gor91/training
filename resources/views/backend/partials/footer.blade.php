@@ -146,4 +146,5 @@
         type="text/javascript"></script>
 <script defer src="{{ asset('assets/js/pages/components/extended/sweetalert2.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/init.js')}}" type="text/javascript"></script>
+@yield('script')
 <!--end::Page Scripts -->

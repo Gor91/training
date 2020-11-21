@@ -1,5 +1,20 @@
 @extends('layouts.master')
 @section('content')
+    <?php
+    $show = false;
+
+    if (!empty($course->coordinates)) {
+        $show = true;
+        $coordinates = json_decode($course->coordinates);
+        $cert_name_x = $coordinates->name->x;
+        $cert_name_y = $coordinates->name->y;
+        $cert_start_date_x = $coordinates->start_date->x;
+        $cert_start_date_y = $coordinates->start_date->y;
+        $cert_end_date_x = $coordinates->end_date->x;
+        $cert_end_date_y = $coordinates->end_date->y;
+    }
+
+    ?>
     <!-- begin:: Content -->
     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
         <div class="kt-portlet">
@@ -244,6 +259,96 @@
                                                     @enderror
                                                 </div>
                                             </div>
+
+                                            <div class="form-group row">
+                                                <label for="cert_1" class="col-lg-2 col-form-label">
+                                                    1 Անուն Կոորդինատ </label>
+                                                <div class="col-lg-5">
+                                                    <input id="cert_1"
+                                                           type="radio" checked
+                                                           name="coord_cert"
+                                                           value="1"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <input readonly name="coord[name]"
+                                                           value="{{$show?sprintf('%d,%d', $cert_name_x, $cert_name_y):'0,0'}}"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="cert_2" class="col-lg-2 col-form-label">
+                                                    2 Մեկնարկի Ամս․ </label>
+                                                <div class="col-lg-5">
+                                                    <input id="cert_2"
+                                                           type="radio"
+                                                           name="coord_cert"
+                                                           value="2"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <input readonly name="coord[start_date]"
+                                                           value="{{$show?sprintf('%d,%d', $cert_start_date_x, $cert_start_date_y):'0,0'}}"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="cert_3" class="col-lg-2 col-form-label">
+                                                    3 Ավարտի Ամս․ </label>
+                                                <div class="col-lg-5">
+                                                    <input id="cert_3"
+                                                           type="radio"
+                                                           name="coord_cert"
+                                                           value="3"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <input readonly name="coord[end_date]"
+                                                           value="{{$show?sprintf('%d,%d', $cert_end_date_x, $cert_end_date_y):'0,0'}}"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-lg-10">
+                                                    <div class="form-group">
+                                                        <label class="btn btn-success" for="fileuploader-image">
+                                                            Բեռնել դիպլոմ
+                                                        </label>
+                                                        <span id="file_uploaded"></span>
+                                                        @error('book')
+                                                        <div class="alert alert-danger">{{$message}}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <input type="file" hidden
+                                                           id="fileuploader-image"
+                                                           name="certificate"
+                                                           accept="image/*">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div id="show_cert_image"
+                                                     {{$show?'':'hidden'}} style="position: relative">
+                                                    <div id="pos_1"
+                                                         style="position:absolute;{{$show?sprintf('top: %dpx; left: %dpx;',$cert_name_y, $cert_name_x):'bottom: 0;'}} border-radius: 50%; text-align: center; color: #FFFFFF; width: 20px;height: 20px;background-color: black">
+                                                        1
+                                                    </div>
+                                                    <div id="pos_2"
+                                                         style="position:absolute; {{$show?sprintf('top: %dpx; left: %dpx;',$cert_start_date_y,$cert_start_date_x):'bottom: 0; left: 20px;'}} border-radius: 50%; text-align: center; color: #FFFFFF; width: 20px;height: 20px;background-color: black">
+                                                        2
+                                                    </div>
+                                                    <div id="pos_3"
+                                                         style="position:absolute; {{$show?sprintf('top: %dpx; left: %dpx;', $cert_end_date_y, $cert_end_date_x):'bottom: 0; left: 40px;'}} border-radius: 50%; text-align: center; color: #FFFFFF; width: 20px;height: 20px;background-color: black">
+                                                        3
+                                                    </div>
+                                                    <img id="view_image"
+                                                         alt="certificats"
+                                                         src="{{$show?asset(sprintf('uploads/diplomas/%s', $course->certificate)):''}}"
+                                                         style="cursor: crosshair; width: 100%; height: 100%">
+                                                </div>
+                                            </div>
+
                                             <div class="form-group row">
                                                 <label for="content_data"
                                                        class="col-lg-2 col-form-label">{{__('messages.content')}}
@@ -276,4 +381,37 @@
         </div>
         <!-- end:: Content -->
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            var coord_checked = 0;
+            var img = $('#view_image');
+            var xdeg;
+            var ydeg;
+
+            img.click(function (e) {
+                coord_checked = $("[name='coord_cert']:checked").val();
+
+                if (coord_checked == 1) {
+                    xdeg = e.offsetX;
+                    ydeg = e.offsetY;
+                    $("[name='coord[name]']").val(xdeg + ',' + ydeg);
+                } else if (coord_checked == 2) {
+                    xdeg = e.offsetX;
+                    ydeg = e.offsetY;
+                    $("[name='coord[start_date]']").val(xdeg + ',' + ydeg);
+                } else if (coord_checked == 3) {
+                    xdeg = e.offsetX;
+                    ydeg = e.offsetY;
+                    $("[name='coord[end_date]']").val(xdeg + ',' + ydeg);
+                }
+
+                if (coord_checked) {
+                    $('#pos_' + coord_checked).css({"top": +(ydeg - 10) + 'px', "left": +(xdeg - 10) + 'px'})
+                }
+            });
+        });
+    </script>
 @endsection
