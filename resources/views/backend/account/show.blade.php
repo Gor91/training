@@ -4,30 +4,7 @@
     <!-- begin:: Content -->
     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
         <div class="kt-portlet resume">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (\Session::has('success'))
-                <div class="alert alert-success">
-                    <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                </div><br/>
-            @endif
-            @if (\Session::has('error'))
-                <div class="alert alert-danger">
-                    <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
-                </div>
-            @endif
-            @if (Session::has('delete'))
-                <div class="alert alert-info">
-                    <p>{{ Session::get('delete') }}</p>
-                </div>
-            @endif
+
             <div class="kt-portlet__body kt-portlet__body--fit">
                 <div class="kt-grid kt-wizard-v3 kt-wizard-v3--white" id="kt_wizard_v3"
                      data-ktwizard-state="step-first">
@@ -45,6 +22,11 @@
                             <div class="kt-portlet__head-toolbar">
                                 <div class="kt-portlet__head-wrapper">
                                     <div class="kt-portlet__head-actions"> &nbsp;
+                                        <a href="{{action('Backend\AccountTestController@index', $account->id)}}"
+                                           class="btn btn-success btn-sm">
+                                            <i class="la la-newspaper-o"></i>
+                                            {{__('messages.tests')}}
+                                        </a>
                                         <a href="{{action('Backend\AccountController@index', $account->role)}}"
                                            class="btn btn-warning btn-sm ">
                                             <i class="la la-undo"></i>

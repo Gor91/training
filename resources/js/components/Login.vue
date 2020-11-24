@@ -1,12 +1,17 @@
 <template>
     <div class="login row justify-content-center m-0">
         <div class="col-md-6">
-            <div v-if="registeredUser" class="text-success">{{texts.registred}}</div>
-            <div v-if="verifiedUser" class="text-success">{{texts.verified}}</div>
+
             <div class="register_form">
                 <h3>{{texts.enter}}</h3>
                 <form @submit.prevent="authenticate" class="form_area">
 
+                    <div class="form-group row">
+
+                        <div v-if="registeredUser" class="text-success">{{texts.registred}}</div>
+                        <div v-if="verifiedUser" class="text-success">{{texts.verified}}</div>
+
+                    </div>
                     <div class="form-group row" v-if="unverifiedError">
                         <p class="error m-auto">
                             {{unverifiedError}}

@@ -8,7 +8,7 @@
                         <div class="col-lg-12">
                             <div class="banner_content text-center">
                                 <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
-                                    <router-link :to="{ name: 'home' }" class="nav-link">{{coursetexts.home}}
+                                    <router-link :to="{ name: 'home' }" class="nav-link">{{texts.home}}
                                     </router-link>
                                     <router-link to="" class="nav-link">{{b.text}}</router-link>
 
@@ -44,7 +44,7 @@
 
                         </div>
                         <div class="attachment-mark" v-if="books">
-                            <h4 class="title">{{coursetexts.books}}</h4>
+                            <h4 class="title">{{texts.books}}</h4>
                             <template  v-for="book in books">
                                 <i class="fa fa-book text"></i>
                                 <router-link to="/books/1" class="text" target="_blank">{{book.title}}</router-link>
@@ -52,7 +52,7 @@
                             </template>
                         </div>
                         <div class="content_wrapper">
-                            <h4 class="title">{{coursetexts.content}}</h4>
+                            <h4 class="title">{{texts.content}}</h4>
                             <div v-html="datas.content" class="content">
                                 {{datas.content}}
                             </div>
@@ -63,30 +63,30 @@
                         <ul>
                             <li v-if="datas.status ==='active'">
                                 <a class="justify-content-between d-flex" href="#">
-                                    <p>{{coursetexts.status}} </p>
-                                    <span class="or"> {{coursetexts.status_active}}</span>
+                                    <p>{{texts.status}} </p>
+                                    <span class="or"> {{texts.status_active}}</span>
                                 </a>
                             </li>
 
                             <li>
                                 <a class="justify-content-between d-flex" href="#">
-                                    <p>{{coursetexts.credit}}</p>
+                                    <p>{{texts.credit}}</p>
                                 </a>
                                 <a class="justify-content-between d-flex" href="#"
                                    v-for="c in datas.credit">
-                                    <span>{{c.name}}</span>
+                                    <span>{{creditName(c.name)}}</span>
                                     <span>{{c.credit}}</span>
                                 </a>
                             </li>
                             <li>
                                 <a class="justify-content-between d-flex" href="#">
-                                    <p>{{coursetexts.duration}} </p>
+                                    <p>{{texts.duration}} </p>
                                     <span>{{datas.duration_date}}</span>
                                 </a>
                             </li>
                             <li>
                                 <a class="justify-content-between d-flex" href="#">
-                                    <p>{{coursetexts.coursecost}} </p>
+                                    <p>{{texts.coursecost}} </p>
                                     <span>{{datas.cost}} AMD</span>
                                 </a>
                             </li>
@@ -94,10 +94,10 @@
 
                         <router-link :to="{ name: 'test',params: {id: this.id} }"
                                      class="primary-btn text-uppercase enroll "
-                                     v-bind:class="{ 'isDisabled': !isFinished }">{{coursetexts.test}}
+                                     v-bind:class="{ 'isDisabled': !isFinished }">{{texts.test}}
                         </router-link>
                         <router-link :to="{ name: 'payment' }" class="primary-btn text-uppercase enroll nav-link">
-                            {{coursetexts.paid}}
+                            {{texts.paid}}
                         </router-link>
 
                         <div class="content">
@@ -105,7 +105,7 @@
                                 <div class="col-lg-12">
                                     <h6 class="mb-15"></h6>
                                     <div class="d-flex flex-row reviews justify-content-between">
-                                        <span>{{coursetexts.rate}}</span>
+                                        <span>{{texts.rate}}</span>
                                         <div class="star">
                                             <i class="fa fa-star" :id="item.id" v-on:click="raiting"
                                                v-bind:class="{ checked: isActive }" v-for="(item, key) in objects"></i>
@@ -115,13 +115,13 @@
                                 </div>
                             </div>
                             <div class="feedeback">
-                                <h6>{{coursetexts.feedback}}{{feedbacksuccess}}</h6>
+                                <h6>{{texts.feedback}}{{feedbacksuccess}}</h6>
                                 <form @submit.prevent="sendcomment">
                                     <textarea name="feedback" class="form-control" ref="feedback" cols="10" rows="10"
                                               id="feedback" v-model="feedback"></textarea>
                                     <div class="mt-10 text-right">
                                         <button class="primary-btn text-right text-uppercase comment">
-                                            {{coursetexts.send}}
+                                            {{texts.send}}
                                         </button>
                                     </div>
                                 </form>
@@ -138,7 +138,7 @@
 
 <script>
     import {getPromiseResult} from '../partials/help';
-    import coursetexts from './json/course.json';
+    import texts from './json/course.json';
     import {Hooper, Pagination as HooperPagination, Slide} from 'hooper';
     import 'hooper/dist/hooper.css';
 
@@ -155,7 +155,7 @@
                 courseimg: '/css/frontend/img/courses/course-details.jpg',
                 videoimg: '/css/frontend/img/blog/cat-post/cat-post-3.jpg',
                 docs: [],
-                coursetexts: coursetexts,
+                texts: texts,
                 feedbacksuccess: '',
                 isActive: false,
                 objects: [
@@ -350,6 +350,21 @@
                 /* }else{
                      alert('Fill all fields.');
                  }*/
+            },
+            creditName:function (name) {
+                let hy_name = '';
+                switch (name) {
+                    case 'theoretical':
+                        hy_name =texts.theoretical;
+                        break;
+                        case 'practical':
+                        hy_name =texts.practical;
+                        break;
+                        case 'selfeducation':
+                        hy_name =texts.selfeducation;
+                        break;
+                }
+                return hy_name;
             }
         },
         beforeMount() {

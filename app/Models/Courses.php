@@ -249,7 +249,7 @@ class Courses extends Model implements JWTSubject
 
     public function account_course()
     {
-        return $this->hasOne('App\Models\AccountCourse');
+        return $this->hasOne('App\Models\AccountCourse','course_id');
     }
     public function test()
     {

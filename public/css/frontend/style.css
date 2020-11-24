@@ -4983,9 +4983,9 @@ button {
 }
 
 .help{
-    color: #30013e;
+    color: #e3342f;
     font-style: italic;
-    font-weight: bolder;
+    /*font-weight: bolder;*/
 }
 ._help{
     color: #631fd8;
@@ -5002,4 +5002,7 @@ li{
     border-bottom: 2px dotted #eee;
     margin-top: 2%;
     padding-bottom: 2%;
+}
+.test-answer{
+    margin-right:1%;
 }

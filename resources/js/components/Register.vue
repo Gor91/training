@@ -27,7 +27,8 @@
                                v-on:blur="checkLang('name','hy')"
                                data-toggle="tooltip" ref="name" :placeholder="texts.enterarm">
 
-                        <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+                        <span ref="name" v-show="errors.has('name')"
+                              class="help is-danger">{{ errors.first('name') }}</span>
 
                     </div>
                     <div class="form-group col-lg-4 ">
@@ -36,7 +37,7 @@
                                :class="{'input': true, 'is-invalid': errors.has('surname') }"
                                v-on:blur="checkLang('surname','hy')" :placeholder="texts.enterarm"
                                v-validate="'required'" v-model="formRegister.surname" :data-vv-as="texts.surname">
-                        <span v-show="errors.has('surname')" class="help is-danger">{{ errors.first('surname') }}</span>
+                        <span ref="surname" v-show="errors.has('surname')" class="help is-danger">{{ errors.first('surname') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="father_name">{{texts.fathername}}</label>
@@ -45,7 +46,7 @@
                                v-on:blur="checkLang('father_name','hy')" :placeholder="texts.enterarm"
                                v-validate="'required'" :data-vv-as="texts.fathername"
                                v-model="formRegister.father_name">
-                        <span v-show="errors.has('father_name')" class="help is-danger">{{ errors.first('father_name') }}</span>
+                        <span ref="father_name" v-show="errors.has('father_name')" class="help is-danger">{{ errors.first('father_name') }}</span>
                     </div>
 
                     <div class="form-group col-lg-6">
@@ -55,7 +56,7 @@
                                v-validate="{required: true, regex: /^([0-9]+)$/ }" :data-vv-as="texts.phone"
                                :class="{'input': true, 'is-invalid': errors.has('phone') }"
                                v-model="formRegister.phone">
-                        <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
+                        <span ref="phone" v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
                     </div>
 
                     <div class="form-group col-lg-6">
@@ -65,7 +66,7 @@
                                v-validate="'required'" :data-vv-as="texts.serianumber"
                                v-on:blur="checkLang('passport','en')"
                                v-model="formRegister.passport">
-                        <span v-if="errors.has('passport')" class="help is-danger" role="alert">{{ errors.first('passport') }}</span>
+                        <span v-if="errors.has('passport')" class="help is-danger" role="alert" ref="passport">{{ errors.first('passport') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="issue">{{texts.dateofissue}}</label>
@@ -74,7 +75,7 @@
                                     :class="{'input': true, 'is-invalid': errors.has('date_of_issue') }"
                                     name="date_of_issue" v-model="formRegister.date_of_issue"></datepicker>
 
-                        <span v-show="errors.has('date_of_issue')" class="help is-danger">{{ errors.first('date_of_issue') }}</span>
+                        <span ref="date_of_issue" v-show="errors.has('date_of_issue')" class="help is-danger">{{ errors.first('date_of_issue') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="expiry">{{texts.dateofexpire}}</label>
@@ -85,7 +86,7 @@
                                     :disabled-dates="{from:endDate}"
                                     :class="{'input': true, 'is-invalid': errors.has('date_of_expiry') }"
                                     v-model="formRegister.date_of_expiry"></datepicker>
-                        <span v-show="errors.has('date_of_expiry')" class="help is-danger">{{ errors.first('date_of_expiry') }}</span>
+                        <span ref="date_of_expiry" v-show="errors.has('date_of_expiry')" class="help is-danger">{{ errors.first('date_of_expiry') }}</span>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="bday">{{texts.birthday}}</label>
@@ -93,7 +94,8 @@
                                     format="dd-MM-yyyy" :open-date="openDate" :data-vv-as="texts.birthday"
                                     :class="{'input': true, 'is-invalid': errors.has('bday') }"
                                     name="bday" v-model="formRegister.bday"></datepicker>
-                        <span v-show="errors.has('bday')" class="help is-danger">{{ errors.first('bdsy') }}</span>
+                        <span ref="bday" v-show="errors.has('bday')"
+                              class="help is-danger">{{ errors.first('bdsy') }}</span>
                     </div>
                     <footer class="form-group col-lg-12">
                         <label for="address" class='fa fa-arrow-right nav_label col-lg-4 float-right'></label>
@@ -111,7 +113,7 @@
                                :class="{'input': true, 'is-invalid': errors.has('workplace_name') }"
                                v-on:blur="checkLang('workplace_name', 'hy')"
                                v-model="formRegister.workplace_name">
-                        <span v-show="errors.has('workplace_name')"
+                        <span ref="workplace_name" v-show="errors.has('workplace_name')"
                               class="help is-danger">{{ errors.first('workplace_name') }}</span>
                     </div>
                     <div class="form-group col-lg-12">
@@ -127,7 +129,7 @@
                                     <option v-for="(region, key) in regions" v-bind:value="region.id">{{region.name}}
                                     </option>
                                 </select>
-                                <span v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
+                                <span ref="w_region" v-show="errors.has('w_region')" class="help is-danger">{{ errors.first('w_region') }}</span>
                             </div>
 
                             <div class="form-group col-lg-4">
@@ -147,7 +149,7 @@
                                         </option>
                                     </optgroup>
                                 </select>
-                                <span v-show="errors.has('w_territory')"
+                                <span v-show="errors.has('w_territory')" ref="w_territory"
                                       class="help is-danger">{{ errors.first('w_territory') }}</span>
                             </div>
 
@@ -158,7 +160,7 @@
                                        :placeholder="texts.enterarm"
                                        :class="{'input': true, 'is-invalid': errors.has('w_street') }"
                                        v-model="formRegister.w_street" :data-vv-as="texts.street">
-                                <span v-show="errors.has('w_street')" class="help is-danger">{{ errors.first('w_street') }}</span>
+                                <span ref="w_street" v-show="errors.has('w_street')" class="help is-danger">{{ errors.first('w_street') }}</span>
                             </div>
                         </div>
                     </div>
@@ -175,7 +177,7 @@
                                     <option v-for="(region) in regions" v-bind:value="region.id">{{region.name}}
                                     </option>
                                 </select>
-                                <span v-show="errors.has('h_region')" class="help is-danger">{{ errors.first('h_region') }}</span>
+                                <span ref="h_region" v-show="errors.has('h_region')" class="help is-danger">{{ errors.first('h_region') }}</span>
 
                             </div>
 
@@ -196,7 +198,7 @@
                                         </option>
                                     </optgroup>
                                 </select>
-                                <span v-show="errors.has('h_territory')"
+                                <span v-show="errors.has('h_territory')" ref="h_territory"
                                       class="help is-danger">{{ errors.first('h_territory') }}</span>
                             </div>
                             <div class="form-group col-lg-4">
@@ -206,7 +208,7 @@
                                        :placeholder="texts.enterarm"
                                        :class="{'input': true, 'is-invalid': errors.has('h_street') }"
                                        v-model="formRegister.h_street" :data-vv-as="texts.street">
-                                <span v-show="errors.has('h_street')" class="help is-danger">{{ errors.first('h_street') }}</span>
+                                <span ref="h_street" v-show="errors.has('h_street')" class="help is-danger">{{ errors.first('h_street') }}</span>
                             </div>
                         </div>
                     </div>
@@ -230,7 +232,7 @@
                             <option v-for="(prof) in professions" v-bind:value="prof.id">{{prof.name}}</option>
                         </select>
 
-                        <span v-show="errors.has('profession')"
+                        <span v-show="errors.has('profession')" ref="profession"
                               class="help is-danger">{{ errors.first('profession') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
@@ -244,7 +246,7 @@
                             </option>
 
                         </select>
-                        <span v-show="errors.has('specialty_id')"
+                        <span v-show="errors.has('education_id')" ref="education_id"
                               class="help is-danger">{{ errors.first('education_id') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
@@ -254,7 +256,7 @@
                                 v-model="formRegister.specialty_id" :data-vv-as="texts.education">
                             <option v-for="(edu) in educations" v-bind:value="edu.id">{{edu.name}}</option>
                         </select>
-                        <span v-show="errors.has('specialty_id')" class="help is-danger">{{ errors.first('specialty_id') }}</span>
+                        <span ref="specialty_id" v-show="errors.has('specialty_id')" class="help is-danger">{{ errors.first('specialty_id') }}</span>
                     </div>
 
                     <div class="form-group  col-lg-5"><span>{{texts.member_of_palace}}</span></div>
@@ -267,7 +269,7 @@
                                    v-validate="" v-model="formRegister.member_of_palace">
                             <label for="confirm-switch"></label>
                         </div>
-                        <span v-show="errors.has('member_of_palace')" class="help is-danger">{{ errors.first('member_of_palace') }}</span>
+                        <span ref="member_of_palace" v-show="errors.has('member_of_palace')" class="help is-danger">{{ errors.first('member_of_palace') }}</span>
                     </div>
                     <div class="form-group  col-lg-12 diploms_container">
                         <div class="large-12 medium-12 small-12 filezone">
@@ -278,7 +280,7 @@
                             <p>
                                 {{texts.uploadfiles}}
                             </p>
-                            <span v-show="errors.has('files')" class="help is-danger">{{ errors.first('files') }}</span>
+                            <span ref="files" v-show="errors.has('files')" class="help is-danger">{{ errors.first('files') }}</span>
                         </div>
 
                         <div v-for="(file, key) in files" class="file-listing col-lg-6 d-inline-flex">
@@ -310,7 +312,7 @@
                                :class="{'input': true, 'is-invalid': errors.has('password') }"
                                v-on:blur="checkLang('password','en')"
                                :data-vv-as="texts.password">
-                        <span v-show="errors.has('password')"
+                        <span ref="password" v-show="errors.has('password')"
                               class="help is-danger">{{ errors.first('password') }}</span>
                     </div>
                     <div class="form-group  col-lg-4">
@@ -321,7 +323,7 @@
                                v-validate="'required|min:8'" v-model="formRegister.re_password"
                                v-on:blur="checkLang('re_password','en')"
                                :data-vv-as="texts.confirmpassword">
-                        <span v-show="errors.has('re_password')" class="help is-danger">{{ errors.first('re_password') }}</span>
+                        <span ref="re_password" v-show="errors.has('re_password')" class="help is-danger">{{ errors.first('re_password') }}</span>
                     </div>
                     <footer class="form-group col-lg-12">
                         <label for="address" class='fa fa-arrow-left nav_label col-lg-4 float-left'></label>
@@ -341,7 +343,7 @@
     }
 
     import {registerUser} from '../partials/auth';
-    import {getPromiseResult, territory, langs} from '../partials/help';
+    import {getPromiseResult, langs} from '../partials/help';
     import Datepicker from 'vuejs-datepicker';
     import registertexts from './json/registertexts.json';
     import hy from './json/hy.json';
@@ -400,7 +402,7 @@
             getEducations(id) {
                 let credentials = {
                     id: id,
-                    url:'edu',
+                    url: 'edu',
                     auth: false
                 };
                 getPromiseResult(credentials)
@@ -417,8 +419,8 @@
             getSpecialties(id) {
                 let credentials = {
                     id: id,
-                    auth:false,
-                    url:'spec'
+                    auth: false,
+                    url: 'spec'
                 };
                 getPromiseResult(credentials)
                     .then(res => {
@@ -432,7 +434,7 @@
             getRegions() {
                 let credentials = {
                     auth: false,
-                    url:'regions'
+                    url: 'regions'
                 };
                 getPromiseResult(credentials)
                     .then(res => {
@@ -445,7 +447,7 @@
             getProfessions() {
                 let credentials = {
                     auth: false,
-                    url:'prof'
+                    url: 'prof'
                 };
                 getPromiseResult(credentials)
                     .then(res => {
@@ -457,7 +459,7 @@
             },
             getTerritory(id, prefix) {
                 let credentials = {
-                    id:id,
+                    id: id,
                     auth: false,
                     url: 'territory'
                 };
@@ -486,24 +488,46 @@
                 registerUser(this.$data.formRegister,
                     this.files)
                     .then(res => {
-                        console.log(res);
                         if (res.user) {
                             this.$store.commit("registerSuccess", res);
                             this.$router.push({path: '/login'});
                         }
                     })
                     .catch(error => {
-                        if(error.message === '23000') {
-                            this.$refs.email.style.display = 'block';
-                            this.$refs.email.innerText = registertexts.duplicate;
+
+                            let msg = "", pattern = /\d+/,
+                                e = pattern.exec(error);
+
+                            switch (e[0]) {
+                                case '409':
+                                    this.$refs.email.style.display = 'block';
+                                    this.$refs.email.innerText = registertexts.duplicate;
+                                    break;
+                                case '422':
+                                    let fields = error.response.data.errors;
+                                    for (let i in fields) {
+                                        if (fields.hasOwnProperty(i)) {
+                                            if (this.$refs[i] !== undefined) {
+                                                // console.log(i, this.$refs[i]);
+                                                this.$refs[i].style.display = 'block';
+                                                this.$refs[i].innerText = fields[i][0];
+                                            }
+                                        }
+                                    }
+
+                                    break;
+                            }
+                            console.log(error.response)
+                            this.$store.commit("registerFailed", registertexts.error);
                         }
-                        this.$store.commit("registerFailed", {error});
-                    });
+                    )
+                ;
             },
             removeFile(key) {
                 this.files.splice(key, 1);
                 this.getImagePreviews();
-            },
+            }
+            ,
             handleFiles() {
                 let uploadedFiles = this.$refs.files.files;
                 for (var i = 0; i < uploadedFiles.length; i++) {
@@ -511,7 +535,8 @@
                     // this.images.push(uploadedFiles[i]);
                 }
                 this.getImagePreviews();
-            },
+            }
+            ,
             getImagePreviews() {
                 for (let i = 0; i < this.files.length; i++) {
                     if (/\.(jpe?g|png|gif|pdf)$/i.test(this.files[i].name)) {
@@ -526,7 +551,8 @@
                         });
                     }
                 }
-            },
+            }
+            ,
             checkLang(val, lng, model = false) {
                 if (!model) {
                     let el = this.$data.formRegister[val];
@@ -544,7 +570,8 @@
                 // console.log(this.$store.getters.regError);
                 return this.$store.getters.regError
             }
-        },
+        }
+        ,
         components: {
             Datepicker
         }

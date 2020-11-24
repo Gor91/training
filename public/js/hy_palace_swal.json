@@ -1,0 +1,13 @@
+{
+  "ready": {
+    "title": "Դուք համոզվա՞ծ եք:",
+    "text": "Դուք փոխում եք օգտատիրոջ կարգավիճակը:",
+    "type": "info",
+    "showCancelButton": true,
+    "buttonsStyling": false,
+    "confirmButtonClass": "btn m-btn--pill m-btn--air btn-info m-btn--bolder",
+    "confirmButtonText": "<i class='la la-info'></i> Այո, հաստատել",
+    "cancelButtonClass": "btn m-btn--pill m-btn--air btn-secondary",
+    "cancelButtonText": "Չեղարկել"
+  }
+}

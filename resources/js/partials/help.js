@@ -29,3 +29,4 @@ export function langs(el, lng) {
         pattern = /^[\u0000-\u009F]*$/;
     return (!pattern.test(el))? false: true;
 }
+

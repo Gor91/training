@@ -39,17 +39,17 @@
                             <li>
                                 <div class="justify-content-between d-flex">
                                     <p>{{texts.profilename}}</p>
-                                    <span class="or text-capitalize">{{account.name}} {{account.surname}} {{account.father_name}}</span>
+                                    <span class="or text-capitalize text-right">{{account.name}} {{account.surname}} {{account.father_name}}</span>
                                 </div>
                             </li>
                             <li>
                                 <div class="justify-content-between d-flex">
                                     <p>{{texts.profession}} </p>
-                                    <span class="or text-capitalize">{{account.profession}}</span>
+                                    <span class="or text-capitalize text-right">{{account.profession}}</span>
                                 </div>
                             </li>
                             <li>
-                                <div class="justify-content-between d-flex">
+                                <div class="justify-content-between d-flex text-right">
                                     <p>{{texts.email}}</p>
                                     <span>{{account.email}}</span>
                                 </div>

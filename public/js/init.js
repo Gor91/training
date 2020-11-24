@@ -77,6 +77,7 @@ $(document).ready(function () {
                 if (typeof $title !== 'undefined') {
                     $url = $title + "Check";
                     $_id = $(this).prev('[name=_id]').val();
+
                     $.ajax({
                         url: '/backend/' + $url,
                         type: 'POST',
@@ -84,9 +85,13 @@ $(document).ready(function () {
                         data: {_token: CSRF_TOKEN, id: $_id, type: $title},
                         dataType: 'JSON',
                         success: function (data) {
+
                             if (data.success) {
                                 swal.fire(_swal.delete).then((result) => {
                                     if (result.value) {
+
+                                        if ($('[name=removed]').val() == 0)
+                                            $('[name=removed]').val('1');
                                         this.element.parent().submit();
                                     }
                                 });
@@ -357,6 +362,38 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('change', '.email', function () {
+        var url_swal = '/js/hy_palace_swal.json';
+        var _swal = getJSONData(url_swal);
+        swal.fire(_swal.ready).then((result) => {
+            if (result.value) {
+                $checked = $(this).val();
+                $url = $(this).parent().attr('action');
+                $a_id = $(this).prev('[name=a_id]').val();
+
+                $.ajax({
+                    url: '/backend/' + $url,
+                    type: 'POST',
+                    context: {element: $(this)},
+                    data: {
+                        _token: CSRF_TOKEN,
+                        id: $a_id,
+                        check: $checked
+                    },
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.success)
+                            location.reload();
+
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+
+            }
+        });
+    });
     $(document).on('click', '.edit', function () {
 
         $(this).parent().parent().siblings().children().attr('disabled', false).css('border', '1px solid #7197ec');
@@ -448,7 +485,6 @@ $(document).ready(function () {
 
         return result;
     }
-})
-;
+});
 
 

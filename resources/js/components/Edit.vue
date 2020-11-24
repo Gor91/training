@@ -239,7 +239,7 @@
                         <div class="form-group col-lg-4">
                             <label for="passport">{{texts.serianumber}}</label>
                             <input autocomplete="off" id="passport" type="text" name="passport"
-                                   class="form-control" v-on:blur="checkLang('passport','en')"
+                                   class="form-control" v-on:blur="checkLang('serianumber','en')"
                                    v-validate="'required'" :data-vv-as="texts.serianumber"
                                    v-model="appEdit.passport">
                             <span v-if="errors.has('passport')" class="help is-danger" role="alert">{{ errors.first('passport') }}</span>

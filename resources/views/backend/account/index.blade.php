@@ -100,12 +100,11 @@
                             </label>
                         </th>
                         <th>{{__('messages.image_name')}}</th>
-                        <th>{{__('messages.name')}}</th>
-                        <th>{{__('messages.surname')}}</th>
-                        <th>{{__('messages.prof')}}</th>
-                        <th>{{__('messages.phone')}}</th>
-                        <th>{{__('messages.email')}}</th>
+                        <th>{{__('messages.name')." ".__('messages.surname')." ".__('messages.father_name')}}</th>
+
+                        <th>{{__('messages.email_verified_at')}}</th>
                         @if(\Illuminate\Support\Facades\Session::get('role') ==='user')
+                            <th>{{__('messages.member_of_palace')}}</th>
                             <th>{{__('messages.status')}}</th>
                         @endif
                         <th>{{__('messages.action')}}</th>
@@ -118,25 +117,43 @@
                             <tr class="text-center">
                                 <td></td>
                                 <td>
-
                                     <input type="checkbox" name="choose_person"
                                            id="{{$account->id}}">
                                 </td>
                                 <td>
                                     <img src="{{  Config::get('constants.AVATAR_PATH_UPLOADED').$account->image_name}}"
                                          alt="avatar" style="height: 50px"></td>
-                                <td>@if(!empty($account->name)){{$account->name}}@endif</td>
-                                <td>@if(!empty($account->surname)){{$account->surname}}@endif</td>
-                                <td>@if(!empty($account->prof->spec->type->name)){{$account->prof->spec->type->name}}@endif</td>
-                                <td>@if(!empty($account->phone)){{$account->phone}}@endif</td>
-                                <td class="email">
-                                    @if(!empty($account->user->email)) {{$account->user->email}}@endif
+                                <td>@if(!empty($account->name)){{$account->name}}@endif
+                                    @if(!empty($account->surname)){{$account->surname}}@endif
+                                    @if(!empty($account->father_name)){{$account->father_name}}@endif
+                                </td>
+
+                                <td>
+                                    @if(!empty($account->user->email_verified_at)) {{$account->user->email}}@endif
                                 </td>
                                 @if(Session::get('role') ==='user')
                                     <td>
-                                        <a @if(!empty($account->user->status) && $account->user->status ==="pending")
-                                           class="btn btn-danger" @endif>{{__('messages.'.$account->user->status)}}
-                                        </a>
+                                        <form action="change_status" method="post">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="a_id" value="{{$account->id}}">
+                                            <input class="email" type="checkbox" name="member"
+                                                   value="{{$account->prof->member_of_palace}}"
+                                            @if(!empty($account->prof->member_of_palace == 1)){{'checked'}}@endif>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        @if(!empty($account->user->status))
+                                            @php
+                                                $class ="";
+                                                if($account->user->status ==="pending")
+                                                    $class = 'btn-info';
+                                                else if($account->user->status ==="removed")
+                                                    $class = 'btn-danger';
+                                            @endphp
+                                        @endif
+                                        <span
+                                                class="btn {{$class}}">{{__('messages.'.$account->user->status)}}
+                                        </span>
                                     </td>
                                 @endif
                                 <td>
@@ -166,13 +183,15 @@
                                             @endif
                                         @endif
 
-                                        <form action="{{action('Backend\AccountController@destroy', $account->id)}}"
+                                        <form action="{{action('Backend\AccountController@destroy')}}"
                                               class="_form" method="post">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
+                                            <input name="removed" type="hidden" value="0">
                                             <input name="_id" type="hidden" value="{{$account->id}}">
+
                                             <button data-ref="" type="button"
-                                                    {{--                                                    data-title="admin"--}}
+                                                    data-title="account"
                                                     class="delete btn btn-danger kt-badge--lg kt-badge  "
                                                     data-original-title="{{__('messages.delete')}}">
                                                 <i class="la la-trash"></i>

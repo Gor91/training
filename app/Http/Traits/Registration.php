@@ -19,16 +19,19 @@ use Illuminate\Support\Facades\DB;
 
 trait Registration
 {
+
     /**
-     * Get a JWT via given credentials.
-     *
+     * @param $accountRequest
+     * @param $professionRequest
+     * @param $userRequest
+     * @param $role
+     * @param $status
      * @return \Illuminate\Http\JsonResponse
      */
     static function register($accountRequest,
                              $professionRequest,
                              $userRequest, $role, $status)
     {
-
         DB::beginTransaction();
         try {
             $home_address = [];
@@ -87,12 +90,14 @@ trait Registration
             DB::commit();
             return response()->json(['success' => true, 'user' => $account->id]);
         } catch (\Exception $exception) {
+
             DB::rollback();
             $message = $exception->getMessage();
 
+            $code = 500;
             if ($exception->getCode() == 23000)
-                $message = __('auth.duplicate');
-            return response()->json(['error' => true, 'message' => $message], 500);
+                $code = 409;
+            return response()->json(['error' => true, 'message' => $message], $code);
         }
     }
 

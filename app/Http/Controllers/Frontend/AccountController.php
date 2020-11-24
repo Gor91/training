@@ -53,6 +53,17 @@ class AccountController extends Controller
         ]);
     }
 
+    public function getStatus()
+    {
+        $status = $this->service->getStatus(request('id'));
+        return response()->json([
+            'access_token' => request('token'),
+            'status' => $status,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * (int)__('messages.expires_in')
+        ]);
+    }
+
     /**
      * @param Request $request
      * @param $id

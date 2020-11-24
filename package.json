@@ -29,7 +29,6 @@
     "font-awesome": "^4.7.0",
     "hooper": "^0.3.4",
     "laravel-echo": "^1.4.0",
-    "pdfvuer": "^1.7.3",
     "pusher-js": "^4.3.0",
     "v-credit-card": "^1.2.4",
     "validate.js": "^0.12.0",

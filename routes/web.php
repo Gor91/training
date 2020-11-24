@@ -100,8 +100,10 @@ Route::match(['put', 'patch'],'/backend/account/{id}', 'Backend\AccountControlle
 Route::match(['put', 'patch'],'/backend/updateAccount/{id}', 'Backend\AccountController@updateAccount')->name('account.edit');
 Route::get('/backend/account/{id}', 'Backend\AccountController@show')->name('account.show');
 Route::get('/backend/account_tests/{id}', 'Backend\AccountTestController@index')->name('test.tests');
+Route::post('/backend/change_status', 'Backend\AccountController@changeStatus')->name('account.member_of_palace');
 Route::get('/backend/account_test/{a_id}/{id}', 'Backend\AccountTestController@show')->name('test.show');
-Route::delete('/backend/account/{id}', 'Backend\AccountController@destroy')->name('account.destroy');
+Route::post('/backend/accountCheck', 'Backend\AccountController@checkAccount')->name('account.check');
+Route::delete('/backend/account', 'Backend\AccountController@destroy')->name('account.destroy');
 Route::get('/backend/account/{id}/edit', 'Backend\AccountController@edit')->name('account.edit');
 Route::post('/backend/sendEmail', 'Backend\BaseController@sendEmail');
 Route::post('/backend/sendAttachment', 'Backend\AccountTestController@sendAttachment');

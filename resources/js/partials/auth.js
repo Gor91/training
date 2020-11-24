@@ -26,7 +26,7 @@ export function registerUser(credentials, files) {
                 res(response.data);
             })
             .catch(err => {
-                rej(texts.error)
+                rej(err)
             })
     })
 }

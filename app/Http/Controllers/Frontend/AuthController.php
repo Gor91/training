@@ -10,6 +10,10 @@ use App\Http\Traits\Registration;
 use App\Models\Account;
 
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers\Frontend
+ */
 class AuthController extends Controller
 {
 
@@ -26,9 +30,12 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
+
     /**
      * Get a JWT via given credentials.
-     *
+     * @param AccountRequest $accountRequest
+     * @param ProfessionRequest $professionRequest
+     * @param UserRequest $userRequest
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(AccountRequest $accountRequest,
@@ -125,12 +132,15 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param $token
+     * @return \Illuminate\Http\JsonResponse
+     */
     protected function respondWithTokenById($token)
     {
         $user = $this->guard()->user();
-
-
-        $account = Account::select('id')->where('id', $user->id)
+        $account = Account::select('id')
+            ->where('id', $user->id)
             ->first();
 
         return response()->json([
@@ -142,6 +152,9 @@ class AuthController extends Controller
     }
 
 
+    /**
+     * @return mixed
+     */
     public function guard()
     {
         return \Auth::Guard('api');

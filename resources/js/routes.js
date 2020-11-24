@@ -13,6 +13,7 @@ import Coursedetails from './components/Coursedetails.vue';
 import Books from './components/Books.vue';
 import Payment from './components/Payment.vue';
 import Test from './components/Test.vue';
+import NotFound from './components/NotFound.vue';
 
 
 export const routes = [
@@ -152,4 +153,12 @@ export const routes = [
             }]
         },
     },
+    {
+        path: '/404',
+        name: '404',
+        component: NotFound,
+    }, {
+        path: '*',
+        redirect: '/404'
+    }
 ];

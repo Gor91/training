@@ -10,10 +10,12 @@
                 <div class="navbar-nav ml-auto m_navbar">
                     <template v-if="!currentUser">
                         <li>
-                            <router-link to="/login" class="nav-link"><img :src = "stethoscope" style="height: 24px;" />{{text.login}}</router-link>
+                            <router-link to="/login" class="nav-link"><img :src="stethoscope" style="height: 24px;"/>{{text.login}}
+                            </router-link>
                         </li>
                         <li>
-                            <router-link to="/register" class="nav-link"> <img :src = "ekg" />{{text.register}}</router-link>
+                            <router-link to="/register" class="nav-link"><img :src="ekg"/>{{text.register}}
+                            </router-link>
                         </li>
                     </template>
                     <template v-else>
@@ -80,6 +82,7 @@
 
 <script>
     import pagestext from './json/pages.json';
+
     export default {
         name: 'app-header',
 
@@ -91,9 +94,7 @@
                     this.$refs.navbar.style.position = "fixed";
                     this.$refs.navbar.style.top = 0;
                     this.$refs.navbar.style.background = '#f8fafc';
-                }
-
-               else {
+                } else {
                     this.scrolled = false;
                     this.$refs.navbar.style.position = "relative";
 
@@ -128,7 +129,7 @@
                 limitPosition: 2000,
                 scrolled: false,
                 lastPosition: 0,
-                text:pagestext
+                text: pagestext
             };
         },
     }

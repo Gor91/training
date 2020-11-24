@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Models\Account;
+use App\Models\AccountCourse;
 use App\Models\Message;
 use App\Models\Profession;
 use App\Models\User;
@@ -50,17 +51,17 @@ class AccountService
     {
         $accounts = $this->model->with([
             'user' => function ($query) {
-                $query->select(['email', 'account_id', 'status']);
+                $query->select(['email', 'account_id', 'status', 'email_verified_at']);
             },
             'prof' => function ($query) {
-                $query->select(['account_id', 'specialty_id']);
+                $query->select(['account_id', 'member_of_palace', 'specialty_id']);
             },
-            'account_course'=>function($query){
+            'account_course' => function ($query) {
                 $query->select(['account_id', 'course_id']);
             },
             'prof.spec.type' => function ($query) {
                 $query->select(['id', 'name']);
-            }])->select('id', 'name', 'surname', 'image_name', 'phone')
+            }])->select('id', 'name', 'surname', 'image_name', 'father_name', 'phone')
             ->where('role', $role)->get();
 
         if (!$accounts)
@@ -126,6 +127,16 @@ class AccountService
         if (!$account)
             throw new ModelNotFoundException('User not found by ID ');
         return $account;
+    }
+
+    public function getStatus($id)
+    {
+        $status = User::select('status')
+            ->where('account_id', $id)
+            ->first();
+        if (!$status)
+            throw new ModelNotFoundException('User not found by ID ');
+        return $status;
     }
 
 
@@ -331,15 +342,62 @@ class AccountService
 
     /**
      * @param $id
+     * @param $check
+     * @return int|mixed
+     */
+    public function change_status($id, $check)
+    {
+        try {
+            $check = ($check == "1") ? 0 : 1;
+            $prof = Profession::where('account_id', $id)
+                ->update(['member_of_palace' => $check]);
+
+            return $prof;
+        } catch (\Exception $exception) {
+            return $exception->getCode();
+        }
+    }
+
+    /**
+     * @param $id
      */
     public function delete($id)
     {
-        //todo kareli e poxel setmedodov
+        DB::beginTransaction();
+        try {
+            $diplomas = Profession::select('diplomas')
+                ->where('account_id', $id)->first();
+
+            Profession::where('account_id', $id)->delete();
+            User::where('account_id', $id)->delete();
+            if (!empty($diplomas->diplomas)) {
+                $diplomas = json_decode($diplomas->diplomas, true);
+
+                foreach ($diplomas as $index => $diploma) {
+                    unlink(public_path() . Config::get('constants.DIPLOMA') . $diploma);
+                }
+            }
+            $this->model->delete($id);
+            DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            DB::rollback();
+            return $exception->getCode();
+        }
+    }
+
+
+    /**
+     * @param $id
+     */
+    public function remove($id)
+    {
+
+        User::where('account_id', $id)->update(['status' => 'removed']);
+
         $message = Message::where('key', 'rejected_user')->first();
         $account = Account::select('name', 'surname')->where('id', $id)->first();
         $user = User::where('account_id', $id)->first();
-
-        $this->model->delete($id);
         $user->notify(new ManageUserStatus($user, $account, $message));
     }
 
@@ -501,6 +559,25 @@ class AccountService
             ->where('account_id', $id)->first();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function checkAccount($id)
+    {
+        return User::select('email_verified_at')
+            ->where('account_id', $id)->first();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function checkAccountTest($id)
+    {
+        return AccountCourse::select('test')
+            ->where('account_id', $id)->first();
+    }
 }
 
 

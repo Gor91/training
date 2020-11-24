@@ -37,23 +37,33 @@ class CourseController extends Controller
     public function finishedCount()
     {
         $isFinished = 1;
-        $videos = Courses::select('videos')->where('id', request('id'))->first();
-        if (!empty($videos->videos)) {
+        $videos = Courses::select('id','videos')
+            ->with(['account_course' => function ($query) {
+                $query->select('course_id')->where('course_id', request('id'));
+            }])
+            ->where('id', request('id'))
+            ->first();
 
-            $videos = json_decode($videos->videos);
-            foreach ($videos as $index => $video) {
-                $status = AccountVideo::select('status')
-                    ->where([["video_id", $video], ['account_id', request('user_id')]])
-                    ->first();
+        if (!empty($videos->account_course)) {
+            if (!empty($videos->videos)) {
+                $videos = json_decode($videos->videos);
+                if (!empty($videos)) {
+                    foreach ($videos as $index => $video) {
+                        $status = AccountVideo::select('status')
+                            ->where([["video_id", $video], ['account_id', request('user_id')]])
+                            ->first();
 
-                if ((!empty($status) && $status->status != "finished")
-                    || empty($status)) {
+                        if ((!empty($status) && $status->status != "finished")
+                            || empty($status)) {
 
-                    $isFinished = 0;
-                    break;
+                            $isFinished = 0;
+                            break;
+                        }
+                    }
                 }
             }
-        }
+        } else
+            $isFinished = -1;
         return $isFinished;
     }
 

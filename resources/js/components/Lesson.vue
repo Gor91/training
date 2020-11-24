@@ -124,7 +124,6 @@
         },
         computed: {
             currentUser: function () {
-                console.log(this.$store.getters.currentUser);
                 if (!this.$store.getters.currentUser)
                     return JSON.parse(localStorage.getItem('user'));
                 return this.$store.getters.currentUser

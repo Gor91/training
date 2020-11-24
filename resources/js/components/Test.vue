@@ -37,10 +37,10 @@
                             <div v-for="(info, index) in tests">
                                 <h3 class="or">{{index+1}}. {{info.question}}</h3>
 
-                                <ul>
+                                <ul class="test-actual">
                                     <li v-for="(answer, i) in JSON.parse(info.answers)" class="d-flex flex-row">
 
-                                        <label>
+                                        <label class="test-answer">
                                             <input :type="info.type" :value="(i+1)" class=""
                                                    v-model="formTest[(index +1)+'_'+(i+1)]"
                                                    :name="'test_'+(index +1)" v-validate="'required|included:1,2,3,4'">
@@ -183,7 +183,28 @@
                     .catch(err => {
                         console.log('errr', err)
                     })
-            }
+            },
+            finishedVideo() {
+                let credentials = {
+                    id: this.$route.params.id,
+                    user_id: this.currentUser.id,
+                    token: this.currentUser.token,
+                    url: 'finishedvideo',
+                    auth: true
+                };
+                getPromiseResult(credentials)
+                    .then(res => {
+                        if (res === 0)
+                            this.$router.push('/coursedetails/' + this.$route.params.id);
+                        else if(res === -1)
+                            this.$router.push('/404');
+
+                    })
+                    .catch(error => {
+                        console.log('error', error);
+                        // this.$store.commit("registerFailed", {error});
+                    })
+            },
 
         },
         computed: {
@@ -211,6 +232,9 @@
             this.getTests(this.id);
             this.getCourseTitle(this.id);
         },
+        mounted() {
+            this.finishedVideo();
+        }
 
     }
 </script>

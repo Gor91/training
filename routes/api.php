@@ -32,6 +32,7 @@ Route::group(['prefix' => 'auth',
 
     Route::post('getaccountbyid', 'Frontend\AccountController@getAccountById');
     Route::get('edit/{id}', 'Frontend\AccountController@editProfile');
+    Route::post('getstatus', 'Frontend\AccountController@getStatus');
     Route::match(['put', 'patch'], 'edit/{id}', 'Frontend\AccountController@updateProfile');
     Route::match(['put', 'patch'], 'changePass/{id}', 'Frontend\AccountController@changePassword');
     Route::post('coursedetails', 'Frontend\CourseAppController@coursedetails');

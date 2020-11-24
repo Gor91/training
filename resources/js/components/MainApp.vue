@@ -20,6 +20,6 @@
 
     export default {
         name: 'main-App',
-        components: {Header, Banner, Secondscreen, TemReg, Footer}
+        components: {Header, Banner, Secondscreen, TemReg, Footer},
     }
 </script>

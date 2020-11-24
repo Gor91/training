@@ -15,7 +15,6 @@ use App\Repositories\Repository;
 use App\Services\AccountService;
 use App\Services\GPDFService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -215,12 +214,34 @@ class AccountController extends Controller
      * @param AccountService $service
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //TODO check courses unlink diploma files
         try {
-            $this->service->delete($id);
+            if (empty(\request('removed')))
+                $this->service->delete(\request('_id'));
+            else
+                $this->service->remove(\request('_id'));
             return back()->with('success', __('messages.deleted'));
+        } catch (\Exception $exception) {
+            dd($exception);
+            logger()->error($exception);
+            return redirect('backend/account/' . $this->role)->with('error', __('messages.wrong'));
+        }
+    }
+
+
+    public function checkAccount()
+    {
+        $id = request('id');
+        try {
+            $isVerified = false;
+            $check = $this->service->checkAccount($id);
+            if (!empty($check)) {
+                $checkTest = $this->service->checkAccountTest($id);
+                if (!empty($checkTest))
+                    $isVerified = true;
+            }
+            return response()->json(['success' => $isVerified]);
         } catch (\Exception $exception) {
             dd($exception);
             logger()->error($exception);
@@ -235,8 +256,8 @@ class AccountController extends Controller
      */
     public function getTerritory(Request $request)
     {
-        if($request->ajax())
-        return Address::getTerritories($request->id);
+        if ($request->ajax())
+            return Address::getTerritories($request->id);
     }
 
     /**
@@ -255,6 +276,18 @@ class AccountController extends Controller
     public function getSpecialty(Request $request)
     {
         return Expert::getEducation($request->id);
+    }
+
+    public function changeStatus(Request $request)
+    {
+        try {
+            $this->service->change_status($request->id, $request->check);
+            return response()->json(['success' => 'success']);
+        } catch (\Exception $exception) {
+            dd($exception);
+            logger()->error($exception);
+            return redirect('backend/account/' . $this->role)->with('error', __('messages.wrong'));
+        }
     }
 
     /**
