@@ -14,6 +14,7 @@ use App\Repositories\Repository;
 use App\Services\GPDFService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -90,6 +91,10 @@ class CoursesController extends Controller
             "cost" => "required|integer|gt:0|max:1000",
             "videos" => "nullable|array|exists:videos,id",
             "books" => "nullable|array|exists:books,id",
+            "certificate" => "nullable|file|mimes:jpg,jpeg,png",
+            "coord.name" => "nullable|string",
+            "coord.start_date" => "nullable|string",
+            "coord.end_date" => "nullable|string",
             "content_data" => "required|string|min:2|max:1000",
         ], [
             'name.unique' => __('messages.course_name_unique'),
@@ -103,6 +108,38 @@ class CoursesController extends Controller
 
         try {
             $cours = [];
+            $file = $request->file('certificate');
+
+            if (!empty($file)) {
+                $cert_name = sprintf('%s.jpg', $request->name);
+                $path = public_path(Config::get('constants.UPLOADS') . '/diplomas');
+                $file->move($path, $cert_name);
+
+                $get_coord = $request->coord;
+
+                list($name_x, $name_y) = explode(',', $get_coord['name']);
+                list($start_date_x, $start_date_y) = explode(',', $get_coord['start_date']);
+                list($end_date_x, $end_date_y) = explode(',', $get_coord['end_date']);
+
+                $coord = [
+                    'name' => [
+                        'x' => $name_x,
+                        'y' => $name_y
+                    ],
+                    'start_date' => [
+                        'x' => $start_date_x,
+                        'y' => $start_date_y
+                    ],
+                    'end_date' => [
+                        'x' => $end_date_x,
+                        'y' => $end_date_y
+                    ]
+                ];
+
+                $cours['certificate'] = $cert_name;
+                $cours['coordinates'] = json_encode($coord);
+            }
+
             $cours['name'] = $request->name;
             $cours['specialty_ids'] = json_encode($request->specialty_ids);
             $cours['status'] = $request->status;
@@ -165,6 +202,10 @@ class CoursesController extends Controller
             "cost" => "required|integer|gt:0|max:1000",
             "videos" => "nullable|array|exists:videos,id",
             "books" => "nullable|array|exists:books,id",
+            "certificate" => "nullable|file|mimes:jpg,jpeg,png",
+            "coord.name" => "nullable|string",
+            "coord.start_date" => "nullable|string",
+            "coord.end_date" => "nullable|string",
             "content_data" => "required|string|min:2|max:1000",
         ], [
             'name.unique' => __('messages.course_name_unique'),
@@ -178,6 +219,41 @@ class CoursesController extends Controller
 
         try {
             $cours = [];
+            $file = $request->file('certificate');
+            $model = Courses::query()->find($id);
+
+            if (!empty($file) || !empty($model->certificate)) {
+                if (!empty($file)) {
+                    $cert_name = sprintf('%s.jpg', $request->name);
+                    $path = public_path(Config::get('constants.UPLOADS') . '/diplomas');
+                    $file->move($path, $cert_name);
+                    $cours['certificate'] = $cert_name;
+                }
+
+                $get_coord = $request->coord;
+
+                list($name_x, $name_y) = explode(',', $get_coord['name']);
+                list($start_date_x, $start_date_y) = explode(',', $get_coord['start_date']);
+                list($end_date_x, $end_date_y) = explode(',', $get_coord['end_date']);
+
+                $coord = [
+                    'name' => [
+                        'x' => $name_x,
+                        'y' => $name_y
+                    ],
+                    'start_date' => [
+                        'x' => $start_date_x,
+                        'y' => $start_date_y
+                    ],
+                    'end_date' => [
+                        'x' => $end_date_x,
+                        'y' => $end_date_y
+                    ]
+                ];
+
+                $cours['coordinates'] = json_encode($coord);
+            }
+
             $id = $request->id;
             $cours['name'] = $request->name;
             $cours['specialty_ids'] = json_encode($request->specialty_ids);

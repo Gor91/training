@@ -14,7 +14,7 @@ class Courses extends Model implements JWTSubject
     use Notifiable;
 
     protected $fillable = [
-        'id', 'name', 'specialty_ids', 'status', 'start_date', 'end_date', 'duration', 'credit', 'videos', 'books', 'cost', 'content',
+        'id', 'name', 'specialty_ids', 'status', 'start_date', 'end_date', 'duration', 'credit', 'videos', 'books', 'cost', 'content', 'certificate', 'coordinates'
     ];
 
     /**
@@ -251,6 +251,7 @@ class Courses extends Model implements JWTSubject
     {
         return $this->hasOne('App\Models\AccountCourse','course_id');
     }
+
     public function test()
     {
         return $this->hasMany('App\Models\Tests');

@@ -245,10 +245,12 @@ $(document).ready(function () {
     $('#fileuploader-image').on('change', function () {
         let fileReader = new FileReader();
         let view_image = $('#view_image');
+        let show_cert_image = $('#show_cert_image');
 
         if ($(this).prop('files').length == 0) {
             view_image.attr('src', '');
             view_image.attr('hidden', 'hidden');
+            show_cert_image.attr('hidden', 'hidden');
             return;
         }
 
@@ -258,6 +260,7 @@ $(document).ready(function () {
             if (fileReader.result.indexOf('data:image') !== -1) {
                 view_image.attr('src', data);
                 view_image.removeAttr('hidden');
+                show_cert_image.removeAttr('hidden');
             }
         };
     });

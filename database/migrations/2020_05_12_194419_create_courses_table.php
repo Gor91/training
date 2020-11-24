@@ -25,6 +25,8 @@ class CreateCoursesTable extends Migration
             $table->json("books")->nullable();
             $table->json("videos")->nullable();
             $table->float("cost")->nullable();
+            $table->string("certificate")->nullable();
+            $table->json("coordinates")->nullable();
             $table->text("content")->nullable();
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();

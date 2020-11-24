@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\MakeImagesFromPDFJob;
+use App\Jobs\RemoveImagePDFJob;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -48,7 +52,6 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-
         $validator = Validator::make($input, Book::rules());
 
         if ($validator->fails()) {
@@ -57,12 +60,25 @@ class BookController extends Controller
                 ->withInput();
         }
 
+        $file = $request->file('book');
+        $new_name = $file->getClientOriginalName();
+
         $model = new Book();
         $model->title = $input['title'];
-        $model->path = $input['path'];
+        $model->path = $new_name;
 
         try {
             if ($model->save()) {
+                $path = public_path(Config::get('constants.UPLOADS') . '/books/' . $model->id);
+
+                if (!File::isDirectory($path)) {
+                    File::makeDirectory($path, 0775, true, true);
+                }
+
+                $file->move($path, $new_name);
+
+                $this->dispatch((new MakeImagesFromPDFJob($model))->delay(5));
+
                 return redirect('backend/book/create')->with('success', Lang::get('messages.success'));
             }
         } catch (\Exception $e) {
@@ -126,10 +142,9 @@ class BookController extends Controller
 
         $validator = Validator::make($input, [
             'title' => 'required|string|min:2|max:190|unique:books,title,' . $id,
-            'path' => 'sometimes|nullable|string|min:2|max:190|unique:books,path,' . $id,
+            'book' => 'sometimes|nullable|file|mimes:pdf',
         ], [
             'title.unique' => __('messages.title_unique'),
-            'path.unique' => __('messages.path_unique')
         ]);
 
         if ($validator->fails()) {
@@ -138,23 +153,33 @@ class BookController extends Controller
                 ->withInput();
         }
 
-        $old_path = $model->path;
+        $file = $request->file('book');
 
-        $is_path_changed = false;
-
-        if ($input['path'] && $input['path'] != $old_path) {
-            $model->path = $input['path'];
-            $is_path_changed = true;
-        }
+        $is_file_changed = false;
 
         $model->title = $input['title'];
 
+        if (!empty($file)) {
+            $is_file_changed = true;
+            $new_name = $file->getClientOriginalName();
+            $model->path = $new_name;
+
+            $this->dispatch((new RemoveImagePDFJob($model))->delay(5));
+        }
+
         try {
             if ($model->save()) {
-                if ($is_path_changed && Storage::disk('s3')->exists($old_path)) {
-                    Storage::disk('s3')->delete($old_path);
-                }
+                if ($is_file_changed) {
+                    $path = public_path(Config::get('constants.UPLOADS') . '/books/' . $model->id);
 
+                    if (!File::isDirectory($path)) {
+                        File::makeDirectory($path, 0775, true, true);
+                    }
+
+                    $file->move($path, $new_name);
+
+                    $this->dispatch((new MakeImagesFromPDFJob($model))->delay(5));
+                }
                 return redirect('backend/book')->with('success', Lang::get('messages.updated'));
             }
         } catch (\Exception $e) {
@@ -165,33 +190,14 @@ class BookController extends Controller
     }
 
     /**
-     * @param Request $request
-     */
-    public function removeBook(Request $request)
-    {
-        $name = $request->post('name');
-
-        if ($name && Storage::disk('s3')->exists($name)) {
-            Storage::disk('s3')->delete($name);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Book $book
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(Book $book)
     {
         try {
-            $name = $book->path;
-
-            if ($name && Storage::disk('s3')->exists($name)) {
-                Storage::disk('s3')->delete($name);
-            }
-
             if ($book->delete()) {
+                $this->dispatch((new RemoveImagePDFJob($book))->delay(5));
                 return redirect('backend/book')->with('success', Lang::get('messages.deleted'));
             };
         } catch (\Exception $e) {
