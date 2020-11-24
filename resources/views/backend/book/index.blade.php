@@ -67,7 +67,7 @@
                             <tr>
                                 <td></td>
                                 <td><a target="_blank" class="text text-info"
-                                       href="{{sprintf('%s/%s',env('AWS_URL_ACL'),$book->path)}}">{{$book->title}}</a>
+                                       href="{{sprintf('%s/%s',Config::get('constants.UPLOADS') . '/books/' . $book->id,$book->path)}}">{{$book->title}}</a>
                                 </td>
                                 <td>
                                     <div class="row justify-content-end">

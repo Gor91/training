@@ -18,7 +18,7 @@ class Book extends Model
     {
         return [
             'title' => 'required|unique:books|string|min:2|max:190',
-            'path' => 'required|unique:books|string|min:2|max:190'
+            'book' => 'required|file|mimes:pdf'
         ];
     }
 }
