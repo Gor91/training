@@ -10,7 +10,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Courses extends Model implements JWTSubject
 {
-
     use Notifiable;
 
     protected $fillable = [

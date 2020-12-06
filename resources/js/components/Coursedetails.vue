@@ -6,9 +6,9 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
-                            <div class="banner_content text-center">
+                           <div class="banner_content text-center">
                                 <div class="page_link" v-for="b in $route.meta.breadCrumbs" :key="b.to">
-                                    <router-link :to="{ name: 'home' }" class="nav-link">{{texts.home}}
+                                    <<router-link :to="{ name: 'home' }" class="nav-link">{{texts.home}}
                                     </router-link>
                                     <router-link to="" class="nav-link">{{b.text}}</router-link>
 
@@ -96,9 +96,7 @@
                                      class="primary-btn text-uppercase enroll "
                                      v-bind:class="{ 'isDisabled': !isFinished }">{{texts.test}}
                         </router-link>
-                        <router-link :to="{ name: 'payment' }" class="primary-btn text-uppercase enroll nav-link">
-                            {{texts.paid}}
-                        </router-link>
+
 
                         <div class="content">
                             <div class="review-top row pt-40">
@@ -182,7 +180,6 @@
         },
         methods: {
             manageEvents(id, index) {
-
                 this.$nextTick(() => {
                     let credentials = {
                         id: id,

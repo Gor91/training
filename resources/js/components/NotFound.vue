@@ -25,7 +25,7 @@
         data() {
             return {
                 datas: [],
-                img: '/css/frontend/img/404.jpg',
+                img: '/images/404.jpg',
                 docs: [],
                 text: pagestext,
             };

@@ -9,14 +9,15 @@ use App\Models\Courses;
 use App\Models\Specialty;
 use App\Models\Videos;
 use App\Services\CourseService;
+use http\Exception\RuntimeException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class CourseAppController extends Controller
 {
 
     protected $service;
+
     public function __construct(CourseService $service)
     {
         $this->service = $service;
@@ -27,7 +28,6 @@ class CourseAppController extends Controller
     function getCourseBySpec()
     {
         try {
-
             $courses = $this->service->getCourses(request('id'));
 
             return response()->json([
@@ -42,6 +42,7 @@ class CourseAppController extends Controller
             return response()->json(['error' => true], 500);
         }
     }
+
     function getCourseTitleById()
     {
         try {
@@ -73,6 +74,61 @@ class CourseAppController extends Controller
                 'token_type' => 'bearer',
                 'expires_in' => auth('api')->factory()->getTTL() * 60
             ]);
+        } catch (MethodNotAllowedHttpException$exception) {
+
+            logger()->error($exception);
+            return response()->json(['error' => true], 500);
+        }
+    }
+
+    function payment()
+    {
+        try {
+            $form = request('form');
+//            dd(base64_decode($form['number']));
+            $data = [];
+            $data['ClientID'] = '945431d0-ee02-4129-bacd-fc68eb0698ba';
+            $data['Amount'] = 10;
+            $data['OrderID'] = 2357310;
+            $data["BackURL"]= "https://training.gtech.am/lesson";
+            $data['Username'] = '3d19541048';
+            $data['Password'] = 'lazY2k';
+            $data['Description'] = $form['name'];
+//            $data['Card number'] = '4083060010454680';
+            $data['Cardholder'] = 'TEST CARD VPOS';
+            $data['Currency'] = 'TEST Currency VPOS';
+            $data['Opaque'] = 'TEST Opaque VPOS';
+//            $data['Exp.date'] = '06/24';
+//            $data['CVV'] = 281;
+            //get data from db by course_id
+//            $data['Amount'] = $form['cost'];
+
+            //get course name bay course id
+            try {
+//
+                $endpoint = "https://servicestest.ameriabank.am/VPOS/api/VPOS/InitPayment";
+                $client = new \GuzzleHttp\Client();
+
+                $response = $client->request('POST',
+                    $endpoint, ['form_params' => $data]);
+                $statusCode = $response->getStatusCode();
+                $content = $response->getBody();
+                $content = json_decode($response->getBody(), true);
+                dd($content);
+            } catch (RuntimeException $e) {
+                dd($e);
+            }
+
+
+
+//            $courses = $this->service->getCoursesInfo(request('id'));
+//
+//            return response()->json([
+//                'access_token' => request('token'),
+//                'courses' => $courses,
+//                'token_type' => 'bearer',
+//                'expires_in' => auth('api')->factory()->getTTL() * 60
+//            ]);
         } catch (MethodNotAllowedHttpException$exception) {
 
             logger()->error($exception);
@@ -116,7 +172,6 @@ class CourseAppController extends Controller
     }
 
 
-
     public function coursedetails()
     {
         $courses = Courses::where("id", '=', request('id'))->first();
@@ -137,18 +192,18 @@ class CourseAppController extends Controller
             }
             if ($courses->videos) {
                 $videos = json_decode($courses->videos);
-
                 $s3_videos = [];
-//                if (!$videos->isEmpty()) {
-                foreach ($videos as $index => $video) {
-                    $v = Videos::where('id', $video)->with('lectures')->first();
-
-                    $s3_videos[$index] = $v;
-                    $s3_videos[$index]['path'] = sprintf("%s/%s", env('AWS_URL_ACL'), $v->path);
+                if (!empty($videos)) {
+                    foreach ($videos as $index => $video) {
+                        $v = Videos::where('id', $video)->with('lectures')->first();
+                        if (!empty($v)) {
+                            $s3_videos[$index] = $v;
+                            $s3_videos[$index]['path'] = sprintf("%s/%s", env('AWS_URL_ACL'), $v->path);
+                        }
+                    }
+                    $courses->videos = json_encode($s3_videos, true);
                 }
-                $courses->videos = json_encode($s3_videos, true);
             }
-//            }
 
             if (!empty($courses->credit)) {
                 $credits = json_decode($courses->credit);

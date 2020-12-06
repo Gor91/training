@@ -11,7 +11,6 @@ import ResetPasswordForm from './pages/ResetPasswordForm';
 import Lesson from './components/Lesson.vue';
 import Coursedetails from './components/Coursedetails.vue';
 import Books from './components/Books.vue';
-import Payment from './components/Payment.vue';
 import Test from './components/Test.vue';
 import NotFound from './components/NotFound.vue';
 
@@ -141,18 +140,7 @@ export const routes = [
             auth: false
         }
     },
-    {
-        path: '/payment',
-        name: 'payment',
-        component: Payment,
-        meta: {
-            requiresAuth: true,
-            breadCrumbs: [{
-                to: '/payment', // hyperlink
-                text: 'Վճարում' // crumb text
-            }]
-        },
-    },
+
     {
         path: '/404',
         name: '404',

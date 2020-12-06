@@ -333,7 +333,11 @@
             </article>
 
         </form>
+
+            <vue-recaptcha sitekey="6LedFfYZAAAAAFddwlJAn8IhifgaZLWnYKPsJZpv" :loadRecaptchaScript="true"></vue-recaptcha>
+
     </div>
+
 </template>
 
 <script>
@@ -347,6 +351,7 @@
     import Datepicker from 'vuejs-datepicker';
     import registertexts from './json/registertexts.json';
     import hy from './json/hy.json';
+    import VueRecaptcha from 'vue-recaptcha';
 
     export default {
         props: ['input_name'],
@@ -376,7 +381,7 @@
                     member_of_palace: '',
                     email: '',
                     password: '',
-                    re_password: '',
+                    re_password: ''
                 },
                 files: [],
                 regions: [],
@@ -526,8 +531,7 @@
             removeFile(key) {
                 this.files.splice(key, 1);
                 this.getImagePreviews();
-            }
-            ,
+            },
             handleFiles() {
                 let uploadedFiles = this.$refs.files.files;
                 for (var i = 0; i < uploadedFiles.length; i++) {
@@ -535,8 +539,7 @@
                     // this.images.push(uploadedFiles[i]);
                 }
                 this.getImagePreviews();
-            }
-            ,
+            },
             getImagePreviews() {
                 for (let i = 0; i < this.files.length; i++) {
                     if (/\.(jpe?g|png|gif|pdf)$/i.test(this.files[i].name)) {
@@ -551,8 +554,7 @@
                         });
                     }
                 }
-            }
-            ,
+            },
             checkLang(val, lng, model = false) {
                 if (!model) {
                     let el = this.$data.formRegister[val];
@@ -563,6 +565,11 @@
                         this.$data.formRegister[val] = "";
                     }
                 }
+            },
+            async recaptcha() {
+                // (optional) Wait until recaptcha has been loaded.
+                await this.$recaptchaLoaded();
+                const token = await this.$recaptcha('register')
             }
         },
         computed: {
@@ -573,7 +580,8 @@
         }
         ,
         components: {
-            Datepicker
+            Datepicker,
+            VueRecaptcha
         }
     }
 </script>

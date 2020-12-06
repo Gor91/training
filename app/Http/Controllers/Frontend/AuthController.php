@@ -140,6 +140,9 @@ class AuthController extends Controller
     {
         $user = $this->guard()->user();
         $account = Account::select('id')
+            ->with(['prof'=>function($query){
+                $query->select('member_of_palace','account_id');
+            }])
             ->where('id', $user->id)
             ->first();
 
