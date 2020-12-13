@@ -5,6 +5,7 @@ composer.lock
 vendor
 node_modules
 public/js/app.js
+public/js/charts
 public/css/app.css
 public/uploads
 **/.sass-cache

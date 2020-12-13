@@ -65,6 +65,7 @@ return [
 //backend messages
 
     'dt' => 'Վերջնաժամկետ',
+    'dashboard'=>'կառավարման հարթակ',
     'permissions' => 'Թույլտվություններ',
     'description' => 'Նկարագրություն',
     'your_password' => 'Ձեր գաղտնաբառը: ',

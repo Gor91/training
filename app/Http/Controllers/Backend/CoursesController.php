@@ -5,16 +5,20 @@ namespace App\Http\Controllers\Backend;
 
 use App\Exports\CourseExport;
 use App\Http\Controllers\Controller;
+use App\Models\AccountCourse;
 use App\Models\Book;
 use App\Models\Courses;
 use App\Models\CreditType;
+use App\Models\SpecialtiesType;
 use App\Models\Specialty;
 use App\Models\Videos;
 use App\Repositories\Repository;
 use App\Services\GPDFService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,6 +37,92 @@ class CoursesController extends Controller
     {
         $this->model = new Repository($courses);
         $this->middleware('auth:admin');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function result(Request $request)
+    {
+        $time = $request->get('time');
+        $paid = $request->get('paid');
+
+        if ($time) {
+            $model = AccountCourse::query()->select('count', DB::raw('count(*) as total'))->groupBy(['count'])->orderBy('count');
+        } elseif ($paid) {
+            $model = AccountCourse::query()->select('paid', DB::raw('count(*) as total'))->groupBy(['paid'])->orderBy('paid');
+        } else {
+            $model = AccountCourse::query()->select('status', DB::raw('count(*) as total'))->groupBy(['status']);
+        }
+
+        return response()->json($model->get());
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resultSpeciality(Request $request)
+    {
+        $specialty_curse_list = [];
+        $model = Courses::query()->select('specialty_ids');
+        $data = $model->get();
+
+        if (!empty($data)) {
+            foreach ($data as $item) {
+                $specialty_curse_list[] = json_decode($item['specialty_ids']);
+            }
+        }
+
+        $array = Arr::collapse($specialty_curse_list);
+        $count_values = array_count_values($array);
+
+        $spec = Specialty::query()->select(['id', 'type_id'])->whereIn('id', $array)->get();
+        $collection = collect($spec);
+
+        $grouped = $collection->mapToGroups(function ($item, $key) {
+            return [$item['type_id'] => $item['id']];
+        });
+
+        $grouped_specialty = $grouped->all();
+        $course_list = [];
+
+        if (!empty($grouped_specialty)) {
+            if (!empty($grouped_specialty[SpecialtiesType::DOCTOR])) {
+                $course_doctor = array_map(function ($v) {
+                    return strval($v);
+                }, $grouped_specialty[SpecialtiesType::DOCTOR]->toArray());
+
+                $course_list[] = ['Բժիշկ', array_sum(array_values(Arr::only($count_values, $course_doctor))), 'green'];
+            }
+
+            if (!empty($grouped_specialty[SpecialtiesType::NURSE])) {
+                $course_nurse = array_map(function ($v) {
+                    return strval($v);
+                }, $grouped_specialty[SpecialtiesType::NURSE]->toArray());
+
+                $course_list[] = ['Բուժքույր', array_sum(array_values(Arr::only($count_values, $course_nurse))), 'blue'];
+            }
+
+            if (!empty($grouped_specialty[SpecialtiesType::PHARMACIST])) {
+                $course_pharmacist = array_map(function ($v) {
+                    return strval($v);
+                }, $grouped_specialty[SpecialtiesType::PHARMACIST]->toArray());
+
+                $course_list[] = ['Դեղագետ', array_sum(array_values(Arr::only($count_values, $course_pharmacist))), 'silver'];
+            }
+
+            if (!empty($grouped_specialty[SpecialtiesType::DISPENSER])) {
+                $course_dispenser = array_map(function ($v) {
+                    return strval($v);
+                }, $grouped_specialty[SpecialtiesType::DISPENSER]->toArray());
+
+                $course_list[] = ['Դեղագործ', array_sum(array_values(Arr::only($count_values, $course_dispenser))), 'color: #2abe81'];
+            }
+        }
+
+        return response()->json($course_list);
     }
 
     /**

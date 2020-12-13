@@ -20,6 +20,9 @@ mix.webpackConfig({
  |
  */
 
+/* js google charts*/
+mix.js('resources/js/charts/google-charts.js', 'public/js/charts');
+
 mix.js('resources/js/app.js', 'public/js').sourceMaps()
     .sass('resources/sass/app.scss', 'public/css').sourceMaps()
     .js('node_modules/popper.js/dist/popper.js', 'public/js').sourceMaps()
